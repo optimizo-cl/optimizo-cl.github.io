@@ -10,7 +10,7 @@ import { movimientoReducido } from "../kit/escenas/vigia.js";
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const usoDe = (lista, cod) => `<div class="rejilla-2"><ul class="lista-punto">${lista.map((r) => `<li>${r}</li>`).join("")}</ul>${cod ? codigo(cod) : ""}</div>`;
 let simboloMedula = null;
-const medulaSVG = async (clase = "") => {
+export const medulaSVG = async (clase = "") => {
   simboloMedula ||= await (await fetch(new URL("../../assets/productos/medula-marca.svg", import.meta.url))).text();
   return simboloMedula.replace("<svg ", `<svg class="${clase}" `).replace('role="img" aria-label="Medula"', 'aria-hidden="true"');
 };
@@ -19,7 +19,7 @@ export const sello2 = (tono = "") => `<span class="sello2 ${tono ? "sello2--" + 
 
 /** Aurora de Medula: el degradado cobalto hecho de grano (cada píxel elige el tono de arriba o el de abajo).
     La luz vive arriba a la derecha; abajo a la izquierda, donde va el texto, manda el núcleo. Canvas 2D a 1:1, lento. */
-function auroraMedula(lienzo) {
+export function auroraMedula(lienzo) {
   const ctx = lienzo.getContext("2d"); if (!ctx) return;
   const C = [[1, 52, 180], [1, 62, 204], [8, 83, 224], [27, 117, 253], [99, 167, 252], [198, 223, 253]];
   let w = 0, h = 0, img, umbral, raf = 0, visible = false, ultimo = 0;

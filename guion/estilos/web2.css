@@ -1,0 +1,84 @@
+/* Capítulo 6 · Web y marca v2. */
+
+/* ── Reproductor de películas ── */
+.peli { display: grid; gap: 10px; }
+.peli__lienzo { width: 100%; height: auto; display: block; border-radius: var(--r-4); box-shadow: inset 0 0 0 1px var(--borde), 0 24px 48px -30px rgba(22, 38, 58, .45); background: var(--hueso); }
+.peli__mandos { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.peli__tiempo { flex: 1; min-width: 160px; }
+.peli__t { min-width: 54px; font-size: 12.5px; color: var(--texto-2); }
+.video2 { display: grid; gap: var(--e-5); }
+.video2__guion { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--e-4); }
+.video2__guion li { display: grid; gap: 4px; padding-top: 10px; border-top: 2px solid var(--acento); font-size: var(--t-chico); }
+.video2__guion .mono { font-size: 12px; color: var(--acento-texto); font-weight: 600; }
+@media (max-width: 860px) { .video2__guion { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.redes2 { display: grid; grid-template-columns: 4fr 5fr; gap: var(--e-5); align-items: start; margin-bottom: var(--e-6); }
+.redes2__pieza { display: grid; gap: 8px; }
+.redes2__fijas { margin-bottom: var(--e-4); }
+@media (max-width: 860px) { .redes2 { grid-template-columns: minmax(0, 1fr); } }
+
+/* ── Presentación ── */
+.pres { display: grid; gap: 12px; outline: none; }
+.pres:focus-visible .pres__pantalla { box-shadow: 0 0 0 3px var(--foco); }
+.pres__pantalla { position: relative; aspect-ratio: 16 / 9; border-radius: var(--r-4); overflow: hidden; background: var(--hueso); box-shadow: inset 0 0 0 1px var(--borde), 0 30px 60px -36px rgba(22, 38, 58, .5); container-type: inline-size; }
+.pres:fullscreen { background: var(--fondo); padding: 2vw; align-content: center; }
+.pres:fullscreen .pres__pantalla { max-height: 88vh; margin-inline: auto; }
+.pres__lamina { position: absolute; inset: 0; padding: 6cqw 7cqw; display: grid; align-content: center; gap: 1.6cqw; background: var(--hueso); color: var(--navy); visibility: hidden; isolation: isolate; }
+.pres__lamina::after { content: ""; position: absolute; inset: 0; background-image: var(--grano); background-size: 220px; opacity: .5; z-index: -1; pointer-events: none; }
+.pres__lamina.activa, .pres__lamina.entra { visibility: visible; }
+.pres__lamina--oscura { background: var(--navy); color: var(--hueso); }
+.pres__ceja { font-size: 1.5cqw; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--acento-texto-claro); }
+.pres__lamina--oscura .pres__ceja { color: var(--acento-claro); }
+.pres__titulo { font-size: 5.4cqw; font-weight: 700; letter-spacing: -0.045em; line-height: 1; text-wrap: balance; max-width: 18ch; }
+.pres__titulo--m { font-size: 4cqw; }
+.pres__sub { font-size: 1.9cqw; color: var(--grafito); }
+.pres__lamina--oscura .pres__sub { color: rgba(237, 238, 232, .78); }
+.pres__portada { display: grid; grid-template-columns: 22cqw 1fr; gap: 5cqw; align-items: center; }
+.pres__iso svg { width: 100%; overflow: visible; }
+.pres__lista { list-style: none; padding: 0; margin: 1cqw 0 0; display: grid; gap: 1.2cqw; font-size: 2.2cqw; }
+.pres__lista b { display: inline-block; min-width: 8cqw; color: var(--acento-texto-claro); }
+.pres__heroe { font-size: 18cqw; font-weight: 700; letter-spacing: -0.06em; line-height: .9; font-variant-numeric: tabular-nums; }
+.pres__escalera { display: flex; align-items: flex-end; gap: 1.4cqw; margin-top: 2cqw; }
+.pres__escalera span { flex: 1; height: calc(7cqw + var(--i) * 4cqw); display: flex; align-items: flex-end; padding: 1.2cqw; border-radius: 1.4cqw; font-size: 1.6cqw; font-weight: 650; background: color-mix(in srgb, var(--navy) 8%, var(--hueso)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--navy) 15%, transparent); }
+.pres__escalera .hoy { background: var(--acento-profundo); color: #fff; position: relative; }
+.pres__escalera .hoy::before { content: ""; position: absolute; left: 50%; top: -2.4cqw; width: 1.6cqw; height: 1.6cqw; margin-left: -.8cqw; border-radius: 50%; background: var(--navy); }
+.pres__trama { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+.pres__cierre { display: grid; gap: 1.6cqw; }
+.pres__punto { position: absolute; z-index: 5; left: 92%; top: 88%; width: 1.4cqw; height: 1.4cqw; margin: -.7cqw 0 0 -.7cqw; border-radius: 50%; background: var(--acento); pointer-events: none; }
+.pres__punto.viaja { animation: pres-viaja 1300ms cubic-bezier(.45, .05, .55, .95); }
+@keyframes pres-viaja { 0% { left: 92%; top: 88%; } 40% { left: 50%; top: 50%; transform: scale(1); opacity: 1; } 60% { left: 50%; top: 50%; transform: scale(3); opacity: 0; } 61% { left: 92%; top: 88%; transform: scale(0); opacity: 0; } 100% { left: 92%; top: 88%; transform: scale(1); opacity: 1; } }
+.pres__mandos { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.pres__puntos { display: flex; gap: 6px; }
+.pres__puntos i { width: 8px; height: 8px; border-radius: 50%; background: var(--borde-fuerte); transition: background 300ms var(--suave), transform 300ms var(--llegada); }
+.pres__puntos i.activo { background: var(--acento); transform: scale(1.3); }
+.pres__n { font-size: 12.5px; color: var(--texto-2); }
+
+/* ── Tarjeta 3D ── */
+.tarjeta3d-banco { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--e-6); align-items: center; padding: var(--e-6); border-radius: var(--r-4); background: var(--superficie-hundida); margin-bottom: var(--e-6); perspective: 1400px; }
+.tarjeta3d { position: relative; width: 340px; aspect-ratio: 85 / 55; transform-style: preserve-3d; cursor: pointer; transform: rotateX(var(--rx, 0deg)) rotateY(calc(var(--ry, 0deg) + var(--vuelta, 0deg))); transition: transform 900ms var(--llegada); outline: none; }
+.tarjeta3d:focus-visible { outline: 2px solid var(--foco); outline-offset: 6px; border-radius: 14px; }
+.tarjeta3d.volteada { --vuelta: 180deg; }
+.tarjeta3d__cara { position: absolute; inset: 0; border-radius: 14px; backface-visibility: hidden; display: grid; padding: 22px; overflow: hidden; }
+.tarjeta3d__cara::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at var(--lx, 30%) var(--ly, 20%), rgba(255, 255, 255, .28), transparent 45%); pointer-events: none; }
+.tarjeta3d__frente { place-items: center; }
+.tarjeta3d__iso { width: 92px; filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .35)); }
+.tarjeta3d__marca { position: absolute; left: 22px; bottom: 16px; width: 92px; color: var(--hueso); }
+.tarjeta3d__marca svg { width: 100%; height: auto; }
+.tarjeta3d__dorso { transform: rotateY(180deg); align-content: space-between; color: var(--navy); }
+.tarjeta3d__dorso b { display: block; font-size: 18px; letter-spacing: -0.02em; }
+.tarjeta3d__dorso span { font-size: 12.5px; }
+.tarjeta3d__datos { display: grid; gap: 2px; color: var(--grafito); }
+.tarjeta3d__punto { position: absolute; right: 22px; top: 24px; width: 12px; height: 12px; border-radius: 50%; background: var(--acento); }
+@media (max-width: 760px) { .tarjeta3d-banco { grid-template-columns: minmax(0, 1fr); justify-items: center; } .tarjeta3d { width: min(100%, 320px); } }
+@media (prefers-reduced-motion: reduce) { .tarjeta3d { transition: none; } }
+
+/* ── 404 ── */
+.e404 { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: var(--e-6); align-items: center; padding: var(--e-6); border-radius: var(--r-4); background: var(--superficie); box-shadow: inset 0 0 0 1px var(--borde); }
+.e404__svg { width: 100%; height: auto; overflow: visible; touch-action: none; }
+.e404__num { font-size: 300px; font-weight: 700; letter-spacing: -0.06em; fill: var(--navy); opacity: .1; }
+:root[data-tema="oscuro"] .e404__num { fill: var(--hueso); }
+.e404__nido { fill: none; stroke: var(--borde-fuerte); stroke-width: 1.6; stroke-dasharray: 3 3.4; }
+.e404__punto { fill: var(--acento); stroke: var(--superficie); stroke-width: 3; cursor: grab; filter: drop-shadow(0 4px 6px rgba(22, 38, 58, .3)); }
+.e404__punto:focus-visible { outline: 2px solid var(--foco); outline-offset: 4px; }
+.e404.encontrado .isotipo__disco { animation: respira 1600ms var(--suave) 400ms; transform-box: fill-box; transform-origin: center; }
+.e404__texto { display: grid; gap: 12px; }
+@media (max-width: 860px) { .e404 { grid-template-columns: minmax(0, 1fr); } }
