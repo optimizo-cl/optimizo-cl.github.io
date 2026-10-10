@@ -185,3 +185,21 @@
   .dialogo--modal .dialogo__caja { width: 100vw; border-radius: var(--r-4) var(--r-4) 0 0; animation-name: hoja-sube; }
   .toasts { right: 16px; left: 16px; width: auto; bottom: 88px; }
 }
+
+/* ── Celular: todo lo que se toca mide al menos 44 px ── */
+@media (max-width: 640px), (pointer: coarse) {
+  .boton--s, .boton--icono { --alto: 44px; }
+  .boton--texto { min-height: 44px; }
+  .segmento button { height: 44px; min-width: 44px; }
+  .banner__accion { min-height: 44px; }
+  .banner__cerrar, .toast__cerrar { width: 44px; height: 44px; }
+  .etiqueta { height: 44px; padding-right: 0; } .etiqueta button { width: 44px; height: 44px; }
+  input[type="range"] { height: 44px; }
+  .cal__dia { min-height: 44px; min-width: 44px; }
+  .cal__semana, .cal__dias { gap: 2px; }
+  .nps { grid-template-columns: repeat(6, minmax(44px, 1fr)); }
+  .csat__caras button { width: 44px; height: 44px; }
+  .viz__tabla-boton { min-height: 44px; padding-inline: 10px; }
+  .migas a { padding-block: 12px; }
+  .interruptor { min-height: 44px; }
+}

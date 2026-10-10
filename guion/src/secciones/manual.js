@@ -50,7 +50,7 @@ export const manual = {
   },
 
   async "manual-color"(el) {
-    const tabla = (filas) => `<table class="tabla-color"><thead><tr><th></th><th>Nombre</th><th>HEX</th><th>RGB</th><th>CMYK</th></tr></thead><tbody>${filas.map(([n, hex, rgb, cmyk]) => `<tr><td><i style="background:${hex}"></i></td><td><b>${n}</b></td><td class="mono">${hex}</td><td class="mono">${rgb}</td><td class="mono">${cmyk}</td></tr>`).join("")}</tbody></table>`;
+    const tabla = (filas) => `<table class="tabla-color"><thead><tr><th><span class="solo-lector">Muestra</span></th><th>Nombre</th><th>HEX</th><th>RGB</th><th>CMYK</th></tr></thead><tbody>${filas.map(([n, hex, rgb, cmyk]) => `<tr><td><i style="background:${hex}"></i></td><td><b>${n}</b></td><td class="mono">${hex}</td><td class="mono">${rgb}</td><td class="mono">${cmyk}</td></tr>`).join("")}</tbody></table>`;
     cuerpo(el).innerHTML = `${rejilla([
       marco("Paleta A · Teal", tabla(COLORES.teal)), marco("Paleta B · Mandarina (en prueba)", tabla(COLORES.naranjo)),
       marco("Neutros (ambas paletas)", tabla(COLORES.neutros), { ancho: true, nota: "* CMYK referencial (conversión, no medido): antes de imprimir, pedir prueba de color. Los demás vienen del guideline del diseñador." }),
@@ -60,7 +60,7 @@ export const manual = {
 
   async "manual-tipo"(el) {
     const filas = [["Logo", "Poppins ExtraBold, en trazos", "Nunca se escribe: se usa el archivo"], ["Sitio y app", "SF del sistema · Inter de respaldo", "-apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"Inter\""], ["PDF, presentaciones, Figma", "Inter", "Archivo fijo: se ve igual en cualquier equipo"], ["Google Docs y Slides", "Inter", "Disponible en Google Fonts"], ["Correo (HTML)", "Fuente del sistema", "-apple-system, Segoe UI, Helvetica, Arial"], ["Redes y piezas", "Inter (o SF Pro en Mac)", "Títulos 700 con tracking negativo"]];
-    cuerpo(el).innerHTML = `<table class="tabla-color tabla-tipo"><thead><tr><th>Soporte</th><th>Letra</th><th>Detalle</th></tr></thead><tbody>${filas.map(([a, b, c]) => `<tr><td><b>${a}</b></td><td>${b}</td><td class="chico">${c}</td></tr>`).join("")}</tbody></table>
+    cuerpo(el).innerHTML = `<div class="desplaza-x"><table class="tabla-color tabla-tipo"><thead><tr><th>Soporte</th><th>Letra</th><th>Detalle</th></tr></thead><tbody>${filas.map(([a, b, c]) => `<tr><td><b>${a}</b></td><td>${b}</td><td class="chico">${c}</td></tr>`).join("")}</tbody></table></div>
       ${rejilla([marco("Licencias", `<ul class="lista-punto"><li><b>Poppins</b> e <b>Inter</b>: licencia abierta OFL, uso comercial libre.</li><li><b>SF Pro</b>: la pone el sistema de Apple; no se distribuye ni se incrusta.</li><li><b>Made Tommy</b> (versión anterior): no se usa.</li></ul>`), marco("Pesos permitidos", `<p class="chico">400 cuerpo · 500 interfaz · 600 énfasis y botones · 650–700 títulos. Nada bajo 400 ni sobre 700 en texto.</p>`)])}`;
   },
 

@@ -20,11 +20,11 @@ export const patrones = {
   async "nav-app"(el) {
     activarAtajoBuscador();
     cuerpo(el).innerHTML = `<div class="app-marco mate">
-        <aside class="app-lateral">
+        <div class="app-lateral">
           <div class="app-lateral__marca">${isotipo({ clase: "app-lateral__iso" })}<b>${EMPRESA.corto}</b></div>
-          <nav aria-label="Secciones"><ul>${NAV.map(([ic, n], i) => `<li><a href="#nav-app" class="app-nav ${i === 1 ? "activo" : ""}" ${i === 1 ? 'aria-current="page"' : ""}>${icono(ic, { tam: 20 })}<span>${n}</span>${n === "Procesos" ? '<span class="contador" style="margin-left:auto">2</span>' : ""}</a></li>`).join("")}</ul></nav>
+          <nav aria-label="Secciones de la app"><ul>${NAV.map(([ic, n], i) => `<li><a href="#nav-app" class="app-nav ${i === 1 ? "activo" : ""}" ${i === 1 ? 'aria-current="page"' : ""}>${icono(ic, { tam: 20 })}<span>${n}</span>${n === "Procesos" ? '<span class="contador" style="margin-left:auto">2</span>' : ""}</a></li>`).join("")}</ul></nav>
           <div class="app-lateral__pie"><span class="avatar">CR</span><span><b>Camila Rojas</b><span class="rotulo">Gerenta general</span></span></div>
-        </aside>
+        </div>
         <div class="app-principal">
           <header class="app-cabeza"><nav class="migas" aria-label="Migas"><a href="#nav-app">${EMPRESA.corto}</a><span>/</span><a href="#nav-app">Procesos</a><span>/</span><b aria-current="page">Cotizaciones</b></nav>
             <button type="button" class="app-buscar" data-buscar>${icono("magnifying-glass", { tam: 18 })}<span>Buscar</span><kbd>Ctrl K</kbd></button></header>
@@ -58,7 +58,7 @@ export const patrones = {
         <div class="celular"><div class="celular__pantalla">
           <div class="celular__cabeza"><b>Procesos</b>${botonIcono("magnifying-glass", "Buscar", { variante: "texto", tam: "s" })}</div>
           <div class="celular__lista">${PROCESOS.slice(0, 5).map((p) => `<button type="button" class="celular__fila" data-proc="${p.id}"><span><b>${p.nombre}</b><span class="rotulo">${p.area} · ${p.horas} h/sem</span></span>${insignia(ESTADOS[p.estado][0], { tono: ESTADOS[p.estado][1] })}</button>`).join("")}</div>
-          <nav class="celular__tabs" aria-label="Secciones">${NAV.slice(0, 4).map(([ic, n], i) => `<button type="button" class="${i === 1 ? "activo" : ""}">${icono(ic, { tam: 22 })}<span>${n}</span></button>`).join("")}</nav>
+          <nav class="celular__tabs" aria-label="Secciones del celular">${NAV.slice(0, 4).map(([ic, n], i) => `<button type="button" class="${i === 1 ? "activo" : ""}">${icono(ic, { tam: 22 })}<span>${n}</span></button>`).join("")}</nav>
           <div class="celular__hoja" hidden><div class="celular__asa"></div><div data-hoja-cuerpo></div></div>
         </div></div>
         <div class="celulares__nota pila"><p class="titulo-3">En celular las piezas son otras</p>

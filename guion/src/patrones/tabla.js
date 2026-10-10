@@ -22,11 +22,11 @@ export function tabla(el, { columnas, filas, porPagina = 8, buscarEn = [], vacio
     pagina = Math.min(pagina, paginas - 1);
     const vista = todas.slice(pagina * porPagina, (pagina + 1) * porPagina);
     const todasSel = vista.length && vista.every((x) => sel.has(x));
-    thead.innerHTML = `<tr><th class="tabla-datos__check"><input type="checkbox" aria-label="Seleccionar página" ${todasSel ? "checked" : ""}></th>${columnas.map((c) => `
+    thead.innerHTML = `<tr><th class="tabla-datos__check"><label class="tabla-datos__chk"><input type="checkbox" aria-label="Seleccionar página" ${todasSel ? "checked" : ""}></label></th>${columnas.map((c) => `
       <th class="${c.alinear === "der" ? "der" : ""}" aria-sort="${orden.clave === c.clave ? (orden.dir > 0 ? "ascending" : "descending") : "none"}">
         <button type="button" data-ordenar="${c.clave}">${c.titulo}<span class="tabla-datos__flecha">${orden.clave === c.clave ? (orden.dir > 0 ? "↑" : "↓") : ""}</span></button></th>`).join("")}</tr>`;
     tbody.innerHTML = vista.length ? vista.map((x, i) => `<tr class="${sel.has(x) ? "sel" : ""}" data-i="${i}">
-      <td class="tabla-datos__check"><input type="checkbox" aria-label="Seleccionar fila" ${sel.has(x) ? "checked" : ""}></td>
+      <td class="tabla-datos__check"><label class="tabla-datos__chk"><input type="checkbox" aria-label="Seleccionar fila" ${sel.has(x) ? "checked" : ""}></label></td>
       ${columnas.map((c) => `<td class="${c.alinear === "der" ? "der" : ""}" data-titulo="${c.titulo}">${c.formato ? c.formato(x[c.clave], x) : x[c.clave]}</td>`).join("")}</tr>`).join("")
       : `<tr><td colspan="${columnas.length + 1}" class="tabla-datos__vacio">${vacio}</td></tr>`;
     el.querySelector(".tabla-datos__pie .rotulo").textContent = `${todas.length ? pagina * porPagina + 1 : 0}–${pagina * porPagina + vista.length} de ${todas.length}`;

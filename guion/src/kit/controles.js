@@ -32,7 +32,7 @@ export async function trabajar(btn, tarea, { cargando = "Guardando…", listo = 
 /** Segmentado: elección única entre 2–4 opciones visibles. */
 export function segmento(opciones, { activa = 0, etiqueta = "", nombre = "" } = {}) {
   return `<div class="segmento" role="radiogroup" aria-label="${etiqueta}" data-segmento="${nombre}">
-    ${opciones.map((o, i) => `<button type="button" role="radio" aria-checked="${i === activa}" aria-pressed="${i === activa}" tabindex="${i === activa ? 0 : -1}" data-valor="${o}">${o}</button>`).join("")}</div>`;
+    ${opciones.map((o, i) => `<button type="button" role="radio" aria-checked="${i === activa}" tabindex="${i === activa ? 0 : -1}" data-valor="${o}">${o}</button>`).join("")}</div>`;
 }
 
 /** Interruptor (encendido/apagado inmediato, sin «Guardar»). */
@@ -64,7 +64,7 @@ export function activarControles(raiz = document) {
     if (sw) { sw.setAttribute("aria-checked", sw.getAttribute("aria-checked") !== "true"); return; }
     const op = e.target.closest?.(".segmento[role=radiogroup] > button");
     if (op) {
-      op.parentElement.querySelectorAll("button").forEach((b) => { const si = b === op; b.setAttribute("aria-checked", si); b.setAttribute("aria-pressed", si); b.tabIndex = si ? 0 : -1; });
+      op.parentElement.querySelectorAll("button").forEach((b) => { const si = b === op; b.setAttribute("aria-checked", si); b.tabIndex = si ? 0 : -1; });
       op.parentElement.dispatchEvent(new CustomEvent("cambio", { detail: op.dataset.valor, bubbles: true }));
     }
   });

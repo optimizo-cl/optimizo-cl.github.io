@@ -36,5 +36,5 @@ export function firma({ nombre = "Camila Rojas", cargo = "Directora de proyectos
   return `<table cellpadding="0" cellspacing="0" style="font-family:${LETRA};color:${navy};"><tr>
 <td style="padding-right:16px;border-right:2px solid ${tok("--acento")};vertical-align:top;"><img src="${logoURL}" width="40" height="40" alt="Optimizo" style="display:block;"></td>
 <td style="padding-left:16px;vertical-align:top;"><p style="margin:0;font-size:15px;font-weight:700;">${nombre}</p><p style="margin:2px 0 8px;font-size:13px;color:${grafito};">${cargo} · Optimizo</p>
-<p style="margin:0;font-size:13px;line-height:20px;color:${grafito};">${telefono} · <a href="#" style="color:${acento};text-decoration:none;">optimizo.cl</a></p></td></tr></table>`;
+<p style="margin:0;font-size:13px;line-height:20px;color:${grafito};">${telefono} · <a href="#" style="color:${acento};text-decoration:underline;">optimizo.cl</a></p></td></tr></table>`;
 }

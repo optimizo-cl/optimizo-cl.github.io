@@ -100,8 +100,8 @@ export const formularios = {
           </div>
           ${campo("Correo para enviarte la propuesta", { tipo: "correo", requerido: true, marcador: "camila@quillay.cl" })}
         </div>
-        <aside class="cotizar__resumen mate"><p class="rotulo">Tu propuesta incluirá</p><ul class="lista-punto" data-incluye><li class="chico">Elige al menos un servicio.</li></ul>
-          <p class="chico" data-plazo>Plazo: este trimestre · equipo de 11–50</p>${boton("Pedir propuesta", { tipo: "submit", tam: "l" })}<p class="rotulo">Sin compromiso. Te la enviamos en 3 días hábiles.</p></aside>
+        <div class="cotizar__resumen mate" role="region" aria-label="Resumen de la propuesta"><p class="rotulo">Tu propuesta incluirá</p><ul class="lista-punto" data-incluye><li class="chico">Elige al menos un servicio.</li></ul>
+          <p class="chico" data-plazo>Plazo: este trimestre · equipo de 11–50</p>${boton("Pedir propuesta", { tipo: "submit", tam: "l" })}<p class="rotulo">Sin compromiso. Te la enviamos en 3 días hábiles.</p></div>
       </form>`;
     rellenarIconos();
     const f = el.querySelector("form"), incl = el.querySelector("[data-incluye]"), plazo = el.querySelector("[data-plazo]");
