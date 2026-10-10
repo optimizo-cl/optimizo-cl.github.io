@@ -190,3 +190,4 @@ mark { background: color-mix(in srgb, var(--acento) 16%, transparent); font-weig
 .buscador .buscador__resultados { max-height: 52vh; overflow: auto; padding: 8px; }
 
 @media (max-width: 640px) { .tabla-datos__buscar { height: 44px; } }
+@media (max-width: 480px) { .kpi { padding: var(--e-4); } .kpi .heroe__valor { font-size: 1.6rem; } }

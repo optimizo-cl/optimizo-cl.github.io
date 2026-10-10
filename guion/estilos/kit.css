@@ -64,3 +64,10 @@ input[type="range"]::-moz-range-thumb { width: 20px; height: 20px; border: 0; bo
 @media (prefers-reduced-motion: reduce) {
   .carga__orbita, .carga-marca .isotipo__punto { animation: none !important; }
 }
+
+/* En celular el progreso muestra solo el paso actual (los demás quedan como puntos de la vía) */
+@media (max-width: 640px) {
+  .progreso__pasos { display: block; text-align: left; }
+  .progreso__pasos li:not(.actual) { display: none; }
+  .progreso__via { margin-inline: 8px; }
+}
