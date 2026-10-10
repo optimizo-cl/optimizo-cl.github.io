@@ -76,7 +76,7 @@
 .campo--error .campo__control { box-shadow: inset 0 0 0 1.5px var(--error); }
 .campo__contador { font-size: 12px; color: var(--texto-3); text-align: right; font-variant-numeric: tabular-nums; }
 .campo input:disabled { cursor: not-allowed; color: var(--texto-3); }
-.campo__control:has(:disabled) { background: var(--superficie-hundida); box-shadow: inset 0 0 0 1px var(--borde); }
+.campo__control:has(> input:disabled, > select:disabled, > textarea:disabled) { background: var(--superficie-hundida); box-shadow: inset 0 0 0 1px var(--borde); }
 
 /* ── Avisos ── */
 .toasts { position: fixed; z-index: var(--z-aviso); right: 20px; bottom: 96px; display: grid; gap: 10px; width: min(420px, calc(100vw - 32px)); }
