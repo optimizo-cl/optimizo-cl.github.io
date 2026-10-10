@@ -6,9 +6,10 @@ import { kit } from "./kit.js";
 import { formularios } from "./formularios.js";
 import { patrones } from "./patrones.js";
 import { producto } from "./producto.js";
+import { web } from "./web.js";
 
-export const CONSTRUIDAS = { ...identidad, ...escenas, ...movimiento, ...kit, ...formularios, ...patrones, ...producto };
-export const REPINTAR = [...REPINTAR_IDENTIDAD, "firma"];
+export const CONSTRUIDAS = { ...identidad, ...escenas, ...movimiento, ...kit, ...formularios, ...patrones, ...producto, ...web };
+export const REPINTAR = [...REPINTAR_IDENTIDAD, "firma", "landing", "correos", "firma-correo"];
 
 /** Marcador honesto de una sección que todavía no se construye. */
 export function pendiente(sec) {

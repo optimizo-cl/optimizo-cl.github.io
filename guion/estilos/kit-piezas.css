@@ -2,7 +2,7 @@
    Orden: tokens → base → kit → kit-piezas → guion → secciones. */
 
 /* ── Botones ── */
-.boton { --alto: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: var(--alto); padding-inline: 18px; border-radius: var(--r-2); font-size: var(--t-chico); font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; position: relative; isolation: isolate;
+.boton { --alto: 44px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: var(--alto); padding-inline: 18px; border-radius: var(--r-2); font-size: var(--t-chico); font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; position: relative; isolation: isolate;
   transition: background-color var(--d-1) var(--suave), color var(--d-1) var(--suave), box-shadow var(--d-1) var(--suave), transform var(--d-1) var(--llegada); user-select: none; -webkit-tap-highlight-color: transparent; }
 .boton:active:not(:disabled) { transform: scale(.98); }
 .boton:disabled { cursor: not-allowed; opacity: .45; }
