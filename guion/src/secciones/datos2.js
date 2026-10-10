@@ -1,17 +1,17 @@
 /* Capítulo 4 · Datos v2 (ola 6): gráficas con trama que se dibujan, tablas que se ordenan deslizándose y se editan
    en línea, fechas sobre una pista de puntos, búsqueda en órbitas de relevancia y vacíos hechos con el disco. */
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=798d3f5";
-import { boton, segmento } from "../kit/controles.js?v=798d3f5";
-import { toast, estado } from "../kit/avisos.js?v=798d3f5";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=798d3f5";
-import { isotipo, DISCO } from "../kit/marca.js?v=798d3f5";
-import { ejemplo } from "../kit/guion.js?v=798d3f5";
-import { contar } from "../kit/coreografia.js?v=798d3f5";
-import { tabla } from "../patrones/tabla.js?v=798d3f5";
-import { barrasTrama, lineaViva, antesDespuesBarras, apiladaTextura } from "../patrones/graficas2.js?v=798d3f5";
-import { abrirBuscador, activarAtajoBuscador } from "../patrones/buscador.js?v=798d3f5";
-import { COTIZACIONES, VENTAS, PROCESOS, CANALES, NOTAS, clp, clpCorto, fechaCorta } from "../demo/quillay.js?v=798d3f5";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=798d3f5";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=19f4b98";
+import { boton, segmento } from "../kit/controles.js?v=19f4b98";
+import { toast, estado } from "../kit/avisos.js?v=19f4b98";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=19f4b98";
+import { isotipo, DISCO } from "../kit/marca.js?v=19f4b98";
+import { ejemplo } from "../kit/guion.js?v=19f4b98";
+import { contar } from "../kit/coreografia.js?v=19f4b98";
+import { tabla } from "../patrones/tabla.js?v=19f4b98";
+import { barrasTrama, lineaViva, antesDespuesBarras, apiladaTextura } from "../patrones/graficas2.js?v=19f4b98";
+import { abrirBuscador, activarAtajoBuscador } from "../patrones/buscador.js?v=19f4b98";
+import { COTIZACIONES, VENTAS, PROCESOS, CANALES, NOTAS, clp, clpCorto, fechaCorta } from "../demo/quillay.js?v=19f4b98";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=19f4b98";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const usoDe = (lista, cod) => `<div class="rejilla-2"><ul class="lista-punto">${lista.map((r) => `<li>${r}</li>`).join("")}</ul>${cod ? codigo(cod) : ""}</div>`;
@@ -114,30 +114,39 @@ export const datos2 = {
     el.querySelectorAll("[data-pose]").forEach((art) => {
       const p = POSES.find((x) => x.k === art.dataset.pose), punto = art.querySelector(".pose__punto"), btn = art.querySelector("[data-resolver]");
       const t = art.querySelector("[data-t]"), d = art.querySelector("[data-d]"), etiqueta = btn.querySelector(".boton__texto");
-      const volar = (de, a, alto) => red() ? Promise.resolve() : punto.animate([
-        { transform: `translate(${de[0]}px, ${de[1]}px)` },
-        { transform: `translate(${(de[0] + a[0]) / 2}px, ${Math.min(de[1], a[1]) - alto}px) scale(.92)`, offset: 0.5 },
-        { transform: `translate(${a[0]}px, ${a[1]}px) scale(1.08, .9)`, offset: 0.86 },
-        { transform: `translate(${a[0]}px, ${a[1]}px)` }], { duration: 1100, easing: "cubic-bezier(.45,.05,.55,.95)", fill: "forwards" }).finished;
+      const flota = art.querySelector(".pose__flota");
+      // un solo movimiento continuo: arco cuadrático, acelera y frena (sin quiebres ni aplastes)
+      const volar = (de, a, alto, dur = 1000) => new Promise((fin) => {
+        if (red()) return fin();
+        const cx = (de[0] + a[0]) / 2, cy = Math.min(de[1], a[1]) - alto, t0 = performance.now();
+        const f = (ahora) => {
+          const q = Math.min(1, (ahora - t0) / dur), e = q < 0.5 ? 4 * q * q * q : 1 - Math.pow(-2 * q + 2, 3) / 2;
+          const x = (1 - e) * (1 - e) * de[0] + 2 * (1 - e) * e * cx + e * e * a[0], y = (1 - e) * (1 - e) * de[1] + 2 * (1 - e) * e * cy + e * e * a[1];
+          punto.style.transform = `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px)`;
+          q < 1 ? requestAnimationFrame(f) : fin();
+        };
+        requestAnimationFrame(f);
+      });
+      // el flotado se apaga desde donde está, no de golpe
+      const calmar = () => { const m = getComputedStyle(flota).transform; flota.style.animation = "none"; if (m && m !== "none" && !red()) flota.animate([{ transform: m }, { transform: "none" }], { duration: 350, easing: "cubic-bezier(.25,.1,.25,1)" }); };
       let resuelto = false;
       btn.addEventListener("click", async () => {
         btn.disabled = true;
         if (!resuelto) {
-          art.classList.add("resolviendo");
+          calmar(); art.classList.add("resolviendo");
           if (p.k === "permiso") await new Promise((r) => setTimeout(r, red() ? 0 : 500)); // primero se abre la mordida
           if (p.k === "conexion") art.querySelector(".pose__cuerda").classList.add("tensa");
-          await volar(p.desde, [0, 0], p.k === "servidor" ? 120 : p.k === "conexion" ? 10 : 40);
-          punto.style.transform = "none";
+          await volar(p.desde, [0, 0], p.k === "servidor" ? 110 : p.k === "conexion" ? 12 : 36, p.k === "servidor" ? 1150 : 1000);
+          punto.style.transform = "translate(0px, 0px)";
           art.classList.remove("resolviendo"); art.classList.add("resuelta");
           t.textContent = p.fin[0]; d.textContent = p.fin[1]; etiqueta.textContent = "Ver de nuevo";
         } else {
           art.classList.remove("resuelta");
           if (p.k === "conexion") art.querySelector(".pose__cuerda").classList.remove("tensa");
-          await volar([0, 0], p.desde, 30);
-          punto.style.transform = `translate(${p.desde[0]}px, ${p.desde[1]}px)`;
+          await volar([0, 0], p.desde, 26, 900);
+          flota.style.animation = "";
           t.textContent = p.t; d.textContent = p.d; etiqueta.textContent = p.acc;
         }
-        punto.getAnimations().forEach((x) => x.cancel());
         resuelto = !resuelto; btn.disabled = false;
       });
     });

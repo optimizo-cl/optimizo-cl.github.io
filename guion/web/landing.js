@@ -1,14 +1,15 @@
 /* Sitio de Optimizo v2: armado SOLO con piezas del guion (Trama, isotipo 3D, Órbitas, kit de cerámica, cotizador, familia). */
-import { logo, isotipo } from "../src/kit/marca.js?v=798d3f5";
-import { icono, rellenarIconos, cargarIconos } from "../src/kit/iconos.js?v=798d3f5";
-import { campo, validar, activarCampos } from "../src/kit/campos.js?v=798d3f5";
-import { boton, trabajar, activarControles, prepararSegmentos } from "../src/kit/controles.js?v=798d3f5";
-import { listo } from "../src/kit/punto.js?v=798d3f5";
-import { antesDespues, proceso } from "../src/kit/orbitas.js?v=798d3f5";
-import { progreso } from "../src/kit/coreografia.js?v=798d3f5";
-import { movimientoReducido } from "../src/kit/escenas/vigia.js?v=798d3f5";
-import { formularios2 } from "../src/secciones/formularios2.js?v=798d3f5";
-import { sello2, auroraMedula, medulaSVG } from "../src/secciones/familia2.js?v=798d3f5";
+import { logo, isotipo } from "../src/kit/marca.js?v=19f4b98";
+import { icono, rellenarIconos, cargarIconos } from "../src/kit/iconos.js?v=19f4b98";
+import { campo, validar, activarCampos } from "../src/kit/campos.js?v=19f4b98";
+import { boton, trabajar, activarControles, prepararSegmentos } from "../src/kit/controles.js?v=19f4b98";
+import { listo } from "../src/kit/punto.js?v=19f4b98";
+import { orden as ordenar } from "../src/kit/orden.js?v=19f4b98";
+import { etapas, activarEtapas, moverEtapa } from "../src/kit/etapas.js?v=19f4b98";
+import { progreso } from "../src/kit/coreografia.js?v=19f4b98";
+import { movimientoReducido } from "../src/kit/escenas/vigia.js?v=19f4b98";
+import { formularios2 } from "../src/secciones/formularios2.js?v=19f4b98";
+import { sello2, auroraMedula, medulaSVG } from "../src/secciones/familia2.js?v=19f4b98";
 
 const $ = (s) => document.querySelector(s);
 const tramo = (p, a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));
@@ -29,18 +30,21 @@ progreso($(".l-heroe__pista"), (_, r) => {
 });
 
 /* ── Caos → orden ── */
-const orden = antesDespues($("[data-o-svg]"), { puntos: 120 });
+const orden = ordenar($("[data-o-svg]"));
 const sec = $("[data-orden]"); let fase = -1;
 const textos = [
   ["Hoy", "Tu empresa da vueltas sobre sí misma.", "Cotizaciones en planillas, clientes en WhatsApp, acuerdos en el correo de alguien. Todo funciona, pero en círculo.", "31 h", "2,5 días"],
-  ["Con Optimizo", "Cada cosa encuentra su órbita.", "Medimos, ordenamos y conectamos. Lo que chocaba ahora gira en orden alrededor de la memoria de tu empresa.", "−19 h", "minutos"],
+  ["Con Optimizo", "Cada cosa en su lugar.", "Medimos, ordenamos y conectamos: cada tarea con su área, su dueño y su estado.", "−19 h", "minutos"],
 ];
 const ponerFase = (f) => { if (f === fase) return; fase = f; const [c, t, d, h, k] = textos[f]; $("[data-o-ceja]").textContent = c; $("[data-o-t]").textContent = t; $("[data-o-d]").textContent = d; $("[data-o-h]").textContent = h; $("[data-o-c]").textContent = k; sec.classList.toggle("l-orden--orden", f === 1); };
 if (movimientoReducido()) { orden.orden(1); ponerFase(1); }
 else progreso(sec, (_, r) => { const k = tramo(-r.top / Math.max(1, r.height - innerHeight), 0.15, 0.75); orden.orden(k); ponerFase(k > 0.5 ? 1 : 0); sec.style.setProperty("--k", k.toFixed(3)); });
 
 /* ── Cómo trabajamos ── */
-proceso($("[data-pista]"), [{ nombre: "Diagnóstico", ficha: ["2 semanas", "Medimos dónde se va el tiempo."] }, { nombre: "Implementación", ficha: ["4 a 8 semanas", "Lo dejamos funcionando."] }, { nombre: "Acompañamiento", ficha: ["Mensual", "Medimos y subimos el siguiente escalón."] }], { compacto: true });
+$("[data-pista]").innerHTML = etapas([{ nombre: "Diagnóstico", detalle: "2 semanas · conocemos a tu equipo y medimos dónde se va el tiempo." }, { nombre: "Implementación", detalle: "4 a 8 semanas · construimos y conectamos, empezando por lo que más duele." }, { nombre: "Acompañamiento", detalle: "mensual · capacitamos, medimos y subimos el siguiente escalón." }], { actual: 0, avance: 0, etiqueta: "Cómo trabajamos" });
+activarEtapas($("[data-pista]"));
+// al verse, el punto recorre las tres etapas una vez
+new IntersectionObserver(async ([e], o) => { if (!e.isIntersecting) return; o.disconnect(); const et = $("[data-pista] [data-etapas]"); await new Promise((r) => setTimeout(r, 500)); await moverEtapa(et, 0, 1); await new Promise((r) => setTimeout(r, 700)); await moverEtapa(et, 1, 1); await new Promise((r) => setTimeout(r, 700)); await moverEtapa(et, 2, 0.5); }, { threshold: 0.5 }).observe($("[data-pista]"));
 
 /* ── Servicios ── */
 const SERVICIOS = [["target", "Diagnóstico de procesos", "Mapa de cómo trabaja tu empresa y por dónde empezar."], ["users-three", "CRM a medida", "Clientes, cotizaciones y ventas en un solo lugar, hecho para tu proceso."], ["brain", "Memoria de la empresa", "Lo que sabe una persona, lo sabe la empresa (Medula)."], ["lightning", "Automatizaciones", "Lo repetido se hace solo y avisa cuando algo falla."], ["robot", "Equipos de agentes", "Agentes que atienden, ordenan y reportan con tus datos."]];

@@ -1,13 +1,13 @@
 /* Capítulo 2 · Kit v2 (ola 4): cerámica que se hunde, controles con el punto, campos que validan en vivo,
    cargas que dibujan, avisos de papel, estados por forma, flotantes que nacen en círculo y diálogos que se expanden. */
-import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=798d3f5";
-import { boton, botonIcono, botonMantener, trabajar, segmento, interruptor, casilla, radio, deslizador, perilla } from "../kit/controles.js?v=798d3f5";
-import { campo, validar } from "../kit/campos.js?v=798d3f5";
-import { toast, banner, alerta, insignia, etiqueta, contador, estado, fichaCeramica } from "../kit/avisos.js?v=798d3f5";
-import { abrirMenu, abrirPopover, abrirDialogo, confirmarDestructivo, confirmarManteniendo, cerrarFlotante } from "../kit/popups.js?v=798d3f5";
-import { carga, cargaSalto, cargaLlenado, cargaFases, fijarFase, progreso, moverProgreso } from "../kit/punto.js?v=798d3f5";
-import { isotipo } from "../kit/marca.js?v=798d3f5";
-import { icono } from "../kit/iconos.js?v=798d3f5";
+import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=19f4b98";
+import { boton, botonIcono, botonMantener, trabajar, segmento, interruptor, casilla, radio, deslizador, perilla } from "../kit/controles.js?v=19f4b98";
+import { campo, validar } from "../kit/campos.js?v=19f4b98";
+import { toast, banner, alerta, insignia, etiqueta, contador, estado, fichaCeramica } from "../kit/avisos.js?v=19f4b98";
+import { abrirMenu, abrirPopover, abrirDialogo, confirmarDestructivo, confirmarManteniendo, cerrarFlotante } from "../kit/popups.js?v=19f4b98";
+import { carga, cargaSalto, cargaLlenado, cargaFases, fijarFase, progreso, moverProgreso } from "../kit/punto.js?v=19f4b98";
+import { isotipo } from "../kit/marca.js?v=19f4b98";
+import { icono } from "../kit/iconos.js?v=19f4b98";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -98,7 +98,7 @@ export const kit2 = {
         <figure class="carga-ficha"><div class="carga-ficha__escena"><div class="fila-botones">${boton("Guardando…", { attrs: "aria-busy=true disabled" }).replace('<span class="boton__texto">', `${carga({ tam: 16 })}<span class="boton__texto">`)}</div><span class="chico" style="display:inline-flex;gap:10px;align-items:center">${carga({ tam: 16 })} Sincronizando con Bsale…</span></div><figcaption><b>Chica</b><span class="chico">En botones y líneas de texto.</span></figcaption></figure>
         <figure class="carga-ficha"><div class="carga-ficha__escena">${cargaLlenado({ tam: 112, etiqueta: "Preparando tu diagnóstico" })}</div><figcaption><b>Se llena</b><span class="chico">Pantallas de carga: el disco se llena y, completo, el punto salta.</span></figcaption></figure>
         <figure class="carga-ficha"><div class="carga-ficha__escena">${cargaFases({ tam: 104, fase: 1, total: 3, etiqueta: "Leyendo documentos" })}<span class="chico" data-fase-t>Fase 1 de 3 · leyendo 1.240 documentos</span></div><figcaption><b>Por fases</b><span class="chico">Más de 4 s: se llena por tercios y el texto cuenta qué pasa.</span></figcaption></figure>
-        <figure class="carga-ficha carga-ficha--ancha"><div class="carga-ficha__escena"><div class="pila" style="width:100%">${progreso(["Datos", "Procesos", "Sistemas", "Resumen"], 1)}<div class="fila-botones">${boton("Atrás", { variante: "secundario", tam: "s", attrs: 'data-paso="-1"' })}${boton("Siguiente", { tam: "s", attrs: 'data-paso="1"' })}</div></div></div><figcaption><b>Etapas</b><span class="chico">El punto viaja al paso actual y deja encendido lo recorrido.</span></figcaption></figure>
+        <figure class="carga-ficha carga-ficha--ancha"><div class="carga-ficha__escena"><div class="pila" style="width:100%">${progreso(["Datos", "Procesos", "Sistemas", "Resumen"], 1)}<div class="fila-botones">${boton("Atrás", { variante: "secundario", tam: "s", attrs: 'data-paso="-1"' })}${boton("Siguiente", { tam: "s", attrs: 'data-paso="1"' })}</div></div></div><figcaption><b>Etapas</b><span class="chico">Cada etapa es un isotipo que se llena; el punto salta de nido en nido.</span></figcaption></figure>
         <figure class="carga-ficha carga-ficha--ancha"><div class="carga-ficha__escena"><div class="esq-tarjeta"><div class="esqueleto" style="width:48px;height:48px;border-radius:50%"></div><div style="display:grid;gap:9px;flex:1"><div class="esqueleto" style="height:14px;width:58%"></div><div class="esqueleto" style="height:11px;width:92%"></div><div class="esqueleto" style="height:11px;width:74%"></div></div></div></div><figcaption><b>Esqueleto de grano</b><span class="chico">El barrido es grano que se desplaza, no un brillo plano.</span></figcaption></figure>
       </div>
       <div class="cargas2__estados">
@@ -113,7 +113,7 @@ export const kit2 = {
     const cf = el.querySelector(".carga-logo--fases"), ft = el.querySelector("[data-fase-t]"), textos = ["leyendo 1.240 documentos", "ordenando por proceso", "cruzando con tus sistemas"]; let fz = 0;
     const tf = setInterval(() => { if (!cf.isConnected) return clearInterval(tf); fz = (fz + 1) % 3; fijarFase(cf, fz + 1); ft.textContent = `Fase ${fz + 1} de 3 · ${textos[fz]}`; }, 2600);
     const prog = el.querySelector(".progreso");
-    el.querySelectorAll("[data-paso]").forEach((b) => b.addEventListener("click", () => moverProgreso(prog, Math.max(0, Math.min(3, +prog.dataset.actual + +b.dataset.paso)))));
+    el.querySelectorAll("[data-paso]").forEach((b) => b.addEventListener("click", () => moverProgreso(prog, Math.max(0, Math.min(4, +prog.dataset.actual + +b.dataset.paso)), 0.4)));
   },
 
   /* ── Avisos ── */

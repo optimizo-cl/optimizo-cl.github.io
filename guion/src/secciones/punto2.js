@@ -1,14 +1,14 @@
 /* Capítulo 1 · El punto v2 (ola 3): el logo que se arma, las «i» vivas, los dieciséis momentos de la firma
    y el Laboratorio del punto (un juguete de física para sentir el resorte de la marca). */
-import { logoVivo, armar, instante, soltar, saltarIes, activarLogoVivo } from "../kit/logo-vivo.js?v=798d3f5";
-import { isotipo, DISCO } from "../kit/marca.js?v=798d3f5";
-import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=798d3f5";
-import { boton } from "../kit/controles.js?v=798d3f5";
-import { campo } from "../kit/campos.js?v=798d3f5";
-import { icono } from "../kit/iconos.js?v=798d3f5";
-import { contar } from "../kit/coreografia.js?v=798d3f5";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=798d3f5";
-import { cargaSalto, cargaLlenado, cargaFases, fijarFase } from "../kit/punto.js?v=798d3f5";
+import { logoVivo, armar, instante, soltar, saltarIes, activarLogoVivo } from "../kit/logo-vivo.js?v=19f4b98";
+import { isotipo, DISCO } from "../kit/marca.js?v=19f4b98";
+import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=19f4b98";
+import { boton } from "../kit/controles.js?v=19f4b98";
+import { campo } from "../kit/campos.js?v=19f4b98";
+import { icono } from "../kit/iconos.js?v=19f4b98";
+import { contar } from "../kit/coreografia.js?v=19f4b98";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=19f4b98";
+import { cargaSalto, cargaLlenado, cargaFases, fijarFase } from "../kit/punto.js?v=19f4b98";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const C = { x: 75.207, y: 71.754, r: 69.152 };
@@ -69,10 +69,10 @@ export const punto2 = {
     m.push(momento(6, "Cargas con el logo", `<div class="m-cargas"><figure>${cargaSalto({ tam: 88 })}<figcaption class="rotulo">Salto</figcaption></figure><figure>${cargaLlenado({ tam: 88 })}<figcaption class="rotulo">Se llena</figcaption></figure></div>`, "El punto sale por la mordida y aterriza; o el disco se llena y, al completarse, el punto salta. Nada gira alrededor del dibujo."));
     m.push(momento(7, "Carga larga", `<div class="m-larga" data-larga>${cargaFases({ tam: 120, fase: 1, total: 3, etiqueta: "Avance del análisis" })}
         <div class="m-larga__texto" role="status"><b data-larga-t>Leyendo 1.240 documentos</b><span class="chico" data-larga-f>Fase 1 de 3</span></div></div>`, "Si la espera pasa de 4 s, el disco se llena por tercios: en cada fase el punto salta y el texto cuenta qué está pasando.", { clase: "momento2--ancho" }));
-    m.push(momento(8, "Éxito", `<div class="m-exito" data-exito><button type="button" class="boton boton--primario m-exito__boton" data-exito-b>Enviar diagnóstico</button>${iso("m-exito__iso", { sinPunto: true, nido: true })}<i class="m-exito__punto"></i><svg class="m-exito__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9" pathLength="1"/></svg></div>`, "El botón se contrae hasta ser un punto, viaja y aterriza en el disco: listo.", { clase: "momento2--ancho" }));
+    m.push(momento(8, "Éxito", `<div class="m-exito" data-exito><div class="m-exito__ranura"><button type="button" class="boton boton--primario m-exito__boton" data-exito-b><span class="boton__texto">Enviar diagnóstico</span></button></div><div class="m-exito__destino">${iso("m-exito__iso", { sinPunto: true, nido: true })}<svg class="m-exito__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9" pathLength="1"/></svg></div><i class="m-exito__punto" aria-hidden="true"></i><p class="m-exito__estado" role="status"></p></div>`, "El botón se contrae hasta ser un punto, viaja y aterriza en el disco: listo.", { clase: "momento2--ancho" }));
     m.push(momento(9, "Error", `<div class="m-error">${campo("RUT de la empresa", { tipo: "rut", valor: "76.123.456-1", requerido: true, attrs: "data-error-campo" })}<i class="m-error__punto"></i>${boton("Validar", { variante: "secundario", tam: "s", attrs: "data-error-b" })}</div>`, "El punto tiembla dos veces (corto, sin rebote) y señala el campo. El mensaje dice cómo arreglarlo."));
     m.push(momento(10, "Vacío", `<div class="m-vacio">${iso("m-vacio__iso", { sinPunto: true, nido: true })}<div><b>Aún no hay procesos</b><p class="chico">Falta el punto: agrega el primero y el disco se completa.</p>${boton("Agregar proceso", { variante: "secundario", tam: "s", ico: "plus", attrs: "data-vacio-b" })}</div></div>`, "El disco solo, con el nido punteado: la marca dice «falta algo» sin dramatismo."));
-    m.push(momento(11, "404", `<div class="m-404" data-404><svg viewBox="0 0 300 180" role="group" aria-label="Isotipo sin su punto"><g transform="translate(40 20) scale(1)">${iso("", { sinPunto: true, nido: true }).replace(/<svg[^>]*>|<\/svg>/g, "")}</g><circle class="m-404__punto" cx="250" cy="150" r="17.3" tabindex="0" role="button" aria-label="Punto perdido: arrástralo a su nido o presiona Enter"/></svg><p class="chico" data-404-t>El punto se perdió. Devuélvelo a su nido.</p></div>`, "Arrastra el punto (o presiona Enter): vuelve con resorte y el disco respira.", { clase: "momento2--ancho" }));
+    m.push(momento(11, "404", `<div class="m-404" data-404><svg viewBox="0 0 300 180" role="group" aria-label="Isotipo sin su punto"><g transform="translate(40 20) scale(1)">${iso("", { sinPunto: true, nido: true }).replace(/<svg[^>]*>|<\/svg>/g, "").replace(/<g class="isotipo__punto">[\s\S]*?<\/g>/, "")}</g><circle class="m-404__punto" cx="250" cy="150" r="17.3" tabindex="0" role="button" aria-label="Punto perdido: arrástralo a su nido o presiona Enter"/></svg><p class="chico" data-404-t>El punto se perdió. Devuélvelo a su nido.</p></div>`, "Arrastra el punto (o presiona Enter): vuelve con resorte y el disco respira.", { clase: "momento2--ancho" }));
     m.push(momento(12, "Selección", `<div class="m-seleccion" data-seleccion><div class="m-seleccion__ops">${["Cotizaciones", "Inventario", "Despachos", "Cobranza"].map((o) => `<button type="button" class="ficha-op" aria-pressed="false">${o}</button>`).join("")}</div><div class="m-seleccion__resumen"><span class="rotulo">Resumen</span><b data-sel-n>0</b><span class="chico">procesos</span></div></div>`, "Al marcar una opción, un punto viaja de la opción al resumen y el número sube.", { clase: "momento2--ancho" }));
     m.push(momento(13, "Contador", `<div class="m-contador"><b class="m-contador__n" data-contador>0</b><i class="m-contador__tic"></i><span class="chico">horas ahorradas por semana</span></div>`, "Los números grandes se cuentan con un punto que marca cada paso.", { clase: "momento2--ancho" }));
     m.push(momento(14, "Descanso", `<div class="m-descanso" data-descanso>${iso("m-descanso__iso")}<p class="chico" data-descanso-t>Quédate quieto…</p></div>`, "Después de 20 s sin moverse, el punto respira (acá, a los 4 s para probarlo)."));
@@ -97,7 +97,7 @@ export const punto2 = {
       <div class="lab__escena" data-lab>
         <svg class="lab__svg" viewBox="-160 -120 320 240" aria-hidden="false" role="group" aria-label="Laboratorio: arrastra el punto o usa las flechas">
           <g class="lab__estela"></g>
-          <g transform="translate(-75.207 -71.754)">${iso("", { sinPunto: true, nido: true }).replace(/<svg[^>]*>|<\/svg>/g, "").replace('transform="translate(-6.054688 -2.601562)"', "")}</g>
+          <g transform="translate(-75.207 -71.754)">${iso("", { sinPunto: true, nido: true }).replace(/<svg[^>]*>|<\/svg>/g, "").replace(/<g class="isotipo__punto">[\s\S]*?<\/g>/, "").replace('transform="translate(-6.054688 -2.601562)"', "")}</g>
           <line class="lab__liga" x1="0" y1="0" x2="0" y2="0"/>
           <circle class="lab__punto" r="17.289" tabindex="0" role="slider" aria-label="El punto: flechas para empujarlo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="en su nido"/>
         </svg>
@@ -137,24 +137,36 @@ function activarMomentos(el) {
   const larga = el.querySelector("[data-larga]"), cf = larga.querySelector(".carga-logo--fases"), fases = ["Leyendo 1.240 documentos", "Ordenando por proceso", "Cruzando con tus sistemas"];
   let f = 0;
   const tic = setInterval(() => { if (!larga.isConnected) return clearInterval(tic); f = (f + 1) % fases.length; fijarFase(cf, f + 1); larga.querySelector("[data-larga-t]").textContent = fases[f]; larga.querySelector("[data-larga-f]").textContent = `Fase ${f + 1} de 3`; }, 2600);
-  // 8 · éxito
-  const ex = el.querySelector("[data-exito]"), bEx = el.querySelector("[data-exito-b]");
+  // 8 · éxito: el botón se contrae hasta ser el punto, viaja en un arco y aterriza en el nido del isotipo
+  const ex = el.querySelector("[data-exito]"), bEx = el.querySelector("[data-exito-b]"), pEx = ex.querySelector(".m-exito__punto"), estEx = ex.querySelector(".m-exito__estado");
+  const arco = (dur, paso) => new Promise((fin) => { const t0 = performance.now(); const f = (ahora) => { const q = Math.min(1, (ahora - t0) / dur); paso(q); q < 1 ? requestAnimationFrame(f) : fin(); }; requestAnimationFrame(f); });
   bEx.addEventListener("click", async () => {
     if (ex.classList.contains("corriendo")) return;
-    if (ex.classList.contains("hecho")) { ex.classList.remove("hecho"); return; }
+    if (ex.classList.contains("hecho")) { ex.classList.remove("hecho"); bEx.querySelector(".boton__texto").textContent = "Enviar diagnóstico"; estEx.textContent = ""; return; }
     ex.classList.add("corriendo");
     if (!reducido()) {
-      const b = bEx.getBoundingClientRect(), dest = ex.querySelector(".m-iso__nido").getBoundingClientRect(), base = ex.getBoundingClientRect();
-      const punto = ex.querySelector(".m-exito__punto");
-      await bEx.animate([{ width: b.width + "px", color: "var(--texto-sobre-acento, #fff)" }, { width: b.height + "px", color: "transparent", borderRadius: "999px" }], { duration: 420, easing: LLEGADA, fill: "forwards" }).finished;
-      const x0 = b.left - base.left + b.height / 2, y0 = b.top - base.top + b.height / 2, x1 = dest.left - base.left + dest.width / 2, y1 = dest.top - base.top + dest.height / 2;
-      Object.assign(punto.style, { left: x0 + "px", top: y0 + "px", width: b.height * 0.5 + "px", height: b.height * 0.5 + "px" });
-      bEx.style.opacity = 0;
-      await punto.animate([{ transform: "translate(-50%,-50%) scale(1.6)", opacity: 1 }, { transform: `translate(calc(-50% + ${(x1 - x0) * 0.55}px), calc(-50% + ${(y1 - y0) - 40}px)) scale(1)`, opacity: 1, offset: 0.55 }, { transform: `translate(calc(-50% + ${x1 - x0}px), calc(-50% + ${y1 - y0}px)) scale(${dest.width / (b.height * 0.5)})`, opacity: 1 }], { duration: 1100, easing: LLEGADA, fill: "forwards" }).finished;
-      bEx.getAnimations().forEach((a) => a.cancel()); bEx.style.opacity = "";
-      punto.getAnimations().forEach((a) => a.cancel()); punto.style.cssText = "";
-    }
-    ex.classList.remove("corriendo"); ex.classList.add("hecho");
+      // 1 · se contrae sobre su centro (la ranura es fija: nada más se mueve)
+      ex.classList.add("contrae");
+      const w = bEx.offsetWidth, h = bEx.offsetHeight;
+      await bEx.animate([{ width: w + "px" }, { width: h + "px" }], { duration: 380, easing: "cubic-bezier(.65,0,.35,1)", fill: "forwards" }).finished;
+      // 2 · se mide todo recién ahora, con el botón ya contraído
+      const base = ex.getBoundingClientRect(), b = bEx.getBoundingClientRect(), d = ex.querySelector(".m-iso__nido").getBoundingClientRect();
+      const x0 = b.left + b.width / 2 - base.left, y0 = b.top + b.height / 2 - base.top, x1 = d.left + d.width / 2 - base.left, y1 = d.top + d.height / 2 - base.top;
+      const s0 = h, s1 = d.width, cx = (x0 + x1) / 2, cy = Math.min(y0, y1) - 70;
+      Object.assign(pEx.style, { width: s1 + "px", height: s1 + "px", opacity: 1 });
+      bEx.style.visibility = "hidden";
+      await arco(950, (q) => {
+        const e = q < 0.5 ? 4 * q * q * q : 1 - Math.pow(-2 * q + 2, 3) / 2; // acelera y frena
+        const x = (1 - e) * (1 - e) * x0 + 2 * (1 - e) * e * cx + e * e * x1, y = (1 - e) * (1 - e) * y0 + 2 * (1 - e) * e * cy + e * e * y1;
+        const sc = (s0 + (s1 - s0) * e) / s1;
+        pEx.style.transform = `translate(${x - s1 / 2}px, ${y - s1 / 2}px) scale(${sc})`;
+      });
+      ex.classList.add("hecho");                 // el punto del isotipo aparece justo donde aterrizó el viajero
+      pEx.style.opacity = 0;
+      bEx.getAnimations().forEach((a) => a.cancel()); bEx.style.visibility = ""; ex.classList.remove("contrae");
+    } else ex.classList.add("hecho");
+    bEx.querySelector(".boton__texto").textContent = "Repetir"; estEx.textContent = "Diagnóstico enviado";
+    ex.classList.remove("corriendo");
   });
   // 9 · error
   const er = el.querySelector(".m-error"), inp = er.querySelector("[data-error-campo]"), pE = er.querySelector(".m-error__punto");

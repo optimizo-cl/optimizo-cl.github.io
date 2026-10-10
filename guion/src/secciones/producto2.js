@@ -1,17 +1,18 @@
 /* Capítulo 5 · Producto v2 (ola 7): mapa de procesos que se ordena con el scroll (en Órbitas), escalera con el punto
    que sube, implementación como pista de estaciones, informe y propuesta como documentos vivos con portada de cerámica. */
-import { antesDespues, proceso } from "../kit/orbitas.js?v=798d3f5";
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=798d3f5";
-import { boton } from "../kit/controles.js?v=798d3f5";
-import { toast, estado } from "../kit/avisos.js?v=798d3f5";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=798d3f5";
-import { isotipo, logo } from "../kit/marca.js?v=798d3f5";
-import { ejemplo } from "../kit/guion.js?v=798d3f5";
-import { progreso as alAvanzar, contar } from "../kit/coreografia.js?v=798d3f5";
-import { barrasTrama } from "../patrones/graficas2.js?v=798d3f5";
-import { EMPRESA, PROCESOS, PERSONAS, HORAS_PERDIDAS, clp } from "../demo/quillay.js?v=798d3f5";
-import { PASOS_MADUREZ } from "./producto.js?v=798d3f5";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=798d3f5";
+import { orden } from "../kit/orden.js?v=19f4b98";
+import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=19f4b98";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=19f4b98";
+import { boton } from "../kit/controles.js?v=19f4b98";
+import { toast, estado } from "../kit/avisos.js?v=19f4b98";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=19f4b98";
+import { isotipo, logo } from "../kit/marca.js?v=19f4b98";
+import { ejemplo } from "../kit/guion.js?v=19f4b98";
+import { progreso as alAvanzar, contar } from "../kit/coreografia.js?v=19f4b98";
+import { barrasTrama } from "../patrones/graficas2.js?v=19f4b98";
+import { EMPRESA, PROCESOS, PERSONAS, HORAS_PERDIDAS, clp } from "../demo/quillay.js?v=19f4b98";
+import { PASOS_MADUREZ } from "./producto.js?v=19f4b98";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=19f4b98";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const persona = (id) => PERSONAS.find((p) => p.id === id)?.nombre || "Sin responsable";
@@ -30,10 +31,10 @@ export const producto2 = {
     const vivo = `<div class="mapa-scroll" data-mapa-scroll><div class="mapa-scroll__fijo">
         <div class="mapa-scroll__texto"><p class="ceja" data-mapa-ceja>Hoy</p><p class="titulo-2" data-mapa-t>Así se mueve ${EMPRESA.corto} hoy</p><p class="chico" data-mapa-d>Cada punto es algo que pasa: un pedido, un correo, una cotización. Hoy cada uno va por su lado.</p>
           <div class="mapa-scroll__barra" aria-hidden="true"><i></i></div></div>
-        <svg class="mapa-scroll__svg" data-svg role="img" aria-label="Mapa de procesos: de órbitas cruzadas a anillos ordenados"></svg></div></div>`;
-    cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["El paso de caos a orden ocurre con el scroll: quien lee lo provoca.", "Mismo motor de Órbitas que el sitio y las propuestas.", "Con «reducir movimiento» se muestran los dos estados, sin animar."]) });
+        <div class="mapa-scroll__orden" data-orden role="img" aria-label="Las tareas de la empresa pasan de estar desordenadas a ordenadas por área"></div></div></div>`;
+    cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["El paso de caos a orden ocurre con el scroll: quien lee lo provoca.", "La misma pieza que en el sitio y en las propuestas.", "Con «reducir movimiento» se muestran los dos estados, sin animar."]) });
     activarPiezas(el);
-    const raiz = el.querySelector("[data-mapa-scroll]"), d = antesDespues(raiz.querySelector("[data-svg]"), { puntos: 110 });
+    const raiz = el.querySelector("[data-mapa-scroll]"), d = orden(raiz.querySelector("[data-orden]"));
     const t = raiz.querySelector("[data-mapa-t]"), dsc = raiz.querySelector("[data-mapa-d]"), ceja = raiz.querySelector("[data-mapa-ceja]");
     if (movimientoReducido()) { d.orden(1); t.textContent = `Así se mueve ${EMPRESA.corto} con Optimizo`; return; }
     let fase = -1;
@@ -43,8 +44,8 @@ export const producto2 = {
       const f = k < 0.35 ? 0 : k < 0.85 ? 1 : 2;
       if (f !== fase) { fase = f;
         ceja.textContent = ["Hoy", "Ordenando", "Con Optimizo"][f];
-        t.textContent = [`Así se mueve ${EMPRESA.corto} hoy`, "Cada cosa encuentra su órbita", `${EMPRESA.corto}, en orden`][f];
-        dsc.textContent = ["Cada punto es algo que pasa: un pedido, un correo, una cotización. Hoy cada uno va por su lado.", "Los procesos se documentan, se conectan y se les pone dueño.", "Lo que antes chocaba ahora gira en orden alrededor de la memoria de la empresa."][f]; }
+        t.textContent = [`Así se mueve ${EMPRESA.corto} hoy`, "Cada cosa en su lugar", `${EMPRESA.corto}, en orden`][f];
+        dsc.textContent = ["Cotizaciones, pedidos, despachos, cobranza: hoy cada cosa está tirada donde cayó.", "Los procesos se documentan, se conectan y se les pone dueño.", "Cada tarea con su área, su dueño y su estado. Se ve qué está trabado y qué está listo."][f]; }
     });
   },
 
@@ -72,17 +73,16 @@ export const producto2 = {
     const tareas = [["Plantilla de cotización", "jm", true], ["Importar 1.240 clientes", "vs", true], ["Etapas del embudo", "jm", false], ["Capacitar al equipo comercial", "cr", false], ["Conectar Bsale", "pa", false]];
     const vivo = `<div class="impl2 papel">
       <div class="impl2__cabeza"><div><p class="ceja">${EMPRESA.nombre}</p><p class="titulo-2">Implementación</p></div>${estado("En curso · a tiempo", { forma: "medio", tono: "exito" })}</div>
-      <svg class="impl2__pista" data-pista role="group" aria-label="Etapas: Diagnóstico terminado, CRM a medida en curso, Medula y Agentes pendientes"></svg>
+      ${etapas([{ nombre: "Diagnóstico", detalle: "14 – 25 sep" }, { nombre: "CRM a medida", detalle: "28 sep – 30 oct" }, { nombre: "Medula", detalle: "noviembre" }, { nombre: "Agentes", detalle: "diciembre" }], { actual: 1, avance: 0.6, etiqueta: "Etapas de la implementación" })}<div class="impl2__mandos">${boton("Retroceder", { variante: "texto", tam: "s", ico: "arrow-left", attrs: "data-etapa=-1" })}${boton("Simular avance", { variante: "secundario", tam: "s", icoFin: "arrow-right", attrs: "data-etapa=1" })}</div>
       <div class="impl2__dos">
         <div><p class="titulo-3">Tareas de esta etapa</p><ul class="tareas2">${tareas.map(([t, p, ok]) => `<li class="${ok ? "hecha" : ""}">${estado(t, { forma: ok ? "lleno" : "vacio", tono: ok ? "exito" : "neutro" })}<span class="rotulo">${persona(p)}</span></li>`).join("")}</ul></div>
         <div><p class="titulo-3">Próximos hitos</p><ol class="hitos2"><li><b>16 oct</b><span>Embudo de ventas listo para usar</span></li><li><b>23 oct</b><span>Capacitación del equipo comercial (2 h)</span></li><li><b>30 oct</b><span>CRM en marcha · cierre de etapa</span></li></ol></div>
       </div></div><div class="nav-pie">${ejemplo()}<p class="chico">El cliente ve lo mismo que el equipo: etapa, avance, quién hace qué y qué viene.</p></div>`;
     cuerpo(el).innerHTML = pieza({ vivo });
     activarPiezas(el);
-    proceso(el.querySelector("[data-pista]"), [
-      { nombre: "Diagnóstico", ficha: ["Terminado", "14 – 25 sep"] }, { nombre: "CRM a medida", ficha: ["En curso · 60 %", "28 sep – 30 oct"] },
-      { nombre: "Medula", ficha: ["Pendiente", "Noviembre"] }, { nombre: "Agentes", ficha: ["Pendiente", "Diciembre"] },
-    ], { compacto: true, fijo: 0.52 });
+    activarEtapas(el);
+    const et = el.querySelector("[data-etapas]"), avances = [1, 0.6, 0.3, 0.15];
+    el.querySelectorAll("[data-etapa]").forEach((b) => b.addEventListener("click", () => { const i = Math.max(0, Math.min(4, +et.dataset.actual + +b.dataset.etapa)); moverEtapa(et, i, avances[i] ?? 1); }));
   },
 
   /* ── Informe: documento vivo ── */
@@ -117,14 +117,14 @@ export const producto2 = {
       ${await portadaDoc("Propuesta", "Cotizar en minutos, no en días", "válida hasta el 31 oct 2026")}
       <div class="doc2__cuerpo papel">
         <p class="bajada">Primera etapa: dejar las cotizaciones y el seguimiento comercial funcionando en un CRM hecho para cómo trabaja ${EMPRESA.corto}.</p>
-        <svg class="doc2__pista" data-pista-p role="group" aria-label="Etapas de la propuesta"></svg>
+        ${etapas(lineas.map(([n, d]) => ({ nombre: n.split(" (")[0], detalle: d })), { actual: 0, avance: 0, porcentaje: false, etiqueta: "Etapas de la propuesta" })}
         <table class="tabla-num tabla-propuesta"><thead><tr><th>Etapa</th><th>Duración</th><th class="num">Inversión</th></tr></thead>
           <tbody>${lineas.map(([n, d, m]) => `<tr><td>${n}</td><td>${d}</td><td class="num">${clp(m)}</td></tr>`).join("")}<tr class="total"><td>Total implementación</td><td></td><td class="num">${clp(total)} + IVA</td></tr></tbody></table>
         <div class="doc2__cierre"><div><p class="titulo-3">Para empezar</p><p class="chico">Aceptas, agendamos el inicio y en la primera semana ya ves el embudo con tus clientes.</p></div>${boton("Aceptar propuesta", { variante: "acento", tam: "l", attrs: "data-aceptar" })}</div>
         <footer class="documento__pie rotulo">Montos de ejemplo: no son precios de Optimizo · ${ejemplo()}</footer></div></article>`;
     cuerpo(el).innerHTML = pieza({ vivo });
     activarPiezas(el);
-    proceso(el.querySelector("[data-pista-p]"), lineas.map(([n, d]) => ({ nombre: n.split(" (")[0], ficha: [n, d] })), { compacto: true });
+    activarEtapas(el);
     el.querySelector("[data-aceptar]").addEventListener("click", () => toast("Propuesta aceptada. Te escribimos hoy para agendar el inicio.", { tono: "exito" }));
   },
 };

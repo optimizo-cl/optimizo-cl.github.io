@@ -1,6 +1,6 @@
 /* Botones y controles de elección. HTML como texto + comportamiento delegado (funciona en cualquier página). */
-import { icono } from "./iconos.js?v=798d3f5";
-import { carga } from "./punto.js?v=798d3f5";
+import { icono } from "./iconos.js?v=19f4b98";
+import { carga } from "./punto.js?v=19f4b98";
 
 /** Botón. variante: primario | acento | secundario | texto | peligro · tam: s | m | l */
 export function boton(texto, { variante = "primario", tam = "m", ico = "", icoFin = "", deshabilitado = false, tipo = "button", attrs = "" } = {}) {
@@ -98,6 +98,13 @@ export function activarControles(raiz = document) {
     if (out) out.textContent = r.dataset.formato === "pesos" ? "$ " + Number(r.value).toLocaleString("es-CL") : r.value;
   });
   document.querySelectorAll("[data-indeterminada]").forEach((c) => (c.indeterminate = true));
+  // hover de los botones: la luz del esmalte sigue al cursor (solo con mouse)
+  raiz.addEventListener("pointermove", (e) => {
+    if (e.pointerType !== "mouse") return;
+    const b = e.target.closest?.(".boton"); if (!b) return;
+    const r = b.getBoundingClientRect();
+    b.style.setProperty("--mx", ((e.clientX - r.left) / r.width) * 100 + "%"); b.style.setProperty("--my", ((e.clientY - r.top) / r.height) * 100 + "%");
+  }, { passive: true });
   // segmentado: el indicador (con su punto) se desliza a la opción elegida
   raiz.addEventListener("cambio", (e) => { if (e.target.matches?.(".segmento")) moverIndicador(e.target); });
   // perillas: arrastrar hacia arriba sube; flechas, Inicio, Fin y Re Pág / Av Pág

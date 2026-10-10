@@ -94,3 +94,6 @@ body { padding-bottom: 0; }
 .l-form2 .boton { width: 100%; }
 .l-pie { display: flex; justify-content: space-between; align-items: center; gap: var(--e-4); padding-block: var(--e-6); flex-wrap: wrap; }
 @media (max-width: 860px) { .l-cierre2__dentro { grid-template-columns: minmax(0, 1fr); } }
+.l-orden__svg { height: min(64svh, 480px); }
+.l-como__etapas { margin-block: var(--e-4); }
+.l-como__etapas .etapa__detalle { font-size: var(--t-chico); max-width: 30ch; }

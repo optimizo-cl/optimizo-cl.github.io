@@ -1,5 +1,5 @@
 /* Menús, popovers y diálogos. Los flotantes van a <body> (no los recorta ningún contenedor) y nacen del botón. */
-import { icono, rellenarIconos } from "./iconos.js?v=798d3f5";
+import { icono, rellenarIconos } from "./iconos.js?v=19f4b98";
 
 let abierto = null; // un flotante a la vez
 // dónde se tocó por última vez: el diálogo nace ahí (con teclado, desde el centro del elemento con foco)

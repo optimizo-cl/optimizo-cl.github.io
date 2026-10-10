@@ -1,25 +1,25 @@
 /* Secciones construidas (v2). Mientras una sección v1 no se rehace, se reusa bajo su id nuevo. */
-import { identidad, REPINTAR_IDENTIDAD } from "./identidad.js?v=798d3f5";
-import { identidad2, REPINTAR_IDENTIDAD2 } from "./identidad2.js?v=798d3f5";
-import { escenas2 } from "./escenas2.js?v=798d3f5";
-import { punto2 } from "./punto2.js?v=798d3f5";
-import { kit2 } from "./kit2.js?v=798d3f5";
-import { formularios2 } from "./formularios2.js?v=798d3f5";
-import { datos2, numeros2 } from "./datos2.js?v=798d3f5";
-import { producto2 } from "./producto2.js?v=798d3f5";
-import { familia2 } from "./familia2.js?v=798d3f5";
-import { web2 } from "./web2.js?v=798d3f5";
-import { manual2 } from "./manual2.js?v=798d3f5";
-import { resto2, iconosApp2 } from "./resto2.js?v=798d3f5";
-import { escenas } from "./escenas.js?v=798d3f5";
-import { movimiento } from "./movimiento.js?v=798d3f5";
-import { kit } from "./kit.js?v=798d3f5";
-import { formularios } from "./formularios.js?v=798d3f5";
-import { patrones } from "./patrones.js?v=798d3f5";
-import { producto } from "./producto.js?v=798d3f5";
-import { web } from "./web.js?v=798d3f5";
-import { manual } from "./manual.js?v=798d3f5";
-export { PORTADAS } from "./portadas.js?v=798d3f5";
+import { identidad, REPINTAR_IDENTIDAD } from "./identidad.js?v=19f4b98";
+import { identidad2, REPINTAR_IDENTIDAD2 } from "./identidad2.js?v=19f4b98";
+import { escenas2 } from "./escenas2.js?v=19f4b98";
+import { punto2 } from "./punto2.js?v=19f4b98";
+import { kit2 } from "./kit2.js?v=19f4b98";
+import { formularios2 } from "./formularios2.js?v=19f4b98";
+import { datos2, numeros2 } from "./datos2.js?v=19f4b98";
+import { producto2 } from "./producto2.js?v=19f4b98";
+import { familia2 } from "./familia2.js?v=19f4b98";
+import { web2 } from "./web2.js?v=19f4b98";
+import { manual2 } from "./manual2.js?v=19f4b98";
+import { resto2, iconosApp2 } from "./resto2.js?v=19f4b98";
+import { escenas } from "./escenas.js?v=19f4b98";
+import { movimiento } from "./movimiento.js?v=19f4b98";
+import { kit } from "./kit.js?v=19f4b98";
+import { formularios } from "./formularios.js?v=19f4b98";
+import { patrones } from "./patrones.js?v=19f4b98";
+import { producto } from "./producto.js?v=19f4b98";
+import { web } from "./web.js?v=19f4b98";
+import { manual } from "./manual.js?v=19f4b98";
+export { PORTADAS } from "./portadas.js?v=19f4b98";
 
 const v1 = { ...identidad, ...escenas, ...movimiento, ...kit, ...formularios, ...patrones, ...producto, ...web, ...manual };
 

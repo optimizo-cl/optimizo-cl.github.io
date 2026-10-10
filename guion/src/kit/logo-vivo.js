@@ -2,7 +2,7 @@
    El disco es un círculo con máscara: la mordida y el agujero son círculos negros que crecen (se «perforan»).
    Las letras y los puntos de las «i» son trazos aparte (assets/logo/letras.json, de marca/logo/letras_logo.py).
    armar(svg) reproduce la construcción; las «i» saltan en ola al pasar el mouse. */
-import { movimientoReducido } from "./escenas/vigia.js?v=798d3f5";
+import { movimientoReducido } from "./escenas/vigia.js?v=19f4b98";
 
 const C = { x: 75.207031, y: 71.753906, r: 69.152, hueco: 17.288 };
 const P = { x: 25.863281, y: 22.753906, r: 17.289 };
@@ -58,8 +58,12 @@ export function soltar(svg) { svg.getAnimations({ subtree: true }).forEach((a) =
 export function saltarIes(svg) {
   if (movimientoReducido()) return;
   svg.querySelectorAll(".lv__tilde").forEach((t, k) => t.animate(
-    [{ transform: "translateY(0)" }, { transform: "translateY(-9px)", offset: 0.38 }, { transform: "translateY(0)", offset: 0.72 }, { transform: "translateY(-1.5px)", offset: 0.86 }, { transform: "translateY(0)" }],
-    { duration: 820, delay: k * 110, easing: "cubic-bezier(.33,0,.2,1)" }));
+    [{ transform: "none", easing: "cubic-bezier(.2, .6, .35, 1)" },                         // impulso: sube frenando
+     { transform: "translateY(-10px)", offset: 0.4, easing: "cubic-bezier(.55, 0, 1, .45)" }, // cae acelerando
+     { transform: "translateY(0) scale(1.1, .86)", offset: 0.72, easing: "cubic-bezier(0, .55, .45, 1)" }, // impacto
+     { transform: "translateY(-2px)", offset: 0.86, easing: "cubic-bezier(.55, 0, 1, .45)" },
+     { transform: "none" }],
+    { duration: 760, delay: k * 120, easing: "linear" }));
 }
 
 /** Cuando se ve, se arma una vez; al pasar el mouse, las «i» saltan. */

@@ -182,3 +182,4 @@
 .cara[aria-checked="true"] .cara__ojo { fill: var(--tinta); }
 .cara[aria-checked="true"] path { stroke: var(--tinta); }
 @media (max-width: 960px) { .nps2 { grid-template-columns: minmax(0, 1fr); } .nps2__escala { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.conv__etapas { margin-bottom: 4px; }

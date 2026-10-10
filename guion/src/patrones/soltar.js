@@ -1,5 +1,5 @@
 /* Zona para soltar archivos: arrastrar o elegir, progreso por archivo, errores que dicen qué hacer. (Demostración: no sube nada.) */
-import { icono, rellenarIconos } from "../kit/iconos.js?v=798d3f5";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=19f4b98";
 
 const TIPOS = { xlsx: "Planilla", xls: "Planilla", csv: "Planilla", pdf: "PDF", docx: "Documento", doc: "Documento", png: "Imagen", jpg: "Imagen", jpeg: "Imagen" };
 const peso = (b) => (b > 1e6 ? (b / 1e6).toFixed(1).replace(".", ",") + " MB" : Math.max(1, Math.round(b / 1e3)) + " KB");

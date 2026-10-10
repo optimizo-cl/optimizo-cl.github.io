@@ -1,13 +1,13 @@
 /* Capítulo 6 · Web y marca v2 (ola 8): el sitio nuevo, el video de marca exportable, redes animadas, una presentación
    con transiciones del punto, papelería en 3D y una 404 en la que se devuelve el punto a su nido. */
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=798d3f5";
-import { boton, segmento } from "../kit/controles.js?v=798d3f5";
-import { toast } from "../kit/avisos.js?v=798d3f5";
-import { isotipo, logo } from "../kit/marca.js?v=798d3f5";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=798d3f5";
-import { pelicula } from "../kit/pelicula.js?v=798d3f5";
-import { contar } from "../kit/coreografia.js?v=798d3f5";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=798d3f5";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=19f4b98";
+import { boton, segmento } from "../kit/controles.js?v=19f4b98";
+import { toast } from "../kit/avisos.js?v=19f4b98";
+import { isotipo, logo } from "../kit/marca.js?v=19f4b98";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=19f4b98";
+import { pelicula } from "../kit/pelicula.js?v=19f4b98";
+import { contar } from "../kit/coreografia.js?v=19f4b98";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=19f4b98";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const raiz = document.documentElement;
@@ -57,7 +57,7 @@ export const web2 = {
   /* ── Video de marca ── */
   async video(el) {
     const vivo = `<div class="video2"><div data-peli></div>
-      <ol class="video2__guion">${[["0–4,6 s", "El logo se arma: trazo, relleno, el punto sale y las letras se asientan."], ["5–7,6 s", "Sube y aparece la frase, palabra por palabra."], ["8,4–11,4 s", "El punto se escapa por la tangente, deja su estela y vuelve a su nido."], ["10–12 s", "Cierre: optimizo.cl"]].map(([t, d]) => `<li><span class="mono">${t}</span>${d}</li>`).join("")}</ol></div>`;
+      <ol class="video2__guion">${[["0–4,6 s", "El logo se arma: trazo, relleno, el punto sale y las letras se asientan."], ["5–7,6 s", "Sube y aparece la frase, palabra por palabra."], ["8,6–10 s", "Las «i» saludan: sus puntos dan un saltito en ola."], ["10–12 s", "Cierre: optimizo.cl"]].map(([t, d]) => `<li><span class="mono">${t}</span>${d}</li>`).join("")}</ol></div>`;
     cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["Se dibuja en el navegador con los colores de la paleta activa: cambia A/B y el video cambia.", "«Descargar video» lo graba en tiempo real (12 s) y baja un MP4 o WebM según el navegador.", "Para redes: sin sonido, legible sin audio, el logo arma la identidad en los primeros 4 segundos."], 'const peli = await pelicula(canvas, "marca");\nconst { blob, ext } = await peli.grabar();') });
     activarPiezas(el);
     await reproductor(el.querySelector("[data-peli]"), "marca", "Video de marca");

@@ -1,14 +1,15 @@
 /* Capítulo 3 · Formularios v2 (ola 5): pedir datos como una conversación. Mientras respondes, se dibuja tu empresa;
    la escalera se ilumina; la agenda muestra la disponibilidad como puntos; los archivos caen al disco; la NPS es una órbita. */
-import { campo, validar } from "../kit/campos.js?v=798d3f5";
-import { boton, trabajar } from "../kit/controles.js?v=798d3f5";
-import { listo } from "../kit/punto.js?v=798d3f5";
-import { toast } from "../kit/avisos.js?v=798d3f5";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=798d3f5";
-import { isotipo } from "../kit/marca.js?v=798d3f5";
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=798d3f5";
-import { contar } from "../kit/coreografia.js?v=798d3f5";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=798d3f5";
+import { campo, validar } from "../kit/campos.js?v=19f4b98";
+import { boton, trabajar } from "../kit/controles.js?v=19f4b98";
+import { listo } from "../kit/punto.js?v=19f4b98";
+import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=19f4b98";
+import { toast } from "../kit/avisos.js?v=19f4b98";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=19f4b98";
+import { isotipo } from "../kit/marca.js?v=19f4b98";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=19f4b98";
+import { contar } from "../kit/coreografia.js?v=19f4b98";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=19f4b98";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -107,7 +108,7 @@ export const formularios2 = {
     ];
     const vivo = `<div class="conv" data-conv-raiz>
       <div class="conv__charla">
-        <div class="conv__progreso" aria-hidden="true">${pasos.map(() => "<i></i>").join("")}<b class="conv__viajero"></b></div>
+        <div class="conv__etapas">${etapas(["Empresa", "Personas", "Sistemas", "Nudos", "Contacto"], { actual: 0, avance: 0, compacto: true, porcentaje: false, etiqueta: "Preguntas" })}</div>
         <p class="rotulo conv__cuenta" data-cuenta>1 de ${pasos.length}</p>
         <form class="conv__pasos" novalidate>${pasos.map((p, i) => `<fieldset class="conv__paso" data-paso="${p.id}" ${i ? "hidden" : ""}><legend class="conv__pregunta">${p.q}</legend>${p.ayuda ? `<p class="chico">${p.ayuda}</p>` : ""}${p.html}</fieldset>`).join("")}
           <div class="conv__final" hidden data-final><p class="rotulo">Así se ve hoy</p><p class="conv__pregunta" data-final-t>Tu empresa</p>
@@ -117,7 +118,7 @@ export const formularios2 = {
       <figure class="conv__mapa"><svg viewBox="-80 -30 560 460" role="img" aria-label="Mapa de tu empresa: se dibuja mientras respondes" data-mapa></svg><figcaption class="rotulo">Tu empresa, dibujada mientras respondes</figcaption></figure>
     </div>`;
     cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["Una pregunta por pantalla, con letra grande; Enter avanza.", "Lo que respondes se ve al instante en el mapa: nadie llena a ciegas.", "Solo lo justo: 5 preguntas. El resto se conversa.", "Al final, el mapa y una estimación honesta (marcada como ejemplo)."], 'const mapa = mapaEmpresa(svg);\nmapa.sistemas(["planillas", "whatsapp"]);\nmapa.dolores(["cotizaciones"]);') });
-    activarPiezas(el); await rellenarIconos();
+    activarPiezas(el); await rellenarIconos(); activarEtapas(el);
     const raiz = el.querySelector("[data-conv-raiz]"), form = raiz.querySelector("form"), mapa = mapaEmpresa(raiz.querySelector("[data-mapa]"));
     const datos = { sistemas: [], dolores: [] };
     let i = 0;
@@ -128,7 +129,7 @@ export const formularios2 = {
       i = n;
       setTimeout(() => {
         if (i < fs.length) { fs[i].hidden = false; fs[i].classList.add("entra-paso"); fs[i].querySelector("input, button")?.focus(); setTimeout(() => fs[i]?.classList.remove("entra-paso"), 700); }
-        raiz.style.setProperty("--paso", Math.min(i, fs.length - 1));
+        moverEtapa(raiz.querySelector("[data-etapas]"), i, 0);
         raiz.querySelector("[data-cuenta]").textContent = i < fs.length ? `${i + 1} de ${fs.length}` : "Listo";
         raiz.querySelector("[data-atras]").hidden = i === 0 || i >= fs.length;
       }, reducido() ? 0 : 280);

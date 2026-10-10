@@ -1,12 +1,13 @@
 /* Guion v2: arma portada, portadas de capítulo, secciones, navegación lateral, dock, comparador A | B y modo presentación.
    Dos ejes: paleta (A/B) y tema (claro/oscuro). Las secciones se arman al acercarse. */
-import { CAPITULOS, SECCIONES, seccionesDe, capituloDe, numeroDe } from "./plan.js?v=798d3f5";
-import { CONSTRUIDAS, REPINTAR, pendiente, PORTADAS } from "./secciones/index.js?v=798d3f5";
-import { icono, cargarIconos, rellenarIconos } from "./kit/iconos.js?v=798d3f5";
-import { activarControles, prepararSegmentos } from "./kit/controles.js?v=798d3f5";
-import { activarCampos } from "./kit/campos.js?v=798d3f5";
-import { entrar, abrirEnCirculo, progreso } from "./kit/coreografia.js?v=798d3f5";
-import { isotipo } from "./kit/marca.js?v=798d3f5";
+import { CAPITULOS, SECCIONES, seccionesDe, capituloDe, numeroDe } from "./plan.js?v=19f4b98";
+import { CONSTRUIDAS, REPINTAR, pendiente, PORTADAS } from "./secciones/index.js?v=19f4b98";
+import { icono, cargarIconos, rellenarIconos } from "./kit/iconos.js?v=19f4b98";
+import { activarControles, prepararSegmentos } from "./kit/controles.js?v=19f4b98";
+import { activarEtapas } from "./kit/etapas.js?v=19f4b98";
+import { activarCampos } from "./kit/campos.js?v=19f4b98";
+import { entrar, abrirEnCirculo, progreso } from "./kit/coreografia.js?v=19f4b98";
+import { isotipo } from "./kit/marca.js?v=19f4b98";
 
 for (const sec of SECCIONES) sec.estado = CONSTRUIDAS[sec.id] ? "listo" : "por-hacer";
 
@@ -64,7 +65,7 @@ async function pintarUna(id) {
   pintadas.add(id);
   if (fn) { try { await fn(el); } catch (err) { console.error(`Sección ${id}:`, err); } }
   await rellenarIconos();
-  prepararSegmentos(el);
+  prepararSegmentos(el); activarEtapas(el);
   const cuerpo = el.querySelector(".seccion__cuerpo");
   if (cuerpo && !el.hasAttribute("data-sin-entrada")) entrar(cuerpo);
   const cab = el.querySelector(".sec-cabeza"); if (cab) entrar(cab, ":scope > *");

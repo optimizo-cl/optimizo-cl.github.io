@@ -55,7 +55,7 @@ export const SECCIONES = [
   s("barbara", "Bárbara · de Optimizo", "producto", 7, "Su material real: noche, lima, Fraunces y su personaje."),
   s("mapa-procesos", "Mapa de procesos", "producto", 6, "Del caos al orden con el scroll, en Órbitas."),
   s("escalera", "Escalera de madurez", "producto", 6, "Sin CRM → departamentos, el punto sube."),
-  s("implementacion", "Implementación", "producto", 7, "Avance por etapas como pista de estaciones."),
+  s("implementacion", "Implementación", "producto", 7, "Cada etapa es un isotipo que se llena; el punto salta de nido en nido."),
   s("informe", "Informe de diagnóstico", "producto", 7, "Documento vivo con portada de cerámica y gráficas que se dibujan."),
   s("propuesta", "Propuesta", "producto", 7, "La propuesta como documento vivo."),
   // 6 · Web y marca

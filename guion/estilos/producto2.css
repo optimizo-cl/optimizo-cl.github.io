@@ -74,3 +74,14 @@
 .doc2__cierre { display: flex; justify-content: space-between; align-items: center; gap: var(--e-5); flex-wrap: wrap; padding: var(--e-5); border-radius: var(--r-3); background: var(--superficie-hundida); }
 @media (max-width: 760px) { .doc-portada { grid-template-columns: minmax(0, 1fr); } .doc-portada__iso { width: 120px; } .doc-portada__logo { display: none; } .doc2__resumen, .doc2__dos { grid-template-columns: minmax(0, 1fr); } }
 :root[data-tema="oscuro"] .hallazgos2__n { background: var(--acento); }
+
+/* ── Del desorden al orden (tareas por área) ── */
+.orden { position: relative; width: 100%; height: 100%; min-height: 360px; }
+.orden__area { position: absolute; top: 0; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--acento-texto); padding-bottom: 8px; border-bottom: 2px solid var(--acento); opacity: 0; }
+.orden__tarea { position: absolute; left: 0; top: 0; height: 46px; display: flex; align-items: center; padding: 0 14px; border-radius: 12px; will-change: transform; transition: box-shadow 400ms var(--suave); }
+.orden__tarea .estado-forma { overflow: hidden; text-overflow: ellipsis; }
+.orden__tarea:not(.en-su-lugar) .estado-forma i { --c: var(--texto-3) !important; }
+.orden__tarea.en-su-lugar { box-shadow: 0 1px 0 rgba(255, 255, 255, .6) inset, 0 0 0 1px var(--borde), 0 6px 14px -10px rgba(22, 38, 58, .35); }
+.mapa-scroll__orden { width: 100%; height: min(60vh, 460px); }
+@media (max-width: 860px) { .mapa-scroll__orden { height: 52vh; } .orden__tarea { font-size: 12px; padding: 0 8px; } .orden__area { font-size: 10.5px; } }
+.impl2__mandos { display: flex; gap: 10px; justify-content: flex-end; }

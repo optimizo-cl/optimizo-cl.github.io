@@ -1,0 +1,51 @@
+/* Etapas de avance: isotipos en línea recta; el punto de la marca salta de nido en nido. */
+.etapas { position: relative; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 0; padding-top: 6px; }
+.etapa { position: relative; display: grid; justify-items: start; gap: 12px; min-width: 0; }
+.etapa__marca { position: relative; z-index: 1; width: 64px; height: 64px; display: block; }
+.etapa__iso { width: 100%; height: 100%; overflow: visible; display: block; }
+.etapa__contorno { fill: none; stroke: var(--borde-fuerte); stroke-width: 2.4; stroke-dasharray: 5 5; transition: stroke 400ms var(--suave); }
+.etapa__relleno { fill: url(#punto-marca); }
+.etapa__nivel { transition: transform 900ms cubic-bezier(.65, 0, .35, 1); }
+.etapa__nido { fill: none; stroke: var(--borde-fuerte); stroke-width: 2; stroke-dasharray: 3 3.5; }
+.etapa__punto { fill: url(#punto-marca); opacity: 0; transition: opacity 400ms var(--suave) 250ms; }
+.etapa--hecha .etapa__contorno, .etapa--actual .etapa__contorno { stroke: color-mix(in srgb, var(--acento-profundo) 45%, transparent); stroke-dasharray: none; stroke-width: 1.6; }
+.etapa--hecha .etapa__punto { opacity: 1; }
+.etapa--hecha .etapa__nido { opacity: 0; }
+.etapa--actual .etapa__nido { stroke: transparent; }
+/* la línea recta hasta la siguiente etapa: punteada mientras no se llega, llena cuando la etapa está hecha */
+.etapa__linea { position: absolute; left: 76px; right: 12px; top: 31px; height: 2px; background: repeating-linear-gradient(90deg, var(--borde-fuerte) 0 4px, transparent 4px 9px); border-radius: 1px; overflow: hidden; }
+.etapa__linea i { display: block; height: 100%; width: 0; background: var(--acento-profundo); transition: width 900ms cubic-bezier(.65, 0, .35, 1); }
+.etapa--hecha .etapa__linea i { width: 100%; }
+.etapa__texto { display: grid; gap: 2px; padding-right: 12px; }
+.etapa__n { font-size: 11.5px; font-weight: 700; color: var(--texto-3); font-variant-numeric: tabular-nums; }
+.etapa__texto b { font-weight: 650; line-height: 1.25; color: var(--texto-2); transition: color 300ms var(--suave); }
+.etapa__detalle { font-size: 12.5px; color: var(--texto-3); }
+.etapa__estado { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; min-height: 1.2em; }
+.etapa--hecha .etapa__estado { color: var(--exito); }
+.etapa--actual .etapa__estado { color: var(--acento-texto); }
+.etapa--actual .etapa__texto b, .etapa--hecha .etapa__texto b { color: var(--texto); }
+.etapa--actual .etapa__n { color: var(--acento-texto); }
+.etapas__viajero { position: absolute; left: 0; top: 0; z-index: 2; border-radius: 50%; background: var(--punto-marca); opacity: 0; pointer-events: none; will-change: transform; box-shadow: 0 3px 6px -2px rgba(22, 38, 58, .35); }
+/* compacto: discos chicos, sin detalle */
+.etapas--compacto .etapa__marca { width: 40px; height: 40px; }
+.etapas--compacto .etapa__linea { left: 50px; top: 19px; right: 8px; }
+.etapas--compacto .etapa { gap: 8px; }
+.etapas--compacto .etapa__texto b { font-size: var(--t-chico); }
+/* angosto: la fila pasa a columna, la línea baja recta */
+@media (max-width: 640px) {
+  .etapas { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .etapa { grid-template-columns: 64px minmax(0, 1fr); align-items: center; gap: 14px; }
+  .etapa__linea { left: 31px; right: auto; top: 70px; width: 2px; height: calc(100% - 52px); background: repeating-linear-gradient(180deg, var(--borde-fuerte) 0 4px, transparent 4px 9px); }
+  .etapa__linea i { width: 100%; height: 0; transition: height 900ms cubic-bezier(.65, 0, .35, 1); }
+  .etapa--hecha .etapa__linea i { height: 100%; }
+  .etapas--compacto .etapa { grid-template-columns: 40px minmax(0, 1fr); }
+  .etapas--compacto .etapa__linea { left: 19px; top: 46px; height: calc(100% - 28px); }
+  .etapas--compacto { grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 0; }
+  .etapas--compacto .etapa { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
+  .etapas--compacto .etapa__linea { left: calc(50% + 24px); right: calc(-50% + 24px); top: 19px; width: auto; height: 2px; background: repeating-linear-gradient(90deg, var(--borde-fuerte) 0 4px, transparent 4px 9px); }
+  .etapas--compacto .etapa__linea i { height: 100%; width: 0; transition: width 900ms cubic-bezier(.65, 0, .35, 1); }
+  .etapas--compacto .etapa--hecha .etapa__linea i { width: 100%; }
+  .etapas--compacto .etapa__texto { padding: 0; } .etapas--compacto .etapa__texto b { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .etapa__nivel, .etapa__linea i, .etapa__punto { transition: none !important; } }
+.etapas[data-sin-pct] .etapa__estado { display: none; }

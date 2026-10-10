@@ -1,8 +1,8 @@
 /* Película: piezas de marca animadas, dibujadas en canvas y exportables a video (MP4 si el navegador lo permite, WebM si no).
    Guiones: «marca» (16:9, 12 s: el logo se arma, la frase, el punto que se escapa), «dato» (4:5, 8 s: un número que se
    cuenta) y «frase» (1:1, 6 s: dos líneas con el punto como cursor). Todo lee los colores de la paleta activa. */
-import { DISCO } from "./marca.js?v=798d3f5";
-import { cargarLetras } from "./logo-vivo.js?v=798d3f5";
+import { DISCO } from "./marca.js?v=19f4b98";
+import { cargarLetras } from "./logo-vivo.js?v=19f4b98";
 
 const P = { x: 25.863281, y: 22.753906, r: 17.289 }, C = { x: 75.207031, y: 71.753906 };
 const LETRA = '"SF Pro Display", "Inter", system-ui, sans-serif';
@@ -28,18 +28,29 @@ function grano(ctx) {
 }
 
 /** Dibuja el isotipo (y opcionalmente las letras) con su construcción en el instante k (0 → 1). */
-function logoEn(ctx, letras, col, { x, y, s, k = 1, conLetras = true, salida = 0, color = null }) {
+/** Caída del punto de la «i» con gravedad: acelera hasta el impacto (q 0–0,62), un rebote chico (parábola) y queda. */
+function caidaTilde(q) {
+  if (q < 0.62) { const u = q / 0.62; return -40 * (1 - u * u); }
+  const u = (q - 0.62) / 0.38; return -6 * 4 * u * (1 - u);
+}
+let ies = null; // { t0, alto }: un saltito de las «i» en ola (parábola por cada una)
+function saltoIes(j) {
+  if (!ies) return 0;
+  const q = (ies.t - ies.t0 - j * 0.14) / 0.6; if (q <= 0 || q >= 1) return 0;
+  return -ies.alto * 4 * q * (1 - q);
+}
+
+function logoEn(ctx, letras, col, { x, y, s, k = 1, conLetras = true, color = null }) {
   ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
   ctx.save(); ctx.translate(-6.054688, -2.601562);
   const disco = new Path2D(DISCO), gd = ctx.createLinearGradient(6.05, 0, 144.36, 0); gd.addColorStop(0, col.a); gd.addColorStop(1, col.b);
   const trazo = tramo(k, 0, 0.28);
   if (trazo < 1) { ctx.setLineDash([contorno() * trazo, contorno()]); ctx.lineWidth = 1.4 / Math.max(0.2, s / 2); ctx.strokeStyle = color || col.b; ctx.stroke(new Path2D(DISCO.split(" Z ")[0] + " Z")); ctx.setLineDash([]); }
   ctx.globalAlpha = tramo(k, 0.2, 0.36); ctx.fillStyle = color || gd; ctx.fill(disco, "evenodd"); ctx.globalAlpha = 1;
-  // el punto: nace en el agujero, sale por la mordida y llega a su nido; «salida» lo saca de nuevo por la tangente
+  // el punto: nace en el agujero, sale por la mordida y llega a su nido
   const kp = lleg(tramo(k, 0.3, 0.62));
   if (kp > 0) {
     let px = C.x + (P.x - C.x) * kp, py = C.y + (P.y - C.y) * kp - Math.sin(kp * Math.PI) * 18;
-    if (salida > 0) { const e = salida * salida; px += e * 900; py -= e * 420; }
     const gp = ctx.createLinearGradient(px - P.r, 0, px + P.r, 0); gp.addColorStop(0, col.a); gp.addColorStop(1, col.b);
     ctx.beginPath(); ctx.arc(px, py, P.r * (0.35 + 0.65 * kp), 0, Math.PI * 2); ctx.fillStyle = color || gp; ctx.fill();
   }
@@ -47,7 +58,7 @@ function logoEn(ctx, letras, col, { x, y, s, k = 1, conLetras = true, salida = 0
   if (conLetras && letras) {
     ctx.fillStyle = color || col.navy;
     letras.letras.forEach((l, i) => { const kl = lleg(tramo(k, 0.58 + i * 0.03, 0.8 + i * 0.03)); if (!kl) return; ctx.save(); ctx.globalAlpha = kl; ctx.translate(0, (1 - kl) * 14); ctx.fill(new Path2D(l.d)); ctx.restore();
-      if (l.tilde) { const kt = tramo(k, 0.82 + i * 0.012, 1); if (!kt) return; const caida = kt < 0.7 ? -40 * (1 - kt / 0.7) ** 2 : -3 * Math.sin(((kt - 0.7) / 0.3) * Math.PI); ctx.save(); ctx.translate(0, caida); ctx.fill(new Path2D(l.tilde.d)); ctx.restore(); } });
+      if (l.tilde) { const kt = tramo(k, 0.82 + i * 0.012, 1); if (!kt) return; const caida = caidaTilde(kt) + saltoIes(i); ctx.save(); ctx.translate(0, caida); ctx.fill(new Path2D(l.tilde.d)); ctx.restore(); } });
   }
   ctx.restore();
 }
@@ -68,12 +79,11 @@ const GUIONES = {
   marca: { formato: "16:9", dur: 12, cuadro(ctx, w, h, t, col, letras) {
     const k = tramo(t, 0, 4.6), sube = suave(tramo(t, 4.8, 6));
     const s = Math.min(h * 0.0042, (w * 0.56) / 446.654) * (1 - 0.28 * sube), lw = 446.654 * s;
-    logoEn(ctx, letras, col, { x: (w - lw) / 2, y: h * 0.5 - 69 * s - sube * h * 0.18, s, k, salida: Math.max(0, tramo(t, 8.4, 9.8) - lleg(tramo(t, 10, 11.4))) }); // sale y vuelve: la firma
+    ies = t > 8.6 ? { t, t0: 8.6, alto: 10 } : null; // el cierre: las «i» saludan una vez
+    logoEn(ctx, letras, col, { x: (w - lw) / 2, y: h * 0.5 - 69 * s - sube * h * 0.18, s, k });
+    ies = null;
     const kf = tramo(t, 5.6, 7.6);
     if (kf > 0) { ctx.textAlign = "left"; const tam = h * 0.075; ctx.font = `700 ${tam}px ${LETRA}`; const anchoF = Math.min(w * 0.8, ctx.measureText("Todo proceso tiene una salida.").width * 1.04); frasePorPalabras(ctx, "Todo proceso tiene una salida.", (w - anchoF) / 2, h * 0.64, anchoF + 10, tam, kf, col.navy); }
-    // la estela del punto que escapa
-    const ke = tramo(t, 8.6, 10.6);
-    if (ke > 0 && ke < 1) { ctx.save(); ctx.strokeStyle = col.acento; ctx.lineWidth = 3; ctx.setLineDash([3, 9]); ctx.globalAlpha = 1 - ke; ctx.beginPath(); ctx.moveTo(w * 0.3, h * 0.3); ctx.quadraticCurveTo(w * 0.6, h * 0.05, w * (0.3 + ke * 0.8), h * (0.3 - ke * 0.45)); ctx.stroke(); ctx.restore(); }
     const kw = tramo(t, 10.2, 11.2);
     if (kw > 0) { ctx.save(); ctx.globalAlpha = kw; ctx.font = `600 ${h * 0.03}px ${LETRA}`; ctx.fillStyle = col.acentoTexto; ctx.textAlign = "center"; ctx.fillText("optimizo.cl", w / 2, h * 0.9); ctx.restore(); }
   } },

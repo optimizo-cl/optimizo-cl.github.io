@@ -14,8 +14,17 @@
 .boton--peligro { --c-base: var(--error); }
 .boton--secundario { --c-base: var(--superficie-2); --c-luz: #fff; --c-sombra: color-mix(in srgb, var(--superficie-2) 92%, var(--navy)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), inset 0 0 0 1px var(--borde-fuerte), inset 0 -2px 0 rgba(22, 38, 58, .06), 0 1px 1px rgba(22, 38, 58, .08), 0 6px 12px -10px rgba(22, 38, 58, .4); }
 :root[data-tema="oscuro"] .boton--secundario { --c-luz: color-mix(in srgb, var(--superficie-2) 80%, #fff); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), inset 0 0 0 1px var(--borde-fuerte), 0 6px 12px -10px rgba(0, 0, 0, .6); }
-.boton--primario:hover:not(:disabled), .boton--acento:hover:not(:disabled), .boton--secundario:hover:not(:disabled), .boton--peligro:hover:not(:disabled) { background-color: transparent; filter: brightness(1.05); transform: translateY(-1px); }
-.boton--secundario:hover:not(:disabled) { background: radial-gradient(130% 160% at 30% -40%, #fff, transparent 58%), linear-gradient(180deg, var(--c-base), var(--c-sombra)); }
+/* hover «esmalte encendido»: una luz del mismo color del esmalte sigue al cursor, el canto toma el acento y la pieza sube 1 px.
+   Nada de blanqueado: el botón sigue siendo cerámica, solo se ilumina por dentro. */
+.boton--primario, .boton--acento, .boton--secundario, .boton--peligro { --luz: color-mix(in srgb, var(--c-base) 76%, #fff); }
+.boton--secundario { --luz: color-mix(in srgb, var(--acento) 26%, var(--c-base)); }
+.boton--primario { --luz: color-mix(in srgb, var(--acento) 38%, var(--c-base)); }
+.boton--primario:hover:not(:disabled), .boton--acento:hover:not(:disabled), .boton--secundario:hover:not(:disabled), .boton--peligro:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: radial-gradient(90px circle at var(--mx, 50%) var(--my, 0%), var(--luz), transparent 75%), radial-gradient(130% 160% at 30% -40%, var(--c-luz), transparent 58%), linear-gradient(180deg, var(--c-base), var(--c-sombra));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -2px 0 color-mix(in srgb, var(--acento) 70%, transparent), 0 1px 1px rgba(22, 38, 58, .16), 0 12px 22px -12px rgba(22, 38, 58, .6); }
+.boton--secundario:hover:not(:disabled) { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), inset 0 0 0 1px color-mix(in srgb, var(--acento) 55%, var(--borde-fuerte)), inset 0 -2px 0 color-mix(in srgb, var(--acento) 70%, transparent), 0 10px 18px -12px rgba(22, 38, 58, .45); }
+
 /* se hunde: la luz pasa adentro y la sombra de apoyo desaparece */
 .boton--primario:active:not(:disabled), .boton--acento:active:not(:disabled), .boton--secundario:active:not(:disabled), .boton--peligro:active:not(:disabled), .boton.presionado {
   transform: translateY(1px) scale(.99); filter: brightness(.97);

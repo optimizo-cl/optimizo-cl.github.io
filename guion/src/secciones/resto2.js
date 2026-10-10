@@ -1,14 +1,14 @@
 /* v2 de las secciones que quedaban con la composición repetida de la versión 1: contacto, validación, correos,
    firma, íconos de app, usos incorrectos, color y letra para producción, voz, imagen y aplicaciones. */
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=798d3f5";
-import { campo, validar } from "../kit/campos.js?v=798d3f5";
-import { boton, trabajar } from "../kit/controles.js?v=798d3f5";
-import { listo } from "../kit/punto.js?v=798d3f5";
-import { toast, estado } from "../kit/avisos.js?v=798d3f5";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=798d3f5";
-import { isotipo, logo } from "../kit/marca.js?v=798d3f5";
-import { correo, firma } from "../kit/correos.js?v=798d3f5";
-import { proceso } from "../kit/orbitas.js?v=798d3f5";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=19f4b98";
+import { campo, validar } from "../kit/campos.js?v=19f4b98";
+import { boton, trabajar } from "../kit/controles.js?v=19f4b98";
+import { listo } from "../kit/punto.js?v=19f4b98";
+import { toast, estado } from "../kit/avisos.js?v=19f4b98";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=19f4b98";
+import { isotipo, logo } from "../kit/marca.js?v=19f4b98";
+import { correo, firma } from "../kit/correos.js?v=19f4b98";
+import { etapas, activarEtapas } from "../kit/etapas.js?v=19f4b98";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -166,11 +166,11 @@ export const resto2 = {
   /* ── Imagen: lo que sí (un proceso dibujado con la marca) frente a lo que no ── */
   async "manual-imagen"(el) {
     const vivo = `<div class="imagen2">
-      <figure class="imagen2__si"><svg data-orb-mini role="group" aria-label="Ejemplo: un proceso como pista con estaciones"></svg><figcaption><span class="insignia insignia--exito"><i></i>Sí</span>${lista(["Procesos como una pista con estaciones; el punto recorre.", "Interfaces reales del producto.", "El isotipo y el punto como protagonistas.", "Números grandes y datos con trama."])}</figcaption></figure>
+      <figure class="imagen2__si"><div class="imagen2__etapas">${etapas(["Pedido", "Cotización", "Envío", "Venta"], { actual: 1, avance: 0.5, compacto: true, etiqueta: "Ejemplo: un proceso por etapas" })}</div><figcaption><span class="insignia insignia--exito"><i></i>Sí</span>${lista(["Procesos como etapas: isotipos que se llenan y el punto que avanza.", "Interfaces reales del producto.", "El isotipo y el punto como protagonistas.", "Números grandes y datos con trama."])}</figcaption></figure>
       <figure class="imagen2__no"><div class="imagen2__collage" aria-hidden="true">${["robot", "brain", "lightning", "users-three"].map((i) => `<span>${icono(i, { tam: 40 })}</span>`).join("")}</div><figcaption><span class="insignia insignia--error"><i></i>No</span>${lista(["Fotos de stock de personas en reunión.", "Robots, cerebros brillantes, circuitos, neón.", "Ilustraciones 3D tipo plastilina.", "Partículas o efectos sin función."], "lista-punto lista-no")}</figcaption></figure></div>`;
     cuerpo(el).innerHTML = pieza({ vivo });
     activarPiezas(el); await rellenarIconos();
-    proceso(el.querySelector("[data-orb-mini]"), [{ nombre: "Pedido", ficha: ["Llega el pedido", "WhatsApp o correo"] }, { nombre: "Cotización", traba: true, ficha: ["Se arma", "Traba: 1 de cada 4 se rehace"] }, { nombre: "Envío", ficha: ["Se envía", "PDF con plantilla"] }, { nombre: "Venta", ficha: ["Venta", "Factura en Bsale"] }], { compacto: true });
+    activarEtapas(el);
   },
 
   /* ── Aplicaciones: la marca en sus soportes, en cerámica ── */

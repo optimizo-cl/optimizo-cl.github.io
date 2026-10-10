@@ -1,5 +1,6 @@
 /* El punto: la firma de Optimizo convertida en piezas reutilizables (carga, progreso, listo, cursor). */
-import { isotipo, DISCO } from "./marca.js?v=798d3f5";
+import { isotipo, DISCO } from "./marca.js?v=19f4b98";
+import { etapas, moverEtapa, activarEtapas } from "./etapas.js?v=19f4b98";
 
 const PUNTO = { cx: 25.863281, cy: 22.753906, r: 17.289 };
 
@@ -39,20 +40,12 @@ export function fijarFase(el, fase) {
 /** Ya no hay relojes que sincronizar (todo es CSS); se deja por compatibilidad. */
 export function sincronizarCargas() {}
 
-/** Progreso por pasos: el punto viaja al paso actual y deja encendidos los anteriores. */
-export function progreso(pasos, actual = 0) {
-  return `<div class="progreso" style="--n:${pasos.length};--i:${actual}" data-actual="${actual}">
-    <div class="progreso__via"><i class="progreso__lleno"></i><i class="progreso__punto"></i></div>
-    <ol class="progreso__pasos">${pasos.map((p, i) => `<li class="${i < actual ? "hecho" : i === actual ? "actual" : ""}" ${i === actual ? 'aria-current="step"' : ""}>${p}</li>`).join("")}</ol>
-  </div>`;
+/** Progreso por pasos: son las etapas compactas (isotipos que se llenan; el punto salta de nido en nido). */
+export function progreso(pasos, actual = 0, { avance = 0.4 } = {}) {
+  return etapas(pasos, { actual, avance, compacto: true, etiqueta: "Progreso" });
 }
-export function moverProgreso(el, i) {
-  el.style.setProperty("--i", i); el.dataset.actual = i;
-  el.querySelectorAll(".progreso__pasos li").forEach((li, k) => {
-    li.className = k < i ? "hecho" : k === i ? "actual" : "";
-    k === i ? li.setAttribute("aria-current", "step") : li.removeAttribute("aria-current");
-  });
-}
+export function moverProgreso(el, i, avance = 0.4) { return moverEtapa(el, i, avance); }
+export { activarEtapas };
 
 /** Listo: el punto vuelve al disco y el disco respira una vez. */
 export function listo({ tam = 72, texto = "Listo" } = {}) {
