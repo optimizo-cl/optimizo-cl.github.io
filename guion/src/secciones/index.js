@@ -5,8 +5,9 @@ import { movimiento } from "./movimiento.js";
 import { kit } from "./kit.js";
 import { formularios } from "./formularios.js";
 import { patrones } from "./patrones.js";
+import { producto } from "./producto.js";
 
-export const CONSTRUIDAS = { ...identidad, ...escenas, ...movimiento, ...kit, ...formularios, ...patrones };
+export const CONSTRUIDAS = { ...identidad, ...escenas, ...movimiento, ...kit, ...formularios, ...patrones, ...producto };
 export const REPINTAR = [...REPINTAR_IDENTIDAD, "firma"];
 
 /** Marcador honesto de una sección que todavía no se construye. */

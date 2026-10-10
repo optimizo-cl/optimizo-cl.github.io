@@ -1,0 +1,96 @@
+/* Capítulo 5 · piezas propias de Optimizo. */
+
+/* ── Mapa de procesos: del caos al orden ── */
+.mapa { position: relative; overflow: hidden; height: 420px; transition: height var(--d-4) var(--llegada); }
+.mapa__columnas { position: absolute; inset: 16px 16px auto; display: grid; grid-template-columns: repeat(4, 1fr); opacity: 0; transition: opacity var(--d-3) var(--suave); }
+.mapa__columnas span { padding-left: 6px; }
+.mapa[data-estado="orden"] .mapa__columnas { opacity: 1; }
+.mapa__tarjeta { position: absolute; top: 0; left: 0; display: grid; gap: 6px; justify-items: start; padding: 14px 16px; border-radius: var(--r-3); background: var(--superficie-2); box-shadow: var(--sombra-2), inset 0 0 0 1px var(--borde); transition: transform var(--d-4) var(--llegada), width var(--d-4) var(--llegada); }
+.mapa__tarjeta b { font-weight: 600; font-size: var(--t-chico); }
+.mapa[data-estado="orden"] .mapa__tarjeta { box-shadow: var(--sombra-1), inset 0 0 0 1px var(--borde); }
+.mapa__tarjeta:nth-child(odd) { transition-delay: 60ms; }
+@media (max-width: 640px) { .mapa__columnas { display: none; } }
+
+/* ── Escalera de madurez ── */
+.escalera { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; align-items: end; padding: var(--e-6) var(--e-5) var(--e-5); }
+.escalon { position: relative; display: grid; gap: 8px; align-content: start; justify-items: start; text-align: left; padding: 16px; min-height: calc(150px + var(--i) * 34px); border-radius: var(--r-3); background: var(--superficie-2); box-shadow: var(--sombra-1), inset 0 0 0 1px var(--borde); transition: box-shadow var(--d-2) var(--suave), transform var(--d-2) var(--llegada); }
+.escalon:hover { transform: translateY(-2px); }
+.escalon[aria-pressed="true"] { box-shadow: var(--sombra-2), inset 0 0 0 2px var(--acento-profundo); }
+.escalon .icono { color: var(--texto-2); }
+.escalon b { font-weight: 600; }
+.escalon__n { font-size: 12px; font-weight: 700; color: var(--texto-3); }
+.escalon--hoy { background: color-mix(in srgb, var(--acento) 10%, var(--superficie-2)); }
+.escalon__punto { position: absolute; top: -9px; right: 16px; width: 18px; height: 18px; border-radius: 50%; background: var(--acento); box-shadow: 0 0 0 4px var(--superficie); animation: punto-flota 3.2s var(--suave) infinite; }
+@keyframes punto-flota { 50% { transform: translateY(-4px); } }
+.escalon--sigue .insignia { margin-top: auto; }
+@media (max-width: 900px) { .escalera { grid-template-columns: 1fr; align-items: stretch; } .escalon { min-height: 0; } }
+
+/* ── Implementación ── */
+.impl { padding: var(--e-6); display: grid; gap: var(--e-6); }
+.impl__cabeza { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--e-4); flex-wrap: wrap; }
+.impl__etapas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--e-3); }
+.impl__etapa { display: grid; gap: 2px; padding: 14px; border-radius: var(--r-2); background: var(--superficie-hundida); }
+.impl__etapa b { font-weight: 600; font-size: var(--t-chico); }
+.impl__etapa--hecho { background: var(--exito-suave); }
+.impl__etapa--en-curso { background: var(--superficie-2); box-shadow: inset 0 0 0 2px var(--acento-profundo); }
+.impl__dos { display: grid; grid-template-columns: 1.3fr 1fr; gap: var(--e-6); }
+.impl__dos > div { display: grid; gap: var(--e-3); align-content: start; }
+.tareas, .hitos { list-style: none; padding: 0; display: grid; }
+.tareas li { display: grid; grid-template-columns: 22px 1fr auto; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--borde); font-size: var(--t-chico); }
+.tarea__check { width: 20px; height: 20px; border-radius: 6px; box-shadow: inset 0 0 0 1.5px var(--borde-fuerte); display: grid; place-items: center; }
+.tareas li.hecha .tarea__check { background: var(--acento-profundo); color: #fff; box-shadow: none; }
+.tareas li.hecha > span:nth-child(2) { color: var(--texto-3); text-decoration: line-through; }
+.hitos li { display: grid; grid-template-columns: 64px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--borde); font-size: var(--t-chico); }
+.hitos b { font-variant-numeric: tabular-nums; color: var(--acento-texto); }
+@media (max-width: 860px) { .impl__etapas { grid-template-columns: repeat(2, 1fr); } .impl__dos { grid-template-columns: 1fr; } .impl { padding: var(--e-5) var(--e-4); } }
+
+/* ── Documentos (informe y propuesta) ── */
+.documento { max-width: 880px; margin-inline: auto; width: 100%; padding: clamp(24px, 5vw, 64px); display: grid; gap: var(--e-5); background: var(--papel); }
+:root[data-tema="oscuro"] .documento { background: var(--superficie); }
+.documento__cabeza { display: flex; justify-content: space-between; align-items: center; gap: var(--e-4); padding-bottom: var(--e-5); border-bottom: 1px solid var(--borde); margin-bottom: var(--e-3); }
+.documento__logo { width: 140px; height: auto; color: var(--texto); }
+.documento__resumen { display: grid; grid-template-columns: auto 1fr; gap: var(--e-6); align-items: center; padding: var(--e-5); border-radius: var(--r-3); background: var(--superficie-2); box-shadow: inset 0 0 0 1px var(--borde); }
+.documento__dos { display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--e-6); align-items: start; }
+.documento__seccion { display: grid; gap: var(--e-3); padding-top: var(--e-4); }
+.documento__cierre { grid-template-columns: 1fr auto; align-items: center; gap: var(--e-5); padding: var(--e-5); border-radius: var(--r-3); background: var(--superficie-2); box-shadow: inset 0 0 0 1px var(--borde); }
+.documento__pie { padding-top: var(--e-4); border-top: 1px solid var(--borde); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.hallazgos { padding-left: 22px; display: grid; gap: 4px; margin-top: var(--e-3); }
+.hallazgos li { padding: 8px 0; border-bottom: 1px solid var(--borde); }
+.hallazgos li { display: list-item; }
+.hallazgos li > div { display: inline-grid; gap: 2px; width: calc(100% - 80px); vertical-align: top; }
+.hallazgos li > .mono { float: right; color: var(--texto-2); }
+.hallazgos b { font-weight: 600; font-size: var(--t-chico); }
+.matriz { display: grid; gap: 8px; }
+.matriz svg { width: 100%; height: auto; }
+.matriz__fondo { fill: var(--superficie-2); stroke: var(--borde); }
+.matriz__ganar { fill: color-mix(in srgb, var(--acento) 12%, transparent); }
+.matriz__eje { stroke: var(--borde-fuerte); stroke-dasharray: 3 3; }
+.matriz__zona { font-size: 11px; font-weight: 700; fill: var(--acento-texto); letter-spacing: .02em; }
+.matriz__rot { font-size: 11px; fill: var(--texto-3); }
+.matriz__punto { fill: var(--navy); stroke: var(--superficie-2); stroke-width: 2; }
+:root[data-tema="oscuro"] .matriz__punto { fill: var(--hueso); }
+.matriz__n { font-size: 10px; font-weight: 700; fill: var(--hueso); }
+:root[data-tema="oscuro"] .matriz__n { fill: var(--navy); }
+.tabla-propuesta th { text-align: left; font-size: var(--t-rotulo); color: var(--texto-3); font-weight: 600; padding: 8px 4px; border-bottom: 1.5px solid var(--borde-fuerte); }
+.tabla-propuesta th.num { text-align: right; }
+@media (max-width: 760px) { .documento__resumen, .documento__dos, .documento__cierre { grid-template-columns: 1fr; } }
+
+/* ── Sello «de Optimizo» y marcas de producto ── */
+.sello { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; letter-spacing: .01em; color: var(--texto-2); }
+.sello__iso { width: 14px; height: 14px; }
+.sello--claro { color: rgba(255, 255, 255, .82); }
+.producto-marca { display: flex; align-items: center; gap: 16px; padding: var(--e-5); border-radius: var(--r-3); min-height: 132px; }
+.producto-marca > span:last-child { display: grid; gap: 6px; }
+.producto-marca b { font-size: 30px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+.producto-marca__simbolo { width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center; flex: none; }
+.producto-marca__simbolo img { width: 34px; height: 38px; }
+.producto-marca--medula { background: linear-gradient(140deg, #1B75FD, #013ECC); color: #fff; }
+.producto-marca--medula .producto-marca__simbolo { background: rgba(255, 255, 255, .14); }
+.producto-marca--pendiente { background: var(--superficie-hundida); box-shadow: inset 0 0 0 1.5px var(--borde-fuerte); }
+.producto-marca--pendiente .producto-marca__simbolo { background: var(--superficie-2); box-shadow: inset 0 0 0 1px var(--borde-fuerte); font-size: 26px; font-weight: 700; color: var(--texto-3); }
+.login-mini { display: grid; justify-items: center; gap: 12px; padding: var(--e-5) var(--e-5) var(--e-4); border-radius: var(--r-3); background: #fff; color: #0B1B33; box-shadow: inset 0 0 0 1px var(--borde); }
+.login-mini__simbolo { width: 34px; height: 38px; color: #1B75FD; filter: invert(33%) sepia(98%) saturate(2400%) hue-rotate(208deg) brightness(101%); }
+.login-mini .campo__control { width: 100%; }
+.login-mini .boton { width: 100%; background: #1B75FD; color: #fff; }
+.login-mini__pie { padding-top: 8px; }
+.login-mini .sello { color: #5B6475; }
