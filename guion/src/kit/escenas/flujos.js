@@ -37,7 +37,7 @@ function disposicion(ancho, red) {
 }
 
 export function flujos(contenedor, red = RED_QUILLAY) {
-  let lay, svg, caminos = {}, punto, rastro;
+  let lay, svg, caminos = {}, punto, rastro, ultimoT = 0;
   const centro = red.centro[0];
 
   const armar = () => {
@@ -64,7 +64,8 @@ export function flujos(contenedor, red = RED_QUILLAY) {
     punto = el("circle", { r: lay.vertical ? 7 : 8, class: "flujos__punto", cx: -50, cy: -50 }, svg);
   };
   armar();
-  const ro = new ResizeObserver(() => { if (disposicion(contenedor.clientWidth, red).vertical !== lay.vertical) armar(); });
+  // al rearmar (cambio de ancho) se dibuja el cuadro actual de inmediato: el punto nunca queda fuera de lugar
+  const ro = new ResizeObserver(() => { if (disposicion(contenedor.clientWidth, red).vertical !== lay.vertical) { armar(); cuadro(ultimoT); } });
   ro.observe(contenedor);
 
   // Cada ruta: 2 tramos de 2,2 s + pausas. Llegada suave en cada tramo.
@@ -72,6 +73,7 @@ export function flujos(contenedor, red = RED_QUILLAY) {
   const suave = (x) => 1 - Math.pow(1 - Math.min(Math.max(x, 0), 1), 3);
   const encender = (ids) => svg.querySelectorAll(".flujos__nodo").forEach((g) => g.classList.toggle("activo", ids.includes(g.dataset.id)));
   const cuadro = (t) => {
+    ultimoT = t;
     if (!svg.isConnected) return;
     const i = Math.floor(t / RUTA) % red.rutas.length, c = t % RUTA;
     const [de, a] = red.rutas[i];
