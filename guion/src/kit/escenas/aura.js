@@ -21,7 +21,9 @@ void main(){
   vec2 uv = gl_FragCoord.xy / res.y;
   vec2 w = vec2(fbm(uv*1.3 + vec2(t*.018, -t*.011)), fbm(uv*1.3 + vec2(5.2 - t*.014, 1.3 + t*.009)));
   float v = fbm(uv*1.1 + w*1.6 + vec2(t*.006, 0.));
-  v = smoothstep(.22, .82, v) * .92 + (gl_FragCoord.x / res.x) * .12;   // leve deriva horizontal hacia el acento
+  // el texto va a la izquierda: ahí el campo baja hacia el tono base (hueso en claro, navy en oscuro) para que se lea
+  float x = gl_FragCoord.x / res.x;
+  v = smoothstep(.22, .82, v) * (.18 + .82 * smoothstep(.12, .8, x));
   float q = v * niveles; float base = floor(q);
   float umbral = h(floor(gl_FragCoord.xy / grano));                     // umbral fijo por grano
   float nivel = (base + step(umbral, q - base)) / niveles;

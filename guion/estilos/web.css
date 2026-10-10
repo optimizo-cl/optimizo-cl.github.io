@@ -29,6 +29,10 @@
 .lamina { aspect-ratio: 16 / 9; border-radius: var(--r-2); background: var(--papel); box-shadow: var(--sombra-2), inset 0 0 0 1px var(--borde); container-type: inline-size; overflow: hidden; position: relative; isolation: isolate; }
 .lamina::before { content: ""; position: absolute; inset: 0; background-image: var(--grano); background-size: 220px; opacity: var(--grano-opacidad); z-index: -1; }
 .lamina__dentro { position: absolute; inset: 0; padding: 7cqw 7cqw; display: grid; align-content: center; gap: 2cqw; color: var(--navy); }
+/* la lámina es papel en ambos temas: su texto usa los colores fijos del papel */
+.lamina__dentro .lista-punto, .lamina__dentro .lista-punto b { color: var(--grafito); }
+.lamina--oscura .lamina__dentro .lista-punto { color: rgba(237, 238, 232, .8); }
+.a4 .chico, .a4 .rotulo { color: var(--grafito); }
 .lamina .ceja { font-size: 2cqw; color: var(--acento-texto-claro); }
 .lamina__titulo { font-size: 5.6cqw; font-weight: 700; letter-spacing: -0.035em; line-height: 1.05; max-width: 22ch; }
 .lamina__titulo--m { font-size: 4.4cqw; }

@@ -79,7 +79,7 @@
   --borde-fuerte: rgba(38, 64, 91, .24);
   --texto: var(--navy);       /* 9,15:1 sobre hueso */
   --texto-2: var(--grafito);  /* 7,4:1 */
-  --texto-3: #5F6969;         /* 4,85:1 */
+  --texto-3: #586262;         /* 4,99:1 sobre hundida · 5,39:1 sobre hueso */
   --acento-texto: var(--acento-texto-claro);
   --primario: var(--navy);
   --primario-texto: var(--hueso);
@@ -90,7 +90,7 @@
   --sombra-2: 0 2px 4px rgba(22, 38, 58, .05), 0 14px 32px -12px rgba(22, 38, 58, .18);
   --sombra-3: 0 4px 8px rgba(22, 38, 58, .06), 0 28px 64px -20px rgba(22, 38, 58, .28);
   /* Estados (reservados, no se usan como decoración) */
-  --exito: #2E7D4F; --exito-suave: #E1EFE5;
+  --exito: #256B42; --exito-suave: #E1EFE5;  /* 5,4:1 sobre su fondo */
   --alerta: #8A5A00; --alerta-suave: #F5EBD3;
   --error: #B3261E; --error-suave: #F6E1DE;
   --info: var(--navy); --info-suave: #E1E7EE;
@@ -119,7 +119,7 @@
   --sombra-3: 0 28px 64px -20px rgba(0, 0, 0, .6);
   --exito: #7CCB97; --exito-suave: rgba(124, 203, 151, .12);
   --alerta: #E8C06A; --alerta-suave: rgba(232, 192, 106, .12);
-  --error: #F2948C; --error-suave: rgba(242, 148, 140, .12);
+  --error: #F6A8A1; --error-suave: rgba(246, 168, 161, .12);  /* 5,1:1 sobre su fondo */
   --info: #A9C0DA; --info-suave: rgba(169, 192, 218, .12);
   --grano-opacidad: .45;
   color-scheme: dark;

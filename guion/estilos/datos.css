@@ -180,7 +180,7 @@ kbd { font-family: var(--letra); font-size: 12px; font-weight: 600; padding: 2px
 .resultado:hover .resultado__ico, .resultado.activo .resultado__ico { background: var(--superficie-2); }
 .resultado__cuerpo { display: grid; gap: 2px; min-width: 0; }
 .resultado__cuerpo b { font-weight: 600; font-size: var(--t-chico); }
-mark { background: color-mix(in srgb, var(--acento) 26%, transparent); color: inherit; border-radius: 3px; padding: 0 1px; }
+mark { background: color-mix(in srgb, var(--acento) 16%, transparent); font-weight: 600; color: inherit; border-radius: 3px; padding: 0 1px; }
 .dialogo--buscador { margin: 12vh auto auto; width: min(640px, calc(100vw - 32px)); }
 .dialogo--buscador::backdrop { background: rgba(14, 24, 36, .32); }
 .buscador { background: var(--superficie-2); border-radius: var(--r-4); box-shadow: var(--sombra-3); overflow: hidden; animation: dialogo-entra var(--d-3) var(--llegada); }
