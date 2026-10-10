@@ -125,6 +125,16 @@
   color-scheme: dark;
 }
 
+/* ── Marcas hermanas: colores propios (NO cambian con la paleta de Optimizo, a propósito) ── */
+:root {
+  --medula-nucleo: #013ECC; --medula-medula: #0853E0; --medula-impulso: #1B75FD; --medula-aire: #63A7FC;
+  --medula-bruma: #C6DFFD; --medula-hielo: #F2F7FE; --medula-tinta: #06102E; --medula-texto-2: #5B6475;
+  /* iconos de estado sobre superficies tinta (toasts) */
+  --exito-sobre-tinta: #8FD4A9; --error-sobre-tinta: #F2A099; --alerta-sobre-tinta: #E8C06A;
+  --texto-fijo-claro: #586262; --texto-fijo-oscuro: #C3CBCC;
+}
+:root[data-tema="oscuro"] { --exito-sobre-tinta: #256B42; --error-sobre-tinta: #B3261E; --alerta-sobre-tinta: #8A5A00; }
+
 /* ── Series de gráficas (categóricas) · validadas con el validador de dataviz (daltonismo, luminosidad, contraste).
    Orden fijo, nunca rotado. A claro: el ocre queda bajo 3:1 → las gráficas llevan etiquetas directas o tabla. ── */
 :root { --serie-1: #12968A; --serie-2: #2A6FD0; --serie-3: #E08A00; --serie-4: #C8508A; --magnitud: var(--acento-texto); }

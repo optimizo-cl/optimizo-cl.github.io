@@ -33,8 +33,8 @@
 .logo-mono.mate { background: var(--blanco); padding: var(--e-6) var(--e-5) var(--e-4); display: grid; gap: var(--e-4); justify-items: center; }
 .logo-mono--oscuro.mate { background: var(--navy); }
 .logo-mono img { width: 100%; max-width: 220px; }
-.logo-mono .rotulo { text-transform: capitalize; color: #5F6969; }
-.logo-mono--oscuro .rotulo { color: #C3CBCC; }
+.logo-mono .rotulo { text-transform: capitalize; color: var(--texto-fijo-claro); }
+.logo-mono--oscuro .rotulo { color: var(--texto-fijo-oscuro); }
 @media (max-width: 760px) { .logo-fondos, .logo-monos { grid-template-columns: 1fr; } }
 
 /* ── Color ── */

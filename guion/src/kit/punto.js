@@ -35,7 +35,7 @@ export function listo({ tam = 72, texto = "Listo" } = {}) {
 }
 
 /** Cursor del sistema con el punto (SVG). Lo dibuja el sistema operativo: cero latencia. */
-export function cursorPunto(color = "#26405B") {
+export function cursorPunto(color = getComputedStyle(document.documentElement).getPropertyValue("--navy").trim()) {
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28'><circle cx='14' cy='14' r='7' fill='${color}' stroke='white' stroke-width='2'/></svg>`;
   return `url("data:image/svg+xml,${encodeURIComponent(svg)}") 14 14, pointer`;
 }
