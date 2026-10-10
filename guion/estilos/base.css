@@ -20,6 +20,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 :where(button) { background: none; border: 0; cursor: pointer; }
 :where(a) { color: inherit; }
 :focus-visible { outline: 2px solid var(--foco); outline-offset: 3px; border-radius: 6px; }
+[hidden] { display: none !important; }
 
 /* ── Material: mate con grano ──
    El grano es parte de la superficie (como el papel o la cerámica), no una capa de ruido sobre el contenido:

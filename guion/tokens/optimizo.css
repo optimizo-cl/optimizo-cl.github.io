@@ -124,3 +124,10 @@
   --grano-opacidad: .35;
   color-scheme: dark;
 }
+
+/* ── Series de gráficas (categóricas) · validadas con el validador de dataviz (daltonismo, luminosidad, contraste).
+   Orden fijo, nunca rotado. A claro: el ocre queda bajo 3:1 → las gráficas llevan etiquetas directas o tabla. ── */
+:root { --serie-1: #12968A; --serie-2: #2A6FD0; --serie-3: #E08A00; --serie-4: #C8508A; --magnitud: var(--acento-texto); }
+:root[data-tema="oscuro"] { --serie-1: #12968A; --serie-2: #4A87E0; --serie-3: #C87A00; --serie-4: #D2649A; }
+:root[data-paleta="naranjo"] { --serie-1: #E5620F; --serie-2: #12968A; --serie-3: #2A6FD0; --serie-4: #C8508A; }
+:root[data-paleta="naranjo"][data-tema="oscuro"] { --serie-1: #E5620F; --serie-2: #12968A; --serie-3: #4A87E0; --serie-4: #D2649A; }
