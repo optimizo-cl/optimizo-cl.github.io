@@ -1,7 +1,10 @@
 /* Arma el guion desde plan.js: índice, capítulos, secciones y dock. Dos ejes: paleta (A/B) y tema (claro/oscuro). */
-import { CAPITULOS, SECCIONES, seccionesDe, CONSTRUIDAS, pendiente } from "./secciones.js";
-import { capituloDe } from "./plan.js";
-import { icono, cargarIconos } from "./kit/iconos.js";
+import { CAPITULOS, SECCIONES, seccionesDe, capituloDe } from "./plan.js";
+import { CONSTRUIDAS, REPINTAR, pendiente } from "./secciones/index.js";
+import { icono, cargarIconos, rellenarIconos } from "./kit/iconos.js";
+
+// El estado sale de lo construido: no se escribe a mano
+for (const sec of SECCIONES) sec.estado = CONSTRUIDAS[sec.id] ? "listo" : "por-hacer";
 
 const raiz = document.documentElement;
 const guardar = (k, v) => { try { localStorage.setItem(k, v); } catch {} };
@@ -43,12 +46,16 @@ async function armar() {
   await pintar();
 }
 
-/** Vuelve a pintar las secciones construidas (al cambiar paleta o tema, algunas leen tokens). */
-async function pintar() {
+/** Pinta las secciones construidas. Con `solo`, repinta únicamente las que leen tokens con JS. */
+async function pintar(solo = null) {
   for (const [id, fn] of Object.entries(CONSTRUIDAS)) {
+    if (solo && !solo.includes(id)) continue;
     const el = document.getElementById(id);
-    if (el) await fn(el);
+    if (el) {
+      try { await fn(el); } catch (err) { console.error(`Sección ${id}:`, err); }
+    }
   }
+  await rellenarIconos();
 }
 
 /* ── Dock ── */
@@ -79,7 +86,7 @@ function dock() {
     if (b.dataset.paleta) { raiz.dataset.paleta = b.dataset.paleta; guardar("op-paleta", b.dataset.paleta); }
     if (b.hasAttribute("data-tema-boton")) { raiz.dataset.tema = raiz.dataset.tema === "oscuro" ? "claro" : "oscuro"; guardar("op-tema", raiz.dataset.tema); }
     marcar();
-    await pintar();
+    await pintar(REPINTAR);
   });
   marcar();
 

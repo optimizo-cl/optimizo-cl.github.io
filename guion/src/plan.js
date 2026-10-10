@@ -1,5 +1,5 @@
 /* Plan del guion visual de Optimizo: una sola fuente para el índice, el dock y las secciones.
-   estado: "listo" | "en-curso" | "por-hacer" · fase = fase del plan (docs/PLAN-GUION-VISUAL.md) */
+   fase = fase del plan (docs/PLAN-GUION-VISUAL.md). El estado lo calcula main.js según lo construido. */
 export const CAPITULOS = [
   { id: "identidad", n: "1", nombre: "Identidad", que: "Concepto, logo, color, letra, forma, material, escenas y la firma." },
   { id: "kit", n: "2", nombre: "Kit", que: "Las piezas que usa todo, cada una con su ficha de uso." },

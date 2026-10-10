@@ -1,0 +1,26 @@
+/* Estilos de las piezas del propio guion: marcos, fichas, rejillas. */
+.rejilla { display: grid; gap: var(--e-4); }
+.rejilla--1 { grid-template-columns: 1fr; }
+.rejilla--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.rejilla--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.rejilla--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 900px) { .rejilla--3, .rejilla--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .rejilla--2, .rejilla--3, .rejilla--4 { grid-template-columns: 1fr; } }
+
+.marco { padding: var(--e-5); display: grid; gap: var(--e-4); align-content: start; min-width: 0; }
+.marco--ancho { grid-column: 1 / -1; }
+.marco__titulo { font-size: var(--t-rotulo); font-weight: 600; color: var(--texto-3); letter-spacing: .02em; }
+.marco__vivo { min-width: 0; }
+.marco__nota { margin-top: calc(-1 * var(--e-2)); }
+
+.ficha { border-top: 1px solid var(--borde); padding-top: var(--e-3); }
+.ficha summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 8px; font-size: var(--t-rotulo); font-weight: 600; color: var(--acento-texto); }
+.ficha summary::-webkit-details-marker { display: none; }
+.ficha summary::before { content: ""; width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(-45deg); transition: transform var(--d-2) var(--llegada); }
+.ficha[open] summary::before { transform: rotate(45deg); }
+.ficha__cuerpo { display: grid; gap: var(--e-3); padding-top: var(--e-3); font-size: var(--t-chico); color: var(--texto-2); }
+.ficha__codigo { background: var(--superficie-hundida); border-radius: var(--r-2); padding: var(--e-3) var(--e-4); overflow-x: auto; font-family: var(--letra-mono); font-size: 12.5px; line-height: 1.6; color: var(--texto); }
+.ficha__reglas { padding-left: 18px; display: grid; gap: 4px; }
+
+.ejemplo { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; letter-spacing: .02em; color: var(--texto-3); background: var(--superficie-hundida); padding: 3px 9px; border-radius: var(--r-pleno); }
+.ejemplo::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--texto-3); }

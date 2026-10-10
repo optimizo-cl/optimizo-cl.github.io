@@ -16,8 +16,16 @@ export function icono(nombre, { tam = 20, etiqueta = "" } = {}) {
 /** Carga los íconos pedidos y rellena los <svg data-icono> vacíos de la página. */
 export async function cargarIconos(nombres) {
   await Promise.all(nombres.filter((n) => !cache.has(n) && !INCRUSTADOS[n]).map(async (n) => {
-    const txt = await (await fetch(new URL(`../../assets/iconos/${n}-light.svg`, import.meta.url))).text();
+    const r = await fetch(new URL(`../../assets/iconos/${n}-light.svg`, import.meta.url));
+    if (!r.ok) { console.warn(`Ícono inexistente: ${n}`); cache.set(n, ""); return; }
+    const txt = await r.text();
     cache.set(n, txt.replace(/^<svg[^>]*>/, "").replace(/<\/svg>\s*$/, ""));
   }));
   document.querySelectorAll("svg.icono[data-icono]").forEach((s) => { if (!s.innerHTML) s.innerHTML = cache.get(s.dataset.icono) || ""; });
+}
+
+/** Busca los íconos vacíos de la página, los trae y los rellena. */
+export async function rellenarIconos() {
+  const nombres = [...new Set([...document.querySelectorAll("svg.icono[data-icono]")].filter((s) => !s.innerHTML).map((s) => s.dataset.icono))];
+  if (nombres.length) await cargarIconos(nombres);
 }
