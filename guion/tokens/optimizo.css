@@ -1,0 +1,126 @@
+/* Tokens de Optimizo — una sola fuente.
+   Dos ejes en <html>: data-paleta="teal|naranjo" (en prueba, decide Max) y data-tema="claro|oscuro".
+   Los neutros son compartidos; las paletas solo cambian el acento.
+   Contrastes medidos (WCAG) en docs y en la sección Color del guion. */
+
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fuentes/inter-opsz.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  /* ── Marca: neutros (iguales en A y B) ── */
+  --navy: #26405B;
+  --navy-profundo: #16263A;
+  --tinta: #14212F;
+  --grafito: #424E4E;
+  --hueso: #EDEEE8;
+  --papel: #F6F6F1;
+  --blanco: #FFFFFF;
+
+  /* ── Paleta A · Teal (por defecto) ── */
+  --acento-claro: #91CEC4;   /* Menta */
+  --acento: #59BDB1;         /* Teal */
+  --acento-profundo: #387E80;/* Teal profundo */
+  --acento-texto-claro: #337475; /* 4,62:1 sobre hueso */
+  --deg-a: #91CEC4;
+  --deg-b: #387E80;
+  --nombre-claro: "Menta"; --nombre-acento: "Teal"; --nombre-profundo: "Teal profundo";
+
+  /* ── Tipografía ── */
+  --letra: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", system-ui, sans-serif;
+  --letra-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
+  /* Escala (rem = 16 px) · titulares con tracking negativo como SF Display */
+  --t-hero: clamp(2.75rem, 1.6rem + 4.6vw, 5.25rem);
+  --t-1: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+  --t-2: clamp(1.5rem, 1.2rem + 1.1vw, 2rem);
+  --t-3: 1.25rem;
+  --t-cuerpo: 1.0625rem;  /* 17 px, como Apple */
+  --t-chico: 0.9375rem;   /* 15 px */
+  --t-rotulo: 0.8125rem;  /* 13 px */
+
+  /* ── Espacio (base 4) ── */
+  --e-1: 4px; --e-2: 8px; --e-3: 12px; --e-4: 16px; --e-5: 24px; --e-6: 32px; --e-7: 48px; --e-8: 64px; --e-9: 96px; --e-10: 144px;
+  --ancho: 1180px;
+  --gutter: clamp(16px, 4vw, 40px);
+
+  /* ── Forma: redondeo medio; el círculo pleno es de la marca ── */
+  --r-1: 8px; --r-2: 12px; --r-3: 16px; --r-4: 24px; --r-pleno: 999px;
+
+  /* ── Movimiento: lento y elegante ── */
+  --llegada: cubic-bezier(.16, 1, .3, 1);
+  --suave: cubic-bezier(.25, .1, .25, 1);
+  --d-1: 160ms; --d-2: 320ms; --d-3: 640ms; --d-4: 1200ms; --d-firma: 1600ms;
+
+  /* ── Capas ── */
+  --z-dock: 50; --z-menu: 60; --z-hoja: 70; --z-aviso: 80;
+}
+
+/* Paleta B · Mandarina + navy */
+:root[data-paleta="naranjo"] {
+  --acento-claro: #FFB98A;   /* Durazno */
+  --acento: #FF6A13;         /* Mandarina */
+  --acento-profundo: #B8420A;/* Brasa */
+  --acento-texto-claro: #B8420A; /* 4,71:1 sobre hueso */
+  --deg-a: #FFA05A;
+  --deg-b: #EE560E;
+  --nombre-claro: "Durazno"; --nombre-acento: "Mandarina"; --nombre-profundo: "Brasa";
+}
+
+/* ── Semánticos · claro (base) ── */
+:root {
+  --fondo: var(--hueso);
+  --superficie: var(--papel);
+  --superficie-2: var(--blanco);
+  --superficie-hundida: #E4E6DE;
+  --borde: rgba(38, 64, 91, .12);
+  --borde-fuerte: rgba(38, 64, 91, .24);
+  --texto: var(--navy);       /* 9,15:1 sobre hueso */
+  --texto-2: var(--grafito);  /* 7,4:1 */
+  --texto-3: #5F6969;         /* 4,85:1 */
+  --acento-texto: var(--acento-texto-claro);
+  --primario: var(--navy);
+  --primario-texto: var(--hueso);
+  --enfasis: var(--acento);           /* botón de acento */
+  --enfasis-texto: var(--tinta);      /* 5,7:1 sobre mandarina, 7+ sobre teal */
+  --foco: var(--acento-profundo);
+  --sombra-1: 0 1px 2px rgba(22, 38, 58, .06), 0 2px 8px -2px rgba(22, 38, 58, .08);
+  --sombra-2: 0 2px 4px rgba(22, 38, 58, .05), 0 14px 32px -12px rgba(22, 38, 58, .18);
+  --sombra-3: 0 4px 8px rgba(22, 38, 58, .06), 0 28px 64px -20px rgba(22, 38, 58, .28);
+  /* Estados (reservados, no se usan como decoración) */
+  --exito: #2E7D4F; --exito-suave: #E1EFE5;
+  --alerta: #8A5A00; --alerta-suave: #F5EBD3;
+  --error: #B3261E; --error-suave: #F6E1DE;
+  --info: var(--navy); --info-suave: #E1E7EE;
+  --grano-opacidad: .55;
+  color-scheme: light;
+}
+
+/* ── Semánticos · oscuro ── */
+:root[data-tema="oscuro"] {
+  --fondo: var(--navy-profundo);
+  --superficie: #1C2F45;
+  --superficie-2: #22374F;
+  --superficie-hundida: #122030;
+  --borde: rgba(237, 238, 232, .10);
+  --borde-fuerte: rgba(237, 238, 232, .22);
+  --texto: var(--hueso);      /* 13,1:1 */
+  --texto-2: #C3CBCC;
+  --texto-3: #9AA6A8;
+  --acento-texto: var(--acento-claro);
+  --primario: var(--hueso);
+  --primario-texto: var(--navy-profundo);
+  --enfasis-texto: var(--tinta);
+  --foco: var(--acento-claro);
+  --sombra-1: 0 1px 2px rgba(0, 0, 0, .3);
+  --sombra-2: 0 14px 32px -12px rgba(0, 0, 0, .5);
+  --sombra-3: 0 28px 64px -20px rgba(0, 0, 0, .6);
+  --exito: #7CCB97; --exito-suave: rgba(124, 203, 151, .12);
+  --alerta: #E8C06A; --alerta-suave: rgba(232, 192, 106, .12);
+  --error: #F2948C; --error-suave: rgba(242, 148, 140, .12);
+  --info: #A9C0DA; --info-suave: rgba(169, 192, 218, .12);
+  --grano-opacidad: .35;
+  color-scheme: dark;
+}

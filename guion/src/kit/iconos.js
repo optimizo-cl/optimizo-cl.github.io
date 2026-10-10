@@ -1,0 +1,23 @@
+/* Íconos Phosphor, peso línea fina (light), MIT. Se incrustan en línea para heredar el color del texto.
+   Los SVG viven en assets/iconos/<nombre>-light.svg; los usados por el guion se cachean acá. */
+const cache = new Map();
+
+// Los íconos que el guion usa al arrancar van incrustados (sin esperar la red).
+const INCRUSTADOS = {
+  list: '<path d="M222,128a6,6,0,0,1-6,6H40a6,6,0,0,1,0-12H216A6,6,0,0,1,222,128ZM40,70H216a6,6,0,0,0,0-12H40a6,6,0,0,0,0,12ZM216,186H40a6,6,0,0,0,0,12H216a6,6,0,0,0,0-12Z"/>',
+};
+
+export function icono(nombre, { tam = 20, etiqueta = "" } = {}) {
+  const aria = etiqueta ? `role="img" aria-label="${etiqueta}"` : 'aria-hidden="true"';
+  const cuerpo = INCRUSTADOS[nombre] ?? cache.get(nombre) ?? "";
+  return `<svg class="icono" data-icono="${nombre}" width="${tam}" height="${tam}" viewBox="0 0 256 256" fill="currentColor" ${aria}>${cuerpo}</svg>`;
+}
+
+/** Carga los íconos pedidos y rellena los <svg data-icono> vacíos de la página. */
+export async function cargarIconos(nombres) {
+  await Promise.all(nombres.filter((n) => !cache.has(n) && !INCRUSTADOS[n]).map(async (n) => {
+    const txt = await (await fetch(new URL(`../../assets/iconos/${n}-light.svg`, import.meta.url))).text();
+    cache.set(n, txt.replace(/^<svg[^>]*>/, "").replace(/<\/svg>\s*$/, ""));
+  }));
+  document.querySelectorAll("svg.icono[data-icono]").forEach((s) => { if (!s.innerHTML) s.innerHTML = cache.get(s.dataset.icono) || ""; });
+}

@@ -1,0 +1,126 @@
+/* Base del guion: reset, letra, retícula, material mate con grano y el dock. Orden: tokens → base → secciones. */
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 24px; }
+body {
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: var(--letra);
+  font-size: var(--t-cuerpo);
+  line-height: 1.5;
+  letter-spacing: -0.011em;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color var(--d-3) var(--suave), color var(--d-3) var(--suave);
+}
+img, svg { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:where(button) { background: none; border: 0; cursor: pointer; }
+:where(a) { color: inherit; }
+:focus-visible { outline: 2px solid var(--foco); outline-offset: 3px; border-radius: 6px; }
+
+/* ── Material: mate con grano ──
+   El grano es parte de la superficie (como el papel o la cerámica), no una capa de ruido sobre el contenido:
+   vive DETRÁS del contenido, dentro de cada superficie, y se mezcla con su color. */
+:root {
+  --grano: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+}
+body::before, .mate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--grano);
+  background-size: 220px;
+  mix-blend-mode: soft-light;
+  opacity: var(--grano-opacidad);
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 0;
+}
+body::before { position: fixed; z-index: -1; }
+.mate {
+  position: relative;
+  isolation: isolate;
+  background: var(--superficie);
+  border-radius: var(--r-3);
+  box-shadow: var(--sombra-1), inset 0 0 0 1px var(--borde);
+}
+.mate > * { position: relative; z-index: 1; }
+
+/* ── Retícula ── */
+.envoltura { width: min(100% - 2 * var(--gutter), var(--ancho)); margin-inline: auto; }
+
+/* ── Tipos de texto ── */
+.ceja { display: inline-flex; align-items: center; gap: 10px; font-size: var(--t-rotulo); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--acento-texto); }
+.ceja::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--acento); flex: none; }
+.titulo-1 { font-size: var(--t-1); font-weight: 700; line-height: 1.06; letter-spacing: -0.032em; text-wrap: balance; }
+.titulo-2 { font-size: var(--t-2); font-weight: 650; line-height: 1.15; letter-spacing: -0.022em; text-wrap: balance; }
+.titulo-3 { font-size: var(--t-3); font-weight: 600; letter-spacing: -0.015em; }
+.bajada { font-size: 1.1875rem; line-height: 1.5; color: var(--texto-2); max-width: 60ch; text-wrap: pretty; }
+.chico { font-size: var(--t-chico); color: var(--texto-2); }
+.rotulo { font-size: var(--t-rotulo); color: var(--texto-3); }
+.mono { font-family: var(--letra-mono); font-size: .875em; letter-spacing: 0; }
+
+/* ── Secciones del guion ── */
+.seccion { padding-block: var(--e-9); border-top: 1px solid var(--borde); }
+.seccion__cabeza { display: grid; gap: var(--e-3); margin-bottom: var(--e-7); max-width: 760px; }
+.seccion__cuerpo { display: grid; gap: var(--e-5); }
+.capitulo { padding-block: var(--e-9) var(--e-6); }
+.capitulo__n { font-size: var(--t-rotulo); font-weight: 600; color: var(--texto-3); letter-spacing: .04em; }
+.capitulo__nombre { font-size: var(--t-hero); font-weight: 700; letter-spacing: -0.04em; line-height: 1; margin-top: var(--e-3); }
+.capitulo__que { margin-top: var(--e-4); }
+
+/* Pendiente: la sección existe pero todavía no se construye (honesto, no relleno) */
+.pendiente { padding: var(--e-6); display: flex; gap: var(--e-5); align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.pendiente__que { color: var(--texto-2); max-width: 56ch; }
+.estado { display: inline-flex; align-items: center; gap: 8px; font-size: var(--t-rotulo); font-weight: 600; padding: 6px 12px; border-radius: var(--r-pleno); background: var(--superficie-hundida); color: var(--texto-2); white-space: nowrap; }
+.estado::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--texto-3); }
+.estado--listo::before { background: var(--exito); }
+.estado--en-curso::before { background: var(--acento); }
+
+/* ── Índice ── */
+.indice { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--e-4); }
+.indice__cap { padding: var(--e-5); display: grid; gap: var(--e-3); align-content: start; }
+.indice__cap h3 { font-size: var(--t-3); font-weight: 650; letter-spacing: -0.015em; }
+.indice__cap ol { list-style: none; padding: 0; display: grid; gap: 2px; }
+.indice__cap a { display: flex; justify-content: space-between; gap: 8px; text-decoration: none; font-size: var(--t-chico); color: var(--texto-2); padding: 5px 8px; margin-inline: -8px; border-radius: var(--r-1); transition: background-color var(--d-1) var(--suave), color var(--d-1) var(--suave); }
+.indice__cap a:hover { background: var(--superficie-hundida); color: var(--texto); }
+.indice__cap a i { width: 7px; height: 7px; border-radius: 50%; background: var(--borde-fuerte); align-self: center; flex: none; }
+.indice__cap a[data-estado="listo"] i { background: var(--exito); }
+.indice__cap a[data-estado="en-curso"] i { background: var(--acento); }
+
+/* ── Dock ── */
+.dock {
+  position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%);
+  z-index: var(--z-dock);
+  display: flex; align-items: center; gap: 4px;
+  padding: 6px; border-radius: var(--r-pleno);
+  background: var(--superficie-2);
+  box-shadow: var(--sombra-3), inset 0 0 0 1px var(--borde);
+  max-width: calc(100vw - 24px);
+}
+.dock__donde { display: grid; padding: 4px 14px 4px 12px; min-width: 0; line-height: 1.2; }
+.dock__donde b { font-size: var(--t-chico); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 30ch; }
+.dock__donde span { font-size: 12px; color: var(--texto-3); white-space: nowrap; }
+.dock__sep { width: 1px; height: 24px; background: var(--borde); margin-inline: 4px; }
+.dock__boton { display: inline-flex; align-items: center; gap: 8px; height: 40px; min-width: 40px; justify-content: center; padding-inline: 12px; border-radius: var(--r-pleno); font-size: var(--t-chico); font-weight: 600; color: var(--texto-2); transition: background-color var(--d-1) var(--suave), color var(--d-1) var(--suave); }
+.dock__boton:hover { background: var(--superficie-hundida); color: var(--texto); }
+.dock__boton[aria-pressed="true"] { background: var(--primario); color: var(--primario-texto); }
+.dock__boton svg { width: 20px; height: 20px; }
+.dock__muestra { width: 14px; height: 14px; border-radius: 50%; flex: none; }
+
+@media (max-width: 720px) {
+  .seccion { padding-block: var(--e-8); }
+  .dock__donde span { display: none; }
+  .dock__donde { flex: 0 1 auto; padding-inline: 8px; }
+  .dock__donde b { max-width: 12ch; }
+  .dock__boton .solo-ancho { display: none; }
+}
+
+@media (max-width: 420px) { .dock__donde { display: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; scroll-behavior: auto !important; }
+}

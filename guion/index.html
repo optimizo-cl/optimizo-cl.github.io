@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es" data-paleta="teal" data-tema="claro">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Optimizo — guion visual</title>
+<meta name="description" content="El lenguaje visual completo de Optimizo, funcionando.">
+<link rel="icon" href="assets/logo/optimizo-isotipo.svg">
+<link rel="preload" href="assets/fuentes/inter-opsz.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="tokens/optimizo.css">
+<link rel="stylesheet" href="estilos/base.css">
+<link rel="stylesheet" href="estilos/movimiento.css">
+<link rel="stylesheet" href="estilos/secciones.css">
+<script>
+  // Paleta y tema antes de pintar (sin parpadeo)
+  try {
+    const p = new URLSearchParams(location.search);
+    document.documentElement.dataset.paleta = p.get("paleta") || localStorage.getItem("op-paleta") || "teal";
+    document.documentElement.dataset.tema = p.get("tema") || localStorage.getItem("op-tema") || "claro";
+  } catch (e) {}
+</script>
+<script type="module" src="src/main.js"></script>
+</head>
+<body>
+<main id="guion"></main>
+</body>
+</html>
