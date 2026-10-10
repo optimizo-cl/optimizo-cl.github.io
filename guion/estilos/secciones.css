@@ -89,9 +89,9 @@
 
 /* ── Forma ── */
 .radios { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--e-4); }
-.radio { display: grid; gap: 6px; }
-.radio i { height: 96px; background: var(--superficie-2); }
-.radio b { font-size: var(--t-chico); font-weight: 600; }
+.radio-ej { display: grid; gap: 6px; }
+.radio-ej i { height: 96px; background: var(--superficie-2); }
+.radio-ej b { font-size: var(--t-chico); font-weight: 600; }
 .sombras { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--e-6); padding: var(--e-4); }
 .sombra { padding: var(--e-6) var(--e-5); display: grid; gap: 4px; background: var(--superficie-2); }
 .bordes { display: grid; gap: var(--e-3); }

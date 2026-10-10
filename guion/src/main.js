@@ -2,6 +2,8 @@
 import { CAPITULOS, SECCIONES, seccionesDe, capituloDe } from "./plan.js";
 import { CONSTRUIDAS, REPINTAR, pendiente } from "./secciones/index.js";
 import { icono, cargarIconos, rellenarIconos } from "./kit/iconos.js";
+import { activarControles } from "./kit/controles.js";
+import { activarCampos } from "./kit/campos.js";
 
 // El estado sale de lo construido: no se escribe a mano
 for (const sec of SECCIONES) sec.estado = CONSTRUIDAS[sec.id] ? "listo" : "por-hacer";
@@ -104,6 +106,8 @@ function dock() {
   document.querySelectorAll("#guion section, #guion header").forEach((s) => obs.observe(s));
 }
 
+activarControles();
+activarCampos();
 await cargarIconos(["list", "moon", "sun"]);
 await armar();
 dock();

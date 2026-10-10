@@ -1,7 +1,7 @@
 /* Kit: piezas de la marca. Se carga después de base y antes de secciones. */
 
 /* ── Segmentado ── */
-.segmento { display: inline-flex; padding: 3px; gap: 2px; border-radius: var(--r-pleno); background: var(--superficie-hundida); }
+.segmento { display: inline-flex; justify-self: start; width: max-content; max-width: 100%; padding: 3px; gap: 2px; border-radius: var(--r-pleno); background: var(--superficie-hundida); }
 .segmento button { height: 32px; padding-inline: 14px; border-radius: var(--r-pleno); font-size: var(--t-chico); font-weight: 500; color: var(--texto-2); transition: background-color var(--d-2) var(--llegada), color var(--d-2) var(--llegada), box-shadow var(--d-2) var(--llegada); }
 .segmento button:hover { color: var(--texto); }
 .segmento button[aria-pressed="true"] { background: var(--superficie-2); color: var(--texto); font-weight: 600; box-shadow: var(--sombra-1), inset 0 0 0 1px var(--borde); }

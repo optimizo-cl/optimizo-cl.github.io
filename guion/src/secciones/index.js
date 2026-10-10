@@ -2,8 +2,9 @@
 import { identidad, REPINTAR_IDENTIDAD } from "./identidad.js";
 import { escenas } from "./escenas.js";
 import { movimiento } from "./movimiento.js";
+import { kit } from "./kit.js";
 
-export const CONSTRUIDAS = { ...identidad, ...escenas, ...movimiento };
+export const CONSTRUIDAS = { ...identidad, ...escenas, ...movimiento, ...kit };
 export const REPINTAR = [...REPINTAR_IDENTIDAD, "firma"];
 
 /** Marcador honesto de una sección que todavía no se construye. */

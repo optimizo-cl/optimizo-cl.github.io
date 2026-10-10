@@ -143,7 +143,7 @@ export const identidad = {
   async forma(el) {
     const radios = [["r-1", 8, "Insignias, campos chicos"], ["r-2", 12, "Botones, campos"], ["r-3", 16, "Tarjetas"], ["r-4", 24, "Hojas, diálogos"], ["pleno", 999, "Solo marca y píldoras"]];
     cuerpo(el).innerHTML = rejilla([
-      marco("Radios · redondeo medio", `<div class="radios">${radios.map(([n, r, uso]) => `<div class="radio"><i class="mate" style="border-radius:${Math.min(r, 48)}px"></i><b>${n}</b><span class="rotulo">${r === 999 ? "pleno" : r + " px"} · ${uso}</span></div>`).join("")}</div>`,
+      marco("Radios · redondeo medio", `<div class="radios">${radios.map(([n, r, uso]) => `<div class="radio-ej"><i class="mate" style="border-radius:${Math.min(r, 48)}px"></i><b>${n}</b><span class="rotulo">${r === 999 ? "pleno" : r + " px"} · ${uso}</span></div>`).join("")}</div>`,
         { nota: "El círculo pleno se reserva para la marca (isotipo, punto) y para píldoras de estado.", ancho: true }),
       marco("Profundidad", `<div class="sombras">${[1, 2, 3].map((n) => `<div class="mate sombra" style="box-shadow:var(--sombra-${n}),inset 0 0 0 1px var(--borde)"><b>Nivel ${n}</b><span class="rotulo">${["Tarjetas en reposo", "Menús y popovers", "Diálogos y el dock"][n - 1]}</span></div>`).join("")}</div>`,
         { nota: "Sombras largas y suaves, nunca negras duras. En oscuro, la profundidad la da la superficie más clara.", ancho: true }),
