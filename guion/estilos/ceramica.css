@@ -1,0 +1,76 @@
+/* Materiales v2. La cerámica es el material de las piezas que se tocan; el papel, de lo que flota (popups, tooltips).
+   Mate siempre: la luz viene de arriba, el canto superior brilla apenas, el grano es parte de la superficie. */
+
+.ceramica {
+  --c-base: var(--superficie-2);
+  --c-luz: color-mix(in srgb, var(--c-base) 70%, #fff);
+  --c-sombra: color-mix(in srgb, var(--c-base) 88%, var(--navy-profundo));
+  position: relative; isolation: isolate;
+  background:
+    radial-gradient(120% 140% at 30% -20%, var(--c-luz), transparent 55%),
+    linear-gradient(180deg, var(--c-base), var(--c-sombra));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .55),          /* canto iluminado */
+    inset 0 -2px 0 rgba(22, 38, 58, .07),             /* canto inferior */
+    0 1px 1px rgba(22, 38, 58, .10),                  /* contacto */
+    0 8px 18px -10px rgba(22, 38, 58, .35);           /* sombra de apoyo */
+}
+.ceramica::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background-image: var(--grano); background-size: 180px; opacity: calc(var(--grano-opacidad) * .9); pointer-events: none; z-index: -1; }
+:root[data-tema="oscuro"] .ceramica { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .10), inset 0 -2px 0 rgba(0, 0, 0, .25), 0 1px 1px rgba(0, 0, 0, .4), 0 10px 22px -10px rgba(0, 0, 0, .6); }
+
+/* variantes de esmalte */
+.ceramica--navy { --c-base: var(--navy); color: var(--hueso); }
+.ceramica--acento { --c-base: var(--acento); color: var(--tinta); }
+.ceramica--profundo { --c-base: var(--acento-profundo); color: #fff; }
+.ceramica--hueso { --c-base: var(--hueso); }
+:root[data-tema="oscuro"] .ceramica--navy { --c-base: var(--hueso); color: var(--navy-profundo); }
+
+/* presionada: se hunde (la luz pasa adentro) */
+.ceramica--hundida, .ceramica.presionada {
+  background: linear-gradient(180deg, var(--c-sombra), var(--c-base));
+  box-shadow: inset 0 2px 5px rgba(22, 38, 58, .22), inset 0 -1px 0 rgba(255, 255, 255, .25), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+/* papel: popups y tooltips */
+.papel { position: relative; isolation: isolate; background: var(--superficie-2); box-shadow: 0 1px 0 rgba(255, 255, 255, .6) inset, 0 2px 6px rgba(22, 38, 58, .08), 0 24px 48px -20px rgba(22, 38, 58, .32), 0 0 0 1px var(--borde); }
+.papel::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background-image: var(--grano); background-size: 160px; opacity: calc(var(--grano-opacidad) * .7); pointer-events: none; z-index: -1; }
+
+/* luz que sigue al puntero (se usa en bancos de material y fichas): --lx/--ly en % los escribe JS */
+.luz-viva { background-image: radial-gradient(circle at var(--lx, 30%) var(--ly, 0%), rgba(255, 255, 255, .55), transparent 45%), var(--fondo-luz, none); }
+
+/* ── Presentador de piezas: pestañas Vivo / Anatomía / Movimiento / Uso ── */
+.pieza { display: grid; gap: var(--e-4); }
+.pieza__pestanas { display: inline-flex; gap: 4px; position: relative; justify-self: start; padding: 4px; border-radius: var(--r-pleno); background: var(--superficie-hundida); }
+.pieza__pestanas button { position: relative; z-index: 1; height: 44px; padding-inline: 16px; border-radius: var(--r-pleno); font-size: var(--t-chico); font-weight: 600; color: var(--texto-2); transition: color var(--d-2) var(--suave); }
+.pieza__pestanas button[aria-selected="true"] { color: var(--texto); }
+.pieza__pestanas i { position: absolute; z-index: 0; top: 4px; bottom: 4px; left: var(--x, 4px); width: var(--w, 80px); border-radius: var(--r-pleno); background: var(--superficie-2); box-shadow: var(--sombra-1); transition: left var(--d-3) var(--llegada), width var(--d-3) var(--llegada); }
+.pieza__pestanas i::after { content: ""; position: absolute; left: 50%; bottom: -9px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--acento); }
+.pieza__panel { position: relative; }
+.pieza__panel[hidden] { display: none !important; }
+.pieza__escenario { position: relative; border-radius: var(--r-4); padding: clamp(24px, 4vw, 56px); background: var(--superficie); box-shadow: inset 0 0 0 1px var(--borde); overflow: hidden; isolation: isolate; }
+.pieza__escenario::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(circle, color-mix(in srgb, var(--texto) 9%, transparent) 1px, transparent 1.4px); background-size: 16px 16px; z-index: -1; }
+
+/* cotas de anatomía */
+.anatomia { position: relative; }
+.cota { position: absolute; pointer-events: none; font-size: 11px; font-weight: 600; color: var(--acento-texto); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cota--h { height: 0; border-top: 1px solid var(--acento-profundo); }
+.cota--h::before, .cota--h::after { content: ""; position: absolute; top: -5px; height: 9px; border-left: 1px solid var(--acento-profundo); }
+.cota--h::before { left: 0; } .cota--h::after { right: 0; }
+.cota--h span { position: absolute; left: 50%; top: -18px; transform: translateX(-50%); background: var(--superficie); padding: 0 4px; border-radius: 4px; }
+.cota--v { width: 0; border-left: 1px solid var(--acento-profundo); }
+.cota--v::before, .cota--v::after { content: ""; position: absolute; left: -5px; width: 9px; border-top: 1px solid var(--acento-profundo); }
+.cota--v::before { top: 0; } .cota--v::after { bottom: 0; }
+.cota--v span { position: absolute; top: 50%; left: 8px; transform: translateY(-50%); background: var(--superficie); padding: 0 4px; border-radius: 4px; }
+.cota--caja { outline: 1px dashed color-mix(in srgb, var(--acento-profundo) 70%, transparent); outline-offset: 0; }
+.cota--caja span { position: absolute; left: 0; top: -18px; }
+.anatomia .cota { opacity: 0; transition: opacity var(--d-3) var(--suave); transition-delay: calc(var(--i, 0) * 90ms); }
+.anatomia.visible .cota { opacity: 1; }
+
+/* curvas de movimiento */
+.curva-mov { display: grid; grid-template-columns: 160px 1fr; gap: var(--e-5); align-items: center; }
+.curva-mov svg { width: 160px; height: 160px; overflow: visible; }
+.curva-mov__marco { fill: none; stroke: var(--borde-fuerte); stroke-dasharray: 3 4; }
+.curva-mov__linea { fill: none; stroke: var(--acento-profundo); stroke-width: 2.5; stroke-linecap: round; }
+.curva-mov__punto { fill: var(--acento); }
+.curva-mov__pista { position: relative; height: 44px; border-radius: 22px; background: var(--superficie-hundida); }
+.curva-mov__bola { position: absolute; top: 50%; left: 0; width: 22px; height: 22px; margin: -11px 0 0 11px; border-radius: 50%; background: var(--acento); box-shadow: var(--sombra-1); }
