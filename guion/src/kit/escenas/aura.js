@@ -47,7 +47,7 @@ export function aura(lienzo, { grano = 1.5, niveles = 9 } = {}) {
     [U.c0, U.c1, U.c2, U.c3].forEach((loc, i) => gl.uniform3fv(loc, rgbDe(sec[i])));
   };
   const ajustar = () => {
-    const dpr = Math.min(devicePixelRatio || 1, 2);
+    const dpr = 1; // resolución normal también en retina: el grano mide lo mismo y el costo cae a ¼
     const w = Math.round(lienzo.clientWidth * dpr), h = Math.round(lienzo.clientHeight * dpr);
     if (lienzo.width !== w || lienzo.height !== h) { lienzo.width = w; lienzo.height = h; gl.viewport(0, 0, w, h); }
     gl.uniform2f(U.res, w, h); gl.uniform1f(U.grano, grano * dpr); gl.uniform1f(U.niveles, niveles);

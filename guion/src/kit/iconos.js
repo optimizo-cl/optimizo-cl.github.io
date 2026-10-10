@@ -13,11 +13,20 @@ export function icono(nombre, { tam = 20, etiqueta = "" } = {}) {
   return `<svg class="icono" data-icono="${nombre}" width="${tam}" height="${tam}" viewBox="0 0 256 256" fill="currentColor" ${aria}>${cuerpo}</svg>`;
 }
 
+// Paquete con todos los íconos que usa el código (herramientas/iconos.mjs): un solo pedido.
+let paquete = null;
+function traerPaquete() {
+  return (paquete ??= fetch(new URL("../../assets/iconos-usados.json", import.meta.url)).then((r) => (r.ok ? r.json() : {})).then((j) => { for (const [k, v] of Object.entries(j)) cache.set(k, v); }).catch(() => {}));
+}
+
 /** Carga los íconos pedidos y rellena los <svg data-icono> vacíos de la página. */
 export async function cargarIconos(nombres) {
+  await traerPaquete();
+  // los que no estén en el paquete se traen uno a uno (y el aviso recuerda regenerar el paquete)
   await Promise.all(nombres.filter((n) => !cache.has(n) && !INCRUSTADOS[n]).map(async (n) => {
     const r = await fetch(new URL(`../../assets/iconos/${n}-light.svg`, import.meta.url));
     if (!r.ok) { console.warn(`Ícono inexistente: ${n}`); cache.set(n, ""); return; }
+    console.warn(`Ícono fuera del paquete: ${n} (corre node herramientas/iconos.mjs)`);
     const txt = await r.text();
     cache.set(n, txt.replace(/^<svg[^>]*>/, "").replace(/<\/svg>\s*$/, ""));
   }));

@@ -45,17 +45,32 @@ async function armar() {
     for (const sec of seccionesDe(c.id)) if (sec !== portada) html += seccionHTML(sec);
   }
   app.innerHTML = html;
-  await pintar();
+  // la portada se arma ya; el resto, cuando se acerca a la pantalla (entrada liviana)
+  await pintarUna("portada");
+  diferir();
 }
 
-/** Pinta las secciones construidas. Con `solo`, repinta únicamente las que leen tokens con JS. */
-async function pintar(solo = null) {
-  for (const [id, fn] of Object.entries(CONSTRUIDAS)) {
-    if (solo && !solo.includes(id)) continue;
-    const el = document.getElementById(id);
-    if (el) {
-      try { await fn(el); } catch (err) { console.error(`Sección ${id}:`, err); }
-    }
+const pintadas = new Set();
+async function pintarUna(id) {
+  const el = document.getElementById(id), fn = CONSTRUIDAS[id];
+  if (!el || !fn || pintadas.has(id)) return;
+  pintadas.add(id);
+  try { await fn(el); } catch (err) { console.error(`Sección ${id}:`, err); }
+  await rellenarIconos();
+}
+
+/** Arma cada sección al quedar a ~1,5 pantallas de distancia. Un ancla (#id) arma su sección de inmediato. */
+function diferir() {
+  const obs = new IntersectionObserver((entradas) => entradas.forEach((e) => { if (e.isIntersecting) { obs.unobserve(e.target); pintarUna(e.target.id); } }), { rootMargin: "150% 0px" });
+  for (const id of Object.keys(CONSTRUIDAS)) { const el = document.getElementById(id); if (el && !pintadas.has(id)) obs.observe(el); }
+  addEventListener("hashchange", () => pintarUna(location.hash.slice(1)));
+}
+
+/** Repinta las secciones ya armadas que leen tokens con JS (al cambiar paleta o tema). */
+async function pintar(solo) {
+  for (const id of solo) {
+    if (!pintadas.has(id)) continue;
+    try { await CONSTRUIDAS[id](document.getElementById(id)); } catch (err) { console.error(`Sección ${id}:`, err); }
   }
   await rellenarIconos();
 }
@@ -111,4 +126,4 @@ activarCampos();
 await cargarIconos(["list", "moon", "sun"]);
 await armar();
 dock();
-if (location.hash) document.querySelector(location.hash)?.scrollIntoView();
+if (location.hash) { await pintarUna(location.hash.slice(1)); document.getElementById(location.hash.slice(1))?.scrollIntoView(); }

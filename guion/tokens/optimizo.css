@@ -94,7 +94,7 @@
   --alerta: #8A5A00; --alerta-suave: #F5EBD3;
   --error: #B3261E; --error-suave: #F6E1DE;
   --info: var(--navy); --info-suave: #E1E7EE;
-  --grano-opacidad: .55;
+  --grano-opacidad: .7;
   color-scheme: light;
 }
 
@@ -121,7 +121,7 @@
   --alerta: #E8C06A; --alerta-suave: rgba(232, 192, 106, .12);
   --error: #F2948C; --error-suave: rgba(242, 148, 140, .12);
   --info: #A9C0DA; --info-suave: rgba(169, 192, 218, .12);
-  --grano-opacidad: .35;
+  --grano-opacidad: .45;
   color-scheme: dark;
 }
 

@@ -26,7 +26,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
    El grano es parte de la superficie (como el papel o la cerámica), no una capa de ruido sobre el contenido:
    vive DETRÁS del contenido, dentro de cada superficie, y se mezcla con su color. */
 :root {
-  --grano: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  /* motas oscuras con transparencia (claro) — sin mezcla: componer es barato y el texto queda limpio */
+  --grano: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .14  0 0 0 0 .2  0 0 0 0 .26  0 0 0 .55 -.18'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+}
+:root[data-tema="oscuro"] {
+  /* en oscuro, motas claras */
+  --grano: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .93  0 0 0 0 .93  0 0 0 0 .9  0 0 0 .5 -.2'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
 }
 body::before, .mate::before {
   content: "";
@@ -34,7 +39,6 @@ body::before, .mate::before {
   inset: 0;
   background-image: var(--grano);
   background-size: var(--grano-tam, 220px);
-  mix-blend-mode: soft-light;
   opacity: var(--grano-opacidad);
   pointer-events: none;
   border-radius: inherit;
@@ -65,7 +69,7 @@ body::before { position: fixed; z-index: -1; }
 .mono { font-family: var(--letra-mono); font-size: .875em; letter-spacing: 0; }
 
 /* ── Secciones del guion ── */
-.seccion { padding-block: var(--e-9); border-top: 1px solid var(--borde); }
+.seccion { padding-block: var(--e-9); border-top: 1px solid var(--borde); content-visibility: auto; contain-intrinsic-size: auto 1100px; }
 .seccion__cabeza { display: grid; gap: var(--e-3); margin-bottom: var(--e-7); max-width: 760px; }
 .seccion__cuerpo { display: grid; gap: var(--e-5); }
 .capitulo { padding-block: var(--e-9) var(--e-6); }

@@ -65,7 +65,7 @@ export function isotipo3d(lienzo) {
 
   const ajustar = () => {
     const w = lienzo.clientWidth, h = lienzo.clientHeight; if (!w || !h) return;
-    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2)); renderer.setSize(w, h, false);
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5)); renderer.setSize(w, h, false);
     camara.aspect = w / h; camara.updateProjectionMatrix();
   };
   ajustar(); const ro = new ResizeObserver(ajustar); ro.observe(lienzo);
@@ -87,6 +87,6 @@ export function isotipo3d(lienzo) {
     renderer.render(escena, camara);
   };
   const quitar = alCambiarPaleta(() => { colorear(); renderer.render(escena, camara); });
-  const b = bucle(lienzo, cuadro, { fps: 60 });
+  const b = bucle(lienzo, cuadro, { fps: 40 }); // movimiento lento: 40 cuadros bastan y ahorran un tercio
   return { parar() { b.parar(); ro.disconnect(); quitar(); renderer.dispose(); renderer.forceContextLoss(); } };
 }

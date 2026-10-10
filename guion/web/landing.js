@@ -5,7 +5,6 @@ import { campo, validar, activarCampos } from "../src/kit/campos.js";
 import { boton, trabajar } from "../src/kit/controles.js";
 import { listo } from "../src/kit/punto.js";
 import { isotipo } from "../src/kit/marca.js";
-import { isotipo3d } from "../src/kit/escenas/isotipo3d.js";
 import { aura } from "../src/kit/escenas/aura.js";
 import { flujos } from "../src/kit/escenas/flujos.js";
 import { sello, escaleraHTML, PASOS_MADUREZ } from "../src/secciones/producto.js";
@@ -18,6 +17,7 @@ document.querySelector("[data-sello]").innerHTML = sello({ claro: true });
 
 // Héroe: isotipo 3D (respaldo plano si no hay WebGL)
 const c3d = document.querySelector(".l-hero__3d");
+const { isotipo3d } = await import("../src/kit/escenas/isotipo3d.js");
 isotipo3d(c3d);
 if (c3d.classList.contains("sin-webgl")) document.querySelector("[data-respaldo]").innerHTML = isotipo({ clase: "firma-escape" });
 

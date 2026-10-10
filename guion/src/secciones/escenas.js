@@ -1,7 +1,6 @@
 /* Capítulo 1 · Material y escenas (fase 5). */
 import { marco, rejilla, ejemplo } from "../kit/guion.js";
 import { aura } from "../kit/escenas/aura.js";
-import { isotipo3d } from "../kit/escenas/isotipo3d.js";
 import { flujos } from "../kit/escenas/flujos.js";
 import { isotipo } from "../kit/marca.js";
 
@@ -70,6 +69,7 @@ export const escenas = {
         marco("Dónde", `<p class="chico">Portada del sitio y presentaciones. Una sola vez por página. Si el equipo no tiene WebGL, se ve el isotipo plano con la firma.</p>`),
       ], 3)}`;
     const lienzo = el.querySelector(".iso3d__lienzo");
+    const { isotipo3d } = await import("../kit/escenas/isotipo3d.js"); // three.js solo cuando hace falta
     const inst = isotipo3d(lienzo);
     if (!lienzo.classList.contains("sin-webgl")) el.querySelector(".iso3d__respaldo").hidden = true;
     reemplazar("isotipo-3d", inst);
