@@ -2,6 +2,7 @@
 import { identidad, REPINTAR_IDENTIDAD } from "./identidad.js";
 import { identidad2, REPINTAR_IDENTIDAD2 } from "./identidad2.js";
 import { escenas2 } from "./escenas2.js";
+import { punto2 } from "./punto2.js";
 import { escenas } from "./escenas.js";
 import { movimiento } from "./movimiento.js";
 import { kit } from "./kit.js";
@@ -22,8 +23,8 @@ const renombres = {
 // lo que la app real va a reemplazar, o que se fusionó
 const fuera = ["aura", "flujos", "nav-app", "sellos", "carga", "estados", "nav-celular", "nav-sitio", "paneles", "flujo-conecta"];
 
-export const CONSTRUIDAS = Object.fromEntries(Object.entries({ ...v1, ...renombres, ...identidad2, ...escenas2 }).filter(([k, v]) => v && !fuera.includes(k)));
-export const REPINTAR = [...REPINTAR_IDENTIDAD.filter((x) => x !== "portada"), ...REPINTAR_IDENTIDAD2, "firma", "landing", "correos", "firma-correo", "manual-logo", "descargas"];
+export const CONSTRUIDAS = Object.fromEntries(Object.entries({ ...v1, ...renombres, ...identidad2, ...escenas2, ...punto2, logo: (el) => punto2.logo(el, v1.logo) }).filter(([k, v]) => v && !fuera.includes(k)));
+export const REPINTAR = [...REPINTAR_IDENTIDAD.filter((x) => x !== "portada"), ...REPINTAR_IDENTIDAD2, "landing", "correos", "firma-correo", "manual-logo", "descargas"];
 
 /** Marcador honesto de una sección que todavía no se construye. */
 export function pendiente(sec) {

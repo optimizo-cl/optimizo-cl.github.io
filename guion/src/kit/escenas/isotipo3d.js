@@ -161,7 +161,7 @@ export function isotipo3d(lienzo, { material: inicial = "esmalte", interactivo =
     aNdc(e); ray.setFromCamera(ndc, camara);
     if (ray.intersectObject(punto).length) { pt.tirando = true; lienzo.style.cursor = "grabbing"; }
     else { giro.arrastrando = true; lienzo.style.cursor = "grabbing"; }
-    ultimo = { x: e.clientX, y: e.clientY, t: performance.now() }; lienzo.setPointerCapture(e.pointerId); quieto = 0;
+    ultimo = { x: e.clientX, y: e.clientY, t: performance.now() }; try { lienzo.setPointerCapture(e.pointerId); } catch {} quieto = 0;
   };
   const mover = (e) => {
     if (pt.tirando) {

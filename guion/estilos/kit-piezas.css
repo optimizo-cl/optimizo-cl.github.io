@@ -98,7 +98,7 @@
 .banner__texto b { font-weight: 600; color: var(--texto); }
 .banner__texto span { color: var(--texto-2); }
 .banner__accion { font-weight: 600; padding: 8px 12px; border-radius: 10px; background: var(--superficie-2); box-shadow: inset 0 0 0 1px var(--borde-fuerte); white-space: nowrap; }
-.banner__cerrar { width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; color: var(--texto-2); }
+.banner__cerrar { width: 44px; height: 44px; min-width: 44px; flex: none; margin: -6px; border-radius: 10px; display: grid; place-items: center; color: var(--texto-2); }
 .banner__cerrar:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
 .banner--info { background: var(--info-suave); } .banner--info > .icono { color: var(--info); }
 .banner--exito { background: var(--exito-suave); } .banner--exito > .icono { color: var(--exito); }

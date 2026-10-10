@@ -57,7 +57,7 @@
 .cap-portada:nth-of-type(even) { background: var(--navy); color: var(--hueso); }
 .cap-portada:nth-of-type(even) .bajada, .cap-portada:nth-of-type(even) .rotulo { color: rgba(237, 238, 232, .78); }
 .cap-portada:nth-of-type(even) .ceja { color: var(--acento-claro); }
-.cap-portada__escena { position: absolute; inset: 0 0 0 auto; width: min(56%, 820px); display: grid; place-items: center; pointer-events: none; -webkit-mask-image: linear-gradient(90deg, transparent, #000 28%); mask-image: linear-gradient(90deg, transparent, #000 28%); }
+.cap-portada__escena { contain: paint; position: absolute; inset: 0 0 0 auto; width: min(56%, 820px); display: grid; place-items: center; pointer-events: none; -webkit-mask-image: linear-gradient(90deg, transparent, #000 28%); mask-image: linear-gradient(90deg, transparent, #000 28%); }
 .cap-portada__texto > div { max-width: min(520px, 42vw); }
 .cap-portada__texto { position: relative; display: grid; grid-template-columns: auto 1fr; gap: clamp(16px, 3vw, 48px); align-items: end; }
 .cap-portada__n { font-size: clamp(8rem, 5rem + 14vw, 22rem); font-weight: 700; line-height: .78; letter-spacing: -0.07em; color: transparent; -webkit-text-stroke: 1.5px var(--borde-fuerte); font-variant-numeric: tabular-nums; }
@@ -104,10 +104,11 @@
 .escena-dato { fill: var(--acento); }
 .escena-dato--b { fill: currentColor; opacity: .5; }
 .escena-piezas { position: relative; width: 420px; height: 420px; perspective: 1200px; }
-.escena-pieza { position: absolute; inset: 40px; display: grid; align-items: end; padding: 34px; border-radius: 18px; background: var(--hueso); color: var(--navy); font-size: 30px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; box-shadow: var(--sombra-3); transform: rotateY(-22deg) rotateX(8deg) translateZ(calc(var(--i) * -90px)) translateX(calc(var(--i) * 46px)) translateY(calc(var(--i) * -30px)); animation: pieza-flota 9s var(--suave) infinite; animation-delay: calc(var(--i) * -3s); }
+.escena-pieza { position: absolute; inset: 40px; display: grid; align-items: end; padding: 34px; border-radius: 18px; background: var(--hueso); color: var(--navy); font-size: 30px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; box-shadow: var(--sombra-3); transform: rotateY(-22deg) rotateX(8deg) translateZ(calc(var(--i) * -90px)) translateX(calc(var(--i) * var(--dx, 46px))) translateY(calc(var(--i) * -30px)); animation: pieza-flota 9s var(--suave) infinite; animation-delay: calc(var(--i) * -3s); }
 .escena-pieza:nth-child(1) { background: var(--navy); color: var(--hueso); font-size: 72px; }
 .escena-pieza:nth-child(2) { background: var(--acento-claro); }
 @keyframes pieza-flota { 50% { translate: 0 -12px; } }
+@media (max-width: 860px) { .escena-piezas { width: 300px; height: 300px; --dx: 18px; } .escena-pieza { inset: 26px; padding: 22px; font-size: 22px; } .escena-pieza:nth-child(1) { font-size: 52px; } }
 .escena-reticula__l { stroke: currentColor; stroke-opacity: .12; stroke-width: 1; }
 .escena-cota { fill: none; stroke: var(--acento); stroke-width: 1.5; stroke-dasharray: 400; stroke-dashoffset: 400; }
 .cap-portada.abierto .escena-cota { animation: cota-traza 2.2s var(--llegada) 600ms forwards; }
