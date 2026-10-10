@@ -27,19 +27,17 @@ body { padding-bottom: 0; }
 /* ── Héroe ── */
 .l-heroe__pista { height: 180svh; position: relative; }
 .l-heroe__escena { position: sticky; top: 0; height: 100svh; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; overflow: clip; isolation: isolate; }
-.l-heroe__trama { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+.l-heroe__banner { position: absolute; inset: 0; z-index: -1; overflow: hidden; background: radial-gradient(60% 80% at 76% 50%, var(--superficie-2), transparent 70%); }
+.l-heroe__banner span { position: absolute; left: 76%; top: 50%; width: min(60vw, 820px); aspect-ratio: 1; border-radius: 50%; border: 1.5px solid var(--borde-fuerte); transform: translate(-50%, -50%); }
+.l-heroe__banner span + span { width: min(84vw, 1150px); border-style: dashed; opacity: .6; }
 .l-heroe__texto { grid-column: 1; grid-row: 1; display: grid; gap: var(--e-5); max-width: 640px; margin-inline: 0; padding-left: max(var(--gutter), calc((100vw - var(--ancho)) / 2)); transform: translateY(calc(var(--p, 0) * -100px)); opacity: calc(1 - var(--p, 0) * 1.6); }
 .l-heroe__frase { font-size: clamp(3rem, 1.4rem + 4.6vw, 6rem); font-weight: 700; line-height: .96; letter-spacing: -0.05em; text-wrap: balance; }
-.l-heroe__objeto { grid-column: 2; grid-row: 1; position: relative; height: min(76svh, 640px); transform: scale(calc(1 - var(--p, 0) * .35)) translateY(calc(var(--p, 0) * -60px)); opacity: calc(1 - var(--p, 0) * 1.3); }
-.l-heroe__3d { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1200ms var(--suave); }
-.heroe--3d .l-heroe__3d { opacity: 1; }
-.l-heroe__respaldo { position: absolute; inset: 22%; transition: opacity 900ms var(--suave); }
-.heroe--3d .l-heroe__respaldo { opacity: 0; }
-.l-heroe__respaldo svg { width: 100%; overflow: visible; }
+.l-heroe__objeto { grid-column: 2; grid-row: 1; position: relative; justify-self: center; width: min(36vw, 480px); aspect-ratio: 1; transform: scale(calc(1 - var(--p, 0) * .35)) translateY(calc(var(--p, 0) * -60px)); opacity: calc(1 - var(--p, 0) * 1.3); }
+.l-heroe__objeto svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 30px 40px rgba(22, 38, 58, .18)); }
 @media (max-width: 860px) {
   .l-heroe__pista { height: 150svh; }
   .l-heroe__escena { grid-template-columns: minmax(0, 1fr); grid-template-rows: 40svh auto; align-content: start; }
-  .l-heroe__objeto { grid-column: 1; grid-row: 1; height: 40svh; }
+  .l-heroe__objeto { grid-column: 1; grid-row: 1; width: min(64vw, 300px); align-self: center; }
   .l-heroe__texto { grid-row: 2; padding-inline: var(--gutter); gap: var(--e-4); }
   .l-heroe__frase { font-size: clamp(2.4rem, 1.6rem + 5vw, 3.4rem); }
 }
@@ -87,8 +85,10 @@ body { padding-bottom: 0; }
 @media (max-width: 860px) { .l-producto__personaje { position: relative; right: auto; top: auto; width: 150px; justify-self: start; order: -1; } .l-pasos2, .l-familia { grid-template-columns: minmax(0, 1fr); } .l-servicios2 { grid-template-columns: minmax(0, 1fr); } .l-servicio2, .l-servicio2:nth-child(4), .l-servicio2:nth-child(5) { grid-column: auto; } .l-producto { min-height: 380px; } }
 
 /* ── Cierre ── */
-.l-cierre2 { position: relative; overflow: hidden; padding-block: var(--e-10); isolation: isolate; }
-.l-cierre2__trama { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+.l-cierre2 { position: relative; overflow: hidden; padding-block: var(--e-10); isolation: isolate; background: var(--navy); color: var(--hueso); }
+.l-cierre2 .ceja { color: var(--acento-claro); } .l-cierre2 .bajada { color: rgba(237, 238, 232, .8); }
+.l-cierre2__iso { position: absolute; left: -10vw; top: 50%; width: min(48vw, 640px); transform: translateY(-50%); opacity: .14; z-index: -1; }
+.l-cierre2__iso svg { width: 100%; overflow: visible; }
 .l-cierre2__dentro { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--e-7); align-items: center; }
 .l-form2 { padding: var(--e-6); border-radius: var(--r-4); }
 .l-form2 .boton { width: 100%; }

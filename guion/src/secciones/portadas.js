@@ -1,5 +1,5 @@
 /* Escenas de las portadas de capítulo: cada capítulo abre con algo propio, vivo y liviano (SVG + CSS).
-   Las escenas WebGL grandes (Trama, 3D) viven en sus secciones; acá todo es barato y se duerme fuera de vista. */
+   Todo es SVG y CSS: barato, y se duerme fuera de vista. */
 import { isotipo } from "../kit/marca.js";
 
 const svg = (contenido, vb = "0 0 400 400") => `<svg viewBox="${vb}" class="escena-svg" aria-hidden="true">${contenido}</svg>`;
@@ -39,11 +39,16 @@ export const PORTADAS = {
     el.innerHTML = svg(`<g class="escena-trama">${pts.join("")}</g>`, "0 0 400 290");
   },
 
-  // Producto: órbitas concéntricas con puntos que las recorren y un disco al centro
-  orbitas(el) {
-    const anillos = [70, 115, 160].map((r, i) => `<circle cx="200" cy="200" r="${r}" class="escena-orbita"/>
-      <g class="escena-gira" style="--t:${18 + i * 9}s;--dir:${i % 2 ? -1 : 1}"><circle cx="${200 + r}" cy="200" r="${7 - i}" class="escena-dato"/><circle cx="${200 - r * 0.7}" cy="${200 + r * 0.71}" r="${5 - i}" class="escena-dato escena-dato--b"/></g>`).join("");
-    el.innerHTML = svg(`${anillos}<g transform="translate(150 150) scale(.72)">${isotipo({ clase: "escena-iso-mini" }).replace(/<svg[^>]*>|<\/svg>/g, "")}</g>`);
+  // Producto: el punto sale del isotipo y visita a la familia (Medula, Bárbara) antes de volver a su nido
+  familia(el) {
+    const reducido = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const ruta = "M127 167 Q 170 50 300 110 Q 345 200 300 290 Q 190 370 110 300 Q 62 235 127 167"; // empieza y termina en el nido
+    el.innerHTML = svg(`<defs><linearGradient id="fam-punto"><stop offset="0" style="stop-color:var(--deg-a)"/><stop offset="1" style="stop-color:var(--deg-b)"/></linearGradient></defs>
+      <path d="${ruta}" class="escena-ruta"/>
+      <g transform="translate(110 150) scale(.86)">${isotipo({ clase: "escena-iso-mini" }).replace(/<svg[^>]*>|<\/svg>/g, "").replace('<g class="isotipo__punto">', '<g class="isotipo__punto" style="opacity:.0">')}</g>
+      <circle cx="300" cy="110" r="34" class="escena-medula"/><text x="300" y="166" text-anchor="middle" class="escena-nombre">Medula</text>
+      <circle cx="300" cy="290" r="34" class="escena-barbara"/><circle cx="300" cy="290" r="40" class="escena-barbara-anillo"/><text x="300" y="346" text-anchor="middle" class="escena-nombre">Bárbara</text>
+      <circle r="13" fill="url(#fam-punto)" class="escena-viajero" ${reducido ? 'cx="127" cy="167"' : ""}>${reducido ? "" : `<animateMotion dur="9s" repeatCount="indefinite" calcMode="spline" keyPoints="0;0.25;0.25;0.5;0.5;1;1" keyTimes="0;0.18;0.32;0.5;0.64;0.9;1" keySplines=".45 .05 .55 .95;0 0 1 1;.45 .05 .55 .95;0 0 1 1;.45 .05 .55 .95;0 0 1 1" path="${ruta}"/>`}</circle>`);
   },
 
   // Web: piezas de marca que giran lentamente en profundidad

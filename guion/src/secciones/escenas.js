@@ -56,25 +56,6 @@ export const escenas = {
     }));
   },
 
-  async "isotipo-3d"(el) {
-    cuerpo(el).innerHTML = `
-      <div class="iso3d mate">
-        <canvas class="iso3d__lienzo" aria-label="Isotipo de Optimizo en 3D"></canvas>
-        <div class="iso3d__respaldo">${isotipo({ clase: "firma-escape" })}</div>
-        <div class="iso3d__sombra"></div>
-      </div>
-      ${rejilla([
-        marco("Material", `<p class="chico">Cerámica mate: rugosidad 0,92, sin metal, relieve con el mismo grano de la marca. El color es el degradado del isotipo plano, pintado en la pieza.</p>`),
-        marco("Movimiento", `<p class="chico">El disco se mece muy lento. Cada 14 s el punto sale de su nido, da una vuelta pasando por delante y vuelve: la firma en 3D.</p>`),
-        marco("Dónde", `<p class="chico">Portada del sitio y presentaciones. Una sola vez por página. Si el equipo no tiene WebGL, se ve el isotipo plano con la firma.</p>`),
-      ], 3)}`;
-    const lienzo = el.querySelector(".iso3d__lienzo");
-    const { isotipo3d } = await import("../kit/escenas/isotipo3d.js"); // three.js solo cuando hace falta
-    const inst = isotipo3d(lienzo);
-    if (!lienzo.classList.contains("sin-webgl")) el.querySelector(".iso3d__respaldo").hidden = true;
-    reemplazar("isotipo-3d", inst);
-  },
-
   async flujos(el) {
     cuerpo(el).innerHTML = `
       <div class="flujos mate"><div class="flujos__lienzo"></div></div>

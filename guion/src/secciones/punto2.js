@@ -8,7 +8,7 @@ import { campo } from "../kit/campos.js";
 import { icono } from "../kit/iconos.js";
 import { contar } from "../kit/coreografia.js";
 import { movimientoReducido } from "../kit/escenas/vigia.js";
-import { cargaDibuja, sincronizarCargas } from "../kit/punto.js";
+import { cargaSalto, cargaLlenado, cargaFases, fijarFase } from "../kit/punto.js";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const C = { x: 75.207, y: 71.754, r: 69.152 };
@@ -66,9 +66,9 @@ export const punto2 = {
     m.push(momento(3, "Transición de capítulo", `<div class="m-transicion" data-transicion><div class="m-transicion__a"><span class="rotulo">Capítulo 1</span><b>Identidad</b></div><div class="m-transicion__b"><span class="rotulo">Capítulo 2</span><b>Kit</b></div><i class="m-transicion__punto"></i></div>`, "El punto viaja al centro y se abre en un círculo que revela lo siguiente.", { accion: `<button type="button" class="momento2__repetir" data-rep="transicion" aria-label="Repetir transición">${icono("arrow-clockwise", { tam: 18 })}</button>` }));
     m.push(momento(4, "Indicador de lectura", `<div class="m-lectura"><div class="m-lectura__via"><i class="m-lectura__lleno"></i><i class="m-lectura__punto"></i></div><p><b class="m-lectura__n" data-lectura>0 %</b><span class="chico">del guion leído</span></p></div>`, "En la navegación, el punto recorre la línea según cuánto llevas. Es tu scroll real."));
     m.push(momento(5, "Hover de botón", `<div class="m-centro">${boton("Agendar diagnóstico", { clase: "", attrs: 'data-boton-punto', icoFin: "arrow-right" }).replace('class="boton', 'class="boton boton--punto')}</div>`, "Al pasar, la flecha se vuelve punto y avanza: el siguiente paso."));
-    m.push(momento(6, "Carga que dibuja", `<div class="m-centro">${cargaDibuja()}</div>`, "El punto traza el contorno del isotipo; al cerrarlo, el disco se llena y el punto aterriza en su nido."));
-    m.push(momento(7, "Carga larga", `<div class="m-larga" data-larga><svg viewBox="0 0 140 140" aria-hidden="true"><circle class="m-larga__anillo" cx="70" cy="70" r="26"/><circle class="m-larga__anillo" cx="70" cy="70" r="40"/><circle class="m-larga__anillo" cx="70" cy="70" r="54"/><g class="m-larga__orbita"><circle class="m-larga__punto" cx="70" cy="44" r="6"/></g><circle class="m-larga__centro" cx="70" cy="70" r="12"/></svg>
-        <div class="m-larga__texto" role="status"><b data-larga-t>Leyendo 1.240 documentos</b><span class="chico" data-larga-f>Fase 1 de 3</span></div></div>`, "Si la espera pasa de 4 s, las órbitas se abren por fases y el texto cuenta qué está pasando.", { clase: "momento2--ancho" }));
+    m.push(momento(6, "Cargas con el logo", `<div class="m-cargas"><figure>${cargaSalto({ tam: 88 })}<figcaption class="rotulo">Salto</figcaption></figure><figure>${cargaLlenado({ tam: 88 })}<figcaption class="rotulo">Se llena</figcaption></figure></div>`, "El punto sale por la mordida y aterriza; o el disco se llena y, al completarse, el punto salta. Nada gira alrededor del dibujo."));
+    m.push(momento(7, "Carga larga", `<div class="m-larga" data-larga>${cargaFases({ tam: 120, fase: 1, total: 3, etiqueta: "Avance del análisis" })}
+        <div class="m-larga__texto" role="status"><b data-larga-t>Leyendo 1.240 documentos</b><span class="chico" data-larga-f>Fase 1 de 3</span></div></div>`, "Si la espera pasa de 4 s, el disco se llena por tercios: en cada fase el punto salta y el texto cuenta qué está pasando.", { clase: "momento2--ancho" }));
     m.push(momento(8, "Éxito", `<div class="m-exito" data-exito><button type="button" class="boton boton--primario m-exito__boton" data-exito-b>Enviar diagnóstico</button>${iso("m-exito__iso", { sinPunto: true, nido: true })}<i class="m-exito__punto"></i><svg class="m-exito__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9" pathLength="1"/></svg></div>`, "El botón se contrae hasta ser un punto, viaja y aterriza en el disco: listo.", { clase: "momento2--ancho" }));
     m.push(momento(9, "Error", `<div class="m-error">${campo("RUT de la empresa", { tipo: "rut", valor: "76.123.456-1", requerido: true, attrs: "data-error-campo" })}<i class="m-error__punto"></i>${boton("Validar", { variante: "secundario", tam: "s", attrs: "data-error-b" })}</div>`, "El punto tiembla dos veces (corto, sin rebote) y señala el campo. El mensaje dice cómo arreglarlo."));
     m.push(momento(10, "Vacío", `<div class="m-vacio">${iso("m-vacio__iso", { sinPunto: true, nido: true })}<div><b>Aún no hay procesos</b><p class="chico">Falta el punto: agrega el primero y el disco se completa.</p>${boton("Agregar proceso", { variante: "secundario", tam: "s", ico: "plus", attrs: "data-vacio-b" })}</div></div>`, "El disco solo, con el nido punteado: la marca dice «falta algo» sin dramatismo."));
@@ -119,7 +119,6 @@ export const punto2 = {
 /* ═════════ comportamiento de los momentos ═════════ */
 function activarMomentos(el) {
   // 6 · el punto (SMIL) corre con el reloj del documento y el trazo (CSS) con el suyo: se ponen en cero juntos
-  sincronizarCargas(el);
   // 1 · construcción (y repetir)
   const cons = el.querySelector(".m-construccion"); activarLogoVivo(cons);
   el.querySelector('[data-rep="construccion"]').addEventListener("click", () => armar(cons));
@@ -134,10 +133,10 @@ function activarMomentos(el) {
   const via = el.querySelector(".m-lectura"), n = el.querySelector("[data-lectura]");
   const leer = () => { const p = Math.min(1, scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight)); via.style.setProperty("--p", p.toFixed(4)); n.textContent = Math.round(p * 100) + " %"; };
   addEventListener("scroll", leer, { passive: true }); leer();
-  // 7 · carga larga: fases
-  const larga = el.querySelector("[data-larga]"), fases = [["Leyendo 1.240 documentos", 1], ["Ordenando por proceso", 2], ["Cruzando con tus sistemas", 3]];
-  let f = 0; larga.dataset.fase = 1;
-  const tic = setInterval(() => { if (!larga.isConnected) return clearInterval(tic); f = (f + 1) % fases.length; larga.dataset.fase = fases[f][1]; larga.querySelector("[data-larga-t]").textContent = fases[f][0]; larga.querySelector("[data-larga-f]").textContent = `Fase ${fases[f][1]} de 3`; }, 2600);
+  // 7 · carga larga: el disco se llena por fases
+  const larga = el.querySelector("[data-larga]"), cf = larga.querySelector(".carga-logo--fases"), fases = ["Leyendo 1.240 documentos", "Ordenando por proceso", "Cruzando con tus sistemas"];
+  let f = 0;
+  const tic = setInterval(() => { if (!larga.isConnected) return clearInterval(tic); f = (f + 1) % fases.length; fijarFase(cf, f + 1); larga.querySelector("[data-larga-t]").textContent = fases[f]; larga.querySelector("[data-larga-f]").textContent = `Fase ${f + 1} de 3`; }, 2600);
   // 8 · éxito
   const ex = el.querySelector("[data-exito]"), bEx = el.querySelector("[data-exito-b]");
   bEx.addEventListener("click", async () => {
@@ -252,8 +251,10 @@ function activarLaboratorio(el) {
     el.querySelector('[data-m="t"]').textContent = llego ? `${Math.round(llego)} ms` : "…";
     el.querySelector('[data-m="r"]').textContent = distSoltar > 2 ? `${Math.round(Math.min(100, (maxRebote / distSoltar) * 100))} %` : "—";
   };
+  let colG = null; const leerColG = () => { const cs = getComputedStyle(el); colG = { borde: cs.getPropertyValue("--borde-fuerte"), linea: cs.getPropertyValue("--acento-profundo"), punto: cs.getPropertyValue("--acento") }; };
+  new MutationObserver(leerColG).observe(document.documentElement, { attributes: true, attributeFilter: ["data-paleta", "data-tema"] });
   const dibujarGrafico = () => {
-    const W = g.width, H = g.height, cs = getComputedStyle(el);
+    if (!colG) leerColG(); const W = g.width, H = g.height, cs = { getPropertyValue: (v) => ({ "--borde-fuerte": colG.borde, "--acento-profundo": colG.linea, "--acento": colG.punto })[v] };
     ctx.clearRect(0, 0, W, H);
     ctx.strokeStyle = cs.getPropertyValue("--borde-fuerte"); ctx.lineWidth = 1; ctx.setLineDash([3, 5]);
     ctx.beginPath(); ctx.moveTo(0, H - 20); ctx.lineTo(W, H - 20); ctx.stroke(); ctx.setLineDash([]);
@@ -265,9 +266,13 @@ function activarLaboratorio(el) {
     ctx.fillStyle = cs.getPropertyValue("--acento"); ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI * 2); ctx.fill();
   };
   let prev = 0, vivo = false, raf = 0;
+  let quieto = 0;
   const paso = (ahora) => {
     raf = vivo ? requestAnimationFrame(paso) : 0;
     const dt = prev ? Math.min(0.033, (ahora - prev) / 1000) : 0; prev = ahora;
+    // en reposo (en el nido, sin velocidad y sin estela) no hay nada que calcular ni que dibujar
+    const enReposo = !agarrado && Math.hypot(pos.x - nido.x, pos.y - nido.y) < 0.05 && Math.hypot(vel.x, vel.y) < 0.05;
+    quieto = enReposo ? quieto + dt : 0; if (quieto > 1.2) return;
     if (!agarrado && dt) {
       const sub = 4, h = dt / sub;
       for (let s = 0; s < sub; s++) {

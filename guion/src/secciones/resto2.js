@@ -8,8 +8,7 @@ import { toast, estado } from "../kit/avisos.js";
 import { icono, rellenarIconos } from "../kit/iconos.js";
 import { isotipo, logo } from "../kit/marca.js";
 import { correo, firma } from "../kit/correos.js";
-import { sistema } from "../kit/orbitas.js";
-import { QUILLAY } from "./orbitas2.js";
+import { proceso } from "../kit/orbitas.js";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -164,14 +163,14 @@ export const resto2 = {
     ops.forEach((b, i) => { b.addEventListener("click", () => elegir(b)); b.addEventListener("keydown", (e) => { const d = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key]; if (d) { e.preventDefault(); const s = ops[(i + d + ops.length) % ops.length]; s.focus(); elegir(s); } }); });
   },
 
-  /* ── Imagen: lo que sí (un diagrama de Órbitas real) frente a lo que no ── */
+  /* ── Imagen: lo que sí (un proceso dibujado con la marca) frente a lo que no ── */
   async "manual-imagen"(el) {
     const vivo = `<div class="imagen2">
-      <figure class="imagen2__si"><svg data-orb-mini role="group" aria-label="Ejemplo: diagrama de Órbitas"></svg><figcaption><span class="insignia insignia--exito"><i></i>Sí</span>${lista(["Diagramas en Órbitas: discos con agujero y arcos.", "Interfaces reales del producto.", "El isotipo y el punto como protagonistas.", "Números grandes y datos con trama."])}</figcaption></figure>
+      <figure class="imagen2__si"><svg data-orb-mini role="group" aria-label="Ejemplo: un proceso como pista con estaciones"></svg><figcaption><span class="insignia insignia--exito"><i></i>Sí</span>${lista(["Procesos como una pista con estaciones; el punto recorre.", "Interfaces reales del producto.", "El isotipo y el punto como protagonistas.", "Números grandes y datos con trama."])}</figcaption></figure>
       <figure class="imagen2__no"><div class="imagen2__collage" aria-hidden="true">${["robot", "brain", "lightning", "users-three"].map((i) => `<span>${icono(i, { tam: 40 })}</span>`).join("")}</div><figcaption><span class="insignia insignia--error"><i></i>No</span>${lista(["Fotos de stock de personas en reunión.", "Robots, cerebros brillantes, circuitos, neón.", "Ilustraciones 3D tipo plastilina.", "Partículas o efectos sin función."], "lista-punto lista-no")}</figcaption></figure></div>`;
     cuerpo(el).innerHTML = pieza({ vivo });
     activarPiezas(el); await rellenarIconos();
-    sistema(el.querySelector("[data-orb-mini]"), { centro: QUILLAY.centro, nodos: QUILLAY.nodos.slice(0, 5) });
+    proceso(el.querySelector("[data-orb-mini]"), [{ nombre: "Pedido", ficha: ["Llega el pedido", "WhatsApp o correo"] }, { nombre: "Cotización", traba: true, ficha: ["Se arma", "Traba: 1 de cada 4 se rehace"] }, { nombre: "Envío", ficha: ["Se envía", "PDF con plantilla"] }, { nombre: "Venta", ficha: ["Venta", "Factura en Bsale"] }], { compacto: true });
   },
 
   /* ── Aplicaciones: la marca en sus soportes, en cerámica ── */

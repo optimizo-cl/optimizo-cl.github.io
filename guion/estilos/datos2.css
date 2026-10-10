@@ -101,7 +101,7 @@ svg:not(.viz2--visto) .viz2__fila .viz__valor { opacity: 0; }
 .apilada__parte:first-child .apilada__fondo { fill-opacity: 1; }
 .apilada__textura { color: inherit; }
 .apilada__muestra { display: inline-block; width: 16px !important; height: 16px !important; border-radius: 4px !important; background: currentColor !important; position: relative; }
-.apilada__muestra--diagonal { background: repeating-linear-gradient(-45deg, currentColor 0 2px, color-mix(in srgb, currentColor 28%, transparent) 2px 5px) !important; }
+.apilada__muestra--diagonal { background: repeating-linear-gradient(0deg, currentColor 0 2px, color-mix(in srgb, currentColor 28%, transparent) 2px 5px) !important; }
 .apilada__muestra--puntos { background: radial-gradient(circle, currentColor 1.4px, color-mix(in srgb, currentColor 28%, transparent) 1.8px) 0 0 / 5px 5px !important; }
 .apilada__muestra--cruz { background: linear-gradient(currentColor 1.3px, transparent 1.3px) 0 2px / 6px 6px, linear-gradient(90deg, currentColor 1.3px, transparent 1.3px) 2px 0 / 6px 6px, color-mix(in srgb, currentColor 28%, transparent) !important; }
 
@@ -143,36 +143,44 @@ td.guardada { animation: guardada 1200ms var(--suave); }
 .fechas-formatos { margin-top: var(--e-5); }
 @media (pointer: coarse), (max-width: 640px) { .pista-fechas__dia { min-width: 44px; min-height: 56px; } .pista-fechas__pista { grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); } }
 
-/* ── Búsqueda orbital ── */
-.busqueda2 { display: grid; gap: var(--e-4); }
-.busqueda2__barra { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-.busqueda2__barra .buscador__campo { flex: 1; min-width: 240px; }
-.busqueda2__orbitas { position: relative; border-radius: var(--r-4); padding: var(--e-4); background: radial-gradient(80% 80% at 50% 50%, var(--superficie-2), var(--superficie-hundida)); box-shadow: inset 0 0 0 1px var(--borde); }
-.busqueda2__orbitas svg { width: 100%; max-width: 760px; margin-inline: auto; height: auto; overflow: visible; display: block; }
-.busqueda2__res { animation: res-entra 700ms var(--llegada) both; animation-delay: calc(var(--i) * 70ms); }
-@keyframes res-entra { from { opacity: 0; } }
-.busqueda2__liga { stroke-opacity: .18; }
-.busqueda2__res:hover .busqueda2__liga, .busqueda2__res:focus-visible .busqueda2__liga { stroke-opacity: .7; }
-.busqueda2__nombre { font-size: 11.5px; }
-.busqueda2__nada { font-size: 14px; fill: var(--texto-2); }
-.busqueda2__centro .orb-nodo__nombre { font-size: 14px; }
-
-/* ── Vacíos con el disco ── */
-.vacios2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--e-4); }
-.vacio2 { display: grid; justify-items: center; text-align: center; gap: 8px; padding: var(--e-6) var(--e-5); border-radius: var(--r-4); background: var(--superficie); box-shadow: inset 0 0 0 1px var(--borde); }
-.vacio2 p { max-width: 36ch; }
-.vacio2__fig { position: relative; width: 96px; height: 96px; margin-bottom: 6px; }
-.vacio2__iso { width: 96px; }
-.vacio2--primero .vacio2__iso .isotipo__disco { animation: respira 5s var(--suave) infinite; transform-box: fill-box; transform-origin: center; }
-.vacio2__perdido { position: absolute; right: -26px; bottom: -6px; width: 14px; height: 14px; border-radius: 50%; background: var(--acento); animation: perdido 6s var(--suave) infinite; }
-@keyframes perdido { 0%, 100% { transform: translate(0, 0); } 30% { transform: translate(8px, -14px); } 60% { transform: translate(-6px, -4px); } }
-.vacio2__candado { position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--superficie-2); color: var(--texto); box-shadow: 0 2px 6px rgba(22, 38, 58, .2); }
-.vacio2--error .vacio2__iso .isotipo__disco { fill: var(--superficie-hundida) !important; }
-.vacio2__rebote { position: absolute; inset: 0; overflow: visible; }
-.vacio2__rebote path { fill: none; stroke: var(--error); stroke-width: 1.6; stroke-dasharray: 3 3; }
-.vacio2__rebote circle { fill: var(--error); }
-@media (max-width: 760px) { .vacios2 { grid-template-columns: minmax(0, 1fr); } }
-@media (prefers-reduced-motion: reduce) { .vacio2__perdido, .vacio2--primero .vacio2__iso .isotipo__disco { animation: none; } }
+/* ── Vacíos y errores: las poses del isotipo ── */
+.poses { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--e-4); }
+.pose { grid-column: span 2; display: grid; grid-template-rows: auto 1fr; gap: 12px; padding: var(--e-5); border-radius: var(--r-4); background: var(--superficie); box-shadow: inset 0 0 0 1px var(--borde); transition: box-shadow 400ms var(--suave); }
+.pose:nth-child(4), .pose:nth-child(5) { grid-column: span 3; }
+.pose.resuelta { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--exito) 55%, transparent); }
+.pose__svg { width: min(100%, 200px); height: auto; justify-self: center; overflow: visible; }
+.pose__disco { fill: url(#punto-marca); transition: opacity 500ms var(--suave); }
+.pose__nido { fill: none; stroke: var(--borde-fuerte); stroke-width: 1.8; stroke-dasharray: 3 3.4; transition: opacity 400ms var(--suave); }
+.pose.resuelta .pose__nido { opacity: 0; }
+.pose__punto { fill: url(#punto-marca); transform-box: fill-box; transform-origin: center; filter: drop-shadow(0 3px 4px rgba(22, 38, 58, .3)); }
+.pose__flota { animation: pose-flota 3.4s var(--suave) infinite; }
+.pose.resuelta .pose__flota, .pose.resolviendo .pose__flota { animation: none; }
+@keyframes pose-flota { 50% { transform: translateY(-5px); } }
+.pose__texto { display: grid; gap: 6px; justify-items: start; align-content: start; }
+.pose__texto .chico { min-height: 3em; }
+/* sin resultados: el punto se asoma por la mordida y mira a los lados */
+.pose--busqueda .pose__flota { animation: pose-busca 4s var(--suave) infinite; }
+@keyframes pose-busca { 0%, 100% { transform: none; } 25% { transform: translateX(-9px); } 55% { transform: translateX(7px) translateY(-3px); } 75% { transform: translateX(0); } }
+/* sin permiso: la mordida está cerrada; al pedir acceso se abre */
+.pose__cerrado { fill: url(#punto-marca); transition: opacity 500ms var(--suave); }
+.pose--permiso .pose__disco { opacity: 0; }
+.pose--permiso.resolviendo .pose__cerrado, .pose--permiso.resuelta .pose__cerrado { opacity: 0; }
+.pose--permiso.resolviendo .pose__disco, .pose--permiso.resuelta .pose__disco { opacity: 1; }
+/* sin conexión: una cuerda punteada une el punto con su nido */
+.pose__cuerda { stroke: var(--borde-fuerte); stroke-width: 1.6; stroke-dasharray: 3 4; transition: opacity 600ms var(--suave); }
+.pose__cuerda.tensa { opacity: 0; }
+.pose--conexion .pose__flota { animation-duration: 2.6s; }
+/* error del servidor: el punto se cayó al piso */
+.pose__piso { stroke: var(--borde-fuerte); stroke-width: 1.4; }
+.pose__sombra { fill: rgba(22, 38, 58, .18); transition: opacity 400ms var(--suave); }
+.pose--servidor .pose__flota { animation: none; }
+.pose--servidor:not(.resuelta) .pose__punto { filter: none; }
+.pose--servidor.resolviendo .pose__sombra, .pose--servidor.resuelta .pose__sombra { opacity: 0; }
+.pose--servidor .pose__disco { opacity: .55; }
+.pose--servidor.resuelta .pose__disco { opacity: 1; }
+@media (max-width: 960px) { .poses { grid-template-columns: minmax(0, 1fr); } .pose, .pose:nth-child(4), .pose:nth-child(5) { grid-column: auto; grid-template-columns: 140px minmax(0, 1fr); grid-template-rows: auto; align-items: center; } }
+@media (max-width: 520px) { .pose, .pose:nth-child(4), .pose:nth-child(5) { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .pose__flota { animation: none !important; } }
 
 /* ── Números ── */
 .numeros2 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--e-4); margin-bottom: var(--e-6); }
@@ -212,3 +220,4 @@ td.guardada { animation: guardada 1200ms var(--suave); }
 
 @keyframes viajero-late { 50% { transform: scale(1.18); } }
 @media (prefers-reduced-motion: reduce) { .orb-viajero { animation: none; } }
+.pose--servidor.resuelta .pose__piso { opacity: 0; } .pose__piso { transition: opacity 500ms var(--suave); }

@@ -22,7 +22,7 @@ export const sello2 = (tono = "") => `<span class="sello2 ${tono ? "sello2--" + 
 export function auroraMedula(lienzo) {
   const ctx = lienzo.getContext("2d"); if (!ctx) return;
   const C = [[1, 52, 180], [1, 62, 204], [8, 83, 224], [27, 117, 253], [99, 167, 252], [198, 223, 253]];
-  let w = 0, h = 0, img, umbral, raf = 0, visible = false, ultimo = 0;
+  let w = 0, h = 0, img, umbral;
   const ajustar = () => {
     w = Math.max(1, Math.round(lienzo.clientWidth)); h = Math.max(1, Math.round(lienzo.clientHeight));
     lienzo.width = w; lienzo.height = h; img = ctx.createImageData(w, h);
@@ -38,10 +38,10 @@ export function auroraMedula(lienzo) {
     }
     ctx.putImageData(img, 0, 0);
   };
-  const tic = (ahora) => { raf = 0; if (ahora - ultimo > 140) { ultimo = ahora; cuadro(ahora); } if (visible && !movimientoReducido()) raf = requestAnimationFrame(tic); };
+  // se pinta una sola vez (cientos de miles de píxeles): el movimiento lo pone una deriva CSS, que cuesta cero
+  let pendiente = 0;
   ajustar(); cuadro(0);
-  new ResizeObserver(() => { ajustar(); cuadro(performance.now()); }).observe(lienzo);
-  new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible && !raf) raf = requestAnimationFrame(tic); }).observe(lienzo);
+  new ResizeObserver(() => { cancelAnimationFrame(pendiente); pendiente = requestAnimationFrame(() => { ajustar(); cuadro(0); }); }).observe(lienzo);
 }
 
 export const familia2 = {

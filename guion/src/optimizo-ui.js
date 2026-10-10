@@ -14,7 +14,7 @@ export { campo, validar, mostrarError, activarCampos, formatearRut, rutValido, f
 export { toast, banner, alerta, insignia, etiqueta, contador } from "./kit/avisos.js";
 export { abrirMenu, abrirPopover, cerrarFlotante, abrirDialogo, confirmarDestructivo } from "./kit/popups.js";
 
-// Escenas (la 3D se importa aparte para no cargar three.js si no se usa: ./kit/escenas/isotipo3d.js)
+// Escenas
 export { aura } from "./kit/escenas/aura.js";
 export { flujos, RED_QUILLAY } from "./kit/escenas/flujos.js";
 export { bucle, movimientoReducido } from "./kit/escenas/vigia.js";

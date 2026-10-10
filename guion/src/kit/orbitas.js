@@ -20,6 +20,12 @@ function nodoSVG(padre, { x, y, r, nombre, estado = "lleno", tono = "", centro =
   return g;
 }
 
+/** Muestrea un camino una vez (n puntos) para no medirlo en cada cuadro. Devuelve f(k 0–1) → {x, y}. */
+function muestrear(path, n = 120) {
+  const L = path.getTotalLength(), pts = Array.from({ length: n + 1 }, (_, i) => path.getPointAtLength((L * i) / n));
+  return (k) => { const f = Math.min(n, Math.max(0, k * n)), i = Math.floor(f), t = f - i, a = pts[i], b = pts[Math.min(n, i + 1)]; return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t }; };
+}
+
 function arco(x1, y1, x2, y2, curva = 0.22) {
   const mx = (x1 + x2) / 2, my = (y1 + y2) / 2, dx = x2 - x1, dy = y2 - y1;
   return `M${x1} ${y1} Q ${mx - dy * curva} ${my + dx * curva} ${x2} ${y2}`;
@@ -42,7 +48,7 @@ export function sistema(svg, datos, { alFicha = () => {} } = {}) {
     const a = pos.get(n.id), b = pos.get(dest); if (!b) return;
     const p = el("path", { d: arco(a.x, a.y, b.x, b.y), class: "orb-arco", "data-de": n.id, "data-a": dest }, capas.arcos);
     const punto = el("circle", { r: 3.5, class: "orb-dato" }, capas.datos);
-    arcos.push({ p, punto, de: n.id, a: dest, fase: Math.random() });
+    arcos.push({ p, punto, de: n.id, a: dest, fase: Math.random(), en: muestrear(p, 60) });
   }));
   const g0 = nodoSVG(capas.nodos, { ...pos.get("centro"), nombre: datos.centro.nombre, centro: true, id: "centro" });
   const gs = [g0, ...datos.nodos.map((n) => nodoSVG(capas.nodos, { ...pos.get(n.id), nombre: n.nombre, estado: n.estado, tono: n.tono, id: n.id }))];
@@ -62,7 +68,7 @@ export function sistema(svg, datos, { alFicha = () => {} } = {}) {
     const elegir = () => { elegido = elegido === g.dataset.id ? null : g.dataset.id; trazar(elegido); };
     g.addEventListener("click", elegir); g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); elegir(); } });
   });
-  return motor(svg, (t) => arcos.forEach((r) => { const L = r.p.getTotalLength(), k = (t * 0.32 + r.fase) % 1, q = r.p.getPointAtLength(L * k); r.punto.setAttribute("cx", q.x); r.punto.setAttribute("cy", q.y); }));
+  return motor(svg, (t) => arcos.forEach((r) => { const q = r.en((t * 0.32 + r.fase) % 1); r.punto.setAttribute("cx", q.x.toFixed(1)); r.punto.setAttribute("cy", q.y.toFixed(1)); }));
 }
 
 /** Proceso: una pista con estaciones que el punto recorre. pasos: [{ nombre, dur (días), traba? }]
@@ -77,9 +83,9 @@ export function proceso(svg, pasos, { alFicha = () => {}, compacto = false, fijo
   const camino = el("path", { d: via, class: "orb-pista-guia" }, svg);
   const gs = pasos.map((p, i) => { const g = nodoSVG(svg, { x: xs[i], y, r: 14, nombre: p.nombre, estado: p.traba ? "medio" : "lleno", tono: p.traba ? "alerta" : "", id: String(i) }); g.addEventListener("pointerenter", () => alFicha(p, g.getBoundingClientRect())); g.addEventListener("focus", () => alFicha(p, g.getBoundingClientRect())); g.addEventListener("pointerleave", () => alFicha(null)); g.addEventListener("blur", () => alFicha(null)); return g; });
   const punto = el("circle", { r: 8, class: "orb-viajero" }, svg);
-  const L = camino.getTotalLength();
+  const en = muestrear(camino, 160);
   return motor(svg, (t) => {
-    const k = fijo != null ? fijo : (t * 0.09) % 1, q = camino.getPointAtLength(L * k);
+    const k = fijo != null ? fijo : (t * 0.09) % 1, q = en(k);
     punto.setAttribute("cx", q.x); punto.setAttribute("cy", q.y);
     lleno.style.strokeDashoffset = 1 - k;
     gs.forEach((g, i) => g.classList.toggle("pasado", xs[i] <= q.x + 1));
@@ -106,16 +112,20 @@ export function antesDespues(svg, { puntos = 90 } = {}) {
       const ac = p.fase + t * p.caos.vel, cg = Math.cos(p.caos.giro), sg = Math.sin(p.caos.giro);
       const xc = p.caos.cx + Math.cos(ac) * p.caos.rx * cg - Math.sin(ac) * p.caos.ry * sg, yc = p.caos.cy + Math.cos(ac) * p.caos.rx * sg + Math.sin(ac) * p.caos.ry * cg;
       const ao = p.fase + t * (0.5 * 70 / p.anillo), xo = C.x + Math.cos(ao) * p.anillo * 1.4, yo = C.y + Math.sin(ao) * p.anillo * 0.8;
-      p.c.setAttribute("cx", xc + (xo - xc) * e); p.c.setAttribute("cy", yc + (yo - yc) * e);
+      p.c.setAttribute("cx", (xc + (xo - xc) * e).toFixed(1)); p.c.setAttribute("cy", (yc + (yo - yc) * e).toFixed(1));
     });
-  });
+  }, { fps: 30 });
   return { ...m, orden(v) { k = Math.max(0, Math.min(1, v)); m.redibujar(); } };
 }
 
 /* Motor común: reloj propio que se puede pausar, adelantar y llevar a un instante (control de tiempo). */
-function motor(svg, cuadro, { periodo = 12 } = {}) {
-  let t = 0, prev = 0, corriendo = !movimientoReducido(), raf = 0, visible = false, velocidad = 1;
-  const tic = (ahora) => { raf = 0; const dt = prev ? Math.min(0.05, (ahora - prev) / 1000) : 0; prev = ahora; if (corriendo) t += dt * velocidad; cuadro(t); if (visible && corriendo) raf = requestAnimationFrame(tic); };
+function motor(svg, cuadro, { periodo = 12, fps = 60 } = {}) {
+  let t = 0, prev = 0, corriendo = !movimientoReducido(), raf = 0, visible = false, velocidad = 1, ultimo = 0;
+  const tic = (ahora) => {
+    raf = 0; if (visible && corriendo) raf = requestAnimationFrame(tic);
+    if (ahora - ultimo < 1000 / fps - 2) return; ultimo = ahora; // movimiento lento: no hace falta pintar cada cuadro
+    const dt = prev ? Math.min(0.05, (ahora - prev) / 1000) : 0; prev = ahora; if (corriendo) t += dt * velocidad; cuadro(t);
+  };
   const pedir = () => { if (!raf) { prev = 0; raf = requestAnimationFrame(tic); } };
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) pedir(); }).observe(svg);
   cuadro(0);

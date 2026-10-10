@@ -1,0 +1,9 @@
+/* El punto de la marca: todo punto que «actúa» (viaja, marca, cuenta, se arrastra) es el punto del isotipo,
+   con su degradado, nunca una pelota genérica. Los bullets y las marcas pequeñas siguen en acento. */
+:root { --punto-marca: linear-gradient(90deg, var(--deg-a), var(--deg-b)); }
+.lateral__punto, .conv__viajero, .escalera2__punto, .escalon__punto, .m-transicion__punto, .m-exito__punto,
+.m-seleccion__viajero, .m-contador__tic, .numeros2__tic, .pres__punto, .progreso__punto, .m-lectura__punto,
+.curva-mov__bola, .escena-escribe__punto, .heroe__estado i, .vacio2__perdido, .cinta__aguja::after, .flotante__punto,
+.tarjeta3d__punto, .pres__escalera .hoy::before, .m-error__punto.visible:not(*) { background: var(--punto-marca) !important; }
+.lab__punto, .e404__punto, .nps2__punto, .escalera__punto, .orb-viajero, .caida__punto:not(.caida__punto--error), .m-404__punto,
+.familia2__dato, .escena-viajero { fill: url(#punto-marca) !important; }

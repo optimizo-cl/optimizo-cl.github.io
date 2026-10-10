@@ -1,33 +1,43 @@
 /* El punto: la firma de Optimizo convertida en piezas reutilizables (carga, progreso, listo, cursor). */
 import { isotipo, DISCO } from "./marca.js";
 
-/** Carga chica: el punto orbita un anillo. tam en px. Para botones y líneas de texto. */
+const PUNTO = { cx: 25.863281, cy: 22.753906, r: 17.289 };
+
+/** Isotipo para cargas: disco y punto por separado (para animarlos), en coordenadas del PDF. */
+const isoCarga = ({ clase, relleno = "", conTrazo = false, id = "" }) => `<svg class="${clase}" viewBox="0 0 138.305 138.305" aria-hidden="true"><g transform="translate(-6.054688 -2.601562)">
+    ${conTrazo ? `<path class="cl__contorno" fill-rule="evenodd" d="${DISCO}"/>` : ""}
+    <path class="cl__disco" fill-rule="evenodd" d="${DISCO}" ${relleno}/>
+    <circle class="cl__punto" cx="${PUNTO.cx}" cy="${PUNTO.cy}" r="${PUNTO.r}"/></g></svg>`;
+
+/** Carga chica (botones, líneas de texto): el isotipo en el color del texto; el punto salta fuera de la mordida y vuelve. */
 export function carga({ tam = 20, etiqueta = "Cargando" } = {}) {
-  return `<span class="carga" style="--tam:${tam}px" role="status" aria-label="${etiqueta}">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="carga__anillo" cx="12" cy="12" r="8"/>
-      <g class="carga__orbita"><circle class="carga__punto" cx="12" cy="4" r="2.6"/></g></svg></span>`;
+  return `<span class="carga carga--salto" style="--tam:${tam}px" role="status" aria-label="${etiqueta}">${isoCarga({ clase: "cl" })}</span>`;
 }
 
-/** Carga de marca: el isotipo con el punto orbitando el disco. Si la espera se alarga, la órbita se abre. */
-export function cargaMarca({ tam = 96, larga = false, etiqueta = "Cargando" } = {}) {
-  return `<span class="carga-marca ${larga ? "carga-marca--larga" : ""}" style="--tam:${tam}px" role="status" aria-label="${etiqueta}">
-    ${isotipo({ clase: "carga-marca__iso" })}</span>`;
+/** Carga de marca (salto): el isotipo con su degradado; el punto sale por la mordida, da un salto y aterriza; el disco lo recibe. */
+export function cargaSalto({ tam = 96, etiqueta = "Cargando" } = {}) {
+  return `<span class="carga-logo carga-logo--salto" style="--tam:${tam}px" role="status" aria-label="${etiqueta}">${isoCarga({ clase: "cl cl--marca" })}</span>`;
+}
+/** Compatibilidad: la carga de marca de la versión 1 ahora es el salto. */
+export const cargaMarca = ({ tam = 96, etiqueta = "Cargando" } = {}) => cargaSalto({ tam, etiqueta });
+
+/** Carga que se llena: el disco se llena desde abajo con el degradado; al completarse, el punto salta fuera y vuelve.
+    valor (0–100) la deja fija (carga con avance conocido); sin valor, se repite. */
+export function cargaLlenado({ tam = 120, valor = null, etiqueta = "Cargando" } = {}) {
+  return `<span class="carga-logo carga-logo--llenado ${valor == null ? "" : "carga-logo--fija"}" style="--tam:${tam}px;--v:${valor ?? 0}%" role="${valor == null ? "status" : "progressbar"}" aria-label="${etiqueta}" ${valor == null ? "" : `aria-valuenow="${valor}" aria-valuemin="0" aria-valuemax="100"`}>${isoCarga({ clase: "cl cl--marca", conTrazo: true })}</span>`;
 }
 
-/** Carga que dibuja: el punto traza el contorno del isotipo; al cerrarlo, el disco se llena y el punto aterriza en su nido.
-    Al montarla hay que poner en cero su reloj (sincronizarCargas) porque el punto usa SMIL y el trazo, CSS. */
-export function cargaDibuja({ tam = 150, etiqueta = "Cargando" } = {}) {
-  return `<svg class="m-dibuja" style="width:${tam}px" viewBox="0 0 138.305 138.305" role="img" aria-label="${etiqueta}"><g transform="translate(-6.054688 -2.601562)">
-    <path class="m-dibuja__trazo" pathLength="1" d="${DISCO}"/><path class="m-dibuja__relleno" fill-rule="evenodd" d="${DISCO}"/>
-    <circle class="m-dibuja__punto" r="7"><animateMotion dur="3.6s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.62;1" calcMode="spline" keySplines=".45 .05 .55 .95;0 0 1 1" path="${DISCO.split(" Z ")[0]} Z"/></circle>
-    <circle class="m-dibuja__nido" cx="25.863" cy="22.754" r="17.289"/></g></svg>`;
+/** Carga por fases (espera larga): el disco se llena por tercios; en cada fase nueva el punto salta. Mover con fijarFase(). */
+export function cargaFases({ tam = 120, fase = 1, total = 3, etiqueta = "Cargando" } = {}) {
+  return `<span class="carga-logo carga-logo--fases" style="--tam:${tam}px;--v:${(fase / total) * 100}%" data-fase="${fase}" data-total="${total}" role="progressbar" aria-label="${etiqueta}" aria-valuenow="${fase}" aria-valuemin="0" aria-valuemax="${total}">${isoCarga({ clase: "cl cl--marca", conTrazo: true })}</span>`;
 }
-export function sincronizarCargas(raiz) {
-  raiz.querySelectorAll("svg.m-dibuja").forEach((s) => {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { s.querySelectorAll("animateMotion").forEach((a) => a.remove()); return; }
-    s.setCurrentTime?.(0); s.getAnimations({ subtree: true }).forEach((a) => (a.currentTime = 0));
-  });
+export function fijarFase(el, fase) {
+  const total = +el.dataset.total; el.dataset.fase = fase; el.setAttribute("aria-valuenow", fase);
+  el.style.setProperty("--v", (fase / total) * 100 + "%");
+  el.classList.remove("salta"); void el.offsetWidth; el.classList.add("salta");
 }
+/** Ya no hay relojes que sincronizar (todo es CSS); se deja por compatibilidad. */
+export function sincronizarCargas() {}
 
 /** Progreso por pasos: el punto viaja al paso actual y deja encendidos los anteriores. */
 export function progreso(pasos, actual = 0) {

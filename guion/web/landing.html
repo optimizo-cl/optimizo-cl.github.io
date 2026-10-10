@@ -24,12 +24,15 @@
 <link rel="stylesheet" href="../estilos/producto2.css">
 <link rel="stylesheet" href="../estilos/familia2.css">
 <link rel="stylesheet" href="landing.css">
+<link rel="stylesheet" href="../estilos/cargas-logo.css">
+<link rel="stylesheet" href="../estilos/punto-marca.css">
 <script>
   try { const p = new URLSearchParams(location.search); document.documentElement.dataset.paleta = p.get("paleta") || "teal"; document.documentElement.dataset.tema = p.get("tema") || "claro"; } catch (e) {}
 </script>
 <script type="module" src="landing.js"></script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="punto-marca" x1="0" x2="1" y1="0" y2="0"><stop offset="0" style="stop-color:var(--deg-a)"/><stop offset="1" style="stop-color:var(--deg-b)"/></linearGradient></defs></svg>
 <a class="l-saltar" href="#contenido">Saltar al contenido</a>
 <header class="l-nav"><div class="envoltura l-nav__dentro">
   <a href="#" class="l-nav__logo" data-logo aria-label="Optimizo, inicio"></a>
@@ -39,17 +42,17 @@
 </div></header>
 
 <main id="contenido">
-  <!-- Héroe: la Trama + el isotipo 3D; al bajar, la trama se vuelve grano -->
+  <!-- Héroe: banner plano con el isotipo y su firma -->
   <section class="l-heroe" data-heroe>
     <div class="l-heroe__pista"><div class="l-heroe__escena">
-      <canvas class="l-heroe__trama" aria-hidden="true"></canvas>
+      <div class="l-heroe__banner" aria-hidden="true"><span></span><span></span></div>
       <div class="l-heroe__texto envoltura">
         <p class="ceja">Implementamos IA en empresas de verdad</p>
         <h1 class="l-heroe__frase" data-frase>Todo proceso tiene una salida.</h1>
         <p class="bajada">Entramos a tu empresa, entendemos cómo trabaja y dejamos funcionando lo que necesita: un CRM a medida, la memoria de la empresa o un equipo de agentes. No recomendamos: implementamos.</p>
         <div class="fila-botones"><a href="#cierre" class="boton boton--acento boton--l boton--punto">Agendar diagnóstico<svg class="icono" data-icono="arrow-right" width="20" height="20" viewBox="0 0 256 256" aria-hidden="true"></svg></a><a href="#como" class="boton boton--texto boton--l">Ver cómo trabajamos</a></div>
       </div>
-      <div class="l-heroe__objeto"><canvas class="l-heroe__3d" aria-label="Isotipo de Optimizo en 3D: arrástralo"></canvas><div class="l-heroe__respaldo" data-respaldo></div></div>
+      <div class="l-heroe__objeto" data-respaldo aria-hidden="true"></div>
     </div></div>
   </section>
 
@@ -98,9 +101,9 @@
     <div class="l-cotiza" data-cotiza><div class="seccion__cuerpo"></div></div>
   </section>
 
-  <!-- Cierre con la Trama en anillos -->
+  <!-- Cierre: navy con el isotipo grande -->
   <section class="l-cierre2" id="cierre">
-    <canvas class="l-cierre2__trama" aria-hidden="true"></canvas>
+    <div class="l-cierre2__iso" aria-hidden="true" data-iso-cierre></div>
     <div class="envoltura l-cierre2__dentro">
       <div><p class="ceja">Hablemos</p><h2 class="titulo-1">¿Por dónde se traba tu operación?</h2><p class="bajada">Treinta minutos para entenderlo. Sin compromiso.</p></div>
       <form class="papel l-form2 pila" novalidate data-form></form>

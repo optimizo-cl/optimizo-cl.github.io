@@ -147,29 +147,43 @@ export const identidad2 = {
   },
 
   /* ── Retícula y espacio: una composición real con su retícula y sus medidas ── */
+  /* ── Espacio: se mide con el punto. Los aires entre piezas se ven como el punto de la marca, del tamaño del aire. ── */
   async espacio(el) {
     const pasos = [4, 8, 12, 16, 24, 32, 48, 64, 96, 144];
     cuerpo(el).innerHTML = pieza({
-      vivo: `<div class="pieza__escenario"><div class="reticula-viva" data-reticula>
-          <div class="reticula-viva__cols" aria-hidden="true">${Array.from({ length: 12 }, () => "<i></i>").join("")}</div>
-          <div class="reticula-viva__comp">
-            <p class="ceja" data-cota="texto" data-cota-texto="ceja · 13 px · 600">Diagnóstico</p>
-            <p class="titulo-1" data-cota="texto" data-cota-texto="título 1 · 700 · −3,2 %">Dónde se pierde el tiempo</p>
-            <p class="bajada" data-cota="texto" data-cota-texto="bajada · 19 px · 1,5">Medimos antes de proponer. Sin medir, todo es opinión.</p>
-            <div class="fila-botones" data-cota="ancho alto">${boton("Agendar diagnóstico", { icoFin: "arrow-right" })}${boton("Ver el plan", { variante: "texto" })}</div>
-          </div></div>
-          <label class="interruptor reticula-viva__toggle"><span class="interruptor__texto"><b>Mostrar retícula</b></span><button type="button" role="switch" aria-checked="true" class="interruptor__boton" data-ver-reticula><i></i></button></label></div>`,
-      anatomia: `<div class="pieza__escenario"><div class="reticula-viva" data-anatomia>
-          <div class="reticula-viva__comp">
-            <p class="ceja" data-cota="caja" data-cota-texto="ceja → título 12">Diagnóstico</p>
-            <p class="titulo-1" data-cota="caja ancho" data-cota-texto="título → texto 16">Dónde se pierde el tiempo</p>
-            <p class="bajada" data-cota="caja" data-cota-texto="texto → acción 24">Medimos antes de proponer. Sin medir, todo es opinión.</p>
-            <div class="fila-botones" data-cota="caja alto" data-cota-texto="acciones · alto 44">${boton("Agendar diagnóstico", { icoFin: "arrow-right" })}</div></div></div></div>`,
+      vivo: `<div class="espacio2" data-espacio>
+          <div class="espacio2__lamina papel" data-lamina>
+            <div class="espacio2__comp" data-comp>
+              <p class="ceja">Diagnóstico</p>
+              <p class="titulo-1">Dónde se pierde el tiempo</p>
+              <p class="bajada">Medimos antes de proponer. Sin medir, todo es opinión.</p>
+              <div class="fila-botones">${boton("Agendar diagnóstico", { icoFin: "arrow-right" })}${boton("Ver el plan", { variante: "texto" })}</div>
+            </div>
+            <div class="espacio2__capa" aria-hidden="true" data-capa></div>
+          </div>
+          <div class="espacio2__lado">
+            <label class="interruptor"><span class="interruptor__texto"><b>Ver los espacios</b><span class="chico">Cada aire, medido con el punto</span></span><button type="button" role="switch" aria-checked="true" class="interruptor__boton" data-ver><i></i></button></label>
+            <ul class="espacio2__ley" data-ley></ul>
+          </div></div>`,
       uso: codigo(`--e-1: 4px; --e-2: 8px; --e-3: 12px; --e-4: 16px; --e-5: 24px;\n--e-6: 32px; --e-7: 48px; --e-8: 64px; --e-9: 96px; --e-10: 144px;\n--ancho: 1180px; --gutter: clamp(16px, 4vw, 40px);`),
-    }) + `<div class="regla-espacio"><p class="titulo-3">La escala</p><div class="regla-espacio__barras">${pasos.map((p, i) => `<div style="--w:${p * 4}px;--i:${i}"><i></i><span class="mono">e-${i + 1}</span><b>${p}</b></div>`).join("")}</div>
-        <p class="chico">Entre piezas relacionadas 8–16 · entre grupos 24–48 · entre secciones 96–144. El aire es parte de la marca.</p></div>`;
+    }) + `<div class="escala-punto"><p class="titulo-3">La escala es el punto</p>
+        <div class="escala-punto__fila">${pasos.map((p, i) => `<button type="button" class="escala-punto__paso" style="--d:${p}px;--i:${i}" aria-label="e-${i + 1}: ${p} px"><i></i><b>${p}</b><span class="mono">e-${i + 1}</span></button>`).join("")}</div>
+        <p class="chico">El punto del isotipo mide 0,25 L: es la unidad del resguardo y el origen de la escala. Entre piezas relacionadas 8–16 · entre grupos 24–48 · entre secciones 96–144.</p></div>`;
     activarPiezas(el);
-    el.querySelector("[data-ver-reticula]").addEventListener("click", (e) => el.querySelector("[data-reticula]").classList.toggle("sin-reticula", e.currentTarget.getAttribute("aria-checked") !== "true"));
+    const caja = el.querySelector("[data-espacio]"), lam = el.querySelector("[data-lamina]"), comp = el.querySelector("[data-comp]"), capa = el.querySelector("[data-capa]"), ley = el.querySelector("[data-ley]");
+    const nombres = ["ceja → título", "título → texto", "texto → acciones"];
+    const medir = () => {
+      const base = lam.getBoundingClientRect(), hijos = [...comp.children], marcas = [];
+      for (let k = 0; k < hijos.length - 1; k++) {
+        const a = hijos[k].getBoundingClientRect(), b = hijos[k + 1].getBoundingClientRect(), g = Math.round(b.top - a.bottom);
+        if (g > 1) marcas.push({ x: a.left - base.left, y: a.bottom - base.top, g, n: nombres[k] || "" });
+      }
+            capa.innerHTML = marcas.map((m, i) => `<span class="espacio2__marca" style="left:${m.x - 12}px;top:${m.y}px;--g:${m.g}px;--i:${i}"><b>${m.g}</b><i></i></span>`).join("");
+      ley.innerHTML = marcas.map((m) => `<li><i style="--g:${Math.min(m.g, 28)}px"></i><span>${m.n}</span><b class="mono">${m.g}</b></li>`).join("");
+    };
+    requestAnimationFrame(medir); new ResizeObserver(medir).observe(lam); document.fonts?.ready.then(medir);
+    el.querySelector("[data-ver]").addEventListener("click", (e) => { const si = e.currentTarget.getAttribute("aria-checked") !== "true"; caja.classList.toggle("espacio2--oculto", !si); });
+    el.querySelectorAll(".escala-punto__paso").forEach((b) => b.addEventListener("click", () => { b.classList.remove("salta"); void b.offsetWidth; b.classList.add("salta"); }));
   },
 
   /* ── Forma y profundidad: objetos de cerámica bajo una luz que se arrastra ── */

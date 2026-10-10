@@ -11,14 +11,14 @@ function texturas(svg) {
   const id = `tx${++n}`, defs = svgEl("defs", {}, svg);
   const pat = (k, w, contenido) => { const p = svgEl("pattern", { id: `${id}-${k}`, width: w, height: w, patternUnits: "userSpaceOnUse" }, defs); p.innerHTML = contenido; };
   pat("puntos", 6, `<circle cx="3" cy="3" r="1.6" fill="currentColor"/>`);
-  pat("diagonal", 6, `<path d="M-1 7 L7 -1 M-1 1 L1 -1 M5 7 L7 5" stroke="currentColor" stroke-width="1.6"/>`);
+  pat("diagonal", 6, `<path d="M0 1.5 H6 M0 4.5 H6" stroke="currentColor" stroke-width="1.4"/>`); // rayas rectas: nada en diagonal
   pat("cruz", 7, `<path d="M0 3.5 H7 M3.5 0 V7" stroke="currentColor" stroke-width="1.3"/>`);
   return (k) => `url(#${id}-${k})`;
 }
 /** Trama de imprenta: la densidad de puntos crece con el valor (0–1). */
 function tramaValor(svg, v) {
   const id = `tv${++n}`, paso = 7 - v * 3.2, r = 1 + v * 1.4;
-  const p = svgEl("pattern", { id, width: paso, height: paso, patternUnits: "userSpaceOnUse", patternTransform: "rotate(15)" }, svg.querySelector("defs") || svgEl("defs", {}, svg));
+  const p = svgEl("pattern", { id, width: paso, height: paso, patternUnits: "userSpaceOnUse" }, svg.querySelector("defs") || svgEl("defs", {}, svg));
   svgEl("circle", { cx: paso / 2, cy: paso / 2, r, fill: "currentColor" }, p);
   return `url(#${id})`;
 }
@@ -121,7 +121,7 @@ export function antesDespuesBarras(el, items, { titulo, formato = String }) {
     const W = lienzo.clientWidth, apilado = W < 480, fila = apilado ? 50 : 40, H = items.length * fila + 4, eti = apilado ? 0 : Math.min(190, W * 0.34), max = Math.max(...items.map((x) => x.antes)), ancho = (v) => Math.max(6, ((W - eti - 70) * v) / max);
     const s = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, width: W, height: H, role: "img", "aria-label": titulo }); lienzo.prepend(s);
     const defs = svgEl("defs", {}, s), id = `rec${++n}`;
-    const p = svgEl("pattern", { id, width: 5, height: 5, patternUnits: "userSpaceOnUse", patternTransform: "rotate(15)" }, defs); svgEl("circle", { cx: 2.5, cy: 2.5, r: 1.3, class: "ad2__trama" }, p);
+    const p = svgEl("pattern", { id, width: 5, height: 5, patternUnits: "userSpaceOnUse" }, defs); svgEl("circle", { cx: 2.5, cy: 2.5, r: 1.3, class: "ad2__trama" }, p);
     items.forEach((x, i) => {
       const y = i * fila, yb = apilado ? y + 24 : y + 8, hb = apilado ? 18 : fila - 14, v = x.antes + (x.despues - x.antes) * k;
       svgEl("text", { x: 0, y: apilado ? y + 16 : y + fila / 2 + 5, class: "viz__eti" }, s).textContent = x.etiqueta;

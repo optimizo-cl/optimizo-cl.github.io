@@ -144,3 +144,10 @@
 .dock__muestra--b { background: linear-gradient(90deg, #FFA05A, #EE560E); }
 
 .centinela { display: block; height: 1px; margin-bottom: -1px; }
+/* Producto: la familia */
+.escena-ruta { fill: none; stroke: currentColor; stroke-opacity: .2; stroke-width: 1.4; stroke-dasharray: 2 6; }
+.escena-medula { fill: #0853E0; }
+.escena-barbara { fill: #0A0A0B; }
+.escena-barbara-anillo { fill: none; stroke: #CDFB3E; stroke-width: 3; }
+.escena-nombre { font-size: 14px; font-weight: 650; fill: currentColor; opacity: .75; }
+.escena-viajero { filter: drop-shadow(0 4px 6px rgba(22, 38, 58, .3)); }

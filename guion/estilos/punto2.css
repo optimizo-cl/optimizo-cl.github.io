@@ -99,27 +99,14 @@
 .boton--punto:hover::after, .boton--punto:focus-visible::after { opacity: 1; transform: translateX(6px) scale(1); }
 
 /* 6 · carga que dibuja */
-.m-dibuja { width: 150px; overflow: visible; }
-.m-dibuja__trazo { fill: none; stroke: var(--acento-profundo); stroke-width: 2; stroke-dasharray: 1; stroke-dashoffset: 1; animation: m-trazo 3.6s infinite; }
-.m-dibuja__relleno { fill: var(--deg-b); opacity: 0; animation: m-relleno 3.6s infinite; }
-.m-dibuja__punto { fill: var(--acento-profundo); animation: m-viajero 3.6s infinite; }
-.m-dibuja__nido { fill: var(--deg-a); transform-box: fill-box; transform-origin: center; transform: scale(0); animation: m-nido 3.6s var(--llegada) infinite; }
 @keyframes m-trazo { 0% { stroke-dashoffset: 1; opacity: 1; } 62% { stroke-dashoffset: 0; } 88% { opacity: 1; stroke-dashoffset: 0; } 100% { opacity: 0; stroke-dashoffset: 0; } }
 @keyframes m-relleno { 0%, 60% { opacity: 0; } 76%, 88% { opacity: .9; } 100% { opacity: 0; } }
 @keyframes m-viajero { 0%, 62% { opacity: 1; } 68%, 100% { opacity: 0; } }
 @keyframes m-nido { 0%, 64% { transform: scale(0); } 80%, 90% { transform: scale(1); } 100% { transform: scale(0); } }
 
 /* 7 · carga larga */
+.m-cargas { display: flex; gap: 48px; justify-content: center; } .m-cargas figure { margin: 0; display: grid; justify-items: center; gap: 10px; }
 .m-larga { display: grid; grid-template-columns: 140px 1fr; gap: var(--e-5); align-items: center; width: 100%; max-width: 480px; }
-.m-larga svg { width: 140px; overflow: visible; }
-.m-larga__anillo { fill: none; stroke: var(--borde-fuerte); stroke-dasharray: 2 4; opacity: 0; transition: opacity 900ms var(--suave); }
-.m-larga__anillo:nth-of-type(1) { opacity: 1; }
-.m-larga[data-fase="2"] .m-larga__anillo:nth-of-type(2), .m-larga[data-fase="3"] .m-larga__anillo:nth-of-type(-n+3) { opacity: 1; }
-.m-larga__centro { fill: var(--deg-b); }
-.m-larga__orbita { transform-origin: 70px 70px; animation: m-gira 3.2s linear infinite; }
-.m-larga__punto { fill: var(--acento-profundo); transition: transform 1100ms var(--llegada); }
-.m-larga[data-fase="2"] .m-larga__punto { transform: translateY(-14px); }
-.m-larga[data-fase="3"] .m-larga__punto { transform: translateY(-28px); }
 .m-larga__texto { display: grid; gap: 4px; }
 @keyframes m-gira { to { transform: rotate(360deg); } }
 
@@ -207,8 +194,7 @@
   .m-exito__check { right: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .m-dibuja__trazo, .m-dibuja__relleno, .m-dibuja__nido, .m-larga__orbita, .m-descanso.respira .isotipo__punto { animation: none; }
-  .m-dibuja__trazo { stroke-dashoffset: 0; } .m-dibuja__relleno { opacity: .9; } .m-dibuja__nido { transform: none; } .m-dibuja__punto { opacity: 0; animation: none; }
+  .m-descanso.respira .isotipo__punto { animation: none; }
 }
 
 /* ── Laboratorio ── */

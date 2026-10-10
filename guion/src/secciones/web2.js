@@ -6,7 +6,6 @@ import { toast } from "../kit/avisos.js";
 import { isotipo, logo } from "../kit/marca.js";
 import { icono, rellenarIconos } from "../kit/iconos.js";
 import { pelicula } from "../kit/pelicula.js";
-import { trama } from "../kit/escenas/trama.js";
 import { contar } from "../kit/coreografia.js";
 import { movimientoReducido } from "../kit/escenas/vigia.js";
 
@@ -32,9 +31,15 @@ async function reproductor(caja, guion, nombre) {
     const b = e.currentTarget; b.disabled = true; b.querySelector(".boton__texto").textContent = `Grabando… ${p.dur} s`;
     try { const { blob, ext } = await p.grabar(); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `optimizo-${guion}.${ext}`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); toast(`Video listo (${ext.toUpperCase()}, ${(blob.size / 1e6).toFixed(1).replace(".", ",")} MB).`, { tono: "exito" }); }
     catch (err) { toast(err.message || "No se pudo grabar.", { tono: "error" }); }
-    finally { b.disabled = false; b.querySelector(".boton__texto").textContent = "Descargar video"; }
+    finally { b.disabled = false; grabando = false; b.querySelector(".boton__texto").textContent = "Descargar video"; }
   });
-  new IntersectionObserver(([en], o) => { if (en.isIntersecting && !movimientoReducido()) { o.disconnect(); p.reproducir(0); } }, { threshold: 0.5 }).observe(c);
+  // se reproduce sola la primera vez que se ve; fuera de pantalla se pausa (no gasta)
+  let visto = false, grabando = false;
+  caja.querySelector("[data-grabar]").addEventListener("click", () => (grabando = true), { capture: true });
+  new IntersectionObserver(([en]) => {
+    if (en.isIntersecting && !visto && !movimientoReducido()) { visto = true; p.reproducir(0); }
+    if (!en.isIntersecting && !grabando) p.pausar();
+  }, { threshold: 0.5 }).observe(c);
   return p;
 }
 
@@ -74,7 +79,7 @@ export const web2 = {
       `<p class="pres__ceja">Lo que encontramos</p><p class="pres__titulo pres__titulo--m">31 horas por semana se van en 6 procesos</p><ul class="pres__lista"><li><b>12 h</b> Cotizaciones a mano</li><li><b>7 h</b> Seguimiento en WhatsApp</li><li><b>6 h</b> Inventario que no calza</li></ul>`,
       `<p class="pres__ceja">El número</p><p class="pres__heroe" data-heroe-n>0 h</p><p class="pres__sub">recuperables por semana, sin contratar a nadie</p>`,
       `<p class="pres__ceja">El camino</p><p class="pres__titulo pres__titulo--m">Primero el CRM. Después, la memoria.</p><div class="pres__escalera">${["Sin CRM", "CRM a medida", "Medula", "Agentes"].map((t, i) => `<span style="--i:${i}" class="${i === 1 ? "hoy" : ""}">${t}</span>`).join("")}</div>`,
-      `<canvas class="pres__trama" aria-hidden="true"></canvas><div class="pres__cierre"><p class="pres__titulo">Todo proceso tiene una salida.</p><p class="pres__sub">camila@optimizo.cl · optimizo.cl</p></div>`,
+      `<div class="pres__iso-cierre" aria-hidden="true">${isoLimpio("firma-escape")}</div><div class="pres__cierre"><p class="pres__titulo">Todo proceso tiene una salida.</p><p class="pres__sub">camila@optimizo.cl · optimizo.cl</p></div>`,
     ];
     const vivo = `<div class="pres" data-pres tabindex="0" role="region" aria-roledescription="presentación" aria-label="Presentación de ejemplo: usa las flechas">
       <div class="pres__pantalla">${laminas.map((l, i) => `<section class="pres__lamina ${i === 0 ? "activa" : ""} ${i === 4 ? "pres__lamina--oscura" : ""}" aria-hidden="${i !== 0}" data-i="${i}">${l}</section>`).join("")}<i class="pres__punto" aria-hidden="true"></i></div>
@@ -85,7 +90,7 @@ export const web2 = {
     cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["Una idea por lámina; el título dice la conclusión, no el tema.", "Entre láminas, el punto viaja al centro y se abre en un círculo que revela la siguiente.", "Flechas o espacio para avanzar; F para pantalla completa."]) });
     activarPiezas(el); await rellenarIconos();
     const p = el.querySelector("[data-pres]"), ls = [...p.querySelectorAll(".pres__lamina")], punto = p.querySelector(".pres__punto");
-    let i = 0, ocupado = false, cierre = null;
+    let i = 0, ocupado = false;
     const ir = async (n) => {
       n = Math.max(0, Math.min(ls.length - 1, n)); if (n === i || ocupado) return; ocupado = true;
       const nueva = ls[n], vieja = ls[i];
@@ -99,7 +104,6 @@ export const web2 = {
       vieja.classList.remove("activa"); vieja.setAttribute("aria-hidden", "true"); nueva.classList.add("activa"); nueva.setAttribute("aria-hidden", "false");
       i = n; p.querySelectorAll(".pres__puntos i").forEach((x, k) => x.classList.toggle("activo", k === i)); p.querySelector("[data-n]").textContent = `${i + 1} / ${ls.length}`;
       if (i === 2) contar(nueva.querySelector("[data-heroe-n]"), 31, { duracion: 1400, formato: (v) => Math.round(v) + " h" });
-      if (i === 4 && !cierre) cierre = trama(nueva.querySelector(".pres__trama"), { variante: "anillos", mascara: 0.6, centro: [0.6, 0], fps: 30 });
       ocupado = false;
     };
     p.querySelector("[data-sig]").addEventListener("click", () => ir(i + 1));

@@ -5,7 +5,6 @@ import { logo, isotipo } from "../kit/marca.js";
 import { icono, rellenarIconos } from "../kit/iconos.js";
 import { toast } from "../kit/avisos.js";
 import { pelicula } from "../kit/pelicula.js";
-import { trama } from "../kit/escenas/trama.js";
 import { movimientoReducido } from "../kit/escenas/vigia.js";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
@@ -64,7 +63,7 @@ export const manual2 = {
     const vivo = `<div class="descargas2">
       <div class="descargas2__grupo"><p class="titulo-3">Paquete y manual</p>${archivo("assets/descargas/optimizo-marca.zip", "Todos los logos (SVG + PNG) y la paleta", "ZIP · dos paletas", "file-zip")}${archivo(`assets/descargas/manual-optimizo${p ? "-paleta-b" : ""}.pdf`, `Manual de marca · paleta ${p ? "B" : "A"}`, "PDF · A4 apaisado", "file-pdf")}</div>
       <div class="descargas2__grupo"><p class="titulo-3">Logos · paleta ${p ? "B" : "A"}</p>${[["optimizo-logo.svg", "Logo principal"], ["optimizo-logo-sobre-oscuro.svg", "Logo sobre oscuro"], ["optimizo-isotipo.svg", "Isotipo"], ["optimizo-logo-mono-navy.svg", "Logo en un color (navy)"]].map(([f, n]) => archivo(`assets/logo/${p}${f}`, n, "SVG", "file-svg")).join("")}</div>
-      <div class="descargas2__grupo"><p class="titulo-3">Animaciones</p>${generado("marca", "Animación del logo (12 s)", "Video 16:9", "film-strip")}${generado("dato", "Carrusel animado (8 s)", "Video 4:5", "film-strip")}${generado("trama", "La Trama como fondo (10 s)", "Video 16:9 en bucle", "film-strip")}
+      <div class="descargas2__grupo"><p class="titulo-3">Animaciones</p>${generado("marca", "Animación del logo (12 s)", "Video 16:9", "film-strip")}${generado("dato", "Carrusel animado (8 s)", "Video 4:5", "film-strip")}${generado("frase", "Post animado (6 s)", "Video 1:1", "film-strip")}
         <canvas class="descargas2__lienzo" aria-hidden="true"></canvas><p class="chico">Los videos se graban en tu navegador con la paleta activa (MP4 si el navegador lo permite, si no WebM).</p></div></div>`;
     cuerpo(el).innerHTML = pieza({ vivo });
     activarPiezas(el); await rellenarIconos();
@@ -73,18 +72,9 @@ export const manual2 = {
     el.querySelectorAll("[data-generar]").forEach((b) => b.addEventListener("click", async () => {
       const k = b.dataset.generar, est = b.querySelector("[data-estado-g]"), antes = est.textContent; b.disabled = true; est.textContent = "Grabando…";
       try {
-        if (k === "trama") {
-          lienzo.width = 1280; lienzo.height = 720; lienzo.classList.add("visible");
-          const t = trama(lienzo, { variante: "trama", mascara: 0, fps: 30 }), tipo = ["video/mp4", "video/webm"].find((x) => MediaRecorder.isTypeSupported(x));
-          const rec = new MediaRecorder(lienzo.captureStream(30), { mimeType: tipo, videoBitsPerSecond: 6e6 }), partes = [];
-          rec.ondataavailable = (e) => e.data.size && partes.push(e.data); const fin = new Promise((r) => (rec.onstop = r));
-          rec.start(); await new Promise((r) => setTimeout(r, 10000)); rec.stop(); await fin; t.parar(); lienzo.classList.remove("visible");
-          bajar(new Blob(partes, { type: tipo }), `optimizo-trama.${tipo.includes("mp4") ? "mp4" : "webm"}`);
-        } else {
           const c = document.createElement("canvas"); c.className = "descargas2__lienzo visible"; lienzo.replaceWith(c);
           const peli = await pelicula(c, k), { blob, ext } = await peli.grabar(); c.replaceWith(lienzo);
           bajar(blob, `optimizo-${k}.${ext}`);
-        }
         toast("Video listo.", { tono: "exito" });
       } catch (err) { toast(err.message || "No se pudo grabar en este navegador.", { tono: "error" }); }
       finally { b.disabled = false; est.textContent = antes; }

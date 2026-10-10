@@ -4,7 +4,6 @@ import { icono, rellenarIconos, cargarIconos } from "../src/kit/iconos.js";
 import { campo, validar, activarCampos } from "../src/kit/campos.js";
 import { boton, trabajar, activarControles, prepararSegmentos } from "../src/kit/controles.js";
 import { listo } from "../src/kit/punto.js";
-import { trama } from "../src/kit/escenas/trama.js";
 import { antesDespues, proceso } from "../src/kit/orbitas.js";
 import { progreso } from "../src/kit/coreografia.js";
 import { movimientoReducido } from "../src/kit/escenas/vigia.js";
@@ -19,24 +18,13 @@ await cargarIconos(["list", "x", "arrow-right"]);
 $("[data-logo]").innerHTML = await logo({ clase: "l-logo" });
 $("[data-logo-pie]").innerHTML = await logo({ clase: "l-logo" });
 
-/* ── Héroe: letras que se asientan, Trama de fondo y el 3D que llega en ocio ── */
+/* ── Héroe: letras que se asientan y el isotipo con su firma ── */
 const frase = $("[data-frase]"), texto = frase.textContent; let i = 0;
 frase.innerHTML = `<span class="solo-lector">${texto}</span><span aria-hidden="true">${texto.split(" ").map((p) => `<b class="cin-palabra">${[...p].map((c) => `<span class="cin-letra" style="--i:${i++}">${c}</span>`).join("")}</b>`).join(" ")}</span>`;
 requestAnimationFrame(() => $("[data-heroe]").classList.add("heroe--listo"));
-const fondo = trama($(".l-heroe__trama"), { variante: "trama", mascara: 0.85, centro: [0.42, 0.02], paso: 12 });
-let iso = null;
-const traer3d = () => import("../src/kit/escenas/isotipo3d.js").then(({ isotipo3d }) => {
-  const c = $(".l-heroe__3d"); iso = isotipo3d(c);
-  if (c.classList.contains("sin-webgl")) $("[data-respaldo]").innerHTML = isotipo({ clase: "firma-escape" });
-  else requestAnimationFrame(() => $("[data-heroe]").classList.add("heroe--3d"));
-});
-$("[data-respaldo]").innerHTML = isotipo({ clase: "firma-escape" });
-(window.requestIdleCallback || ((f) => setTimeout(f, 300)))(traer3d, { timeout: 1500 });
+$("[data-respaldo]").innerHTML = isotipo({ clase: "firma-escape", titulo: "" });
 progreso($(".l-heroe__pista"), (_, r) => {
   const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight)));
-  fondo.poner({ densidad: 1 - 0.8 * suave(tramo(p, 0.05, 0.9)), orden: suave(tramo(p, 0, 0.7)) });
-  $(".l-heroe__trama").style.opacity = String(1 - suave(tramo(p, 0.55, 1)));
-  iso?.fase(tramo(p, 0, 0.6));
   $("[data-heroe]").style.setProperty("--p", p.toFixed(3));
 });
 
@@ -69,7 +57,7 @@ $("[data-cotiza] .pieza__pestanas")?.remove();
 $("[data-cotiza] [data-vista='uso']")?.remove();
 
 /* ── Cierre ── */
-trama($(".l-cierre2__trama"), { variante: "anillos", mascara: 0.85, centro: [0.62, 0], fps: 30 });
+$("[data-iso-cierre]").innerHTML = isotipo({ clase: "firma-escape", titulo: "" });
 const form = $("[data-form]");
 form.innerHTML = `${campo("Nombre", { requerido: true, nombre: "nombre" })}${campo("Correo de trabajo", { tipo: "correo", requerido: true, nombre: "correo" })}${campo("Empresa", { requerido: true, nombre: "empresa" })}${boton("Agendar diagnóstico", { tipo: "submit", tam: "l", variante: "acento" })}<p class="rotulo">Respondemos en menos de un día hábil.</p>`;
 form.addEventListener("submit", async (e) => {

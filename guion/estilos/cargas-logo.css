@@ -1,0 +1,37 @@
+/* Cargas hechas con el logo. El disco y el punto son piezas separadas; nada orbita alrededor del dibujo. */
+.carga, .carga-logo { display: inline-grid; width: var(--tam); height: var(--tam); flex: none; vertical-align: middle; }
+.cl { width: 100%; height: 100%; overflow: visible; }
+.cl .cl__disco, .cl .cl__punto { fill: currentColor; }
+.cl--marca .cl__disco, .cl--marca .cl__punto { fill: url(#punto-marca); }
+.cl__punto { transform-box: fill-box; transform-origin: center; }
+.cl__disco { transform-box: view-box; transform-origin: 75.2px 71.75px; }
+
+/* Salto: el punto sale por la mordida, salta y aterriza; el disco lo recibe con un leve hundimiento */
+.carga--salto .cl__punto, .carga-logo--salto .cl__punto { animation: cl-salto 1.5s cubic-bezier(.45, .05, .55, .95) infinite; }
+.carga--salto .cl__disco, .carga-logo--salto .cl__disco { animation: cl-recibe 1.5s var(--suave) infinite; }
+.carga--salto .cl__disco { opacity: .35; }
+@keyframes cl-salto { 0%, 10% { transform: none; } 44% { transform: translate(-18px, -30px) scale(.86); } 76% { transform: none; } 84% { transform: translateY(1.5px) scale(1.06, .9); } 92%, 100% { transform: none; } }
+@keyframes cl-recibe { 0%, 76% { transform: none; } 86% { transform: scale(.97); } 100% { transform: none; } }
+
+/* Llenado: el disco se llena desde abajo; lleno, el punto se enciende y salta; luego se vacía y vuelve a empezar */
+.carga-logo--llenado .cl__contorno, .carga-logo--fases .cl__contorno { fill: none; stroke: var(--borde-fuerte); stroke-width: 1.6; }
+.carga-logo--llenado .cl__punto, .carga-logo--fases .cl__punto { stroke: var(--borde-fuerte); stroke-width: 1.6; }
+.carga-logo--llenado .cl__disco { clip-path: inset(100% 0 0 0); animation: cl-llena 3.4s var(--llegada) infinite; }
+.carga-logo--llenado .cl__punto { fill-opacity: 0; animation: cl-punto-lleno 3.4s cubic-bezier(.45, .05, .55, .95) infinite; }
+@keyframes cl-llena { 0% { clip-path: inset(100% 0 0 0); opacity: 1; } 60%, 88% { clip-path: inset(0 0 0 0); opacity: 1; } 100% { clip-path: inset(0 0 0 0); opacity: 0; } }
+@keyframes cl-punto-lleno { 0%, 58% { fill-opacity: 0; transform: none; } 63% { fill-opacity: 1; transform: none; } 74% { transform: translate(-18px, -30px) scale(.86); } 84% { transform: none; } 90% { fill-opacity: 1; } 100% { fill-opacity: 0; transform: none; } }
+/* con avance conocido: se llena hasta el valor; al 100 % el punto se enciende */
+.carga-logo--fija .cl__disco, .carga-logo--fases .cl__disco { animation: none; clip-path: inset(calc(100% - var(--v)) 0 0 0); transition: clip-path 900ms var(--llegada); }
+.carga-logo--fija .cl__punto { animation: none; fill-opacity: 0; }
+.carga-logo--fija[aria-valuenow="100"] .cl__punto { fill-opacity: 1; }
+
+/* Fases: el disco se llena por tercios; en cada fase nueva el punto salta una vez */
+.carga-logo--fases .cl__punto { fill-opacity: 1; stroke: none; }
+.carga-logo--fases.salta .cl__punto { animation: cl-salto-una 1s cubic-bezier(.45, .05, .55, .95); }
+@keyframes cl-salto-una { 0% { transform: none; } 45% { transform: translate(-18px, -30px) scale(.86); } 80% { transform: none; } 90% { transform: translateY(1.5px) scale(1.06, .9); } 100% { transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .cl__punto, .cl__disco { animation: none !important; }
+  .carga-logo--llenado:not(.carga-logo--fija) .cl__disco { clip-path: none; }
+  .carga-logo--llenado:not(.carga-logo--fija) .cl__punto { fill-opacity: 1; }
+}

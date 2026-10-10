@@ -5,7 +5,7 @@ import { boton, botonIcono, botonMantener, trabajar, segmento, interruptor, casi
 import { campo, validar } from "../kit/campos.js";
 import { toast, banner, alerta, insignia, etiqueta, contador, estado, fichaCeramica } from "../kit/avisos.js";
 import { abrirMenu, abrirPopover, abrirDialogo, confirmarDestructivo, confirmarManteniendo, cerrarFlotante } from "../kit/popups.js";
-import { carga, cargaMarca, cargaDibuja, sincronizarCargas, progreso, moverProgreso } from "../kit/punto.js";
+import { carga, cargaSalto, cargaLlenado, cargaFases, fijarFase, progreso, moverProgreso } from "../kit/punto.js";
 import { isotipo } from "../kit/marca.js";
 import { icono } from "../kit/iconos.js";
 
@@ -93,11 +93,11 @@ export const kit2 = {
   async cargas(el) {
     const vivo = `<div class="cargas2">
       <div class="cargas2__eje"><span class="rotulo">Cuánto se espera</span>
-        <div class="eje-espera">${[["0–1 s", "Nada", "Mostrar carga ahí molesta más que ayuda."], ["1–4 s", "Carga chica o esqueleto", "En el botón o en el contenido que llega."], ["> 4 s", "Carga de marca + qué pasa", "El punto dibuja o las órbitas se abren."], ["Proceso", "Progreso por pasos", "Cuando se sabe cuántos pasos faltan."]].map(([t, q, d], i) => `<div class="eje-espera__tramo" style="--i:${i}"><span class="mono">${t}</span><b>${q}</b><span class="chico">${d}</span></div>`).join("")}</div></div>
+        <div class="eje-espera">${[["0–1 s", "Nada", "Mostrar carga ahí molesta más que ayuda."], ["1–4 s", "Carga chica o esqueleto", "En el botón o en el contenido que llega."], ["> 4 s", "Carga de marca + qué pasa", "El disco se llena; si es larga, por fases."], ["Proceso", "Progreso por pasos", "Cuando se sabe cuántos pasos faltan."]].map(([t, q, d], i) => `<div class="eje-espera__tramo" style="--i:${i}"><span class="mono">${t}</span><b>${q}</b><span class="chico">${d}</span></div>`).join("")}</div></div>
       <div class="cargas2__mosaico">
         <figure class="carga-ficha"><div class="carga-ficha__escena"><div class="fila-botones">${boton("Guardando…", { attrs: "aria-busy=true disabled" }).replace('<span class="boton__texto">', `${carga({ tam: 16 })}<span class="boton__texto">`)}</div><span class="chico" style="display:inline-flex;gap:10px;align-items:center">${carga({ tam: 16 })} Sincronizando con Bsale…</span></div><figcaption><b>Chica</b><span class="chico">En botones y líneas de texto.</span></figcaption></figure>
-        <figure class="carga-ficha"><div class="carga-ficha__escena">${cargaDibuja({ tam: 120, etiqueta: "Preparando tu diagnóstico" })}</div><figcaption><b>Dibuja</b><span class="chico">Pantallas de carga de marca.</span></figcaption></figure>
-        <figure class="carga-ficha"><div class="carga-ficha__escena">${cargaMarca({ tam: 104, larga: true })}<span class="chico">Leyendo 1.240 documentos…</span></div><figcaption><b>Órbita larga</b><span class="chico">Más de 4 s, con texto que cuenta.</span></figcaption></figure>
+        <figure class="carga-ficha"><div class="carga-ficha__escena">${cargaLlenado({ tam: 112, etiqueta: "Preparando tu diagnóstico" })}</div><figcaption><b>Se llena</b><span class="chico">Pantallas de carga: el disco se llena y, completo, el punto salta.</span></figcaption></figure>
+        <figure class="carga-ficha"><div class="carga-ficha__escena">${cargaFases({ tam: 104, fase: 1, total: 3, etiqueta: "Leyendo documentos" })}<span class="chico" data-fase-t>Fase 1 de 3 · leyendo 1.240 documentos</span></div><figcaption><b>Por fases</b><span class="chico">Más de 4 s: se llena por tercios y el texto cuenta qué pasa.</span></figcaption></figure>
         <figure class="carga-ficha carga-ficha--ancha"><div class="carga-ficha__escena"><div class="pila" style="width:100%">${progreso(["Datos", "Procesos", "Sistemas", "Resumen"], 1)}<div class="fila-botones">${boton("Atrás", { variante: "secundario", tam: "s", attrs: 'data-paso="-1"' })}${boton("Siguiente", { tam: "s", attrs: 'data-paso="1"' })}</div></div></div><figcaption><b>Etapas</b><span class="chico">El punto viaja al paso actual y deja encendido lo recorrido.</span></figcaption></figure>
         <figure class="carga-ficha carga-ficha--ancha"><div class="carga-ficha__escena"><div class="esq-tarjeta"><div class="esqueleto" style="width:48px;height:48px;border-radius:50%"></div><div style="display:grid;gap:9px;flex:1"><div class="esqueleto" style="height:14px;width:58%"></div><div class="esqueleto" style="height:11px;width:92%"></div><div class="esqueleto" style="height:11px;width:74%"></div></div></div></div><figcaption><b>Esqueleto de grano</b><span class="chico">El barrido es grano que se desplaza, no un brillo plano.</span></figcaption></figure>
       </div>
@@ -107,9 +107,11 @@ export const kit2 = {
         <div class="estado-tarjeta estado-tarjeta--ancha">${banner("Sin conexión", "Los cambios se guardan en este equipo y se envían al volver.", { tono: "alerta", cerrable: false })}</div>
       </div></div>`;
     const uso = usoDe(["Una sola carga por pantalla, siempre con <code>role=status</code> y una etiqueta que diga qué se carga.", "Ningún estado deja la pantalla en blanco: cada vista define su carga, su vacío y su error.", "Los errores no culpan y dicen qué hacer; el vacío invita a empezar."],
-      'boton.innerHTML = carga({ tam: 16 }) + " Guardando…";\npantalla.innerHTML = cargaDibuja({ etiqueta: "Preparando tu diagnóstico" });\nsincronizarCargas(pantalla);');
+      'boton.innerHTML = carga({ tam: 16 }) + " Guardando…";\npantalla.innerHTML = cargaLlenado({ etiqueta: "Preparando tu diagnóstico" });\nespera.innerHTML = cargaFases({ fase: 1, total: 3 });\nfijarFase(espera.firstElementChild, 2);');
     cuerpo(el).innerHTML = pieza({ vivo, uso });
-    activarPiezas(el); sincronizarCargas(el);
+    activarPiezas(el);
+    const cf = el.querySelector(".carga-logo--fases"), ft = el.querySelector("[data-fase-t]"), textos = ["leyendo 1.240 documentos", "ordenando por proceso", "cruzando con tus sistemas"]; let fz = 0;
+    const tf = setInterval(() => { if (!cf.isConnected) return clearInterval(tf); fz = (fz + 1) % 3; fijarFase(cf, fz + 1); ft.textContent = `Fase ${fz + 1} de 3 · ${textos[fz]}`; }, 2600);
     const prog = el.querySelector(".progreso");
     el.querySelectorAll("[data-paso]").forEach((b) => b.addEventListener("click", () => moverProgreso(prog, Math.max(0, Math.min(3, +prog.dataset.actual + +b.dataset.paso)))));
   },

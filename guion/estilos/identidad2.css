@@ -76,23 +76,34 @@
 .numeros-vivos__n { font-size: clamp(2.4rem, 1.4rem + 3vw, 4.2rem); font-weight: 700; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; line-height: 1.05; }
 @media (max-width: 860px) { .especimen, .numeros-vivos { grid-template-columns: 1fr; } .especimen__aa { font-size: 120px; } .escalera-tipo__fila { grid-template-columns: 1fr; padding-left: 0; } .tipo-anatomia__muestra { font-size: 120px; } }
 
-/* ── Retícula viva ── */
-.reticula-viva { position: relative; }
-.reticula-viva__cols { position: absolute; inset: -12px 0; display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; pointer-events: none; transition: opacity var(--d-3) var(--suave); }
-.reticula-viva__cols i { background: color-mix(in srgb, var(--acento) 12%, transparent); box-shadow: inset 1px 0 0 color-mix(in srgb, var(--acento-profundo) 30%, transparent), inset -1px 0 0 color-mix(in srgb, var(--acento-profundo) 30%, transparent); }
-.reticula-viva.sin-reticula .reticula-viva__cols { opacity: 0; }
-.reticula-viva__comp { position: relative; display: grid; gap: 0; max-width: 720px; }
-.reticula-viva__comp .ceja { margin-bottom: 12px; } .reticula-viva__comp .titulo-1 { margin-bottom: 16px; } .reticula-viva__comp .bajada { margin-bottom: 24px; }
-.reticula-viva__toggle { margin-top: var(--e-5); max-width: 260px; }
-.regla-espacio { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--e-4); margin-top: var(--e-7); }
-.regla-espacio__barras { display: grid; gap: 6px; }
-.regla-espacio__barras > div { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 12px; align-items: center; }
-.regla-espacio__barras i { grid-column: 2; grid-row: 1; height: 14px; width: var(--w); max-width: 100%; border-radius: 7px; background: linear-gradient(90deg, var(--acento-claro), var(--acento)); position: relative; }
-.regla-espacio__barras i::after { content: ""; position: absolute; right: -4px; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; background: var(--acento-profundo); }
-.regla-espacio__barras i { transform-origin: left; transition: transform 1100ms var(--llegada) calc(var(--i) * 70ms); }
-.regla-espacio.entra:not(.entro) .regla-espacio__barras i { transform: scaleX(0); }
-.regla-espacio__barras .mono { grid-column: 1; grid-row: 1; font-size: 12px; color: var(--texto-3); }
-.regla-espacio__barras b { grid-column: 2; grid-row: 1; justify-self: start; margin-left: calc(min(var(--w), 100% - 40px) + 14px); font-size: 12px; font-variant-numeric: tabular-nums; }
+/* ── Espacio: se mide con el punto ── */
+.espacio2 { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(240px, 1fr); gap: var(--e-6); align-items: center; }
+.espacio2__lamina { position: relative; padding: 48px 48px 48px 112px; border-radius: var(--r-4); }
+.espacio2__comp { display: grid; max-width: 560px; }
+.espacio2__comp .ceja { margin-bottom: 12px; } .espacio2__comp .titulo-1 { margin-bottom: 16px; } .espacio2__comp .bajada { margin-bottom: 24px; }
+.espacio2__capa { position: absolute; inset: 0; pointer-events: none; }
+.espacio2__marca { position: absolute; display: flex; align-items: center; gap: 8px; height: var(--g); transform: translateX(-100%); transition: opacity 400ms var(--suave); }
+.espacio2__marca i { width: var(--g); height: var(--g); border-radius: 50%; background: var(--punto-marca); flex: none; transform: scale(0); transition: transform 600ms var(--llegada); transition-delay: calc(var(--i) * 140ms); box-shadow: 0 2px 6px -2px rgba(22, 38, 58, .35); }
+.espacio2__marca b { font-size: 11.5px; font-weight: 700; color: var(--acento-texto); font-variant-numeric: tabular-nums; opacity: 0; transition: opacity 400ms var(--suave); transition-delay: calc(200ms + var(--i) * 140ms); }
+.espacio2__marca--borde { transform: none; flex-direction: column; justify-content: flex-start; align-items: flex-start; height: auto; width: var(--g); }
+.espacio2__marca--borde i { border-radius: 0 50% 50% 0; width: calc(var(--g) * .5); height: var(--g); opacity: .5; }
+.entro .espacio2__marca i, .espacio2:not(.entra) .espacio2__marca i { transform: none; }
+.entro .espacio2__marca b, .espacio2:not(.entra) .espacio2__marca b { opacity: 1; }
+.espacio2--oculto .espacio2__marca { opacity: 0; }
+.espacio2__lado { display: grid; gap: var(--e-5); }
+.espacio2__ley { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.espacio2__ley li { display: grid; grid-template-columns: 32px 1fr auto; gap: 10px; align-items: center; font-size: var(--t-chico); }
+.espacio2__ley i { justify-self: center; width: var(--g); height: var(--g); border-radius: 50%; background: var(--punto-marca); }
+.escala-punto { display: grid; gap: var(--e-4); margin-top: var(--e-7); }
+.escala-punto__fila { display: flex; align-items: flex-end; gap: clamp(10px, 2vw, 26px); flex-wrap: wrap; padding: var(--e-5); border-radius: var(--r-4); background: var(--superficie); box-shadow: inset 0 0 0 1px var(--borde); }
+.escala-punto__paso { display: grid; justify-items: center; gap: 6px; min-width: 44px; padding: 0; }
+.escala-punto__paso i { width: var(--d); height: var(--d); border-radius: 50%; background: var(--punto-marca); box-shadow: inset 0 -2px 4px rgba(0, 0, 0, .12); transform-origin: bottom center; transition: transform 300ms var(--llegada); }
+.escala-punto__paso:hover i { transform: translateY(-4px); }
+.escala-punto__paso.salta i { animation: escala-salta 900ms cubic-bezier(.45, .05, .55, .95); }
+@keyframes escala-salta { 40% { transform: translateY(-22px); } 80% { transform: none; } 90% { transform: scale(1.06, .92); } }
+.escala-punto__paso b { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.escala-punto__paso .mono { font-size: 11px; color: var(--texto-3); }
+@media (max-width: 860px) { .espacio2 { grid-template-columns: minmax(0, 1fr); } .espacio2__lamina { padding: 32px 20px 32px 84px; } .escala-punto__paso:nth-child(n+9) { display: none; } }
 
 /* ── Forma: banco de luz ── */
 .banco-luz { position: relative; border-radius: var(--r-4); padding: clamp(32px, 5vw, 72px); background: var(--superficie-hundida); overflow: hidden; isolation: isolate; min-height: 460px; }

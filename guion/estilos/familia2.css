@@ -107,3 +107,8 @@
 .barbara2__nota { color: #A5A69D; }
 @media (max-width: 860px) { .barbara2__heroe { grid-template-columns: minmax(0, 1fr); } }
 @media (prefers-reduced-motion: reduce) { .barbara2__chispa { animation: none; } }
+
+/* la aurora se pinta una vez; esta deriva lenta le da vida sin costo */
+.familia2__aurora, .medula2__aurora, .l-producto__aurora { transform-origin: 80% 10%; animation: aurora-deriva 16s ease-in-out infinite alternate; }
+@keyframes aurora-deriva { to { transform: scale(1.08) translate(-1.5%, 1%); } }
+@media (prefers-reduced-motion: reduce) { .familia2__aurora, .medula2__aurora, .l-producto__aurora { animation: none; } }

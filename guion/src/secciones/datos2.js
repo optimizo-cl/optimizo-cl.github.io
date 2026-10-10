@@ -4,12 +4,12 @@ import { pieza, activarPiezas, codigo } from "../kit/presentar.js";
 import { boton, segmento } from "../kit/controles.js";
 import { toast, estado } from "../kit/avisos.js";
 import { icono, rellenarIconos } from "../kit/iconos.js";
-import { isotipo } from "../kit/marca.js";
+import { isotipo, DISCO } from "../kit/marca.js";
 import { ejemplo } from "../kit/guion.js";
 import { contar } from "../kit/coreografia.js";
 import { tabla } from "../patrones/tabla.js";
 import { barrasTrama, lineaViva, antesDespuesBarras, apiladaTextura } from "../patrones/graficas2.js";
-import { buscarMemoria, resultadosHTML, resaltar, abrirBuscador, activarAtajoBuscador } from "../patrones/buscador.js";
+import { abrirBuscador, activarAtajoBuscador } from "../patrones/buscador.js";
 import { COTIZACIONES, VENTAS, PROCESOS, CANALES, NOTAS, clp, clpCorto, fechaCorta } from "../demo/quillay.js";
 import { movimientoReducido } from "../kit/escenas/vigia.js";
 
@@ -85,47 +85,64 @@ export const datos2 = {
     addEventListener("resize", pintar);
   },
 
-  async busqueda(el) {
-    const vivo = `<div class="busqueda2" data-busqueda>
-      <div class="busqueda2__barra"><label class="buscador__campo">${icono("magnifying-glass", { tam: 20 })}<input type="search" value="despacho" placeholder="Buscar en la memoria de Quillay" aria-label="Buscar en la memoria" data-q></label>${segmento(["Órbitas", "Lista"], { etiqueta: "Vista de resultados", nombre: "vista-b" })}</div>
-      <div class="busqueda2__orbitas" data-orbitas><svg viewBox="0 0 640 360" role="group" aria-label="Resultados por relevancia: más cerca del centro, más relevante" data-svg></svg><div class="orb-ficha papel" data-ficha hidden><b></b><span class="chico"></span><span class="rotulo"></span></div></div>
-      <div class="busqueda2__lista buscador__resultados" data-lista hidden aria-live="polite"></div>
-      <div class="nav-pie">${ejemplo()}<p class="chico">Más cerca del centro = más relevante. Ignora tildes y mayúsculas y dice de dónde viene cada dato.</p></div></div>`;
-    cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["Las órbitas muestran relevancia de un vistazo; la lista sigue a un clic (y es la vista con teclado más rápida).", "Cada resultado dice de dónde viene: correo, WhatsApp, planilla, reunión.", "Sin resultados: el disco sin su punto y una sugerencia concreta."]) });
+  /* ── Vacíos y errores: cada estado es una «pose» del isotipo; la acción la resuelve con un gesto del punto ── */
+  async vacios(el) {
+    const NIDO = { x: 25.863, y: 22.754 };
+    const POSES = [
+      { k: "uso", t: "Empecemos por tu primer proceso", d: "Falta el punto: documenta algo que se repite cada semana y el disco se completa.", acc: "Documentar un proceso", ico: "plus", desde: [150, 92], fin: ["Listo: tu primer proceso", "El disco está completo. Ahora documenta el siguiente."] },
+      { k: "busqueda", t: "Nada con «rodamientos SKF»", d: "El punto anda buscando. Prueba con menos palabras o por cliente.", acc: "Probar con «rodamientos»", ico: "magnifying-glass", desde: [-14, -18], fin: ["3 resultados con «rodamientos»", "Acuerdo de precios con Minera Los Bronces Sur, y 2 más."] },
+      { k: "permiso", t: "Esta sección es de administración", d: "La mordida está cerrada: pídele acceso a Camila Rojas, administradora de Quillay.", acc: "Pedir acceso", ico: "lock-simple", desde: [-34, -46], fin: ["Acceso concedido", "Camila te dio acceso. Ya puedes entrar."] },
+      { k: "conexion", t: "Sin conexión", d: "Lo que escribas se guarda en este equipo y se envía al volver.", acc: "Reintentar", ico: "arrow-clockwise", desde: [-78, -40], fin: ["Conectado de nuevo", "Se enviaron los 2 cambios que quedaron pendientes."] },
+      { k: "servidor", t: "Algo falló de nuestro lado", d: "El punto se cayó. Ya nos llegó el aviso y tus datos están a salvo.", acc: "Reintentar", ico: "arrow-clockwise", desde: [28, 150], fin: ["Todo en su lugar", "Volvió a funcionar. Gracias por la paciencia."] },
+    ];
+    const pose = (p) => `<article class="pose pose--${p.k}" data-pose="${p.k}">
+      <svg class="pose__svg" viewBox="-60 -60 260 260" aria-hidden="true"><g transform="translate(-6.054688 -2.601562)">
+        ${p.k === "servidor" ? `<line x1="-20" y1="${NIDO.y + 168}" x2="170" y2="${NIDO.y + 168}" class="pose__piso"/><ellipse cx="${NIDO.x + 28}" cy="${NIDO.y + 167}" rx="20" ry="4" class="pose__sombra"/>` : ""}
+        <path class="pose__disco" fill-rule="evenodd" d="${DISCO}"/>
+        ${p.k === "permiso" ? `<path class="pose__cerrado" fill-rule="evenodd" d="M 6.054688 71.753906 A 69.152 69.152 0 1 1 144.359 71.753906 A 69.152 69.152 0 1 1 6.054688 71.753906 Z M 57.917969 71.753906 A 17.288 17.288 0 1 0 92.492 71.753906 A 17.288 17.288 0 1 0 57.917969 71.753906 Z"/>` : ""}
+        <circle class="pose__nido" cx="${NIDO.x}" cy="${NIDO.y}" r="16.3"/>
+        ${p.k === "conexion" ? `<line class="pose__cuerda" x1="${NIDO.x}" y1="${NIDO.y}" x2="${NIDO.x + p.desde[0]}" y2="${NIDO.y + p.desde[1]}"/>` : ""}
+        <g class="pose__flota"><circle class="pose__punto" cx="${NIDO.x}" cy="${NIDO.y}" r="17.289" style="transform:translate(${p.desde[0]}px, ${p.desde[1]}px)"/></g>
+      </g></svg>
+      <div class="pose__texto"><b class="titulo-3" data-t>${p.t}</b><p class="chico" data-d>${p.d}</p>
+        ${boton(p.acc, { variante: p.k === "uso" ? "primario" : "secundario", tam: "s", ico: p.ico, attrs: `data-resolver="${p.k}"` })}</div></article>`;
+    const vivo = `<div class="poses">${POSES.map(pose).join("")}</div>`;
+    const uso = usoDe(["Cada vacío o error es una pose del isotipo: el punto fuera de su nido dice «falta algo» sin dramatismo.", "La acción principal resuelve la pose: el punto vuelve a su lugar. El usuario ve que lo que hizo funcionó.", "Siempre se dice qué pasó, qué hacer y que los datos están a salvo.", "Con «reducir movimiento», el punto aparece directo en su lugar."]);
+    cuerpo(el).innerHTML = pieza({ vivo, uso });
     activarPiezas(el); await rellenarIconos();
-    const raiz = el.querySelector("[data-busqueda]"), svg = raiz.querySelector("[data-svg]"), q = raiz.querySelector("[data-q]"), ficha = raiz.querySelector("[data-ficha]"), lista = raiz.querySelector("[data-lista]"), caja = raiz.querySelector("[data-orbitas]");
-    const NS = "http://www.w3.org/2000/svg", C = { x: 320, y: 180 };
-    const sinT = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
-    const pintar = () => {
-      const texto = q.value.trim(), { notas, procesos } = buscarMemoria(texto);
-      lista.innerHTML = resultadosHTML(texto); rellenarIconos();
-      const res = [...notas.map((x) => ({ nombre: x.titulo, detalle: x.texto, fuente: `${x.fuente} · ${x.fecha}`, puntaje: (sinT(x.titulo).includes(sinT(texto)) ? 1 : 0.55) })), ...procesos.map((x) => ({ nombre: x.nombre, detalle: `${x.area} · ${x.horas} h por semana`, fuente: "Proceso", puntaje: 0.8 }))];
-      svg.innerHTML = `${[70, 120, 165].map((r) => `<ellipse cx="${C.x}" cy="${C.y}" rx="${r * 1.55}" ry="${r}" class="orb-orbita"/>`).join("")}<g class="busqueda2__centro" transform="translate(${C.x} ${C.y})"><circle r="30" class="orb-nodo__disco"/><circle r="9" class="orb-nodo__hueco"/><text y="52" text-anchor="middle" class="orb-nodo__nombre">«${texto || "…"}»</text></g>`;
-      if (!texto || !res.length) { svg.insertAdjacentHTML("beforeend", `<text x="${C.x}" y="${C.y + 100}" text-anchor="middle" class="busqueda2__nada">${texto ? `Nada con «${texto}». Prueba con «precios» o «cotizar».` : "Escribe para buscar."}</text>`); return; }
-      res.sort((a, b) => b.puntaje - a.puntaje).forEach((r, i) => {
-        const radio = r.puntaje >= 0.95 ? 70 : r.puntaje >= 0.7 ? 120 : 165, a = -Math.PI / 2 + i * 2.4, x = C.x + Math.cos(a) * radio * 1.55, y = C.y + Math.sin(a) * radio;
-        const g = document.createElementNS(NS, "g"); g.setAttribute("class", "orb-nodo busqueda2__res"); g.setAttribute("transform", `translate(${x} ${y})`); g.setAttribute("tabindex", "0"); g.setAttribute("role", "button"); g.setAttribute("aria-label", `${r.nombre}. ${r.fuente}`); g.style.setProperty("--i", i);
-        g.innerHTML = `<line x1="0" y1="0" x2="${C.x - x}" y2="${C.y - y}" class="orb-arco busqueda2__liga"/><circle r="${8 + r.puntaje * 8}" class="orb-nodo__disco"/><circle r="${3 + r.puntaje * 2}" class="orb-nodo__hueco"/><text y="${26 + r.puntaje * 6}" text-anchor="middle" class="orb-nodo__nombre busqueda2__nombre">${r.nombre.length > 26 ? r.nombre.slice(0, 25) + "…" : r.nombre}</text>`;
-        const ver = () => { ficha.querySelector("b").innerHTML = resaltar(r.nombre, texto); ficha.querySelector(".chico").innerHTML = resaltar(r.detalle, texto); ficha.querySelector(".rotulo").textContent = r.fuente; ficha.hidden = false; const b = caja.getBoundingClientRect(), gb = g.getBoundingClientRect(); ficha.style.left = Math.max(8, Math.min(b.width - ficha.offsetWidth - 8, gb.left - b.left + gb.width / 2 - ficha.offsetWidth / 2)) + "px"; ficha.style.top = Math.max(8, gb.top - b.top - ficha.offsetHeight - 10) + "px"; };
-        g.addEventListener("pointerenter", ver); g.addEventListener("focus", ver); g.addEventListener("pointerleave", () => (ficha.hidden = true)); g.addEventListener("blur", () => (ficha.hidden = true));
-        svg.appendChild(g);
+    const red = () => movimientoReducido();
+    el.querySelectorAll("[data-pose]").forEach((art) => {
+      const p = POSES.find((x) => x.k === art.dataset.pose), punto = art.querySelector(".pose__punto"), btn = art.querySelector("[data-resolver]");
+      const t = art.querySelector("[data-t]"), d = art.querySelector("[data-d]"), etiqueta = btn.querySelector(".boton__texto");
+      const volar = (de, a, alto) => red() ? Promise.resolve() : punto.animate([
+        { transform: `translate(${de[0]}px, ${de[1]}px)` },
+        { transform: `translate(${(de[0] + a[0]) / 2}px, ${Math.min(de[1], a[1]) - alto}px) scale(.92)`, offset: 0.5 },
+        { transform: `translate(${a[0]}px, ${a[1]}px) scale(1.08, .9)`, offset: 0.86 },
+        { transform: `translate(${a[0]}px, ${a[1]}px)` }], { duration: 1100, easing: "cubic-bezier(.45,.05,.55,.95)", fill: "forwards" }).finished;
+      let resuelto = false;
+      btn.addEventListener("click", async () => {
+        btn.disabled = true;
+        if (!resuelto) {
+          art.classList.add("resolviendo");
+          if (p.k === "permiso") await new Promise((r) => setTimeout(r, red() ? 0 : 500)); // primero se abre la mordida
+          if (p.k === "conexion") art.querySelector(".pose__cuerda").classList.add("tensa");
+          await volar(p.desde, [0, 0], p.k === "servidor" ? 120 : p.k === "conexion" ? 10 : 40);
+          punto.style.transform = "none";
+          art.classList.remove("resolviendo"); art.classList.add("resuelta");
+          t.textContent = p.fin[0]; d.textContent = p.fin[1]; etiqueta.textContent = "Ver de nuevo";
+        } else {
+          art.classList.remove("resuelta");
+          if (p.k === "conexion") art.querySelector(".pose__cuerda").classList.remove("tensa");
+          await volar([0, 0], p.desde, 30);
+          punto.style.transform = `translate(${p.desde[0]}px, ${p.desde[1]}px)`;
+          t.textContent = p.t; d.textContent = p.d; etiqueta.textContent = p.acc;
+        }
+        punto.getAnimations().forEach((x) => x.cancel());
+        resuelto = !resuelto; btn.disabled = false;
       });
-    };
-    q.addEventListener("input", pintar); pintar();
-    raiz.querySelector('[data-segmento="vista-b"]').addEventListener("cambio", (e) => { const orb = e.detail === "Órbitas"; caja.hidden = !orb; lista.hidden = orb; });
+    });
   },
 
-  async vacios(el) {
-    const caso = (clase, fig, t, d, acc) => `<div class="vacio2 ${clase}"><div class="vacio2__fig">${fig}</div><b class="titulo-3">${t}</b><p class="chico">${d}</p>${acc}</div>`;
-    const vivo = `<div class="vacios2">
-      ${caso("vacio2--primero", `${isoSin("vacio2__iso")}`, "Empecemos por tu primer proceso", "Falta el punto: documenta algo que se repite cada semana y el disco se completa.", boton("Documentar un proceso", { ico: "plus", tam: "s" }))}
-      ${caso("vacio2--busqueda", `${isoSin("vacio2__iso")}<i class="vacio2__perdido"></i>`, "Nada con «rodamientos SKF»", "El punto anda buscando. Prueba con menos palabras o por cliente.", boton("Limpiar búsqueda", { variante: "secundario", tam: "s" }))}
-      ${caso("vacio2--permiso", `${isoSin("vacio2__iso")}<span class="vacio2__candado">${icono("lock-simple", { tam: 18 })}</span>`, "Esta sección es de administración", "Pídele acceso a Camila Rojas, administradora de Quillay.", boton("Pedir acceso", { variante: "secundario", tam: "s" }))}
-      ${caso("vacio2--error", `${isoSin("vacio2__iso")}<svg class="vacio2__rebote" viewBox="0 0 120 120" aria-hidden="true"><path d="M30 34 Q 6 10 -14 30" /><circle cx="-14" cy="30" r="6"/></svg>`, "Algo falló de nuestro lado", "Ya nos llegó el aviso. Tus datos están a salvo; intenta en un minuto.", boton("Reintentar", { variante: "secundario", tam: "s", ico: "arrow-clockwise" }))}
-    </div>`;
-    cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["El vacío es el disco sin su punto: «falta algo», sin drama.", "Cada vacío dice qué va acá y ofrece el siguiente paso.", "Los errores no culpan y dicen qué hacer."]) });
-    activarPiezas(el); await rellenarIconos();
-  },
   /* ── Cimientos de app: la base (retícula, barra lateral, migas, ⌘K), sin pantallas inventadas ── */
   async cimientos(el) {
     activarAtajoBuscador();
