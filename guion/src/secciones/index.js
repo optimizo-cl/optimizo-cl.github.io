@@ -10,6 +10,7 @@ import { datos2, numeros2 } from "./datos2.js";
 import { producto2 } from "./producto2.js";
 import { familia2 } from "./familia2.js";
 import { web2 } from "./web2.js";
+import { manual2 } from "./manual2.js";
 import { escenas } from "./escenas.js";
 import { movimiento } from "./movimiento.js";
 import { kit } from "./kit.js";
@@ -29,7 +30,7 @@ const renombres = {
 // lo que la app real va a reemplazar, o que se fusionó
 const fuera = ["aura", "flujos", "nav-app", "sellos", "carga", "estados", "nav-celular", "nav-sitio", "paneles", "flujo-conecta"];
 
-export const CONSTRUIDAS = Object.fromEntries(Object.entries({ ...v1, ...renombres, ...identidad2, ...escenas2, ...punto2, ...kit2, ...formularios2, ...orbitas2, ...datos2, ...producto2, ...familia2, landing: web2.landing, video: web2.video, presentacion: web2.presentacion, "error-404": web2["error-404"], redes: web2.redes(v1.redes), papeleria: web2.papeleria(v1.papeleria), numeros: numeros2(v1.numeros), logo: (el) => punto2.logo(el, v1.logo) }).filter(([k, v]) => v && !fuera.includes(k)));
+export const CONSTRUIDAS = Object.fromEntries(Object.entries({ ...v1, ...renombres, ...identidad2, ...escenas2, ...punto2, ...kit2, ...formularios2, ...orbitas2, ...datos2, ...producto2, ...familia2, landing: web2.landing, video: web2.video, presentacion: web2.presentacion, "error-404": web2["error-404"], redes: web2.redes(v1.redes), papeleria: web2.papeleria(v1.papeleria), "manual-logo": manual2["manual-logo"](v1["manual-logo"]), "movimiento-spec": manual2["movimiento-spec"], descargas: manual2.descargas, numeros: numeros2(v1.numeros), logo: (el) => punto2.logo(el, v1.logo) }).filter(([k, v]) => v && !fuera.includes(k)));
 export const REPINTAR = [...REPINTAR_IDENTIDAD.filter((x) => x !== "portada"), ...REPINTAR_IDENTIDAD2, "landing", "correos", "firma-correo", "manual-logo", "descargas"];
 
 /** Marcador honesto de una sección que todavía no se construye. */
