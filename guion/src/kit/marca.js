@@ -23,24 +23,6 @@ export function isotipo({ color = null, clase = "", titulo = "Optimizo" } = {}) 
     </g></svg>`;
 }
 
-let logotipoD = null;
-/** Trae el trazo del logotipo (Poppins en vectores) desde el SVG generado. */
-export async function cargarLogotipo() {
-  if (logotipoD) return logotipoD;
-  const txt = await (await fetch(new URL("../../assets/logo/optimizo-logotipo.svg", import.meta.url))).text();
-  const doc = new DOMParser().parseFromString(txt, "image/svg+xml");
-  const svg = doc.querySelector("svg");
-  const path = doc.querySelector("path");
-  logotipoD = { viewBox: svg.getAttribute("viewBox"), transform: path.getAttribute("transform"), d: path.getAttribute("d") };
-  return logotipoD;
-}
-
-/** Logotipo en el color del texto actual (currentColor): sirve en claro y oscuro. */
-export async function logotipo({ clase = "" } = {}) {
-  const l = await cargarLogotipo();
-  return `<svg class="logotipo ${clase}" viewBox="${l.viewBox}" role="img" aria-label="optimizo"><path fill="currentColor" transform="${l.transform}" d="${l.d}"/></svg>`;
-}
-
 let logoTxt = null;
 /** Logo horizontal (el SVG generado por construir_logo.py): texto en currentColor y degradado de la paleta activa. */
 export async function logo({ clase = "", titulo = "Optimizo" } = {}) {

@@ -130,6 +130,10 @@
 .contador { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding-inline: 6px; border-radius: 10px; background: var(--acento-profundo); color: #fff; font-size: 11.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
 :root[data-tema="oscuro"] .contador { color: var(--tinta); background: var(--acento-claro); }
 
+/* ── Marca de datos de ejemplo (regla: todo dato demo se marca; también en páginas reales) ── */
+.ejemplo { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; letter-spacing: .02em; color: var(--texto-3); background: var(--superficie-hundida); padding: 3px 9px; border-radius: var(--r-pleno); }
+.ejemplo::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--texto-3); }
+
 /* ── Estados: esqueleto, barra, vacío ── */
 .esqueleto { border-radius: var(--r-1); background: linear-gradient(90deg, var(--superficie-hundida) 30%, color-mix(in srgb, var(--superficie-hundida) 55%, var(--superficie-2)) 50%, var(--superficie-hundida) 70%); background-size: 300% 100%; animation: esqueleto 2.4s var(--suave) infinite; }
 @keyframes esqueleto { from { background-position: 100% 0; } to { background-position: 0 0; } }

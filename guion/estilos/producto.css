@@ -12,7 +12,7 @@
 @media (max-width: 640px) { .mapa__columnas { display: none; } }
 
 /* ── Escalera de madurez ── */
-.escalera { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; align-items: end; padding: var(--e-6) var(--e-5) var(--e-5); }
+.escalera { display: grid; grid-template-columns: repeat(var(--n, 5), 1fr); gap: 10px; align-items: end; padding: var(--e-6) var(--e-5) var(--e-5); }
 .escalon { position: relative; display: grid; gap: 8px; align-content: start; justify-items: start; text-align: left; padding: 16px; min-height: calc(150px + var(--i) * 34px); border-radius: var(--r-3); background: var(--superficie-2); box-shadow: var(--sombra-1), inset 0 0 0 1px var(--borde); transition: box-shadow var(--d-2) var(--suave), transform var(--d-2) var(--llegada); }
 .escalon:hover { transform: translateY(-2px); }
 .escalon[aria-pressed="true"] { box-shadow: var(--sombra-2), inset 0 0 0 2px var(--acento-profundo); }

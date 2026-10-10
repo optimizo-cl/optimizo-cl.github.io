@@ -39,13 +39,7 @@ body { padding-bottom: 0; }
 .l-servicio .icono { color: var(--acento-texto); margin-bottom: 8px; }
 .l-medula { grid-template-columns: 1fr 1.2fr; align-items: center; gap: var(--e-7); }
 .l-medula__marca { min-height: 220px; }
-.l-caso { padding: var(--e-6); display: grid; gap: var(--e-5); }
-.l-escalera { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; align-items: end; }
-.l-escalera li { display: grid; gap: 4px; padding: 16px; border-radius: var(--r-3); background: var(--superficie-2); box-shadow: inset 0 0 0 1px var(--borde); }
-.l-escalera li:nth-child(1) { min-height: 110px; } .l-escalera li:nth-child(2) { min-height: 140px; } .l-escalera li:nth-child(3) { min-height: 170px; } .l-escalera li:nth-child(4) { min-height: 200px; }
-.l-escalera li.activo { box-shadow: inset 0 0 0 2px var(--acento-profundo); }
-.l-escalera__n { font-size: 12px; font-weight: 700; color: var(--texto-3); }
-.l-escalera b { font-weight: 600; }
+.l-caso { display: grid; gap: var(--e-5); }
 .l-cierre { position: relative; overflow: hidden; padding-block: var(--e-10); margin-top: var(--e-8); }
 .l-cierre__aura { position: absolute; inset: 0; width: 100%; height: 100%; }
 .l-cierre__dentro { position: relative; display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--e-7); align-items: center; color: var(--navy); }
@@ -55,4 +49,4 @@ body { padding-bottom: 0; }
 .l-form .boton { width: 100%; }
 :root[data-tema="oscuro"] .l-cierre__dentro, :root[data-tema="oscuro"] .l-cierre__dentro .ceja, :root[data-tema="oscuro"] .l-cierre__dentro .bajada { color: var(--hueso); }
 .l-pie { display: flex; justify-content: space-between; align-items: center; gap: var(--e-4); padding-block: var(--e-6); flex-wrap: wrap; }
-@media (max-width: 860px) { .l-tres, .l-pasos, .l-servicios, .l-medula, .l-cierre__dentro { grid-template-columns: 1fr; } .l-escalera { grid-template-columns: repeat(2, 1fr); } .l-seccion { padding-block: var(--e-8); } }
+@media (max-width: 860px) { .l-tres, .l-pasos, .l-servicios, .l-medula, .l-cierre__dentro { grid-template-columns: 1fr; } 

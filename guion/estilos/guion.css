@@ -22,8 +22,6 @@
 .ficha__codigo { background: var(--superficie-hundida); border-radius: var(--r-2); padding: var(--e-3) var(--e-4); overflow-x: auto; font-family: var(--letra-mono); font-size: 12.5px; line-height: 1.6; color: var(--texto); }
 .ficha__reglas { padding-left: 18px; display: grid; gap: 4px; }
 
-.ejemplo { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; letter-spacing: .02em; color: var(--texto-3); background: var(--superficie-hundida); padding: 3px 9px; border-radius: var(--r-pleno); }
-.ejemplo::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--texto-3); }
 
 /* Utilidades de composición del guion */
 .fila-botones { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }

@@ -8,7 +8,7 @@ import { isotipo } from "../src/kit/marca.js";
 import { isotipo3d } from "../src/kit/escenas/isotipo3d.js";
 import { aura } from "../src/kit/escenas/aura.js";
 import { flujos } from "../src/kit/escenas/flujos.js";
-import { sello } from "../src/secciones/producto.js";
+import { sello, escaleraHTML, PASOS_MADUREZ } from "../src/secciones/producto.js";
 
 activarCampos();
 await cargarIconos(["list", "x"]);
@@ -27,8 +27,7 @@ aura(document.querySelector(".l-cierre__aura"));
 const SERVICIOS = [["magnifying-glass", "Diagnóstico de procesos", "Mapa de cómo trabaja tu empresa y por dónde empezar."], ["kanban", "CRM a medida", "Clientes, cotizaciones y ventas en un solo lugar, hecho para tu proceso."], ["brain", "Medula", "La memoria de la empresa, conectada a tus sistemas."], ["users-three", "Equipos de agentes", "Un departamento completo trabajando con el tuyo."], ["flow-arrow", "Flujos comerciales", "WhatsApp, llamadas y seguimiento que no se pierden."], ["plugs-connected", "Integraciones", "Tu facturación, tu ERP y tus planillas, hablando entre sí."]];
 document.querySelector("[data-servicios]").innerHTML = SERVICIOS.map(([ic, t, d]) => `<article class="mate l-servicio">${icono(ic, { tam: 28 })}<b class="titulo-3">${t}</b><p class="chico">${d}</p></article>`).join("");
 
-const ESC = [["Sin CRM", "Planillas y WhatsApp"], ["CRM a medida", "Cotiza en minutos"], ["Medula", "La empresa recuerda"], ["Agentes", "Lo repetitivo, resuelto"]];
-document.querySelector("[data-escalera]").innerHTML = `<ol class="l-escalera">${ESC.map(([t, d], i) => `<li class="${i === 1 ? "activo" : ""}"><span class="l-escalera__n">${i + 1}</span><b>${t}</b><span class="chico">${d}</span></li>`).join("")}</ol>
+document.querySelector("[data-escalera]").innerHTML = `${escaleraHTML(PASOS_MADUREZ.slice(0, 4), { hoy: 1, etiqueta: "Acá llegó" })}
   <p class="chico">Una distribuidora industrial de 38 personas pasó de cotizar en 2,5 días a hacerlo en la misma conversación. Siguiente escalón: su memoria en Medula. <span class="ejemplo">Datos de ejemplo</span></p>`;
 
 const form = document.querySelector("[data-form]");

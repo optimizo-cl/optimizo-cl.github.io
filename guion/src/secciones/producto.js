@@ -13,6 +13,21 @@ const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const persona = (id) => PERSONAS.find((p) => p.id === id)?.nombre || "Sin responsable";
 let flujoVivo = null;
 
+export const PASOS_MADUREZ = [
+  ["Sin CRM", "Ventas en planillas y WhatsApp. Nadie ve el total.", "file-xls"],
+  ["CRM a medida", "Clientes, cotizaciones y ventas en un solo lugar.", "kanban"],
+  ["Medula", "La empresa recuerda: correos, reuniones y acuerdos, buscables.", "brain"],
+  ["Agentes", "Tareas repetitivas que ya no hace una persona.", "robot"],
+  ["Departamentos", "Un equipo completo (por ejemplo, marketing) trabajando con el tuyo.", "users-three"],
+];
+/** Escalera de madurez: UNA pieza para el guion y el sitio. hoy = escalón actual (lleva el punto); el siguiente se marca. */
+export function escaleraHTML(pasos, { hoy = 0, etiqueta = "La empresa está acá" } = {}) {
+  return `<div class="escalera mate" style="--n:${pasos.length}">${pasos.map(([t, d, ic], i) => `
+    <button type="button" class="escalon ${i === hoy ? "escalon--hoy" : ""} ${i === hoy + 1 ? "escalon--sigue" : ""}" style="--i:${i}" aria-pressed="${i === hoy}">
+      <span class="escalon__n">${i + 1}</span>${icono(ic, { tam: 24 })}<b>${t}</b><span class="chico">${d}</span>
+      ${i === hoy ? `<span class="escalon__punto" aria-label="${etiqueta}"></span>` : ""}${i === hoy + 1 ? '<span class="insignia insignia--acento"><i></i>Siguiente paso</span>' : ""}</button>`).join("")}</div>`;
+}
+
 /** Sello «de Optimizo»: isotipo mínimo + texto. Va bajo la marca del producto, nunca al lado ni más grande. */
 export const sello = ({ claro = false } = {}) => `<span class="sello ${claro ? "sello--claro" : ""}">${isotipo({ clase: "sello__iso" })}<span>de Optimizo</span></span>`;
 
@@ -52,17 +67,7 @@ export const producto = {
   },
 
   async escalera(el) {
-    const pasos = [
-      ["Sin CRM", "Ventas en planillas y WhatsApp. Nadie ve el total.", "file-xls"],
-      ["CRM a medida", "Clientes, cotizaciones y ventas en un solo lugar.", "kanban"],
-      ["Medula", "La empresa recuerda: correos, reuniones y acuerdos, buscables.", "brain"],
-      ["Agentes", "Tareas repetitivas que ya no hace una persona.", "robot"],
-      ["Departamentos", "Un equipo completo (por ejemplo, marketing) trabajando con el tuyo.", "users-three"],
-    ];
-    cuerpo(el).innerHTML = `<div class="escalera mate">${pasos.map(([t, d, ic], i) => `
-        <button type="button" class="escalon ${i === 0 ? "escalon--hoy" : ""} ${i === 1 ? "escalon--sigue" : ""}" style="--i:${i}" data-i="${i}" aria-pressed="${i === 0}">
-          <span class="escalon__n">${i + 1}</span>${icono(ic, { tam: 24 })}<b>${t}</b><span class="chico">${d}</span>
-          ${i === 0 ? `<span class="escalon__punto" aria-label="${EMPRESA.corto} está acá"></span>` : ""}${i === 1 ? '<span class="insignia insignia--acento"><i></i>Siguiente paso</span>' : ""}</button>`).join("")}</div>
+    cuerpo(el).innerHTML = `${escaleraHTML(PASOS_MADUREZ, { hoy: 0 })}
       <div class="nav-pie">${ejemplo()}<p class="chico">El punto marca dónde está ${EMPRESA.corto} hoy. Cada escalón se apoya en el anterior: no se salta del 1 al 4.</p></div>`;
     rellenarIconos();
     el.querySelectorAll(".escalon").forEach((b) => b.addEventListener("click", () => el.querySelectorAll(".escalon").forEach((x) => x.setAttribute("aria-pressed", x === b))));
