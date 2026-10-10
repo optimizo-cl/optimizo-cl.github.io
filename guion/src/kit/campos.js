@@ -18,7 +18,7 @@ export function campo(etiqueta, { tipo = "texto", nombre = "", valor = "", ayuda
   }
   return `<div class="campo ${error ? "campo--error" : ""}" data-campo>
     <label class="campo__etiqueta" for="${id}">${etiqueta}${requerido ? "" : ' <span class="campo__opcional">opcional</span>'}</label>
-    <div class="campo__control campo__control--${tipo}">${control}</div>
+    <div class="campo__control campo__control--${tipo}">${control}<i class="campo__punto" aria-hidden="true"></i></div>
     ${ayuda ? `<p class="campo__ayuda" id="${id}-ayuda">${ayuda}</p>` : ""}
     <p class="campo__error" id="${id}-error" ${error ? "" : "hidden"}>${icono("warning-circle", { tam: 16 })}<span>${error}</span></p>
     ${max && tipo === "area" ? `<p class="campo__contador"><span>${valor.length}</span>/${max}</p>` : ""}
@@ -53,6 +53,7 @@ export function validar(input) {
   else if (v && tipo === "rut" && !rutValido(v)) msg = "El RUT no calza con su dígito verificador. Revisa el número.";
   else if (v && tipo === "telefono" && v.replace(/\D/g, "").length !== 9) msg = "El celular tiene 9 dígitos y parte con 9.";
   mostrarError(input, msg);
+  input.closest("[data-campo]")?.classList.toggle("campo--valido", !msg && !!v);
   return !msg;
 }
 export function mostrarError(input, msg) {
@@ -70,9 +71,12 @@ export function activarCampos() {
   if (activo) return; activo = true;
   document.addEventListener("input", (e) => {
     const i = e.target; if (!i.dataset?.tipo) return;
+    const antes = i.value;
     if (i.dataset.tipo === "rut") i.value = formatearRut(i.value);
     if (i.dataset.tipo === "pesos") i.value = formatearPesos(i.value);
     if (i.dataset.tipo === "telefono") i.value = formatearTelefono(i.value);
+    // cuando el formato reacomoda lo escrito (puntos, guion, espacios), el texto «se ordena» con un leve ajuste
+    if (i.value !== antes && i.value.length > 3) { const c = i.closest("[data-campo]"); c?.classList.remove("campo--ordena"); void c?.offsetWidth; c?.classList.add("campo--ordena"); }
     if (i.matches("textarea[maxlength]")) { const c = i.closest("[data-campo]").querySelector(".campo__contador span"); if (c) c.textContent = i.value.length; }
     // si había error, se re-valida al escribir (el error se va apenas se corrige)
     if (i.closest(".campo--error")) validar(i);

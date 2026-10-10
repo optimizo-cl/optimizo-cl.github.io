@@ -2,6 +2,14 @@
 import { icono, rellenarIconos } from "./iconos.js";
 
 let abierto = null; // un flotante a la vez
+// dónde se tocó por última vez: el diálogo nace ahí (con teclado, desde el centro del elemento con foco)
+let toque = null;
+addEventListener("pointerdown", (e) => { toque = { x: e.clientX, y: e.clientY, t: performance.now() }; }, { capture: true, passive: true });
+function origenDelGesto() {
+  if (toque && performance.now() - toque.t < 1500) return toque;
+  const f = document.activeElement?.getBoundingClientRect?.();
+  return f && f.width ? { x: f.left + f.width / 2, y: f.top + f.height / 2 } : { x: innerWidth / 2, y: innerHeight / 2 };
+}
 function cerrarAbierto(devolverFoco = true) {
   if (!abierto) return;
   const { el, ancla, limpiar } = abierto; abierto = null;
@@ -20,13 +28,18 @@ function posicionar(el, ancla, { alinear = "inicio" } = {}) {
   x = Math.max(12, Math.min(x, innerWidth - m.width - 12));
   const y = abajo ? r.bottom + 8 : r.top - m.height - 8;
   el.style.left = x + scrollX + "px"; el.style.top = y + scrollY + "px";
-  // nace del botón: el origen de la animación queda en el punto del ancla
-  el.style.transformOrigin = `${r.left + r.width / 2 - x}px ${abajo ? 0 : m.height}px`;
+  // nace del botón: el círculo de revelado y el punto que señala quedan sobre el centro del ancla
+  const ox = Math.max(16, Math.min(m.width - 16, r.left + r.width / 2 - x));
+  el.style.transformOrigin = `${ox}px ${abajo ? 0 : m.height}px`;
+  el.style.setProperty("--ox", ox + "px"); el.style.setProperty("--oy", (abajo ? -8 : m.height + 8) + "px");
+  el.classList.toggle("flotante--arriba", !abajo);
 }
 
 function montar(el, ancla, opciones) {
   if (abierto?.ancla === ancla) { cerrarAbierto(); return null; }
   cerrarAbierto(false);
+  el.classList.add("papel");
+  el.insertAdjacentHTML("afterbegin", `<i class="flotante__punto" aria-hidden="true"></i>`);
   document.body.appendChild(el); rellenarIconos();
   posicionar(el, ancla, opciones);
   ancla.setAttribute("aria-expanded", "true");
@@ -89,8 +102,22 @@ export function abrirDialogo({ titulo, cuerpo, acciones = [], tipo = "modal", an
     const a = acciones[+b.dataset.accion]; const r = a.alHacer?.(d);
     if (r !== false && a.cierra !== false) cerrar();
   }));
+  const o = origenDelGesto();
   d.showModal();
+  if (tipo === "modal") { const c = d.querySelector(".dialogo__caja").getBoundingClientRect(); d.style.setProperty("--ox", o.x - c.left + "px"); d.style.setProperty("--oy", o.y - c.top + "px"); }
   (d.querySelector(".dialogo__cuerpo input, .dialogo__cuerpo button") || d.querySelector("[data-accion]"))?.focus();
+  return d;
+}
+
+/** Confirmación con «mantener presionado»: para lo irreversible pero frecuente (no obliga a escribir). */
+export function confirmarManteniendo({ titulo, texto, accion = "Eliminar", ms = 1400, alConfirmar }) {
+  const d = abrirDialogo({
+    titulo, ancho: 440,
+    cuerpo: `<p class="chico">${texto}</p><p class="rotulo dialogo__pista">Mantén presionado el botón para confirmar.</p>`,
+    acciones: [{ texto: "Cancelar" }],
+  });
+  d.querySelector(".dialogo__pie").insertAdjacentHTML("beforeend", `<button type="button" class="boton boton--peligro boton--m boton--mantener" data-mantener="${ms}"><span class="boton__lleno" aria-hidden="true"></span><span class="boton__texto">${accion}</span><span class="solo-lector"> (mantén presionado)</span></button>`);
+  d.querySelector("[data-mantener]").addEventListener("confirmado", () => { alConfirmar?.(); setTimeout(() => d.querySelector("[data-cerrar]").click(), 500); });
   return d;
 }
 

@@ -83,9 +83,9 @@ export const escenas2 = {
           <div class="trama-banco__texto" data-texto><p class="ceja">Cierre de página</p><p class="titulo-1">Hablemos de tus procesos.</p><p class="bajada">Treinta minutos para encontrar dónde se traba tu operación.</p></div></div>
         <div class="trama-banco__mandos">
           <div class="pila"><span class="rotulo">Variante</span>${segmento(["Trama", "Órbitas", "Anillos"], { etiqueta: "Variante de la Trama", nombre: "variante" })}</div>
-          ${deslizador("Caos → orden", { min: 0, max: 1, paso: 0.01, valor: 0, formato: (v) => Math.round(v * 100) + " %" })}
-          ${deslizador("Densidad", { min: 0.1, max: 1, paso: 0.01, valor: 1, formato: (v) => Math.round(v * 100) + " %" })}
-          ${deslizador("Paso de la retícula", { min: 7, max: 22, paso: 1, valor: 12, formato: (v) => v + " px" })}
+          ${deslizador("Caos → orden", { min: 0, max: 1, paso: 0.01, valor: 0, formato: (v) => Math.round(v * 100) + " %", propio: true })}
+          ${deslizador("Densidad", { min: 0.1, max: 1, paso: 0.01, valor: 1, formato: (v) => Math.round(v * 100) + " %", propio: true })}
+          ${deslizador("Paso de la retícula", { min: 7, max: 22, paso: 1, valor: 12, formato: (v) => v + " px", propio: true })}
           <label class="casilla"><input type="checkbox" data-mascara checked><span class="casilla__caja" aria-hidden="true"></span><span>Dejar aire para el texto</span></label>
         </div></div>`;
     const uso = `<div class="rejilla-2">

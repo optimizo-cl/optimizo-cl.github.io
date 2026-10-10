@@ -10,6 +10,7 @@ function asegurarPila() {
   pila = document.createElement("div");
   pila.className = "toasts"; pila.setAttribute("role", "region"); pila.setAttribute("aria-label", "Avisos");
   document.body.appendChild(pila);
+  new MutationObserver(() => reordenar(pila)).observe(pila, { childList: true });
   return pila;
 }
 /** Muestra un toast. accion: { texto, alHacer }. Dura 5 s (7 s si tiene acción); se pausa con el mouse encima. */
@@ -29,12 +30,19 @@ export function toast(texto, { tono = "neutro", accion = null, duracion } = {}) 
   t.querySelector(".toast__cerrar").addEventListener("click", cerrar);
   t.querySelector(".toast__accion")?.addEventListener("click", () => { accion.alHacer?.(); cerrar(); });
   while (p.children.length > 3) p.firstElementChild.remove(); // máximo 3 a la vez
+  reordenar(p);
+  t.addEventListener("animationend", () => reordenar(p));
   return cerrar;
+}
+function reordenar(p) {
+  const hijos = [...p.children].filter((x) => !x.classList.contains("toast--sale"));
+  hijos.forEach((t, i) => t.style.setProperty("--k", hijos.length - 1 - i));
+  let alto = 0; [...hijos].reverse().forEach((t) => { t.style.setProperty("--y", alto + "px"); alto += t.offsetHeight + 10; });
 }
 
 /** Banner de página o sección (persistente hasta que se resuelve o se cierra). */
 export function banner(titulo, texto, { tono = "info", accion = "", cerrable = true } = {}) {
-  return `<div class="banner banner--${tono}" role="${tono === "error" ? "alert" : "status"}">${icono(ICO[tono], { tam: 20 })}
+  return `<div class="banner banner--${tono}" role="${tono === "error" ? "alert" : "status"}"><svg class="banner__orbitas" viewBox="0 0 200 80" aria-hidden="true"><circle cx="214" cy="40" r="30"/><circle cx="214" cy="40" r="50"/><circle cx="214" cy="40" r="70"/><circle class="banner__punto" cx="214" cy="-10" r="3.5"/></svg>${icono(ICO[tono], { tam: 20 })}
     <div class="banner__texto"><b>${titulo}</b><span>${texto}</span></div>
     ${accion ? `<button type="button" class="banner__accion">${accion}</button>` : ""}
     ${cerrable ? `<button type="button" class="banner__cerrar" aria-label="Cerrar" onclick="this.closest('.banner').remove()">${icono("x", { tam: 16 })}</button>` : ""}</div>`;
@@ -47,5 +55,9 @@ export function alerta(texto, { tono = "alerta", titulo = "" } = {}) {
 
 /** Insignia de estado. tono: neutro | exito | alerta | error | info | acento */
 export const insignia = (texto, { tono = "neutro", punto = true } = {}) => `<span class="insignia insignia--${tono}">${punto ? "<i></i>" : ""}${texto}</span>`;
+/** Estado por forma: el avance se lee por la forma del punto (lleno, medio, vacío), no solo por el color. */
+export const estado = (texto, { forma = "lleno", tono = "neutro" } = {}) => `<span class="estado-forma estado-forma--${forma} estado-forma--${tono}"><i aria-hidden="true"></i>${texto}</span>`;
+/** Ficha de cerámica: clasificación tocable (filtros, rubros). activa = elegida. */
+export const fichaCeramica = (texto, { activa = false } = {}) => `<button type="button" class="ficha-ceramica ceramica" aria-pressed="${activa}"><i aria-hidden="true"></i>${texto}</button>`;
 export const etiqueta = (texto, { quitar = true } = {}) => `<span class="etiqueta">${texto}${quitar ? `<button type="button" aria-label="Quitar ${texto}" onclick="this.parentElement.remove()">${icono("x", { tam: 12 })}</button>` : ""}</span>`;
 export const contador = (n) => `<span class="contador" aria-label="${n} sin leer">${n > 99 ? "99+" : n}</span>`;

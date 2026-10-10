@@ -1,0 +1,80 @@
+/* Composiciones de las secciones del kit v2 (cada sección con su propia disposición). */
+.ceramica-mesa { position: relative; border-radius: var(--r-4); padding: clamp(20px, 3vw, 36px); background: var(--superficie-hundida); box-shadow: inset 0 1px 3px rgba(22, 38, 58, .08), inset 0 0 0 1px var(--borde); isolation: isolate; overflow: hidden; }
+.ceramica-mesa::before { content: ""; position: absolute; inset: 0; background-image: var(--grano); background-size: var(--grano-tam, 220px); opacity: calc(var(--grano-opacidad) * 1.2); z-index: -1; }
+.banco { display: grid; gap: 0; }
+.banco__fila { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: var(--e-5); align-items: center; padding-block: 18px; border-bottom: 1px dashed var(--borde-fuerte); }
+.banco__fila:last-child { border-bottom: 0; }
+.banco__rotulo { display: grid; gap: 2px; }
+.banco__rotulo b { font-weight: 650; }
+.banco__piezas { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+@media (max-width: 760px) { .banco__fila { grid-template-columns: minmax(0, 1fr); gap: 12px; } }
+
+.anatomia-escena { display: grid; gap: var(--e-6); }
+.anatomia-escena__pieza { display: grid; place-items: center; padding: 72px 90px 72px 40px; border-radius: var(--r-4); background: var(--superficie); box-shadow: inset 0 0 0 1px var(--borde); min-height: 240px; }
+.anatomia-escena__pieza--campo > .campo { width: min(100%, 380px); }
+.capas-ceramica { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--e-4); }
+.capa-ceramica { display: grid; gap: 10px; margin: 0; }
+.capa-ceramica figcaption { display: grid; gap: 2px; }
+.capa-ceramica__muestra { height: 72px; border-radius: 14px; --c: var(--enfasis); background: var(--c); position: relative; isolation: isolate; }
+.capa-ceramica--2 .capa-ceramica__muestra, .capa-ceramica--3 .capa-ceramica__muestra, .capa-ceramica--4 .capa-ceramica__muestra, .capa-ceramica--5 .capa-ceramica__muestra { background: radial-gradient(130% 160% at 30% -40%, color-mix(in srgb, var(--c) 78%, #fff), transparent 58%), linear-gradient(180deg, var(--c), color-mix(in srgb, var(--c) 84%, #000)); }
+.capa-ceramica--3 .capa-ceramica__muestra, .capa-ceramica--4 .capa-ceramica__muestra, .capa-ceramica--5 .capa-ceramica__muestra { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 -2px 0 rgba(0, 0, 0, .16); }
+.capa-ceramica--4 .capa-ceramica__muestra::after, .capa-ceramica--5 .capa-ceramica__muestra::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background-image: var(--grano); background-size: 120px; opacity: .8; z-index: -1; }
+.capa-ceramica--5 .capa-ceramica__muestra { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 -2px 0 rgba(0, 0, 0, .16), 0 1px 1px rgba(22, 38, 58, .16), 0 14px 22px -12px rgba(22, 38, 58, .6); }
+@media (max-width: 860px) { .capas-ceramica { grid-template-columns: repeat(2, minmax(0, 1fr)); } .anatomia-escena__pieza { padding: 64px 70px 64px 24px; } }
+
+.consola { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); gap: var(--e-6); }
+.consola__grupo { display: grid; gap: 14px; align-content: start; }
+.consola__grupo > .rotulo { margin-top: 8px; }
+.consola__perillas { gap: 22px; padding-right: var(--e-5); border-right: 1px dashed var(--borde-fuerte); }
+.consola__deslizadores { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--e-6); padding-top: var(--e-5); border-top: 1px dashed var(--borde-fuerte); }
+.consola__deslizadores > .rotulo { grid-column: 1 / -1; }
+@media (max-width: 960px) { .consola { grid-template-columns: minmax(0, 1fr); } .consola__perillas { border-right: 0; padding-right: 0; grid-template-columns: repeat(2, auto); justify-content: start; } .consola__perillas > .rotulo { grid-column: 1 / -1; } .consola__deslizadores { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 520px) { .consola__perillas { grid-template-columns: minmax(0, 1fr); } }
+
+.ficha-empresa { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(240px, 1fr); gap: var(--e-5); align-items: start; }
+.ficha-empresa__form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 20px; padding: var(--e-6); border-radius: var(--r-4); }
+.ficha-empresa__estado { position: sticky; top: 24px; display: grid; gap: 12px; padding: var(--e-5); border-radius: var(--r-4); background: var(--superficie-hundida); }
+.ficha-empresa__estado ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.ficha-empresa__n { font-size: 40px; font-weight: 700; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+@media (max-width: 860px) { .ficha-empresa, .ficha-empresa__form { grid-template-columns: minmax(0, 1fr); } .ficha-empresa__estado { position: relative; top: 0; } }
+
+.cargas2 { display: grid; gap: var(--e-6); }
+.eje-espera { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 12px; position: relative; }
+.eje-espera::before { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: linear-gradient(90deg, var(--borde-fuerte), var(--acento)); }
+.eje-espera__tramo { position: relative; display: grid; gap: 4px; align-content: start; padding: 26px 16px 0 0; }
+.eje-espera__tramo::before { content: ""; position: absolute; left: 0; top: 2px; width: 12px; height: 12px; border-radius: 50%; background: var(--superficie-2); box-shadow: inset 0 0 0 2px var(--acento-profundo); }
+.eje-espera__tramo:last-child::before { background: var(--acento-profundo); }
+.eje-espera__tramo .mono { font-size: 12px; color: var(--acento-texto); font-weight: 600; }
+.cargas2__mosaico { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--e-4); }
+.carga-ficha { display: grid; gap: 10px; margin: 0; }
+.carga-ficha:nth-child(4) { grid-column: span 2; }
+.carga-ficha__escena { min-height: 180px; display: grid; place-items: center; align-content: center; gap: 12px; padding: var(--e-5); border-radius: var(--r-4); background: var(--superficie); box-shadow: inset 0 0 0 1px var(--borde); }
+.carga-ficha figcaption { display: grid; gap: 2px; }
+.esq-tarjeta { display: flex; gap: 16px; align-items: center; width: min(100%, 420px); padding: 18px; border-radius: var(--r-3); background: var(--superficie-2); box-shadow: inset 0 0 0 1px var(--borde); }
+.cargas2__estados { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--e-4); }
+.estado-tarjeta { display: grid; justify-items: center; text-align: center; gap: 8px; padding: var(--e-6) var(--e-5); border-radius: var(--r-4); background: var(--superficie); box-shadow: inset 0 0 0 1px var(--borde); }
+.estado-tarjeta--ancha { grid-column: 1 / -1; padding: 0; background: none; box-shadow: none; justify-items: stretch; text-align: left; }
+.estado-tarjeta__iso { width: 64px; }
+.estado-tarjeta__ico { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; }
+.estado-tarjeta__ico--error { background: var(--error-suave); color: var(--error); }
+@media (max-width: 760px) { .eje-espera { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); row-gap: 18px; } .eje-espera::before { display: none; } .cargas2__mosaico, .cargas2__estados { grid-template-columns: minmax(0, 1fr); } .carga-ficha:nth-child(4) { grid-column: auto; } }
+
+.avisos2 { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(0, 2fr); gap: var(--e-5); align-items: start; }
+.avisos2__disparos { display: grid; gap: 10px; justify-items: start; padding: var(--e-5); border-radius: var(--r-4); }
+@media (max-width: 860px) { .avisos2 { grid-template-columns: minmax(0, 1fr); } }
+
+.estados2 { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: var(--e-5); align-items: start; }
+.estados2__tabla { display: grid; gap: 14px; padding: var(--e-5); border-radius: var(--r-4); }
+.estados2__lado { display: grid; gap: var(--e-5); }
+.tabla-estados { width: 100%; border-collapse: collapse; font-size: var(--t-chico); }
+.tabla-estados th { text-align: left; font-size: 12px; font-weight: 600; color: var(--texto-3); padding: 0 0 8px; border-bottom: 1px solid var(--borde); }
+.tabla-estados td { padding: 12px 8px 12px 0; border-bottom: 1px solid var(--borde); }
+.avance { display: block; width: 100px; max-width: 100%; height: 6px; border-radius: 3px; background: var(--superficie-hundida); overflow: hidden; }
+.avance i { display: block; height: 100%; width: calc(var(--v) * 100%); background: radial-gradient(circle, var(--acento-profundo) 1.2px, transparent 1.6px) 0 0 / 4px 4px, color-mix(in srgb, var(--acento) 30%, var(--superficie-2)); }
+.contador-linea { display: inline-flex; gap: 8px; align-items: center; font-size: var(--t-chico); }
+@media (max-width: 860px) { .estados2 { grid-template-columns: minmax(0, 1fr); } }
+
+.flotantes2, .dialogos2 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--e-5); }
+.dialogos2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.flotantes2__caso, .dialogos2__caso { display: grid; gap: 12px; align-content: start; justify-items: start; padding: var(--e-5); border-radius: var(--r-3); background: color-mix(in srgb, var(--superficie) 70%, transparent); }
+@media (max-width: 860px) { .flotantes2, .dialogos2 { grid-template-columns: minmax(0, 1fr); } }

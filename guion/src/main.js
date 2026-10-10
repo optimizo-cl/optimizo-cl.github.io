@@ -3,7 +3,7 @@
 import { CAPITULOS, SECCIONES, seccionesDe, capituloDe, numeroDe } from "./plan.js";
 import { CONSTRUIDAS, REPINTAR, pendiente, PORTADAS } from "./secciones/index.js";
 import { icono, cargarIconos, rellenarIconos } from "./kit/iconos.js";
-import { activarControles } from "./kit/controles.js";
+import { activarControles, prepararSegmentos } from "./kit/controles.js";
 import { activarCampos } from "./kit/campos.js";
 import { entrar, abrirEnCirculo, progreso } from "./kit/coreografia.js";
 import { isotipo } from "./kit/marca.js";
@@ -64,6 +64,7 @@ async function pintarUna(id) {
   pintadas.add(id);
   if (fn) { try { await fn(el); } catch (err) { console.error(`Sección ${id}:`, err); } }
   await rellenarIconos();
+  prepararSegmentos(el);
   const cuerpo = el.querySelector(".seccion__cuerpo");
   if (cuerpo && !el.hasAttribute("data-sin-entrada")) entrar(cuerpo);
   const cab = el.querySelector(".sec-cabeza"); if (cab) entrar(cab, ":scope > *");
@@ -193,6 +194,9 @@ const presentacion = (() => {
 })();
 
 activarControles();
+document.addEventListener("vista", (e) => prepararSegmentos(e.target));
+addEventListener("resize", () => prepararSegmentos());
+document.fonts?.ready.then(() => prepararSegmentos());
 activarCampos();
 await cargarIconos(["list", "moon", "sun", "columns", "presentation"]);
 await armar();

@@ -24,7 +24,7 @@
   --acento-claro: #91CEC4;   /* Menta */
   --acento: #59BDB1;         /* Teal */
   --acento-profundo: #387E80;/* Teal profundo */
-  --acento-texto-claro: #337475; /* 4,62:1 sobre hueso */
+  --acento-texto-claro: #2F6E6F; /* 5,03:1 sobre hueso · 4,66:1 sobre hundida */
   --deg-a: #91CEC4;
   --deg-b: #387E80;
   --nombre-claro: "Menta"; --nombre-acento: "Teal"; --nombre-profundo: "Teal profundo";
@@ -63,7 +63,7 @@
   --acento-claro: #FFB98A;   /* Durazno */
   --acento: #FF6A13;         /* Mandarina */
   --acento-profundo: #B8420A;/* Brasa */
-  --acento-texto-claro: #B8420A; /* 4,71:1 sobre hueso */
+  --acento-texto-claro: #A83C09; /* 5,43:1 sobre hueso · 5,03:1 sobre hundida */
   --deg-a: #FFA05A;
   --deg-b: #EE560E;
   --nombre-claro: "Durazno"; --nombre-acento: "Mandarina"; --nombre-profundo: "Brasa";

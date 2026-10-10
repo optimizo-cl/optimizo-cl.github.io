@@ -8,6 +8,7 @@ import { campo } from "../kit/campos.js";
 import { icono } from "../kit/iconos.js";
 import { contar } from "../kit/coreografia.js";
 import { movimientoReducido } from "../kit/escenas/vigia.js";
+import { cargaDibuja, sincronizarCargas } from "../kit/punto.js";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const C = { x: 75.207, y: 71.754, r: 69.152 };
@@ -65,10 +66,7 @@ export const punto2 = {
     m.push(momento(3, "Transición de capítulo", `<div class="m-transicion" data-transicion><div class="m-transicion__a"><span class="rotulo">Capítulo 1</span><b>Identidad</b></div><div class="m-transicion__b"><span class="rotulo">Capítulo 2</span><b>Kit</b></div><i class="m-transicion__punto"></i></div>`, "El punto viaja al centro y se abre en un círculo que revela lo siguiente.", { accion: `<button type="button" class="momento2__repetir" data-rep="transicion" aria-label="Repetir transición">${icono("arrow-clockwise", { tam: 18 })}</button>` }));
     m.push(momento(4, "Indicador de lectura", `<div class="m-lectura"><div class="m-lectura__via"><i class="m-lectura__lleno"></i><i class="m-lectura__punto"></i></div><p><b class="m-lectura__n" data-lectura>0 %</b><span class="chico">del guion leído</span></p></div>`, "En la navegación, el punto recorre la línea según cuánto llevas. Es tu scroll real."));
     m.push(momento(5, "Hover de botón", `<div class="m-centro">${boton("Agendar diagnóstico", { clase: "", attrs: 'data-boton-punto', icoFin: "arrow-right" }).replace('class="boton', 'class="boton boton--punto')}</div>`, "Al pasar, la flecha se vuelve punto y avanza: el siguiente paso."));
-    m.push(momento(6, "Carga que dibuja", `<div class="m-centro"><svg class="m-dibuja" viewBox="0 0 138.305 138.305" aria-hidden="true"><g transform="translate(-6.054688 -2.601562)">
-        <path class="m-dibuja__trazo" pathLength="1" d="${DISCO}"/><path class="m-dibuja__relleno" fill-rule="evenodd" d="${DISCO}"/>
-        <circle class="m-dibuja__punto" r="7"><animateMotion dur="3.6s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.62;1" calcMode="spline" keySplines=".45 .05 .55 .95;0 0 1 1" path="${DISCO.split(" Z ")[0]} Z"/></circle>
-        <circle class="m-dibuja__nido" cx="${P.x}" cy="${P.y}" r="${P.r}"/></g></svg></div>`, "El punto traza el contorno del isotipo; al cerrarlo, el disco se llena y el punto aterriza en su nido."));
+    m.push(momento(6, "Carga que dibuja", `<div class="m-centro">${cargaDibuja()}</div>`, "El punto traza el contorno del isotipo; al cerrarlo, el disco se llena y el punto aterriza en su nido."));
     m.push(momento(7, "Carga larga", `<div class="m-larga" data-larga><svg viewBox="0 0 140 140" aria-hidden="true"><circle class="m-larga__anillo" cx="70" cy="70" r="26"/><circle class="m-larga__anillo" cx="70" cy="70" r="40"/><circle class="m-larga__anillo" cx="70" cy="70" r="54"/><g class="m-larga__orbita"><circle class="m-larga__punto" cx="70" cy="44" r="6"/></g><circle class="m-larga__centro" cx="70" cy="70" r="12"/></svg>
         <div class="m-larga__texto" role="status"><b data-larga-t>Leyendo 1.240 documentos</b><span class="chico" data-larga-f>Fase 1 de 3</span></div></div>`, "Si la espera pasa de 4 s, las órbitas se abren por fases y el texto cuenta qué está pasando.", { clase: "momento2--ancho" }));
     m.push(momento(8, "Éxito", `<div class="m-exito" data-exito><button type="button" class="boton boton--primario m-exito__boton" data-exito-b>Enviar diagnóstico</button>${iso("m-exito__iso", { sinPunto: true, nido: true })}<i class="m-exito__punto"></i><svg class="m-exito__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9" pathLength="1"/></svg></div>`, "El botón se contrae hasta ser un punto, viaja y aterriza en el disco: listo.", { clase: "momento2--ancho" }));
@@ -106,7 +104,7 @@ export const punto2 = {
         <p class="lab__ayuda rotulo"><i></i>Arrastra el punto y suéltalo · flechas para empujarlo</p>
       </div>
       <div class="lab__mandos">
-        <div class="pila"><span class="rotulo">Modo</span><div class="segmento" role="radiogroup" aria-label="Modo" data-modo><button type="button" role="radio" aria-checked="true" data-valor="resorte">Resorte</button><button type="button" role="radio" aria-checked="false" tabindex="-1" data-valor="gravedad">Gravedad</button></div></div>
+        <div class="pila"><span class="rotulo">Modo</span><div class="segmento" role="radiogroup" aria-label="Modo" data-modo><i class="segmento__ind" aria-hidden="true"></i><button type="button" role="radio" aria-checked="true" data-valor="resorte">Resorte</button><button type="button" role="radio" aria-checked="false" tabindex="-1" data-valor="gravedad">Gravedad</button></div></div>
         <label class="deslizador"><span class="deslizador__cabeza"><b>Rigidez ω</b><output data-o="w">7,0</output></span><input type="range" min="2" max="20" step="0.5" value="7" data-k="w" style="--p:27.8%"></label>
         <label class="deslizador"><span class="deslizador__cabeza"><b>Amortiguación ζ</b><output data-o="z">1,00 · crítico</output></span><input type="range" min="0.15" max="1.6" step="0.05" value="1" data-k="z" style="--p:58.6%"></label>
         <div class="lab__medidas"><div><span class="rotulo">Llega en</span><b data-m="t">—</b></div><div><span class="rotulo">Rebote</span><b data-m="r">—</b></div></div>
@@ -120,9 +118,8 @@ export const punto2 = {
 
 /* ═════════ comportamiento de los momentos ═════════ */
 function activarMomentos(el) {
-  if (reducido()) el.querySelectorAll("animateMotion").forEach((a) => a.remove()); // SMIL no respeta «reducir movimiento»
   // 6 · el punto (SMIL) corre con el reloj del documento y el trazo (CSS) con el suyo: se ponen en cero juntos
-  el.querySelectorAll("svg.m-dibuja").forEach((s) => { s.setCurrentTime?.(0); s.getAnimations({ subtree: true }).forEach((a) => (a.currentTime = 0)); });
+  sincronizarCargas(el);
   // 1 · construcción (y repetir)
   const cons = el.querySelector(".m-construccion"); activarLogoVivo(cons);
   el.querySelector('[data-rep="construccion"]').addEventListener("click", () => armar(cons));
