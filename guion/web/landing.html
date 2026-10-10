@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es" data-paleta="teal" data-tema="claro">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Optimizo — Todo proceso tiene una salida</title>
+<meta name="description" content="Partner de transformación digital: entendemos cómo trabaja tu empresa y dejamos funcionando las soluciones.">
+<link rel="icon" href="../assets/logo/optimizo-isotipo.svg">
+<link rel="stylesheet" href="../tokens/optimizo.css">
+<link rel="stylesheet" href="../estilos/base.css">
+<link rel="stylesheet" href="../estilos/movimiento.css">
+<link rel="stylesheet" href="../estilos/kit.css">
+<link rel="stylesheet" href="../estilos/kit-piezas.css">
+<link rel="stylesheet" href="../estilos/patrones.css">
+<link rel="stylesheet" href="../estilos/datos.css">
+<link rel="stylesheet" href="../estilos/producto.css">
+<link rel="stylesheet" href="../estilos/secciones.css">
+<link rel="stylesheet" href="landing.css">
+<script>
+  try { const p = new URLSearchParams(location.search); document.documentElement.dataset.paleta = p.get("paleta") || "teal"; document.documentElement.dataset.tema = p.get("tema") || "claro"; } catch (e) {}
+</script>
+<script type="module" src="landing.js"></script>
+</head>
+<body>
+<header class="l-nav"><div class="envoltura l-nav__dentro">
+  <a href="#" class="l-nav__logo" data-logo aria-label="Optimizo, inicio"></a>
+  <nav class="l-nav__links" aria-label="Principal"><a href="#como">Cómo trabajamos</a><a href="#servicios">Servicios</a><a href="#medula">Medula</a><a href="#caso">Casos</a></nav>
+  <a href="#cierre" class="boton boton--primario boton--s">Agendar diagnóstico</a>
+  <button type="button" class="l-nav__menu boton boton--texto boton--icono" aria-label="Abrir menú" data-menu-movil></button>
+</div></header>
+
+<main>
+  <section class="l-hero envoltura">
+    <div class="l-hero__texto">
+      <p class="ceja">Partner de transformación digital</p>
+      <h1 class="portada__frase">Todo proceso<br>tiene una salida.</h1>
+      <p class="bajada">Entramos a tu empresa, entendemos cómo trabaja de verdad y dejamos funcionando lo que necesita: un CRM a medida, la memoria de la empresa o un equipo de agentes. No recomendamos: implementamos.</p>
+      <div class="fila-botones"><a href="#cierre" class="boton boton--acento boton--l">Agendar diagnóstico</a><a href="#como" class="boton boton--texto boton--l">Ver cómo trabajamos</a></div>
+    </div>
+    <div class="l-hero__escena"><canvas class="l-hero__3d" aria-label="Isotipo de Optimizo"></canvas><div class="l-hero__respaldo" data-respaldo></div></div>
+  </section>
+
+  <section class="l-seccion envoltura l-problema">
+    <p class="ceja">El problema</p>
+    <h2 class="titulo-1">Tu equipo trabaja mucho. El proceso, no tanto.</h2>
+    <div class="l-tres">
+      <div class="mate l-dato"><b class="heroe__valor">31 h</b><p class="chico">por semana se van en tareas que un buen proceso resuelve solo.</p></div>
+      <div class="mate l-dato"><b class="heroe__valor">2,5 días</b><p class="chico">tarda en promedio una cotización armada a mano.</p></div>
+      <div class="mate l-dato"><b class="heroe__valor">3 personas</b><p class="chico">saben cómo funciona todo. Si una falta, se nota.</p></div>
+    </div>
+    <p class="rotulo">Cifras de un diagnóstico de ejemplo (empresa distribuidora, 38 personas).</p>
+  </section>
+
+  <section class="l-seccion envoltura" id="como">
+    <p class="ceja">Cómo trabajamos</p>
+    <h2 class="titulo-1">Primero entendemos. Después lo dejamos funcionando.</h2>
+    <ol class="l-pasos">
+      <li class="mate"><span class="l-pasos__n">1</span><b class="titulo-3">Diagnóstico</b><p class="chico">Conocemos a tu equipo, tus sistemas y tus procesos. Medimos dónde se va el tiempo.</p></li>
+      <li class="mate"><span class="l-pasos__n">2</span><b class="titulo-3">Implementación</b><p class="chico">Construimos y conectamos lo que hace falta, empezando por lo que más duele.</p></li>
+      <li class="mate"><span class="l-pasos__n">3</span><b class="titulo-3">Acompañamiento</b><p class="chico">Capacitamos, medimos el resultado y subimos el siguiente escalón.</p></li>
+    </ol>
+    <div class="mate l-flujos"><div data-flujos></div></div>
+  </section>
+
+  <section class="l-seccion envoltura" id="servicios">
+    <p class="ceja">Servicios</p>
+    <h2 class="titulo-1">Lo que dejamos funcionando</h2>
+    <div class="l-servicios" data-servicios></div>
+  </section>
+
+  <section class="l-seccion envoltura l-medula" id="medula">
+    <div class="producto-marca producto-marca--medula l-medula__marca"><span class="producto-marca__simbolo"><img src="../assets/productos/medula-marca-blanca.svg" alt=""></span><span><b>Medula</b><span data-sello></span></span></div>
+    <div><p class="ceja">Producto</p><h2 class="titulo-1">La memoria de tu empresa.</h2>
+      <p class="bajada">Correos, reuniones, acuerdos y planillas en un solo lugar que tu equipo y tus agentes pueden consultar. Lo que sabe una persona, lo sabe la empresa.</p></div>
+  </section>
+
+  <section class="l-seccion envoltura" id="caso">
+    <p class="ceja">Caso de ejemplo</p>
+    <h2 class="titulo-1">De planillas a un CRM que cotiza en minutos.</h2>
+    <div class="l-caso mate"><div data-escalera></div></div>
+  </section>
+
+  <section class="l-cierre" id="cierre">
+    <canvas class="l-cierre__aura" aria-hidden="true"></canvas>
+    <div class="envoltura l-cierre__dentro">
+      <div><p class="ceja">Hablemos</p><h2 class="titulo-1">¿Por dónde se traba tu operación?</h2><p class="bajada">Treinta minutos para entenderlo. Sin compromiso.</p></div>
+      <form class="mate l-form pila" novalidate data-form></form>
+    </div>
+  </section>
+</main>
+
+<footer class="l-pie envoltura"><span data-logo-pie></span><span class="rotulo">© 2026 Optimizo · Partner de transformación digital</span></footer>
+</body>
+</html>

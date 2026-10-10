@@ -7,7 +7,8 @@ import { marco, rejilla } from "../kit/guion.js";
 
 const raiz = document.documentElement;
 const paletaActiva = () => raiz.dataset.paleta || "teal";
-const rutaLogos = () => (paletaActiva() === "naranjo" ? "assets/logo/naranjo/" : "assets/logo/");
+const base = new URL("../../", import.meta.url).href; // raíz del guion (funciona también desde web/)
+const rutaLogos = () => `${base}assets/logo/${paletaActiva() === "naranjo" ? "naranjo/" : ""}`;
 const acentosMono = () => (paletaActiva() === "naranjo" ? ["durazno", "mandarina", "brasa"] : ["menta", "teal", "teal-profundo"]);
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 
