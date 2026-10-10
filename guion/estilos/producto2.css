@@ -1,0 +1,76 @@
+/* Capítulo 5 · Producto v2. */
+
+/* ── Mapa de procesos con scroll ── */
+.mapa-scroll { height: 220vh; position: relative; }
+.mapa-scroll__fijo { position: sticky; top: 8vh; height: 84vh; display: grid; grid-template-columns: minmax(260px, 1fr) minmax(0, 2fr); gap: var(--e-6); align-items: center; padding: var(--e-5); border-radius: var(--r-4); background: radial-gradient(80% 80% at 60% 50%, var(--superficie-2), var(--superficie-hundida)); box-shadow: inset 0 0 0 1px var(--borde); overflow: hidden; }
+.mapa-scroll__texto { display: grid; gap: var(--e-3); }
+.mapa-scroll__barra { height: 4px; border-radius: 2px; background: var(--borde); margin-top: var(--e-4); overflow: hidden; }
+.mapa-scroll__barra i { display: block; height: 100%; width: calc(var(--k, 0) * 100%); background: var(--acento); }
+.mapa-scroll__svg { width: 100%; height: 100%; max-height: 70vh; }
+@media (max-width: 860px) { .mapa-scroll__fijo { grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--e-3); top: 70px; height: auto; min-height: 70vh; } .mapa-scroll { height: 180vh; } .mapa-scroll__svg { max-height: 44vh; } }
+@media (prefers-reduced-motion: reduce) { .mapa-scroll { height: auto; } .mapa-scroll__fijo { position: relative; top: 0; } }
+
+/* ── Escalera ── */
+.escalera2 { display: grid; gap: var(--e-4); }
+.escalera2__pasos { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; align-items: end; padding-top: 40px; }
+.escalon2 { display: grid; gap: 6px; text-align: left; align-content: end; padding: 0; transition: transform 260ms var(--llegada); }
+.escalon2__bloque { position: relative; display: flex; align-items: flex-end; justify-content: space-between; height: calc(70px + var(--i) * 46px); padding: 14px; border-radius: 16px; --c-base: var(--superficie-2); color: var(--texto-2); transition: color 300ms var(--suave); }
+.escalon2__n { font-size: 30px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+.escalon2 b { font-weight: 650; }
+.escalon2:hover { transform: translateY(-3px); }
+.escalon2.hecho .escalon2__bloque { --c-base: color-mix(in srgb, var(--acento) 40%, var(--superficie-2)); color: var(--texto); }
+.escalon2[aria-pressed="true"] .escalon2__bloque { --c-base: var(--acento-profundo); color: #fff; }
+.escalon2.sigue .escalon2__bloque { box-shadow: inset 0 0 0 2px var(--acento), 0 8px 16px -10px rgba(22, 38, 58, .4); }
+:root[data-tema="oscuro"] .escalon2[aria-pressed="true"] .escalon2__bloque { --c-base: var(--acento); color: var(--tinta); }
+.escalera2__punto { position: absolute; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: var(--navy); box-shadow: 0 0 0 4px var(--superficie), 0 4px 8px rgba(22, 38, 58, .3); transition: left 900ms var(--llegada), top 900ms var(--llegada); }
+:root[data-tema="oscuro"] .escalera2__punto { background: var(--hueso); }
+.escalera2__estado { font-weight: 600; }
+@media (max-width: 760px) { .escalera2__pasos { grid-template-columns: minmax(0, 1fr); padding-top: 0; } .escalon2__bloque { height: 64px; } .escalera2__punto { display: none; } .escalon2 { grid-template-columns: 120px 1fr; align-items: center; } .escalon2 .chico { grid-column: 2; } }
+
+/* ── Implementación ── */
+.impl2 { display: grid; gap: var(--e-5); padding: var(--e-6); border-radius: var(--r-4); }
+.impl2__cabeza { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+.impl2__pista { width: 100%; height: auto; }
+.impl2__dos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--e-6); }
+.tareas2 { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 10px; }
+.tareas2 li { display: flex; justify-content: space-between; gap: 10px; align-items: center; padding-bottom: 10px; border-bottom: 1px solid var(--borde); }
+.tareas2 li.hecha .estado-forma { color: var(--texto-2); text-decoration: line-through; text-decoration-color: var(--borde-fuerte); }
+.hitos2 { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 14px; position: relative; }
+.hitos2::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 2px; background: var(--borde); }
+.hitos2 li { position: relative; display: grid; grid-template-columns: 70px 1fr; gap: 10px; padding-left: 22px; }
+.hitos2 li::before { content: ""; position: absolute; left: 0; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--superficie-2); box-shadow: inset 0 0 0 2px var(--acento-profundo); }
+.hitos2 li:first-child::before { background: var(--acento); box-shadow: none; }
+@media (max-width: 760px) { .impl2__dos { grid-template-columns: minmax(0, 1fr); } .impl2 { padding: var(--e-4); } }
+
+/* ── Documentos vivos ── */
+.doc2 { display: grid; gap: 0; border-radius: var(--r-4); overflow: hidden; box-shadow: 0 30px 60px -36px rgba(22, 38, 58, .45), inset 0 0 0 1px var(--borde); }
+.doc-portada { position: relative; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: var(--e-6); align-items: center; padding: clamp(28px, 5vw, 64px); border-radius: 0; min-height: 300px; overflow: hidden; }
+.doc-portada__iso { width: 220px; filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .35)) drop-shadow(0 2px 2px rgba(0, 0, 0, .3)); }
+.doc-portada__iso svg { width: 100%; overflow: visible; }
+.doc-portada__texto { display: grid; gap: 10px; }
+.doc-portada__texto .rotulo { color: var(--acento-claro); }
+.doc-portada__titulo { font-size: clamp(2rem, 1.2rem + 2.6vw, 3.4rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1.02; text-wrap: balance; }
+.doc-portada__para { color: rgba(237, 238, 232, .78); font-size: var(--t-chico); }
+:root[data-tema="oscuro"] .doc-portada__para { color: color-mix(in srgb, var(--navy-profundo) 75%, transparent); }
+:root[data-tema="oscuro"] .doc-portada__texto .rotulo { color: var(--acento-texto-claro); }
+.doc-portada__logo { position: absolute; right: clamp(20px, 4vw, 48px); top: clamp(18px, 3vw, 32px); width: 130px; color: var(--hueso); }
+:root[data-tema="oscuro"] .doc-portada__logo { color: var(--navy-profundo); }
+.doc-portada__logo svg { width: 100%; height: auto; }
+.doc2__cuerpo { display: grid; gap: var(--e-6); padding: clamp(22px, 4vw, 52px); border-radius: 0; }
+.doc2__resumen { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--e-6); align-items: center; }
+.doc2__heroe { display: grid; gap: 2px; }
+.doc2__heroe b { font-size: clamp(3rem, 2rem + 3vw, 4.8rem); font-weight: 700; letter-spacing: -0.05em; line-height: 1; color: var(--acento-texto); font-variant-numeric: tabular-nums; }
+.doc2__dos { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--e-6); align-items: start; }
+.matriz2 { margin: 0; display: grid; gap: 8px; }
+.matriz2 svg { width: 100%; overflow: visible; }
+.matriz2__p { animation: res-entra 700ms var(--llegada) both; animation-delay: calc(400ms + var(--i) * 120ms); }
+.matriz__n { font-size: 11px; font-weight: 700; fill: #fff; }
+.hallazgos2 { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.hallazgos2 li { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding-bottom: 10px; border-bottom: 1px solid var(--borde); }
+.hallazgos2 li div { display: grid; gap: 2px; }
+.hallazgos2__n { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--acento-profundo); color: #fff; font-size: 12px; font-weight: 700; }
+:root[data-tema="oscuro"] .hallazgos2__n, :root[data-tema="oscuro"] .matriz__n { color: var(--tinta); fill: var(--tinta); }
+.doc2__pista { width: 100%; height: auto; }
+.doc2__cierre { display: flex; justify-content: space-between; align-items: center; gap: var(--e-5); flex-wrap: wrap; padding: var(--e-5); border-radius: var(--r-3); background: var(--superficie-hundida); }
+@media (max-width: 760px) { .doc-portada { grid-template-columns: minmax(0, 1fr); } .doc-portada__iso { width: 120px; } .doc-portada__logo { display: none; } .doc2__resumen, .doc2__dos { grid-template-columns: minmax(0, 1fr); } }
+:root[data-tema="oscuro"] .hallazgos2__n { background: var(--acento); }

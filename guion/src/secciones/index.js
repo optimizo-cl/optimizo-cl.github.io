@@ -7,6 +7,8 @@ import { kit2 } from "./kit2.js";
 import { formularios2 } from "./formularios2.js";
 import { orbitas2 } from "./orbitas2.js";
 import { datos2, numeros2 } from "./datos2.js";
+import { producto2 } from "./producto2.js";
+import { familia2 } from "./familia2.js";
 import { escenas } from "./escenas.js";
 import { movimiento } from "./movimiento.js";
 import { kit } from "./kit.js";
@@ -21,13 +23,12 @@ const v1 = { ...identidad, ...escenas, ...movimiento, ...kit, ...formularios, ..
 
 // ids v2 que todavía usan la versión v1 (se reemplazan ola por ola)
 const renombres = {
-  familia: v1.sellos,
   cargas: async (el) => { await v1.carga(el); const extra = document.createElement("div"); el.querySelector(".seccion__cuerpo").appendChild(extra); extra.className = "pila"; await v1.estados({ querySelector: (s) => (s === ".seccion__cuerpo" ? extra : extra.querySelector(s)) }); },
 };
 // lo que la app real va a reemplazar, o que se fusionó
 const fuera = ["aura", "flujos", "nav-app", "sellos", "carga", "estados", "nav-celular", "nav-sitio", "paneles", "flujo-conecta"];
 
-export const CONSTRUIDAS = Object.fromEntries(Object.entries({ ...v1, ...renombres, ...identidad2, ...escenas2, ...punto2, ...kit2, ...formularios2, ...orbitas2, ...datos2, numeros: numeros2(v1.numeros), logo: (el) => punto2.logo(el, v1.logo) }).filter(([k, v]) => v && !fuera.includes(k)));
+export const CONSTRUIDAS = Object.fromEntries(Object.entries({ ...v1, ...renombres, ...identidad2, ...escenas2, ...punto2, ...kit2, ...formularios2, ...orbitas2, ...datos2, ...producto2, ...familia2, numeros: numeros2(v1.numeros), logo: (el) => punto2.logo(el, v1.logo) }).filter(([k, v]) => v && !fuera.includes(k)));
 export const REPINTAR = [...REPINTAR_IDENTIDAD.filter((x) => x !== "portada"), ...REPINTAR_IDENTIDAD2, "landing", "correos", "firma-correo", "manual-logo", "descargas"];
 
 /** Marcador honesto de una sección que todavía no se construye. */

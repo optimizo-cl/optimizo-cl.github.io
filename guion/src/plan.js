@@ -56,7 +56,7 @@ export const SECCIONES = [
   // 5 · Producto y familia
   s("familia", "Familia de marcas", "producto", 7, "Optimizo madre, productos con su material, el punto que los une."),
   s("medula", "Medula · de Optimizo", "producto", 7, "Medula con su sistema real: cobalto, aurora punteada, su símbolo."),
-  s("barbara", "Bárbara · de Optimizo", "producto", 7, "Su material real o tres direcciones, con el sello."),
+  s("barbara", "Bárbara · de Optimizo", "producto", 7, "Su material real: noche, lima, Fraunces y su personaje."),
   s("mapa-procesos", "Mapa de procesos", "producto", 6, "Del caos al orden con el scroll, en Órbitas."),
   s("escalera", "Escalera de madurez", "producto", 6, "Sin CRM → departamentos, el punto sube."),
   s("implementacion", "Implementación", "producto", 7, "Avance por etapas como pista de estaciones."),

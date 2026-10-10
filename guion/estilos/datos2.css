@@ -31,7 +31,7 @@
 .orb--proceso .orb-nodo .orb-nodo__disco { fill: var(--superficie-hundida); stroke: var(--borde-fuerte); transition: fill 400ms var(--suave), stroke 400ms var(--suave); }
 .orb--proceso .orb-nodo.pasado .orb-nodo__disco { fill: var(--superficie-2); stroke: var(--acento-profundo); }
 .orb--proceso .orb-nodo--alerta.pasado .orb-nodo__disco { stroke: var(--alerta); }
-.orb-viajero { fill: var(--navy); stroke: var(--superficie-2); stroke-width: 3; filter: drop-shadow(0 3px 5px rgba(22, 38, 58, .3)); }
+.orb-viajero { animation: viajero-late 2.4s var(--suave) infinite; transform-box: fill-box; transform-origin: center; fill: var(--navy); stroke: var(--superficie-2); stroke-width: 3; filter: drop-shadow(0 3px 5px rgba(22, 38, 58, .3)); }
 :root[data-tema="oscuro"] .orb-viajero { fill: var(--hueso); }
 .orb-ficha { position: absolute; z-index: 3; display: grid; gap: 2px; max-width: 260px; padding: 10px 14px; border-radius: 12px; pointer-events: none; font-size: var(--t-chico); }
 .orb-ficha b { font-weight: 650; }
@@ -209,3 +209,6 @@ td.guardada { animation: guardada 1200ms var(--suave); }
 .cimientos__nota { margin-top: var(--e-4); }
 @media (max-width: 860px) { .cimientos { grid-template-columns: minmax(0, 1fr); } }
 @media (pointer: coarse), (max-width: 640px) { .cim-nav { min-height: 44px; } }
+
+@keyframes viajero-late { 50% { transform: scale(1.18); } }
+@media (prefers-reduced-motion: reduce) { .orb-viajero { animation: none; } }

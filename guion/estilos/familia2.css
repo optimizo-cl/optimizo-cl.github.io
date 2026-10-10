@@ -1,0 +1,109 @@
+/* Capítulo 5 · Familia de marcas: Optimizo madre, Medula y Bárbara con su material real. */
+@font-face { font-family: "Geist"; src: url("../assets/productos/geist-latin.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Fraunces"; src: url("../assets/productos/fraunces-latin.woff2") format("woff2"); font-weight: 500 700; font-display: swap; }
+.medula-palabra { font-family: "Geist", var(--letra); font-weight: 640; letter-spacing: -0.065em; }
+.barbara-palabra { font-family: "Fraunces", Georgia, serif; font-weight: 600; letter-spacing: .02em; }
+
+/* ── Sello ── */
+.sello2 { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; letter-spacing: .01em; color: var(--texto-2); white-space: nowrap; }
+.sello2__iso { width: 14px; height: 14px; }
+.sello2--claro, .sello2--medula { color: rgba(255, 255, 255, .86); }
+.sello2--medula .isotipo__disco, .sello2--medula .isotipo__punto circle { fill: rgba(255, 255, 255, .92) !important; }
+.sello2--barbara { color: #F4F5EF; font-family: "Inter", var(--letra); }
+.sello2--barbara .isotipo__disco { fill: #F4F5EF !important; } .sello2--barbara .isotipo__punto circle { fill: #CDFB3E !important; }
+
+/* ── Arquitectura ── */
+.familia2 { position: relative; display: grid; grid-template-columns: 1fr 1.1fr 1fr; grid-template-rows: auto auto; gap: var(--e-5); align-items: center; padding: var(--e-6) var(--e-5); border-radius: var(--r-4); background: var(--superficie-hundida); box-shadow: inset 0 0 0 1px var(--borde); overflow: hidden; isolation: isolate; }
+.familia2::before { content: ""; position: absolute; inset: 0; background-image: var(--grano); background-size: var(--grano-tam, 220px); opacity: var(--grano-opacidad); z-index: -2; }
+.familia2__orbitas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+.familia2__orbitas ellipse { fill: none; stroke: var(--borde-fuerte); stroke-dasharray: 2 7; }
+.familia2__orbitas path { fill: none; stroke: var(--acento-profundo); stroke-opacity: .35; stroke-dasharray: 3 5; stroke-width: 1.5; }
+.familia2__dato { fill: var(--acento); }
+.familia2__madre { grid-column: 2; grid-row: 1; justify-self: center; display: grid; justify-items: center; gap: 6px; text-align: center; padding: var(--e-5) var(--e-6); border-radius: 28px; --c-base: var(--superficie-2); }
+.familia2__madre b { font-size: 22px; letter-spacing: -0.03em; }
+.familia2__iso { width: 110px; }
+.familia2__iso svg { width: 100%; overflow: visible; }
+.familia2__hijo { position: relative; display: grid; justify-items: center; gap: 8px; text-align: center; padding: var(--e-5); border-radius: 22px; min-height: 230px; align-content: center; overflow: hidden; isolation: isolate; box-shadow: 0 20px 40px -26px rgba(6, 16, 46, .6); }
+.familia2__hijo--medula { grid-column: 1; grid-row: 1 / span 2; color: #fff; }
+.familia2__aurora { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+.familia2__simbolo { width: 64px; height: 74px; color: #fff; filter: drop-shadow(0 6px 10px rgba(1, 30, 110, .45)); }
+.familia2__hijo--medula .medula-palabra { font-size: 40px; line-height: 1; }
+.familia2__hijo--barbara { grid-column: 3; grid-row: 1 / span 2; background: #0A0A0B; color: #F4F5EF; }
+.familia2__avatar { width: 92px; height: 92px; border-radius: 50%; }
+.familia2__hijo--barbara .barbara-palabra { font-size: 34px; }
+.familia2__hijo--proximo { grid-column: 2; grid-row: 2; min-height: 0; padding: var(--e-4); box-shadow: inset 0 0 0 1.5px var(--borde-fuerte); background: transparent; border: 0; }
+.familia2__hijo--proximo b { font-weight: 650; }
+.familia2__vacio { width: 30px; height: 30px; border-radius: 50%; box-shadow: inset 0 0 0 2px var(--borde-fuerte); border: 0; }
+.familia2__reglas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--e-4); margin-top: var(--e-5); }
+.familia2__regla { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; }
+.familia2__regla .chico { grid-column: 2; }
+.familia2__n { font-size: 12px; font-weight: 700; color: var(--acento-texto); padding-top: 3px; }
+@media (max-width: 900px) { .familia2 { grid-template-columns: minmax(0, 1fr); } .familia2__madre, .familia2__hijo--medula, .familia2__hijo--barbara, .familia2__hijo--proximo { grid-column: 1; grid-row: auto; } .familia2__orbitas { display: none; } .familia2__reglas { grid-template-columns: minmax(0, 1fr); } }
+
+/* ── Medula ── */
+.medula2 { display: grid; gap: var(--e-5); font-family: "Geist", var(--letra); }
+.medula2__heroe { position: relative; display: grid; gap: var(--e-5); justify-items: start; padding: clamp(28px, 5vw, 64px); border-radius: 20px; overflow: hidden; isolation: isolate; color: #fff; min-height: 380px; align-content: center; }
+.medula2__aurora { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+.medula2__marca { display: flex; align-items: center; gap: 18px; }
+.medula2__simbolo { width: 72px; height: 82px; color: #fff; filter: drop-shadow(0 8px 14px rgba(1, 30, 110, .5)); }
+.medula2__marca > div { display: grid; gap: 6px; }
+.medula2__palabra { font-size: clamp(3.4rem, 2rem + 4vw, 6rem); line-height: .84; }
+.medula2__titular { font-size: clamp(1.4rem, 1rem + 1.4vw, 2.2rem); font-weight: 560; letter-spacing: -0.035em; max-width: 22ch; line-height: 1.1; }
+.medula2__boton { height: 48px; padding: 0 22px; border-radius: 8px; background: linear-gradient(180deg, #1468EE, #013ECC); color: #fff; font-family: "Geist", var(--letra); font-weight: 560; letter-spacing: -0.015em; box-shadow: 0 10px 20px -10px rgba(1, 30, 110, .7), inset 0 1px 0 rgba(255, 255, 255, .25); }
+.medula2__interior { display: grid; grid-template-columns: 200px minmax(0, 1fr); border-radius: 8px; overflow: hidden; background: #fff; color: #16181d; box-shadow: 0 0 0 1px #e6e7eb, 0 18px 36px -24px rgba(1, 30, 110, .35); }
+.medula2__lado { display: grid; align-content: start; gap: 2px; padding: 14px; background: #fafafb; border-right: 1px solid #e6e7eb; }
+.medula2__lado-marca { display: flex; align-items: center; gap: 8px; padding: 2px 8px 12px; }
+.medula2__mini { width: 16px; height: 18px; color: #16181d; }
+.medula2__lado-marca b { font-weight: 640; letter-spacing: -0.04em; }
+.medula2__nav { padding: 8px 10px; border-radius: 4px; font-size: 14px; color: #525866; }
+.medula2__nav.activo { background: #e9effd; color: #0747c2; font-weight: 560; }
+.medula2__panel { display: grid; gap: 8px; align-content: start; padding: 22px 26px; }
+.medula2__ceja { font-family: "Geist", monospace; font-size: 12px; font-weight: 500; letter-spacing: .16em; color: #676d7b; }
+.medula2__h { font-size: 20px; font-weight: 600; letter-spacing: -0.025em; }
+.medula2__p { font-size: 15px; color: #525866; line-height: 1.5; }
+.medula2__chip { justify-self: start; padding: 3px 8px; border-radius: 4px; font-size: 12px; background: #f1f2f4; color: #525866; box-shadow: inset 0 0 0 1px #e6e7eb; }
+.medula2__tonos { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+.medula2__tono { display: grid; gap: 2px; }
+.medula2__tono i { height: 54px; border-radius: 6px; background: var(--c); box-shadow: inset 0 0 0 1px rgba(6, 16, 46, .1); }
+.medula2__tono b { font-size: 13px; font-weight: 600; }
+.medula2__tono .mono { font-size: 11.5px; color: var(--texto-2); }
+.medula2__reglas { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--e-4); }
+.medula2__reglas > div { display: grid; gap: 4px; padding-top: 12px; border-top: 2px solid #0853E0; }
+@media (max-width: 860px) { .medula2__interior { grid-template-columns: minmax(0, 1fr); } .medula2__lado { display: none; } .medula2__tonos { grid-template-columns: repeat(4, minmax(0, 1fr)); } .medula2__reglas { grid-template-columns: minmax(0, 1fr); } }
+
+/* ── Bárbara ── */
+.barbara2 { display: grid; gap: var(--e-5); padding: clamp(24px, 4vw, 52px); border-radius: 22px; background: #0A0A0B; color: #F4F5EF; font-family: "Inter", var(--letra); position: relative; overflow: hidden; isolation: isolate; }
+.barbara2::before { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 50% at 80% 20%, rgba(205, 251, 62, .08), transparent 70%); z-index: -1; }
+.barbara2__heroe { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: var(--e-6); align-items: center; }
+.barbara2__texto { display: grid; gap: 14px; justify-items: start; }
+.barbara2__palabra { font-size: clamp(3rem, 1.8rem + 4vw, 5.6rem); line-height: .9; }
+.barbara2__bajada { font-size: clamp(1.2rem, 1rem + .8vw, 1.6rem); font-weight: 500; letter-spacing: -0.02em; max-width: 24ch; }
+.barbara2__p { color: #A5A69D; max-width: 44ch; line-height: 1.55; }
+.barbara2__figura { position: relative; justify-self: center; width: min(100%, 380px); aspect-ratio: 1; display: grid; place-items: center; }
+.barbara2__anillo { position: absolute; inset: 4%; border-radius: 50%; box-shadow: 0 0 0 5px #CDFB3E, 0 0 40px rgba(205, 251, 62, .25); }
+.barbara2__figura img { position: relative; width: 86%; height: auto; }
+.barbara2__chispa { position: absolute; right: 2%; top: 8%; color: #CDFB3E; font-size: 34px; font-style: normal; animation: chispa 3.6s var(--suave) infinite; }
+@keyframes chispa { 50% { transform: scale(.75) rotate(20deg); opacity: .7; } }
+.barbara2__chat { padding: 18px; border-radius: 16px; background: #141416; box-shadow: inset 0 0 0 1px #24252a; }
+.barbara2__msj { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; }
+.barbara2__msj img { border-radius: 50%; }
+.barbara2__msj p { color: #F4F5EF; margin-top: 2px; line-height: 1.5; }
+.barbara2__pieza { display: grid; gap: 2px; margin: 12px 0; padding: 14px; border-radius: 12px; background: #1B1C1F; box-shadow: inset 0 0 0 1px #2a2b30; max-width: 360px; }
+.barbara2__pieza b { font-family: "Fraunces", Georgia, serif; font-size: 20px; font-weight: 600; }
+.barbara2__pieza span { color: #A5A69D; font-size: 13px; }
+.barbara2__mini { color: #CDFB3E !important; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; font-size: 11.5px !important; }
+.barbara2__acciones { display: flex; gap: 10px; flex-wrap: wrap; }
+.barbara2__si, .barbara2__no { min-height: 44px; padding: 0 18px; border-radius: 999px; font-weight: 600; font-family: "Inter", var(--letra); }
+.barbara2__si { background: #CDFB3E; color: #0A0A0B; }
+.barbara2__si:hover { background: #DFFF7B; }
+.barbara2__si:disabled { opacity: 1; background: #8FE8B4; }
+.barbara2__no { color: #F4F5EF; box-shadow: inset 0 0 0 1px #3a3b40; }
+.barbara2__si:focus-visible, .barbara2__no:focus-visible { outline: 2px solid #CDFB3E; outline-offset: 3px; }
+.barbara2__tonos { display: flex; flex-wrap: wrap; gap: 14px; }
+.barbara2__tono { display: grid; grid-template-columns: 28px auto; grid-template-rows: auto auto; column-gap: 8px; align-items: center; }
+.barbara2__tono i { grid-row: 1 / span 2; width: 28px; height: 28px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18); }
+.barbara2__tono b { font-size: 13px; font-weight: 600; }
+.barbara2__tono .mono { font-size: 11.5px; color: #A5A69D; }
+.barbara2__nota { color: #A5A69D; }
+@media (max-width: 860px) { .barbara2__heroe { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .barbara2__chispa { animation: none; } }

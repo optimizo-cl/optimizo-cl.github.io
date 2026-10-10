@@ -65,9 +65,10 @@ export function sistema(svg, datos, { alFicha = () => {} } = {}) {
   return motor(svg, (t) => arcos.forEach((r) => { const L = r.p.getTotalLength(), k = (t * 0.32 + r.fase) % 1, q = r.p.getPointAtLength(L * k); r.punto.setAttribute("cx", q.x); r.punto.setAttribute("cy", q.y); }));
 }
 
-/** Proceso: una pista con estaciones que el punto recorre. pasos: [{ nombre, dur (días), traba? }] */
-export function proceso(svg, pasos, { alFicha = () => {} } = {}) {
-  svg.setAttribute("viewBox", "0 0 640 220"); svg.classList.add("orb", "orb--proceso");
+/** Proceso: una pista con estaciones que el punto recorre. pasos: [{ nombre, dur (días), traba? }]
+    compacto: sin aire arriba y abajo · fijo: 0–1, el punto se queda ahí (un avance, no un recorrido). */
+export function proceso(svg, pasos, { alFicha = () => {}, compacto = false, fijo = null } = {}) {
+  svg.setAttribute("viewBox", compacto ? "0 56 640 116" : "0 0 640 220"); svg.classList.add("orb", "orb--proceso");
   const x0 = 50, x1 = 590, y = 110, n = pasos.length;
   const xs = pasos.map((_, i) => x0 + ((x1 - x0) * i) / (n - 1));
   const via = `M${x0} ${y} ` + xs.slice(1).map((x, i) => `Q ${(xs[i] + x) / 2} ${i % 2 ? y + 46 : y - 46} ${x} ${y}`).join(" ");
@@ -78,7 +79,7 @@ export function proceso(svg, pasos, { alFicha = () => {} } = {}) {
   const punto = el("circle", { r: 8, class: "orb-viajero" }, svg);
   const L = camino.getTotalLength();
   return motor(svg, (t) => {
-    const k = (t * 0.09) % 1, q = camino.getPointAtLength(L * k);
+    const k = fijo != null ? fijo : (t * 0.09) % 1, q = camino.getPointAtLength(L * k);
     punto.setAttribute("cx", q.x); punto.setAttribute("cy", q.y);
     lleno.style.strokeDashoffset = 1 - k;
     gs.forEach((g, i) => g.classList.toggle("pasado", xs[i] <= q.x + 1));
