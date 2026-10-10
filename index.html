@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Optimizo — trabajo en curso</title>
+<link rel="icon" href="marca/logo/svg/optimizo-isotipo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap" rel="stylesheet">
+<style>
+  :root { --navy: #26405B; --grafito: #424E4E; --hueso: #EDEEE8; --teal-prof: #387E80;
+    --texto: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--hueso); color: var(--navy); font-family: var(--texto); padding: 64px 16px; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  .logo { width: 220px; display: block; }
+  p.lead { color: var(--grafito); font-size: 17px; line-height: 1.5; margin: 28px 0 40px; max-width: 54ch; }
+  .lista { display: grid; gap: 12px; }
+  a.item { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px; background: #fff; border-radius: 16px; padding: 22px 24px; color: inherit; text-decoration: none; transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s; }
+  a.item:hover { transform: translateY(-2px); box-shadow: 0 10px 30px -18px rgba(38,64,91,.35); }
+  a.item:focus-visible { outline: 2px solid var(--teal-prof); outline-offset: 3px; }
+  .item b { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  .item span { display: block; font-size: 14px; color: var(--grafito); margin-top: 4px; }
+  .item i { font-style: normal; color: var(--teal-prof); font-size: 20px; }
+  footer { margin-top: 48px; font-size: 13px; color: var(--grafito); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <img class="logo" src="marca/logo/svg/optimizo-logo.svg" alt="Optimizo">
+  <p class="lead">Trabajo en curso de la marca: logo, paletas en prueba, tipografía y, pronto, el guion visual completo.</p>
+  <nav class="lista">
+    <a class="item" href="marca/"><div><b>Marca</b><span>Logo en Poppins, variantes, paletas A · Teal y B · Mandarina, tipografía</span></div><i>→</i></a>
+    <a class="item" href="exploraciones/tipografia/"><div><b>Exploración tipográfica</b><span>Las 10 candidatas que se compararon con el logo original</span></div><i>→</i></a>
+  </nav>
+  <footer>Versión de trabajo · no indexada</footer>
+</div>
+</body>
+</html>

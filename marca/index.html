@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Optimizo — logo y tipografía</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --menta: #91CEC4; --teal: #59BDB1; --teal-prof: #387E80;
+    --grafito: #424E4E; --navy: #26405B; --hueso: #EDEEE8;
+    /* Texto de páginas y app: SF de Apple donde existe (Mac, iPhone), Inter en el resto. */
+    --acento-texto: var(--teal-prof);
+    --texto: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", system-ui, sans-serif;
+  }
+  :root[data-paleta="naranjo"] { --acento-texto: #B8420A; }
+  .paleta { display: inline-flex; background: #fff; border-radius: 999px; padding: 4px; margin-top: 22px; }
+  .paleta button { border: 0; background: none; font: inherit; font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 999px; cursor: pointer; color: var(--grafito); display: inline-flex; gap: 8px; align-items: center; }
+  .paleta button i { width: 12px; height: 12px; border-radius: 50%; }
+  .paleta button[aria-pressed="true"] { background: var(--navy); color: var(--hueso); }
+  .muestras { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .muestras span { font-size: 12px; color: var(--grafito); display: inline-flex; align-items: center; gap: 6px; background: #fff; border-radius: 999px; padding: 5px 10px 5px 5px; }
+  .muestras span i { width: 18px; height: 18px; border-radius: 50%; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--hueso); color: var(--navy); font-family: var(--texto); font-optical-sizing: auto; padding: 48px 16px 96px; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 56px; }
+  h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.022em; }
+  h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--acento-texto); margin-bottom: 16px; }
+  .lead { color: var(--grafito); font-size: 17px; line-height: 1.5; max-width: 62ch; margin-top: 10px; }
+  .panel { background: #fff; border-radius: 24px; padding: 40px; }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .duo figure { background: #fff; border-radius: 24px; padding: 40px 32px 24px; display: grid; gap: 22px; }
+  .duo img { width: 100%; max-width: 420px; justify-self: center; }
+  figcaption { font-size: 13px; color: var(--grafito); text-align: center; }
+  figcaption b { color: var(--navy); }
+  .fondos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .fondo { border-radius: 24px; padding: 48px 32px; display: grid; place-items: center; }
+  .fondo img { width: 100%; max-width: 300px; }
+  .monos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .mono { border-radius: 20px; padding: 36px 28px; display: grid; place-items: center; background: #fff; }
+  .mono img { width: 100%; max-width: 260px; }
+  .mono.osc { background: var(--navy); }
+  .piezas { display: grid; grid-template-columns: 1fr 2fr; gap: 16px; }
+  .piezas .panel { display: grid; place-items: center; gap: 16px; }
+  .tipos { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .tipo .nombre { font-size: 13px; color: var(--grafito); margin-bottom: 18px; }
+  .tipo .nombre b { color: var(--navy); font-size: 15px; display: block; }
+  .muestra-logo { display: flex; align-items: center; justify-content: center; min-height: 180px; }
+  .muestra-logo img { width: 70%; }
+  .t-h1 { font-size: 44px; font-weight: 700; letter-spacing: -0.028em; line-height: 1.05; }
+  .t-h2 { font-size: 24px; font-weight: 600; letter-spacing: -0.017em; margin-top: 18px; }
+  .t-p { font-size: 17px; line-height: 1.5; color: var(--grafito); margin-top: 10px; letter-spacing: -0.01em; }
+  .ui { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+  .ui input { flex: 1; min-width: 180px; font: inherit; font-size: 15px; padding: 12px 14px; border-radius: 12px; border: 1px solid #D9DED9; background: #FAFBF8; color: var(--navy); }
+  .ui button { font: inherit; font-size: 15px; font-weight: 600; padding: 12px 18px; border-radius: 12px; border: 0; background: var(--navy); color: var(--hueso); }
+  .nums { font-variant-numeric: tabular-nums; font-size: 15px; color: var(--grafito); margin-top: 18px; }
+  .regla { font-size: 14px; line-height: 1.55; color: var(--grafito); margin-top: 18px; border-top: 1px solid #EEF0EC; padding-top: 14px; }
+  @media (max-width: 760px) {
+    .duo, .fondos, .monos, .piezas, .tipos { grid-template-columns: 1fr; }
+    .panel, .duo figure { padding: 28px 20px; }
+    .t-h1 { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Logo en Poppins y tipografía de sistema</h1>
+    <p class="lead">El logotipo pasa de Made Tommy a Poppins ExtraBold, convertido a trazos y con las proporciones medidas del original. Las páginas y la app usan la tipografía de Apple donde existe y Inter en el resto.</p>
+    <div class="paleta" role="group" aria-label="Paleta en prueba">
+      <button data-p="teal" aria-pressed="true"><i style="background:linear-gradient(90deg,#91CEC4,#387E80)"></i>A · Teal</button>
+      <button data-p="naranjo" aria-pressed="false"><i style="background:linear-gradient(90deg,#FFA05A,#EE560E)"></i>B · Mandarina</button>
+    </div>
+    <div class="muestras" id="muestras"></div>
+  </header>
+
+  <section>
+    <h2>Antes y después</h2>
+    <div class="duo">
+      <figure><img src="ref/logo-original-made-tommy.jpeg" alt="Logo original en Made Tommy"><figcaption><b>Original</b> · Made Tommy Bold · licencia pagada</figcaption></figure>
+      <figure><img src="logo/svg/optimizo-logo.svg" alt="Logo nuevo en Poppins"><figcaption><b>Nuevo</b> · Poppins ExtraBold en trazos · OFL</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>Sobre fondos de la marca</h2>
+    <div class="fondos">
+      <div class="fondo" style="background:#fff"><img src="logo/svg/optimizo-logo.svg" alt="Logo sobre blanco"></div>
+      <div class="fondo" style="background:var(--hueso);outline:1px solid #DFE2DA;outline-offset:-1px"><img src="logo/svg/optimizo-logo.svg" alt="Logo sobre hueso"></div>
+      <div class="fondo" style="background:var(--navy)"><img src="logo/svg/optimizo-logo-sobre-oscuro.svg" alt="Logo sobre navy"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Variantes en un color</h2>
+    <div class="monos">
+      <div class="mono osc"><img src="logo/svg/optimizo-logo-mono-hueso.svg" alt="Hueso"></div>
+      <div class="mono"><img src="logo/svg/optimizo-logo-mono-menta.svg" alt="Menta"></div>
+      <div class="mono"><img src="logo/svg/optimizo-logo-mono-teal.svg" alt="Teal"></div>
+      <div class="mono"><img src="logo/svg/optimizo-logo-mono-teal-profundo.svg" alt="Teal profundo"></div>
+      <div class="mono"><img src="logo/svg/optimizo-logo-mono-grafito.svg" alt="Grafito"></div>
+      <div class="mono"><img src="logo/svg/optimizo-logo-mono-navy.svg" alt="Navy"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Piezas sueltas</h2>
+    <div class="piezas">
+      <div class="panel"><img src="logo/svg/optimizo-isotipo.svg" alt="Isotipo" style="width:140px"><figcaption>Isotipo</figcaption></div>
+      <div class="panel"><img src="logo/svg/optimizo-logotipo.svg" alt="Logotipo" style="width:min(100%,420px)"><figcaption>Logotipo</figcaption></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tipografías</h2>
+    <div class="tipos">
+      <div class="panel tipo">
+        <div class="nombre"><b>Poppins ExtraBold</b>Solo el logo · ya convertida a trazos, no se instala</div>
+        <div class="muestra-logo"><img src="logo/svg/optimizo-logotipo.svg" alt="Logotipo"></div>
+        <p class="regla">No se usa en titulares ni textos: así el logo queda único y no compite con nada.</p>
+      </div>
+      <div class="panel tipo">
+        <div class="nombre"><b id="nombre-texto">Texto · SF Pro / Inter</b>Páginas, app, documentos y formularios</div>
+        <div class="t-h1">Soluciones tecnológicas que optimizan tu empresa</div>
+        <div class="t-h2">Optimizo Recursos · Tiempo · Procesos</div>
+        <p class="t-p">Te acompañamos en la transformación digital de tu negocio, optimizando y rentabilizando tus operaciones.</p>
+        <div class="ui"><input value="contacto@empresa.cl" aria-label="Correo"><button>Agendar diagnóstico</button></div>
+        <div class="nums">1.234.567 · 98,6 % · 10/10/2026 · $ 15.990</div>
+        <p class="regla">En Mac y iPhone se ve SF Pro (la del sistema, sin licencia que pagar porque no la distribuimos). En Windows, Android y PDFs se ve Inter, diseñada a la par de SF.</p>
+      </div>
+    </div>
+  </section>
+</div>
+<script>
+  const PALETAS = {
+    teal:    { ruta: 'logo/svg/', acentos: [['Menta','#91CEC4','menta'],['Teal','#59BDB1','teal'],['Teal profundo','#387E80','teal-profundo']] },
+    naranjo: { ruta: 'logo/svg/naranjo/', acentos: [['Durazno','#FFB98A','durazno'],['Mandarina','#FF6A13','mandarina'],['Brasa','#B8420A','brasa']] },
+  };
+  const NEUTROS = [['Navy','#26405B'],['Grafito','#424E4E'],['Hueso','#EDEEE8']];
+  function aplicar(p) {
+    const pal = PALETAS[p];
+    document.documentElement.dataset.paleta = p;
+    document.querySelectorAll('.paleta button').forEach(b => b.setAttribute('aria-pressed', b.dataset.p === p));
+    document.querySelectorAll('img[src*="logo/svg/"]').forEach(img => {
+      let archivo = img.getAttribute('src').split('/').pop();
+      // los monos de acento cambian de nombre entre paletas (posición 1–3 de la grilla)
+      const m = archivo.match(/^optimizo-logo-mono-(.+)\.svg$/);
+      if (m) {
+        const otra = PALETAS[p === 'teal' ? 'naranjo' : 'teal'];
+        const i = otra.acentos.findIndex(a => a[2] === m[1]);
+        if (i >= 0) archivo = `optimizo-logo-mono-${pal.acentos[i][2]}.svg`;
+      }
+      img.src = pal.ruta + archivo;
+    });
+    document.getElementById('muestras').innerHTML = [...pal.acentos, ...NEUTROS]
+      .map(([n, c]) => `<span><i style="background:${c};${c === '#EDEEE8' ? 'outline:1px solid #DDE0D8' : ''}"></i>${n} ${c}</span>`).join('');
+    try { localStorage.setItem('optimizo-paleta', p); } catch (e) {}
+  }
+  document.querySelector('.paleta').addEventListener('click', e => { const b = e.target.closest('button'); if (b) aplicar(b.dataset.p); });
+  let inicial = 'teal'; try { inicial = localStorage.getItem('optimizo-paleta') || 'teal'; } catch (e) {}
+  aplicar(new URLSearchParams(location.search).get('paleta') || inicial);
+
+  // Dice qué tipografía está mostrando este equipo
+  document.fonts.ready.then(() => {
+    const apple = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+    document.getElementById('nombre-texto').textContent = 'Texto · ' + (apple ? 'SF Pro (sistema)' : 'Inter') ;
+  });
+</script>
+</body>
+</html>
