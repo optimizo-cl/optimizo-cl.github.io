@@ -112,3 +112,55 @@
 .iconos-texto { display: grid; gap: 10px; }
 .iconos-texto > span { display: inline-flex; align-items: center; gap: 8px; }
 .icono { flex: none; }
+
+/* ── Material ── */
+.material-controles { padding: var(--e-4) var(--e-5); display: flex; flex-wrap: wrap; gap: var(--e-4) var(--e-7); align-items: center; }
+.material-controles label { display: inline-flex; align-items: center; gap: 12px; font-size: var(--t-chico); font-weight: 600; }
+.material-controles input[type="range"] { width: 180px; }
+.material-controles output { font-variant-numeric: tabular-nums; color: var(--texto-3); font-weight: 500; min-width: 3ch; }
+.superficies { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--e-4); }
+.superficie { min-height: 220px; padding: var(--e-5); display: grid; align-content: end; gap: 6px; border-radius: var(--r-3); }
+.superficie b { font-weight: 600; }
+.superficie--papel { background: var(--papel); }
+.superficie--ceramica { background: radial-gradient(120% 90% at 30% 0%, color-mix(in srgb, var(--superficie-2) 100%, transparent), var(--superficie) 70%); box-shadow: var(--sombra-2), inset 0 1px 0 rgba(255, 255, 255, .7), inset 0 0 0 1px var(--borde); }
+.superficie--ceramica::before { opacity: calc(var(--grano-opacidad) * 1.25); }
+.superficie--hundida { background: var(--superficie-hundida); box-shadow: inset 0 1px 3px rgba(22, 38, 58, .08); }
+.superficie--sin { background: var(--superficie); box-shadow: var(--sombra-1), inset 0 0 0 1px var(--borde); }
+@media (max-width: 900px) { .superficies { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .superficies { grid-template-columns: 1fr; } }
+
+/* ── Aura ── */
+.aura-escena { position: relative; border-radius: var(--r-4); overflow: hidden; min-height: 460px; display: grid; align-items: end; box-shadow: var(--sombra-2); }
+.aura-lienzo { position: absolute; inset: 0; width: 100%; height: 100%; display: block; background: linear-gradient(120deg, var(--hueso), var(--acento-claro) 50%, var(--acento-profundo)); }
+.aura-texto { position: relative; padding: var(--e-7); display: grid; gap: var(--e-3); max-width: 640px; color: var(--navy); }
+.aura-texto .ceja { color: var(--navy); }
+.aura-texto .ceja::before { background: var(--navy); }
+.aura-texto .bajada { color: var(--navy); opacity: .85; }
+:root[data-tema="oscuro"] .aura-texto, :root[data-tema="oscuro"] .aura-texto .ceja, :root[data-tema="oscuro"] .aura-texto .bajada { color: var(--hueso); }
+:root[data-tema="oscuro"] .aura-texto .ceja::before { background: var(--hueso); }
+
+/* ── Isotipo 3D ── */
+.iso3d { position: relative; height: clamp(360px, 52vw, 560px); overflow: hidden; background: radial-gradient(70% 60% at 50% 40%, var(--superficie-2), var(--superficie)); }
+.iso3d__lienzo { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 1; }
+.iso3d__respaldo { position: absolute; inset: 0; display: grid; place-items: center; z-index: 1; }
+.iso3d__respaldo .isotipo { width: min(50%, 300px); overflow: visible; }
+.iso3d__sombra { position: absolute; left: 50%; bottom: 9%; width: 42%; height: 7%; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(closest-side, rgba(22, 38, 58, .22), transparent); filter: blur(6px); z-index: 0 !important; }
+
+/* ── Flujos ── */
+.flujos { padding: var(--e-5); }
+.flujos__lienzo { width: 100%; }
+.flujos__svg { width: 100%; height: auto; overflow: visible; }
+.flujos__linea { fill: none; stroke: var(--borde-fuerte); stroke-width: 1.5; }
+.flujos__rastro { fill: none; stroke: var(--acento); stroke-width: 2.5; stroke-linecap: round; }
+.flujos__nodo rect { fill: var(--superficie-2); stroke: var(--borde-fuerte); stroke-width: 1; transition: stroke var(--d-3) var(--suave), fill var(--d-3) var(--suave); }
+.flujos__nodo text { fill: var(--texto); font-size: 15px; font-weight: 600; letter-spacing: -0.01em; font-family: var(--letra); }
+.flujos__nodo .flujos__sub { fill: var(--texto-3); font-size: 13px; font-weight: 400; }
+.flujos__nodo .flujos__sello { fill: var(--acento-texto); font-size: 12px; font-weight: 600; letter-spacing: .02em; }
+.flujos__nodo--centro rect { fill: var(--superficie); stroke-width: 1.5; }
+.flujos__nodo--centro text:first-of-type { font-size: 20px; font-weight: 700; }
+.flujos__luz { fill: var(--borde-fuerte); transition: fill var(--d-3) var(--suave); }
+.flujos__nodo.activo rect { stroke: var(--acento); }
+.flujos__nodo.activo .flujos__luz { fill: var(--acento); }
+.flujos__punto { fill: var(--acento); stroke: var(--superficie-2); stroke-width: 3; }
+.flujos-pie { display: flex; gap: var(--e-4); align-items: baseline; flex-wrap: wrap; }
+.flujos-pie .chico { flex: 1 1 400px; }

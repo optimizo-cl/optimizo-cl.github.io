@@ -32,7 +32,7 @@ body::before, .mate::before {
   position: absolute;
   inset: 0;
   background-image: var(--grano);
-  background-size: 220px;
+  background-size: var(--grano-tam, 220px);
   mix-blend-mode: soft-light;
   opacity: var(--grano-opacidad);
   pointer-events: none;
