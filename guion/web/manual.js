@@ -1,12 +1,12 @@
 /* Manual de marca imprimible: las mismas secciones del guion, una por hoja A4 apaisada. Se exporta a PDF con herramientas/exportar.mjs. */
-import { identidad } from "../src/secciones/identidad.js";
-import { manual } from "../src/secciones/manual.js";
-import { isotipo, logo } from "../src/kit/marca.js";
-import { cargarIconos, rellenarIconos } from "../src/kit/iconos.js";
+import { identidad } from "../src/secciones/identidad.js?v=798d3f5";
+import { manual } from "../src/secciones/manual.js?v=798d3f5";
+import { isotipo, logo } from "../src/kit/marca.js?v=798d3f5";
+import { cargarIconos, rellenarIconos } from "../src/kit/iconos.js?v=798d3f5";
 
 const p = new URLSearchParams(location.search);
 document.documentElement.dataset.paleta = p.get("paleta") || "teal";
-import { manual2 } from "../src/secciones/manual2.js";
+import { manual2 } from "../src/secciones/manual2.js?v=798d3f5";
 // grupos con divisor: [número, nombre, hojas]
 const GRUPOS = [
   ["1", "La marca", [["concepto", "Concepto", identidad], ["manual-logo", "Construcción del logo", { "manual-logo": manual2["manual-logo"](manual["manual-logo"]) }], ["logo", "Versiones del logo", identidad], ["usos-incorrectos", "Usos incorrectos", manual]]],

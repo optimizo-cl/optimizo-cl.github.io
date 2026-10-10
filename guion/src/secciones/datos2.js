@@ -1,17 +1,17 @@
 /* Capítulo 4 · Datos v2 (ola 6): gráficas con trama que se dibujan, tablas que se ordenan deslizándose y se editan
    en línea, fechas sobre una pista de puntos, búsqueda en órbitas de relevancia y vacíos hechos con el disco. */
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js";
-import { boton, segmento } from "../kit/controles.js";
-import { toast, estado } from "../kit/avisos.js";
-import { icono, rellenarIconos } from "../kit/iconos.js";
-import { isotipo, DISCO } from "../kit/marca.js";
-import { ejemplo } from "../kit/guion.js";
-import { contar } from "../kit/coreografia.js";
-import { tabla } from "../patrones/tabla.js";
-import { barrasTrama, lineaViva, antesDespuesBarras, apiladaTextura } from "../patrones/graficas2.js";
-import { abrirBuscador, activarAtajoBuscador } from "../patrones/buscador.js";
-import { COTIZACIONES, VENTAS, PROCESOS, CANALES, NOTAS, clp, clpCorto, fechaCorta } from "../demo/quillay.js";
-import { movimientoReducido } from "../kit/escenas/vigia.js";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=798d3f5";
+import { boton, segmento } from "../kit/controles.js?v=798d3f5";
+import { toast, estado } from "../kit/avisos.js?v=798d3f5";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=798d3f5";
+import { isotipo, DISCO } from "../kit/marca.js?v=798d3f5";
+import { ejemplo } from "../kit/guion.js?v=798d3f5";
+import { contar } from "../kit/coreografia.js?v=798d3f5";
+import { tabla } from "../patrones/tabla.js?v=798d3f5";
+import { barrasTrama, lineaViva, antesDespuesBarras, apiladaTextura } from "../patrones/graficas2.js?v=798d3f5";
+import { abrirBuscador, activarAtajoBuscador } from "../patrones/buscador.js?v=798d3f5";
+import { COTIZACIONES, VENTAS, PROCESOS, CANALES, NOTAS, clp, clpCorto, fechaCorta } from "../demo/quillay.js?v=798d3f5";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=798d3f5";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const usoDe = (lista, cod) => `<div class="rejilla-2"><ul class="lista-punto">${lista.map((r) => `<li>${r}</li>`).join("")}</ul>${cod ? codigo(cod) : ""}</div>`;

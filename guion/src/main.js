@@ -1,12 +1,12 @@
 /* Guion v2: arma portada, portadas de capítulo, secciones, navegación lateral, dock, comparador A | B y modo presentación.
    Dos ejes: paleta (A/B) y tema (claro/oscuro). Las secciones se arman al acercarse. */
-import { CAPITULOS, SECCIONES, seccionesDe, capituloDe, numeroDe } from "./plan.js";
-import { CONSTRUIDAS, REPINTAR, pendiente, PORTADAS } from "./secciones/index.js";
-import { icono, cargarIconos, rellenarIconos } from "./kit/iconos.js";
-import { activarControles, prepararSegmentos } from "./kit/controles.js";
-import { activarCampos } from "./kit/campos.js";
-import { entrar, abrirEnCirculo, progreso } from "./kit/coreografia.js";
-import { isotipo } from "./kit/marca.js";
+import { CAPITULOS, SECCIONES, seccionesDe, capituloDe, numeroDe } from "./plan.js?v=798d3f5";
+import { CONSTRUIDAS, REPINTAR, pendiente, PORTADAS } from "./secciones/index.js?v=798d3f5";
+import { icono, cargarIconos, rellenarIconos } from "./kit/iconos.js?v=798d3f5";
+import { activarControles, prepararSegmentos } from "./kit/controles.js?v=798d3f5";
+import { activarCampos } from "./kit/campos.js?v=798d3f5";
+import { entrar, abrirEnCirculo, progreso } from "./kit/coreografia.js?v=798d3f5";
+import { isotipo } from "./kit/marca.js?v=798d3f5";
 
 for (const sec of SECCIONES) sec.estado = CONSTRUIDAS[sec.id] ? "listo" : "por-hacer";
 

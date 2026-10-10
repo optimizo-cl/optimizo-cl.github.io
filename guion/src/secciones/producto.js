@@ -1,13 +1,13 @@
 /* Capítulo 5 · Producto Optimizo (fase 10): las piezas que solo Optimizo tiene. Datos de Quillay. */
-import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js";
-import { boton } from "../kit/controles.js";
-import { insignia, toast } from "../kit/avisos.js";
-import { icono, rellenarIconos } from "../kit/iconos.js";
-import { isotipo, logo } from "../kit/marca.js";
-import { progreso } from "../kit/punto.js";
-import { flujos } from "../kit/escenas/flujos.js";
-import { heroe } from "../patrones/graficas.js";
-import { EMPRESA, PROCESOS, ESTADOS, PERSONAS, HORAS_PERDIDAS, clp } from "../demo/quillay.js";
+import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js?v=798d3f5";
+import { boton } from "../kit/controles.js?v=798d3f5";
+import { insignia, toast } from "../kit/avisos.js?v=798d3f5";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=798d3f5";
+import { isotipo, logo } from "../kit/marca.js?v=798d3f5";
+import { progreso } from "../kit/punto.js?v=798d3f5";
+import { flujos } from "../kit/escenas/flujos.js?v=798d3f5";
+import { heroe } from "../patrones/graficas.js?v=798d3f5";
+import { EMPRESA, PROCESOS, ESTADOS, PERSONAS, HORAS_PERDIDAS, clp } from "../demo/quillay.js?v=798d3f5";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const persona = (id) => PERSONAS.find((p) => p.id === id)?.nombre || "Sin responsable";

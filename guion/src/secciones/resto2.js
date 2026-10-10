@@ -1,14 +1,14 @@
 /* v2 de las secciones que quedaban con la composición repetida de la versión 1: contacto, validación, correos,
    firma, íconos de app, usos incorrectos, color y letra para producción, voz, imagen y aplicaciones. */
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js";
-import { campo, validar } from "../kit/campos.js";
-import { boton, trabajar } from "../kit/controles.js";
-import { listo } from "../kit/punto.js";
-import { toast, estado } from "../kit/avisos.js";
-import { icono, rellenarIconos } from "../kit/iconos.js";
-import { isotipo, logo } from "../kit/marca.js";
-import { correo, firma } from "../kit/correos.js";
-import { proceso } from "../kit/orbitas.js";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=798d3f5";
+import { campo, validar } from "../kit/campos.js?v=798d3f5";
+import { boton, trabajar } from "../kit/controles.js?v=798d3f5";
+import { listo } from "../kit/punto.js?v=798d3f5";
+import { toast, estado } from "../kit/avisos.js?v=798d3f5";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=798d3f5";
+import { isotipo, logo } from "../kit/marca.js?v=798d3f5";
+import { correo, firma } from "../kit/correos.js?v=798d3f5";
+import { proceso } from "../kit/orbitas.js?v=798d3f5";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));

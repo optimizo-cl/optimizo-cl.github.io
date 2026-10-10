@@ -1,15 +1,15 @@
 /* Capítulo 4 · Patrones (fase 9). Todo con datos de Quillay desde src/demo/quillay.js. */
-import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js";
-import { boton, botonIcono, segmento } from "../kit/controles.js";
-import { insignia, toast, alerta } from "../kit/avisos.js";
-import { abrirMenu, abrirDialogo } from "../kit/popups.js";
-import { icono, rellenarIconos } from "../kit/iconos.js";
-import { isotipo } from "../kit/marca.js";
-import { barras, linea, dona, heroe } from "../patrones/graficas.js";
-import { tabla } from "../patrones/tabla.js";
-import { calendario, HOY } from "../patrones/fechas.js";
-import { abrirBuscador, activarAtajoBuscador, resultadosHTML } from "../patrones/buscador.js";
-import { EMPRESA, PROCESOS, ESTADOS, COTIZACIONES, VENTAS, CANALES, KPIS, PERSONAS, clp, clpCorto, pct, fechaCorta } from "../demo/quillay.js";
+import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js?v=798d3f5";
+import { boton, botonIcono, segmento } from "../kit/controles.js?v=798d3f5";
+import { insignia, toast, alerta } from "../kit/avisos.js?v=798d3f5";
+import { abrirMenu, abrirDialogo } from "../kit/popups.js?v=798d3f5";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=798d3f5";
+import { isotipo } from "../kit/marca.js?v=798d3f5";
+import { barras, linea, dona, heroe } from "../patrones/graficas.js?v=798d3f5";
+import { tabla } from "../patrones/tabla.js?v=798d3f5";
+import { calendario, HOY } from "../patrones/fechas.js?v=798d3f5";
+import { abrirBuscador, activarAtajoBuscador, resultadosHTML } from "../patrones/buscador.js?v=798d3f5";
+import { EMPRESA, PROCESOS, ESTADOS, COTIZACIONES, VENTAS, CANALES, KPIS, PERSONAS, clp, clpCorto, pct, fechaCorta } from "../demo/quillay.js?v=798d3f5";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const persona = (id) => PERSONAS.find((p) => p.id === id)?.nombre || "—";
@@ -88,7 +88,7 @@ export const patrones = {
 
   async tablas(el) {
     cuerpo(el).innerHTML = `<div class="mate" style="padding:var(--e-4)" data-tabla></div>
-      ${ficha({ que: "Tabla con orden por columna (clic en el título), filtro, selección y paginación. En angosto cada fila es una tarjeta.", importar: 'import { tabla } from "./patrones/tabla.js";', reglas: ["Números a la derecha y tabulares.", "Máximo 2 insignias por fila.", "La acción en lote aparece solo con selección."] })}`;
+      ${ficha({ que: "Tabla con orden por columna (clic en el título), filtro, selección y paginación. En angosto cada fila es una tarjeta.", importar: 'import { tabla } from "./patrones/tabla.js?v=798d3f5";', reglas: ["Números a la derecha y tabulares.", "Máximo 2 insignias por fila.", "La acción en lote aparece solo con selección."] })}`;
     tabla(el.querySelector("[data-tabla]"), {
       buscarEn: ["folio", "cliente", "estado", "vendedor"],
       acciones: boton("Exportar", { variante: "secundario", tam: "s", ico: "download-simple", attrs: 'data-exportar style="margin-left:auto"' }),

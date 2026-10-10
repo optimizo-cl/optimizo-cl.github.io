@@ -1,6 +1,6 @@
 /* Flujos y nodos: los sistemas de una empresa conectados. El punto (la firma) recorre un camino fuente → Medula →
    destino, encendiendo cada nodo a su paso. Diagrama SVG; en angosto se reorganiza en vertical (no se achica). */
-import { bucle } from "./vigia.js";
+import { bucle } from "./vigia.js?v=798d3f5";
 
 export const RED_QUILLAY = {
   fuentes: [["crm", "CRM a medida"], ["wsp", "WhatsApp"], ["correo", "Correo"], ["planillas", "Planillas"]],

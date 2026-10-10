@@ -1,6 +1,6 @@
 /* Tabla de datos: ordenar, filtrar, seleccionar, paginar. En angosto cada fila pasa a ser una tarjeta (no se achica).
    v2: las filas entran en cascada; al ordenar se deslizan a su nuevo lugar (FLIP); las columnas «editable» se editan en línea. */
-import { icono, rellenarIconos } from "../kit/iconos.js";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=798d3f5";
 
 /** columnas: [{ clave, titulo, alinear: "der", formato, ancho, editable: { validar(v) → "" | error, leer(v) → valor } }] · filas: objetos */
 export function tabla(el, { columnas, filas, porPagina = 8, buscarEn = [], vacio = "No hay resultados con ese filtro.", acciones = "" }) {

@@ -1,13 +1,13 @@
 /* Capítulo 6 · Web y marca v2 (ola 8): el sitio nuevo, el video de marca exportable, redes animadas, una presentación
    con transiciones del punto, papelería en 3D y una 404 en la que se devuelve el punto a su nido. */
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js";
-import { boton, segmento } from "../kit/controles.js";
-import { toast } from "../kit/avisos.js";
-import { isotipo, logo } from "../kit/marca.js";
-import { icono, rellenarIconos } from "../kit/iconos.js";
-import { pelicula } from "../kit/pelicula.js";
-import { contar } from "../kit/coreografia.js";
-import { movimientoReducido } from "../kit/escenas/vigia.js";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=798d3f5";
+import { boton, segmento } from "../kit/controles.js?v=798d3f5";
+import { toast } from "../kit/avisos.js?v=798d3f5";
+import { isotipo, logo } from "../kit/marca.js?v=798d3f5";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=798d3f5";
+import { pelicula } from "../kit/pelicula.js?v=798d3f5";
+import { contar } from "../kit/coreografia.js?v=798d3f5";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=798d3f5";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const raiz = document.documentElement;

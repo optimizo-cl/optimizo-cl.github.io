@@ -3,7 +3,7 @@
    - Conexiones: arcos orbitales; los datos son puntos que viajan por ellos.
    - Tres modos: sistema (todo orbita un centro), proceso (una pista con estaciones), antesDespues (caos → anillos).
    - Pasar sobre un nodo muestra su ficha; clic traza su ruta; un control de tiempo adelanta o retrocede. */
-import { movimientoReducido } from "./escenas/vigia.js";
+import { movimientoReducido } from "./escenas/vigia.js?v=798d3f5";
 
 const NS = "http://www.w3.org/2000/svg";
 const el = (tag, attrs = {}, padre) => { const e = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); padre?.appendChild(e); return e; };

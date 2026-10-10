@@ -1,14 +1,14 @@
 /* Capítulo 3 · Formularios v2 (ola 5): pedir datos como una conversación. Mientras respondes, se dibuja tu empresa;
    la escalera se ilumina; la agenda muestra la disponibilidad como puntos; los archivos caen al disco; la NPS es una órbita. */
-import { campo, validar } from "../kit/campos.js";
-import { boton, trabajar } from "../kit/controles.js";
-import { listo } from "../kit/punto.js";
-import { toast } from "../kit/avisos.js";
-import { icono, rellenarIconos } from "../kit/iconos.js";
-import { isotipo } from "../kit/marca.js";
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js";
-import { contar } from "../kit/coreografia.js";
-import { movimientoReducido } from "../kit/escenas/vigia.js";
+import { campo, validar } from "../kit/campos.js?v=798d3f5";
+import { boton, trabajar } from "../kit/controles.js?v=798d3f5";
+import { listo } from "../kit/punto.js?v=798d3f5";
+import { toast } from "../kit/avisos.js?v=798d3f5";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=798d3f5";
+import { isotipo } from "../kit/marca.js?v=798d3f5";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=798d3f5";
+import { contar } from "../kit/coreografia.js?v=798d3f5";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=798d3f5";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));

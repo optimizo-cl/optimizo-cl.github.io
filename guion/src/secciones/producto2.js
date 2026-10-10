@@ -1,17 +1,17 @@
 /* Capítulo 5 · Producto v2 (ola 7): mapa de procesos que se ordena con el scroll (en Órbitas), escalera con el punto
    que sube, implementación como pista de estaciones, informe y propuesta como documentos vivos con portada de cerámica. */
-import { antesDespues, proceso } from "../kit/orbitas.js";
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js";
-import { boton } from "../kit/controles.js";
-import { toast, estado } from "../kit/avisos.js";
-import { icono, rellenarIconos } from "../kit/iconos.js";
-import { isotipo, logo } from "../kit/marca.js";
-import { ejemplo } from "../kit/guion.js";
-import { progreso as alAvanzar, contar } from "../kit/coreografia.js";
-import { barrasTrama } from "../patrones/graficas2.js";
-import { EMPRESA, PROCESOS, PERSONAS, HORAS_PERDIDAS, clp } from "../demo/quillay.js";
-import { PASOS_MADUREZ } from "./producto.js";
-import { movimientoReducido } from "../kit/escenas/vigia.js";
+import { antesDespues, proceso } from "../kit/orbitas.js?v=798d3f5";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=798d3f5";
+import { boton } from "../kit/controles.js?v=798d3f5";
+import { toast, estado } from "../kit/avisos.js?v=798d3f5";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=798d3f5";
+import { isotipo, logo } from "../kit/marca.js?v=798d3f5";
+import { ejemplo } from "../kit/guion.js?v=798d3f5";
+import { progreso as alAvanzar, contar } from "../kit/coreografia.js?v=798d3f5";
+import { barrasTrama } from "../patrones/graficas2.js?v=798d3f5";
+import { EMPRESA, PROCESOS, PERSONAS, HORAS_PERDIDAS, clp } from "../demo/quillay.js?v=798d3f5";
+import { PASOS_MADUREZ } from "./producto.js?v=798d3f5";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=798d3f5";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const persona = (id) => PERSONAS.find((p) => p.id === id)?.nombre || "Sin responsable";
