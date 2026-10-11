@@ -33,13 +33,13 @@ export const SECCIONES = [
   s("avisos", "Avisos", "kit", 4, "Papel que se desliza, pila con profundidad, banners con órbitas."),
   s("insignias", "Etiquetas y estados", "kit", 4, "El estado por forma (lleno, medio, vacío), fichas de cerámica."),
   s("menus", "Menús y popovers", "kit", 4, "Nacen del botón en círculo; papel con puntero de punto."),
-  s("dialogos", "Diálogos", "kit", 4, "Un disco que se expande en ventana; mantener presionado para borrar."),
+  s("dialogos", "Diálogos", "kit", 4, "Nacen del punto de la marca al centro de la pantalla."),
   // 3 · Formularios
   s("diagnostico", "Diagnóstico", "formularios", 5, "Una pregunta por pantalla; tu empresa se dibuja mientras respondes."),
   s("cotizacion", "Cotizador", "formularios", 5, "La escalera se ilumina y estima horas recuperables."),
   s("agendar", "Agendar", "formularios", 5, "Disponibilidad como densidad de puntos y cinta de horas."),
-  s("archivos", "Subir archivos", "formularios", 5, "Los archivos caen como puntos dentro del disco."),
-  s("encuesta", "Encuesta", "formularios", 5, "NPS orbital: el punto se acerca o se aleja del centro."),
+  s("archivos", "Subir archivos", "formularios", 5, "El disco se llena con lo que sube; el punto aterriza cuando todo está listo."),
+  s("encuesta", "Encuesta", "formularios", 5, "La nota llena el disco; el punto dice qué tan cerca estamos."),
   s("contacto", "Contacto", "formularios", 5, "El formulario corto, con la firma al enviar."),
   s("validacion", "Validación", "formularios", 5, "Cuándo validar y cómo decir qué hacer."),
   // 4 · Datos y cimientos

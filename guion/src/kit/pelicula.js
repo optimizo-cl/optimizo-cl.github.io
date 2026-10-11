@@ -1,8 +1,8 @@
 /* Película: piezas de marca animadas, dibujadas en canvas y exportables a video (MP4 si el navegador lo permite, WebM si no).
    Guiones: «marca» (16:9, 12 s: el logo se arma, la frase, el punto que se escapa), «dato» (4:5, 8 s: un número que se
    cuenta) y «frase» (1:1, 6 s: dos líneas con el punto como cursor). Todo lee los colores de la paleta activa. */
-import { DISCO } from "./marca.js?v=19f4b98";
-import { cargarLetras } from "./logo-vivo.js?v=19f4b98";
+import { DISCO } from "./marca.js?v=e217e49";
+import { cargarLetras } from "./logo-vivo.js?v=e217e49";
 
 const P = { x: 25.863281, y: 22.753906, r: 17.289 }, C = { x: 75.207031, y: 71.753906 };
 const LETRA = '"SF Pro Display", "Inter", system-ui, sans-serif';
@@ -40,7 +40,7 @@ function saltoIes(j) {
   return -ies.alto * 4 * q * (1 - q);
 }
 
-function logoEn(ctx, letras, col, { x, y, s, k = 1, conLetras = true, color = null }) {
+function logoEn(ctx, letras, col, { x, y, s, k = 1, conLetras = true, color = null, tinta = null }) {
   ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
   ctx.save(); ctx.translate(-6.054688, -2.601562);
   const disco = new Path2D(DISCO), gd = ctx.createLinearGradient(6.05, 0, 144.36, 0); gd.addColorStop(0, col.a); gd.addColorStop(1, col.b);
@@ -56,7 +56,7 @@ function logoEn(ctx, letras, col, { x, y, s, k = 1, conLetras = true, color = nu
   }
   ctx.restore();
   if (conLetras && letras) {
-    ctx.fillStyle = color || col.navy;
+    ctx.fillStyle = color || tinta || col.navy;
     letras.letras.forEach((l, i) => { const kl = lleg(tramo(k, 0.58 + i * 0.03, 0.8 + i * 0.03)); if (!kl) return; ctx.save(); ctx.globalAlpha = kl; ctx.translate(0, (1 - kl) * 14); ctx.fill(new Path2D(l.d)); ctx.restore();
       if (l.tilde) { const kt = tramo(k, 0.82 + i * 0.012, 1); if (!kt) return; const caida = caidaTilde(kt) + saltoIes(i); ctx.save(); ctx.translate(0, caida); ctx.fill(new Path2D(l.tilde.d)); ctx.restore(); } });
   }
@@ -76,16 +76,18 @@ function frasePorPalabras(ctx, texto, x, y, ancho, tam, k, color, { peso = 700, 
 
 const GUIONES = {
   /* 16:9 · 12 s */
-  marca: { formato: "16:9", dur: 12, cuadro(ctx, w, h, t, col, letras) {
-    const k = tramo(t, 0, 4.6), sube = suave(tramo(t, 4.8, 6));
-    const s = Math.min(h * 0.0042, (w * 0.56) / 446.654) * (1 - 0.28 * sube), lw = 446.654 * s;
-    ies = t > 8.6 ? { t, t0: 8.6, alto: 10 } : null; // el cierre: las «i» saludan una vez
-    logoEn(ctx, letras, col, { x: (w - lw) / 2, y: h * 0.5 - 69 * s - sube * h * 0.18, s, k });
+  /* 16:9 · 22,8 s · la versión que eligió Max: fondo navy, el logo se arma, aparece la frase y las «i» saludan; tres frases */
+  marca: { formato: "16:9", dur: 22.8, fondo: "navy", cuadro(ctx, w, h, t, col, letras) {
+    const FRASES = ["Todo proceso tiene una salida.", "Medimos antes de proponer.", "Lo dejamos funcionando."], CICLO = 7.6;
+    const c = Math.min(2, Math.floor(t / CICLO)), tc = t - c * CICLO;
+    const lw = w * 0.5, s = lw / 446.654, tam = h * 0.042, gap = h * 0.045, alto = 138.3 * s + gap + tam, y0 = (h - alto) / 2;
+    ies = tc > 4.4 && tc < 6 ? { t: tc, t0: 4.4, alto: 10 } : null;
+    logoEn(ctx, letras, col, { x: (w - lw) / 2, y: y0, s, k: tramo(tc, 0, 4.4), tinta: col.hueso });
     ies = null;
-    const kf = tramo(t, 5.6, 7.6);
-    if (kf > 0) { ctx.textAlign = "left"; const tam = h * 0.075; ctx.font = `700 ${tam}px ${LETRA}`; const anchoF = Math.min(w * 0.8, ctx.measureText("Todo proceso tiene una salida.").width * 1.04); frasePorPalabras(ctx, "Todo proceso tiene una salida.", (w - anchoF) / 2, h * 0.64, anchoF + 10, tam, kf, col.navy); }
-    const kw = tramo(t, 10.2, 11.2);
-    if (kw > 0) { ctx.save(); ctx.globalAlpha = kw; ctx.font = `600 ${h * 0.03}px ${LETRA}`; ctx.fillStyle = col.acentoTexto; ctx.textAlign = "center"; ctx.fillText("optimizo.cl", w / 2, h * 0.9); ctx.restore(); }
+    // la frase entra (y la anterior se va mientras el logo vuelve a armarse)
+    const dibujarFrase = (txt, q) => { if (q <= 0) return; const e = 1 - Math.pow(1 - q, 3); ctx.save(); ctx.globalAlpha = q; ctx.font = `600 ${tam}px ${LETRA}`; if ("letterSpacing" in ctx) ctx.letterSpacing = `${-tam * 0.02}px`; ctx.fillStyle = col.hueso; ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillText(txt, w / 2, y0 + 138.3 * s + gap + (1 - e) * 10); ctx.restore(); };
+    dibujarFrase(FRASES[c], tramo(tc, 4.4, 5.1));
+    if (c > 0) dibujarFrase(FRASES[c - 1], 1 - tramo(tc, 0, 0.7));
   } },
   /* 4:5 · 8 s */
   dato: { formato: "4:5", dur: 8, cuadro(ctx, w, h, t, col, letras) {
@@ -121,11 +123,11 @@ const GUIONES = {
 export async function pelicula(canvas, guion = "marca") {
   const g = GUIONES[guion], [w, h] = FORMATOS[g.formato], letras = await cargarLetras();
   canvas.width = w; canvas.height = h; const ctx = canvas.getContext("2d");
-  const colores = () => ({ hueso: tok("--hueso"), navy: tok("--navy"), grafito: tok("--grafito"), a: tok("--deg-a"), b: tok("--deg-b"), acento: tok("--acento"), acentoTexto: tok("--acento-texto-claro") });
+  const colores = () => ({ hueso: tok("--hueso"), navy: tok("--navy"), navyProfundo: tok("--navy-profundo"), grafito: tok("--grafito"), a: tok("--deg-a"), b: tok("--deg-b"), acento: tok("--acento"), acentoTexto: tok("--acento-texto-claro") });
   let col = colores(), t = 0, raf = 0, t0 = 0, alTerminar = null;
   new MutationObserver(() => { col = colores(); pintar(t); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-paleta", "data-tema"] });
   const pintar = (tt) => {
-    t = tt; ctx.save(); ctx.fillStyle = col.hueso; ctx.fillRect(0, 0, w, h); ctx.fillStyle = grano(ctx); ctx.fillRect(0, 0, w, h); ctx.restore();
+    t = tt; ctx.save(); ctx.fillStyle = g.fondo === "navy" ? col.navyProfundo : col.hueso; ctx.fillRect(0, 0, w, h); ctx.fillStyle = grano(ctx); ctx.fillRect(0, 0, w, h); ctx.restore();
     g.cuadro(ctx, w, h, tt, col, letras);
     canvas.dispatchEvent(new CustomEvent("tiempo", { detail: tt / g.dur }));
   };

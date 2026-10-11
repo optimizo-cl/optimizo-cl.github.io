@@ -1,11 +1,11 @@
 /* Capítulo 7 · Manual v2 (ola 9): la construcción del logo con cotas que se trazan, la especificación completa del
    movimiento (curvas, tiempos y el resorte), y descargas ampliadas (videos generados en el navegador). */
-import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=19f4b98";
-import { logo, isotipo } from "../kit/marca.js?v=19f4b98";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=19f4b98";
-import { toast } from "../kit/avisos.js?v=19f4b98";
-import { pelicula } from "../kit/pelicula.js?v=19f4b98";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=19f4b98";
+import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=e217e49";
+import { logo, isotipo } from "../kit/marca.js?v=e217e49";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=e217e49";
+import { toast } from "../kit/avisos.js?v=e217e49";
+import { pelicula } from "../kit/pelicula.js?v=e217e49";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=e217e49";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const raiz = document.documentElement;
@@ -63,7 +63,7 @@ export const manual2 = {
     const vivo = `<div class="descargas2">
       <div class="descargas2__grupo"><p class="titulo-3">Paquete y manual</p>${archivo("assets/descargas/optimizo-marca.zip", "Todos los logos (SVG + PNG) y la paleta", "ZIP · dos paletas", "file-zip")}${archivo(`assets/descargas/manual-optimizo${p ? "-paleta-b" : ""}.pdf`, `Manual de marca · paleta ${p ? "B" : "A"}`, "PDF · A4 apaisado", "file-pdf")}</div>
       <div class="descargas2__grupo"><p class="titulo-3">Logos · paleta ${p ? "B" : "A"}</p>${[["optimizo-logo.svg", "Logo principal"], ["optimizo-logo-sobre-oscuro.svg", "Logo sobre oscuro"], ["optimizo-isotipo.svg", "Isotipo"], ["optimizo-logo-mono-navy.svg", "Logo en un color (navy)"]].map(([f, n]) => archivo(`assets/logo/${p}${f}`, n, "SVG", "file-svg")).join("")}</div>
-      <div class="descargas2__grupo"><p class="titulo-3">Animaciones</p>${generado("marca", "Animación del logo (12 s)", "Video 16:9", "film-strip")}${generado("dato", "Carrusel animado (8 s)", "Video 4:5", "film-strip")}${generado("frase", "Post animado (6 s)", "Video 1:1", "film-strip")}
+      <div class="descargas2__grupo"><p class="titulo-3">Animaciones</p>${generado("marca", "Video de marca (23 s)", "Video 16:9", "film-strip")}${generado("dato", "Carrusel animado (8 s)", "Video 4:5", "film-strip")}${generado("frase", "Post animado (6 s)", "Video 1:1", "film-strip")}
         <canvas class="descargas2__lienzo" aria-hidden="true"></canvas><p class="chico">Los videos se graban en tu navegador con la paleta activa (MP4 si el navegador lo permite, si no WebM).</p></div></div>`;
     cuerpo(el).innerHTML = pieza({ vivo });
     activarPiezas(el); await rellenarIconos();

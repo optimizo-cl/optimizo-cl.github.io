@@ -1,6 +1,6 @@
 /* Del desorden al orden: las tareas de una empresa aparecen tiradas (giradas, encimadas, sin dueño) y, con un valor k
    de 0 a 1, cada una se desliza a su columna por área, recta, con su estado. Reemplaza a las órbitas de «caos → orden». */
-import { estado } from "./avisos.js?v=19f4b98";
+import { estado } from "./avisos.js?v=e217e49";
 
 export const TAREAS_QUILLAY = {
   areas: ["Ventas", "Operaciones", "Finanzas"],

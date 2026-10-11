@@ -144,10 +144,29 @@
 .dock__muestra--b { background: linear-gradient(90deg, #FFA05A, #EE560E); }
 
 .centinela { display: block; height: 1px; margin-bottom: -1px; }
-/* Producto: la familia */
-.escena-ruta { fill: none; stroke: currentColor; stroke-opacity: .2; stroke-width: 1.4; stroke-dasharray: 2 6; }
-.escena-medula { fill: #0853E0; }
-.escena-barbara { fill: #0A0A0B; }
-.escena-barbara-anillo { fill: none; stroke: #CDFB3E; stroke-width: 3; }
-.escena-nombre { font-size: 14px; font-weight: 650; fill: currentColor; opacity: .75; }
-.escena-viajero { filter: drop-shadow(0 4px 6px rgba(22, 38, 58, .3)); }
+/* Producto: la familia; el punto es el apellido */
+.escena-familia { position: relative; display: flex; gap: 22px; align-items: flex-start; padding: 40px 10px 60px; }
+.ef-ficha { position: relative; width: 150px; height: 186px; border-radius: 26px; display: grid; justify-items: center; align-content: center; gap: 10px; box-shadow: 0 24px 40px -24px rgba(0, 0, 0, .55); }
+.ef-ficha b { font-size: 17px; letter-spacing: -0.02em; }
+.ef-ficha--opt { background: var(--hueso); color: var(--navy); }
+.ef-iso { width: 82px; overflow: visible; }
+.ef-ficha--med { background: linear-gradient(160deg, #1B75FD, #013ECC 70%); color: #fff; transform: translateY(26px); }
+.ef-ficha--med img { width: 52px; }
+.ef-ficha--med .medula-palabra { font-size: 26px; line-height: 1; }
+.ef-ficha--bar { background: #0A0A0B; color: #F4F5EF; transform: translateY(52px); }
+.ef-ficha--bar img { width: 66px; height: 66px; border-radius: 50%; box-shadow: 0 0 0 3px #CDFB3E; }
+.ef-ficha--bar .barbara-palabra { font-size: 19px; }
+.ef-sello { position: absolute; left: 50%; bottom: -30px; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-size: 12.5px; font-weight: 600; color: var(--hueso); }
+.cap-portada:not(:nth-of-type(even)) .ef-sello { color: var(--texto-2); }
+.ef-sello__punto { width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 1px currentColor; opacity: .5; transition: opacity 300ms var(--suave); }
+.ef-sello { opacity: .35; transition: opacity 500ms var(--suave); }
+.ef-sello.puesto { opacity: 1; }
+.ef-sello.puesto .ef-sello__punto { background: var(--punto-marca); box-shadow: none; opacity: 1; }
+.ef-punto { position: absolute; left: 0; top: 0; z-index: 3; border-radius: 50%; background: var(--punto-marca); will-change: transform; box-shadow: 0 4px 8px -2px rgba(0, 0, 0, .35); }
+@media (max-width: 860px) { .escena-familia { transform: scale(.72); transform-origin: top center; } }
+.cap-portada__escena:has(.escena-familia) { -webkit-mask-image: none; mask-image: none; justify-items: end; padding-right: clamp(16px, 4vw, 64px); }
+.escena-familia { gap: 18px; }
+.ef-ficha { width: 128px; height: 160px; border-radius: 22px; }
+.ef-iso { width: 70px; } .ef-ficha--med img { width: 44px; } .ef-ficha--med .medula-palabra { font-size: 22px; } .ef-ficha--bar img { width: 56px; height: 56px; } .ef-ficha--bar .barbara-palabra { font-size: 16px; } .ef-ficha b { font-size: 15px; }
+@media (max-width: 860px) { .cap-portada__escena:has(.escena-familia) { justify-items: center; padding-right: 0; } }
+.cap-portada:has(.escena-familia) .cap-portada__texto > div { max-width: min(400px, 30vw); }

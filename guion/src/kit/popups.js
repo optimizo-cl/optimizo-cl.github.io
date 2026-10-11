@@ -1,15 +1,7 @@
 /* Menús, popovers y diálogos. Los flotantes van a <body> (no los recorta ningún contenedor) y nacen del botón. */
-import { icono, rellenarIconos } from "./iconos.js?v=19f4b98";
+import { icono, rellenarIconos } from "./iconos.js?v=e217e49";
 
 let abierto = null; // un flotante a la vez
-// dónde se tocó por última vez: el diálogo nace ahí (con teclado, desde el centro del elemento con foco)
-let toque = null;
-addEventListener("pointerdown", (e) => { toque = { x: e.clientX, y: e.clientY, t: performance.now() }; }, { capture: true, passive: true });
-function origenDelGesto() {
-  if (toque && performance.now() - toque.t < 1500) return toque;
-  const f = document.activeElement?.getBoundingClientRect?.();
-  return f && f.width ? { x: f.left + f.width / 2, y: f.top + f.height / 2 } : { x: innerWidth / 2, y: innerHeight / 2 };
-}
 function cerrarAbierto(devolverFoco = true) {
   if (!abierto) return;
   const { el, ancla, limpiar } = abierto; abierto = null;
@@ -88,23 +80,23 @@ export function abrirDialogo({ titulo, cuerpo, acciones = [], tipo = "modal", an
   const d = document.createElement("dialog");
   d.className = `dialogo dialogo--${tipo}`; d.style.setProperty("--ancho", ancho + "px");
   d.setAttribute("aria-labelledby", "dialogo-titulo");
-  d.innerHTML = `<div class="dialogo__caja">
+  // el popup nace del punto de la marca, al centro de la pantalla
+  d.innerHTML = `${tipo === "modal" ? '<i class="dialogo__punto" aria-hidden="true"></i>' : ""}<div class="dialogo__caja">
     <header class="dialogo__cabeza"><h2 id="dialogo-titulo" class="titulo-3">${titulo}</h2>
       <button type="button" class="boton boton--texto boton--s boton--icono" data-cerrar aria-label="Cerrar">${icono("x", { tam: 18 })}</button></header>
     <div class="dialogo__cuerpo">${cuerpo}</div>
     ${acciones.length ? `<footer class="dialogo__pie">${acciones.map((a, i) => `<button type="button" class="boton boton--${a.variante || "secundario"} boton--m" data-accion="${i}">${a.texto}</button>`).join("")}</footer>` : ""}
   </div>`;
   document.body.appendChild(d); rellenarIconos();
-  const cerrar = () => { d.classList.add("dialogo--sale"); setTimeout(() => { d.close(); d.remove(); }, 260); };
+  const reducido = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const cerrar = () => { if (d.classList.contains("dialogo--sale")) return; d.classList.add("dialogo--sale"); setTimeout(() => { d.close(); d.remove(); }, reducido ? 0 : tipo === "modal" ? 520 : 260); };
   d.addEventListener("cancel", (e) => { e.preventDefault(); cerrar(); });
   d.addEventListener("click", (e) => { if (e.target === d || e.target.closest("[data-cerrar]")) cerrar(); });
   d.querySelectorAll("[data-accion]").forEach((b) => b.addEventListener("click", () => {
     const a = acciones[+b.dataset.accion]; const r = a.alHacer?.(d);
     if (r !== false && a.cierra !== false) cerrar();
   }));
-  const o = origenDelGesto();
   d.showModal();
-  if (tipo === "modal") { const c = d.querySelector(".dialogo__caja").getBoundingClientRect(); d.style.setProperty("--ox", o.x - c.left + "px"); d.style.setProperty("--oy", o.y - c.top + "px"); }
   (d.querySelector(".dialogo__cuerpo input, .dialogo__cuerpo button") || d.querySelector("[data-accion]"))?.focus();
   return d;
 }

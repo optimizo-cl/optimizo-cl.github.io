@@ -1,13 +1,13 @@
 /* Capítulo 2 · Kit v2 (ola 4): cerámica que se hunde, controles con el punto, campos que validan en vivo,
    cargas que dibujan, avisos de papel, estados por forma, flotantes que nacen en círculo y diálogos que se expanden. */
-import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=19f4b98";
-import { boton, botonIcono, botonMantener, trabajar, segmento, interruptor, casilla, radio, deslizador, perilla } from "../kit/controles.js?v=19f4b98";
-import { campo, validar } from "../kit/campos.js?v=19f4b98";
-import { toast, banner, alerta, insignia, etiqueta, contador, estado, fichaCeramica } from "../kit/avisos.js?v=19f4b98";
-import { abrirMenu, abrirPopover, abrirDialogo, confirmarDestructivo, confirmarManteniendo, cerrarFlotante } from "../kit/popups.js?v=19f4b98";
-import { carga, cargaSalto, cargaLlenado, cargaFases, fijarFase, progreso, moverProgreso } from "../kit/punto.js?v=19f4b98";
-import { isotipo } from "../kit/marca.js?v=19f4b98";
-import { icono } from "../kit/iconos.js?v=19f4b98";
+import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=e217e49";
+import { boton, botonIcono, botonMantener, trabajar, segmento, interruptor, casilla, radio, deslizador, perilla } from "../kit/controles.js?v=e217e49";
+import { campo, validar } from "../kit/campos.js?v=e217e49";
+import { toast, banner, alerta, insignia, etiqueta, contador, estado, fichaCeramica } from "../kit/avisos.js?v=e217e49";
+import { abrirMenu, abrirPopover, abrirDialogo, confirmarDestructivo, confirmarManteniendo, cerrarFlotante } from "../kit/popups.js?v=e217e49";
+import { carga, cargaSalto, cargaLlenado, cargaFases, fijarFase, progreso, moverProgreso } from "../kit/punto.js?v=e217e49";
+import { isotipo } from "../kit/marca.js?v=e217e49";
+import { icono } from "../kit/iconos.js?v=e217e49";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -182,8 +182,8 @@ export const kit2 = {
   async dialogos(el) {
     const caso = (t, b, n) => `<div class="dialogos2__caso"><span class="rotulo">${t}</span>${b}<p class="chico">${n}</p></div>`;
     const vivo = `<div class="dialogos2 ceramica-mesa">
-      ${caso("Modal", boton("Invitar al equipo", { attrs: "data-modal" }), "Un disco que se expande en ventana desde donde tocaste. En celular sube como hoja.")}
-      ${caso("Hoja lateral", boton("Ver detalle del proceso", { variante: "secundario", attrs: "data-hoja" }), "Ver o editar sin perder la lista de fondo.")}
+      ${caso("Modal", boton("Invitar al equipo", { attrs: "data-modal" }), "Nace del punto de la marca al centro: el punto aparece, se abre en ventana y el contenido sube.")}
+      ${caso("Detalle", boton("Ver detalle del proceso", { variante: "secundario", attrs: "data-hoja" }), "Ver el detalle sin perder lo que está detrás.")}
       ${caso("Mantener para eliminar", boton("Eliminar nota", { variante: "peligro", ico: "trash", attrs: "data-mantener-d" }), "Para lo irreversible pero frecuente: se confirma manteniendo, sin escribir.")}
       ${caso("Escribir para eliminar", boton("Eliminar proceso", { variante: "peligro", attrs: "data-destructivo" }), "Para lo grave: se escribe el nombre para confirmar.")}
     </div>`;
@@ -197,7 +197,7 @@ export const kit2 = {
       acciones: [{ texto: "Cancelar" }, { texto: "Enviar invitaciones", variante: "primario", alHacer: () => toast("Invitaciones enviadas.", { tono: "exito" }) }],
     }));
     el.querySelector("[data-hoja]").addEventListener("click", () => abrirDialogo({
-      tipo: "hoja", ancho: 460, titulo: "Cotizaciones",
+      ancho: 520, titulo: "Cotizaciones",
       cuerpo: `<div class="fila-botones">${estado("Trabado", { forma: "medio", tono: "alerta" })}${insignia("Ventas", { punto: false })}</div>
         <p class="chico">Las cotizaciones se arman en planillas y se mandan por WhatsApp. Demoran 2,5 días en promedio y 1 de cada 4 se rehace.</p>
         <dl class="detalle"><dt>Responsable</dt><dd>Jorge Molina</dd><dt>Horas por semana</dt><dd>12 h</dd><dt>Sistemas</dt><dd>Excel, WhatsApp, correo</dd><dt>Próximo paso</dt><dd>Plantilla de cotización en el CRM</dd></dl>`,

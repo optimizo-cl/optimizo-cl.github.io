@@ -181,15 +181,32 @@
 .menu__item:hover::before, .menu__item:focus-visible::before { content: ""; position: absolute; left: 4px; top: 50%; width: 4px; height: 4px; margin-top: -2px; border-radius: 50%; background: var(--acento); }
 
 /* ── Diálogos: un disco que se expande en ventana desde donde se tocó ── */
-.dialogo--modal .dialogo__caja { animation: dialogo-disco 620ms var(--llegada); }
-@keyframes dialogo-disco { from { clip-path: circle(14px at var(--ox, 50%) var(--oy, 50%)); opacity: .6; } 30% { opacity: 1; } to { clip-path: circle(150% at var(--ox, 50%) var(--oy, 50%)); } }
+/* Popups: nacen del punto de la marca al centro de la pantalla.
+   1 · aparece el punto · 2 · el punto se abre en ventana (círculo → caja) · 3 · el contenido sube. Al cerrar, al revés. */
+.dialogo--modal { margin: auto; }
+.dialogo__punto { position: absolute; left: 50%; top: 50%; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; background: var(--punto-marca); z-index: 2; pointer-events: none;
+  animation: dlg-punto 760ms cubic-bezier(.16, 1, .3, 1) both; box-shadow: 0 4px 10px -2px rgba(22, 38, 58, .35); }
+@keyframes dlg-punto { 0% { transform: scale(0); opacity: 1; } 28% { transform: scale(1); opacity: 1; } 55% { transform: scale(1.4); opacity: 0; } 100% { transform: scale(1.4); opacity: 0; } }
+.dialogo--modal .dialogo__caja { animation: dlg-abre 720ms cubic-bezier(.16, 1, .3, 1) 180ms both; }
+@keyframes dlg-abre { 0% { clip-path: circle(11px at 50% 50%); transform: scale(.96); } 100% { clip-path: circle(80% at 50% 50%); transform: none; } }
+.dialogo--modal .dialogo__caja > * { animation: dlg-contenido 520ms cubic-bezier(.16, 1, .3, 1) both; }
+.dialogo--modal .dialogo__cabeza { animation-delay: 420ms; } .dialogo--modal .dialogo__cuerpo { animation-delay: 480ms; } .dialogo--modal .dialogo__pie { animation-delay: 540ms; }
+@keyframes dlg-contenido { from { opacity: 0; transform: translateY(8px); } }
+/* cierre: el contenido se va, la ventana vuelve a ser el punto y el punto se apaga */
+.dialogo--modal.dialogo--sale .dialogo__caja { animation: dlg-cierra 380ms cubic-bezier(.7, 0, .84, 0) forwards; }
+.dialogo--modal.dialogo--sale .dialogo__caja > * { animation: dlg-contenido-sale 160ms ease-in forwards; }
+@keyframes dlg-cierra { from { clip-path: circle(80% at 50% 50%); } to { clip-path: circle(11px at 50% 50%); transform: scale(.96); } }
+@keyframes dlg-contenido-sale { to { opacity: 0; } }
+.dialogo--modal.dialogo--sale .dialogo__punto { animation: dlg-punto-sale 520ms cubic-bezier(.16, 1, .3, 1) forwards; }
+@keyframes dlg-punto-sale { 0%, 68% { transform: scale(1); opacity: 0; } 72% { opacity: 1; } 100% { transform: scale(0); opacity: 1; } }
 .dialogo__caja { position: relative; isolation: isolate; }
 .dialogo__caja::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background-image: var(--grano); background-size: 180px; opacity: calc(var(--grano-opacidad) * .6); pointer-events: none; z-index: -1; }
 .dialogo__pista { color: var(--texto-3); }
-@media (max-width: 640px) { .dialogo--modal .dialogo__caja { animation: hoja-sube var(--d-3) var(--llegada); } }
+@media (max-width: 640px) { .dialogo--modal { margin: auto; max-width: calc(100vw - 24px); } .dialogo--modal .dialogo__caja { width: calc(100vw - 24px); border-radius: var(--r-4); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .flotante, .dialogo--modal .dialogo__caja, .toast { animation: none; }
+  .flotante, .dialogo--modal .dialogo__caja, .dialogo--modal .dialogo__caja > *, .dialogo__punto, .toast { animation: none !important; }
+  .dialogo__punto { display: none; }
   .esqueleto::after { animation: none; }
   .banner__orbitas .banner__punto { animation: none; }
 }

@@ -1,6 +1,6 @@
 /* Escenas de las portadas de capítulo: cada capítulo abre con algo propio, vivo y liviano (SVG + CSS).
    Todo es SVG y CSS: barato, y se duerme fuera de vista. */
-import { isotipo } from "../kit/marca.js?v=19f4b98";
+import { isotipo } from "../kit/marca.js?v=e217e49";
 
 const svg = (contenido, vb = "0 0 400 400") => `<svg viewBox="${vb}" class="escena-svg" aria-hidden="true">${contenido}</svg>`;
 
@@ -39,16 +39,37 @@ export const PORTADAS = {
     el.innerHTML = svg(`<g class="escena-trama">${pts.join("")}</g>`, "0 0 400 290");
   },
 
-  // Producto: el punto sale del isotipo y visita a la familia (Medula, Bárbara) antes de volver a su nido
+  // Producto: el punto es el apellido. Sale del isotipo de Optimizo y va a sellar a cada producto («de Optimizo»);
+  // al final vuelve a su nido. Cada producto conserva su material (Medula cobalto, Bárbara noche y lima).
   familia(el) {
-    const reducido = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const ruta = "M127 167 Q 170 50 300 110 Q 345 200 300 290 Q 190 370 110 300 Q 62 235 127 167"; // empieza y termina en el nido
-    el.innerHTML = svg(`<defs><linearGradient id="fam-punto"><stop offset="0" style="stop-color:var(--deg-a)"/><stop offset="1" style="stop-color:var(--deg-b)"/></linearGradient></defs>
-      <path d="${ruta}" class="escena-ruta"/>
-      <g transform="translate(110 150) scale(.86)">${isotipo({ clase: "escena-iso-mini" }).replace(/<svg[^>]*>|<\/svg>/g, "").replace('<g class="isotipo__punto">', '<g class="isotipo__punto" style="opacity:.0">')}</g>
-      <circle cx="300" cy="110" r="34" class="escena-medula"/><text x="300" y="166" text-anchor="middle" class="escena-nombre">Medula</text>
-      <circle cx="300" cy="290" r="34" class="escena-barbara"/><circle cx="300" cy="290" r="40" class="escena-barbara-anillo"/><text x="300" y="346" text-anchor="middle" class="escena-nombre">Bárbara</text>
-      <circle r="13" fill="url(#fam-punto)" class="escena-viajero" ${reducido ? 'cx="127" cy="167"' : ""}>${reducido ? "" : `<animateMotion dur="9s" repeatCount="indefinite" calcMode="spline" keyPoints="0;0.25;0.25;0.5;0.5;1;1" keyTimes="0;0.18;0.32;0.5;0.64;0.9;1" keySplines=".45 .05 .55 .95;0 0 1 1;.45 .05 .55 .95;0 0 1 1;.45 .05 .55 .95;0 0 1 1" path="${ruta}"/>`}</circle>`);
+    const isoSin = isotipo({ clase: "ef-iso", titulo: "" }).replace('role="img" aria-label=""', 'aria-hidden="true"').replace('<g class="isotipo__punto">', '<g class="isotipo__punto" style="opacity:0">');
+    el.innerHTML = `<div class="escena-familia" aria-hidden="true">
+      <div class="ef-ficha ef-ficha--opt">${isoSin}<b>Optimizo</b></div>
+      <div class="ef-ficha ef-ficha--med"><img src="assets/productos/medula-marca-blanca.svg" alt=""><b class="medula-palabra">Medula</b><span class="ef-sello"><i class="ef-sello__punto"></i>de Optimizo</span></div>
+      <div class="ef-ficha ef-ficha--bar"><img src="assets/productos/barbara-avatar.webp" alt=""><b class="barbara-palabra">BÁRBARA</b><span class="ef-sello"><i class="ef-sello__punto"></i>de Optimizo</span></div>
+      <i class="ef-punto"></i></div>`;
+    const caja = el.querySelector(".escena-familia"), punto = caja.querySelector(".ef-punto"), sellos = [...caja.querySelectorAll(".ef-sello")];
+    const nido = () => { const n = caja.querySelector(".ef-iso .isotipo__punto circle").getBoundingClientRect(), b = caja.getBoundingClientRect(); return { x: n.left + n.width / 2 - b.left, y: n.top + n.height / 2 - b.top, d: n.width }; };
+    const sello = (i) => { const n = sellos[i].querySelector(".ef-sello__punto").getBoundingClientRect(), b = caja.getBoundingClientRect(); return { x: n.left + n.width / 2 - b.left, y: n.top + n.height / 2 - b.top, d: n.width }; };
+    const poner = (p) => Object.assign(punto.style, { width: p.d + "px", height: p.d + "px", transform: `translate(${(p.x - p.d / 2).toFixed(1)}px, ${(p.y - p.d / 2).toFixed(1)}px)` });
+    const saltar = (a, b, dur = 1000) => new Promise((fin) => { const t0 = performance.now(), alto = 60;
+      const f = (ahora) => { const q = Math.min(1, (ahora - t0) / dur), e = q < 0.5 ? 4 * q * q * q : 1 - Math.pow(-2 * q + 2, 3) / 2;
+        poner({ x: a.x + (b.x - a.x) * e, y: a.y + (b.y - a.y) * e - alto * 4 * e * (1 - e), d: a.d + (b.d - a.d) * e }); q < 1 ? requestAnimationFrame(f) : fin(); };
+      requestAnimationFrame(f); });
+    const espera = (ms) => new Promise((r) => setTimeout(r, ms));
+    let vivo = false, corriendo = false;
+    const ciclo = async () => {
+      if (corriendo) return; corriendo = true;
+      while (vivo && caja.isConnected) {
+        poner(nido()); sellos.forEach((x) => x.classList.remove("puesto")); await espera(1400);
+        for (let i = 0; i < sellos.length && vivo; i++) { await saltar(i ? sello(i - 1) : nido(), sello(i)); sellos[i].classList.add("puesto"); await espera(1500); }
+        if (vivo) { await saltar(sello(sellos.length - 1), nido(), 1200); await espera(2400); }
+      }
+      corriendo = false;
+    };
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { sellos.forEach((x) => x.classList.add("puesto")); requestAnimationFrame(() => poner(nido())); return; }
+    new IntersectionObserver(([e]) => { vivo = e.isIntersecting; if (vivo) ciclo(); }).observe(el);
+    requestAnimationFrame(() => poner(nido()));
   },
 
   // Web: piezas de marca que giran lentamente en profundidad

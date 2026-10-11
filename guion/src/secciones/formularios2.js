@@ -1,15 +1,15 @@
 /* Capítulo 3 · Formularios v2 (ola 5): pedir datos como una conversación. Mientras respondes, se dibuja tu empresa;
    la escalera se ilumina; la agenda muestra la disponibilidad como puntos; los archivos caen al disco; la NPS es una órbita. */
-import { campo, validar } from "../kit/campos.js?v=19f4b98";
-import { boton, trabajar } from "../kit/controles.js?v=19f4b98";
-import { listo } from "../kit/punto.js?v=19f4b98";
-import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=19f4b98";
-import { toast } from "../kit/avisos.js?v=19f4b98";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=19f4b98";
-import { isotipo } from "../kit/marca.js?v=19f4b98";
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=19f4b98";
-import { contar } from "../kit/coreografia.js?v=19f4b98";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=19f4b98";
+import { campo, validar } from "../kit/campos.js?v=e217e49";
+import { boton, trabajar } from "../kit/controles.js?v=e217e49";
+import { listo } from "../kit/punto.js?v=e217e49";
+import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=e217e49";
+import { toast } from "../kit/avisos.js?v=e217e49";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=e217e49";
+import { isotipo } from "../kit/marca.js?v=e217e49";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=e217e49";
+import { contar } from "../kit/coreografia.js?v=e217e49";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=e217e49";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -270,114 +270,5 @@ export const formularios2 = {
       l.innerHTML = `${listo({ tam: 56, texto: "Reunión agendada" })}<p class="chico">${new Date(2026, 9, dia).toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" })} a las ${hora} h. Te llega la invitación al correo.</p>`;
     });
     elegirDia(botones[0]);
-  },
-
-  /* ── Archivos: caen como puntos dentro del disco ── */
-  async archivos(el) {
-    const vivo = `<div class="caida" data-caida>
-      <div class="caida__zona" data-zona tabindex="0" role="button" aria-label="Soltar archivos o presionar para elegirlos">
-        <svg class="caida__disco" viewBox="0 0 240 240" aria-hidden="true">
-          <circle class="caida__anillo-fondo" cx="120" cy="120" r="110"/><circle class="caida__anillo" cx="120" cy="120" r="110" pathLength="1" data-anillo/>
-          <g transform="translate(51 51)">${isotipo({ clase: "" }).replace(/<svg[^>]*>|<\/svg>/g, "")}</g>
-          <g data-caidos></g></svg>
-        <div class="caida__texto"><b>Suelta tus planillas acá</b><span class="chico">o <u>elige archivos</u> · Excel, CSV o PDF · hasta 25 MB</span></div>
-        <input type="file" multiple hidden data-input accept=".xlsx,.xls,.csv,.pdf">
-      </div>
-      <div class="caida__lista"><p class="rotulo">Archivos</p><ul data-lista><li class="chico caida__vacia">Aún nada. Prueba con los botones:</li></ul>
-        <div class="fila-botones">${boton("Simular 3 planillas", { variante: "secundario", tam: "s", attrs: "data-sim=bien" })}${boton("Simular uno muy grande", { variante: "secundario", tam: "s", attrs: "data-sim=grande" })}</div></div></div>`;
-    cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["Cada archivo cae como un punto dentro del disco; el anillo alrededor es el progreso total.", "El error rebota hacia afuera, con calma, y la fila dice qué hacer.", "Se puede soltar, hacer clic o usar el teclado (Enter)."], 'zona.addEventListener("drop", (e) => subir([...e.dataTransfer.files]));') });
-    activarPiezas(el);
-    const raiz = el.querySelector("[data-caida]"), zona = raiz.querySelector("[data-zona]"), input = raiz.querySelector("[data-input]"), lista = raiz.querySelector("[data-lista]"), caidos = raiz.querySelector("[data-caidos]"), anillo = raiz.querySelector("[data-anillo]");
-    let total = 0, hechos = 0;
-    const tam = (b) => b > 1e6 ? (b / 1e6).toFixed(1).replace(".", ",") + " MB" : Math.round(b / 1e3) + " kB";
-    const subir = async (archivos, desde = null) => {
-      lista.querySelector(".caida__vacia")?.remove(); anillo.style.opacity = 1;
-      for (const [k, f] of archivos.entries()) {
-        const malo = f.size > 25e6 ? "Pesa más de 25 MB. Divide el archivo o súbelo comprimido." : !/\.(xlsx|xls|csv|pdf)$/i.test(f.name) ? "Ese formato no se puede leer. Usa Excel, CSV o PDF." : "";
-        total++;
-        const li = document.createElement("li"); li.className = "archivo-fila"; li.innerHTML = `<span class="archivo-fila__ico">${icono(malo ? "warning-circle" : "files", { tam: 20 })}</span><span class="archivo-fila__nombre"><b>${f.name}</b><span class="chico">${malo || tam(f.size)}</span></span><span class="archivo-fila__estado" role="status">${malo ? "No se subió" : "Subiendo…"}</span><span class="archivo-fila__barra"><i></i></span>`;
-        if (malo) li.classList.add("archivo-fila--error");
-        lista.appendChild(li); await rellenarIconos();
-        // el punto cae (o rebota)
-        const a = 2 * Math.PI * Math.random(), x0 = desde ? desde.x : 120 + Math.cos(a) * 150, y0 = desde ? desde.y : -30;
-        const p = svgEl("circle", { r: 6, cx: x0, cy: y0, class: malo ? "caida__punto caida__punto--error" : "caida__punto" });
-        caidos.appendChild(p);
-        const destino = malo ? { x: 120 + Math.cos(a) * 190, y: 120 + Math.sin(a) * 190 } : { x: 120 + Math.cos(a) * (14 + 30 * Math.random()), y: 120 + Math.sin(a) * (14 + 30 * Math.random()) };
-        const via = malo ? [{ cx: x0, cy: y0 }, { cx: 120, cy: 60 }, { cx: destino.x, cy: destino.y }] : [{ cx: x0, cy: y0 }, { cx: destino.x, cy: destino.y }];
-        if (!reducido()) {
-          const t0 = performance.now(), dur = malo ? 1500 : 900;
-          await new Promise((res) => { const paso = (ahora) => { const k = Math.min(1, (ahora - t0) / dur); const e = malo ? k : 1 - Math.pow(1 - k, 3);
-            let x, y; if (via.length === 2) { x = via[0].cx + (via[1].cx - via[0].cx) * e; y = via[0].cy + (via[1].cy - via[0].cy) * e; } else { const u = 1 - e; x = u * u * via[0].cx + 2 * u * e * via[1].cx + e * e * via[2].cx; y = u * u * via[0].cy + 2 * u * e * via[1].cy + e * e * via[2].cy; }
-            p.setAttribute("cx", x); p.setAttribute("cy", y); if (malo) p.setAttribute("opacity", 1 - Math.max(0, (k - 0.6) / 0.4));
-            k < 1 ? requestAnimationFrame(paso) : res(); }; requestAnimationFrame(paso); });
-        } else { p.setAttribute("cx", destino.x); p.setAttribute("cy", destino.y); }
-        if (malo) { p.remove(); hechos++; }
-        else {
-          const barra = li.querySelector(".archivo-fila__barra i");
-          for (let v = 0; v <= 100; v += 20) { barra.style.width = v + "%"; anillo.style.strokeDashoffset = 1 - (hechos + v / 100) / total; await espera(reducido() ? 0 : 120); }
-          hechos++; li.querySelector(".archivo-fila__estado").textContent = "Listo"; li.classList.add("archivo-fila--listo");
-        }
-        anillo.style.strokeDashoffset = 1 - hechos / total;
-        if (k < archivos.length - 1) await espera(140);
-      }
-      if (hechos === total) zona.classList.add("caida__zona--lleno");
-    };
-    const falso = (nombre, kb) => ({ name: nombre, size: kb * 1024 }); // archivos simulados: solo nombre y peso
-    zona.addEventListener("click", () => input.click());
-    zona.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); input.click(); } });
-    input.addEventListener("change", () => subir([...input.files]));
-    zona.addEventListener("dragover", (e) => { e.preventDefault(); zona.classList.add("sobre"); });
-    zona.addEventListener("dragleave", () => zona.classList.remove("sobre"));
-    zona.addEventListener("drop", (e) => { e.preventDefault(); zona.classList.remove("sobre"); const r = zona.querySelector("svg").getBoundingClientRect(); subir([...e.dataTransfer.files], { x: ((e.clientX - r.left) / r.width) * 240, y: ((e.clientY - r.top) / r.height) * 240 }); });
-    raiz.querySelector('[data-sim="bien"]').addEventListener("click", () => subir([falso("Cotizaciones 2026.xlsx", 840), falso("Clientes activos.csv", 126), falso("Inventario bodega 2.xlsx", 2300)]));
-    raiz.querySelector('[data-sim="grande"]').addEventListener("click", () => subir([falso("Respaldo ERP completo.xlsx", 61000)]));
-  },
-
-  /* ── Encuesta: la NPS como órbitas ── */
-  async encuesta(el) {
-    const R = (n) => 32 + (10 - n) * 12;
-    const caras = [["Muy mal", -10], ["Mal", -5], ["Regular", 0], ["Bien", 6], ["Muy bien", 11]];
-    const vivo = `<div class="nps2" data-nps>
-      <div class="nps2__escena"><svg viewBox="0 0 340 340" aria-hidden="true" data-nps-svg>${Array.from({ length: 11 }, (_, n) => `<circle class="nps2__orbita ${n >= 9 ? "nps2__orbita--promotor" : n <= 6 ? "nps2__orbita--detractor" : ""}" cx="170" cy="170" r="${R(n)}" data-o="${n}"/>`).join("")}
-        <circle class="nps2__centro" cx="170" cy="170" r="22"/><circle class="nps2__hueco" cx="170" cy="170" r="7"/><circle class="nps2__punto" cx="170" cy="${170 - R(0) - 14}" r="9" data-nps-p/></svg></div>
-      <div class="nps2__preguntas papel">
-        <p class="conv__pregunta nps2__q" id="nps-q">¿Qué tan probable es que recomiendes Optimizo a un colega?</p>
-        <div class="nps2__escala" role="radiogroup" aria-labelledby="nps-q">${Array.from({ length: 11 }, (_, n) => `<button type="button" role="radio" aria-checked="false" tabindex="${n ? -1 : 0}" data-n="${n}">${n}</button>`).join("")}</div>
-        <div class="nps2__extremos rotulo"><span>Nada probable</span><span>Muy probable</span></div>
-        <p class="chico nps2__sigue" data-sigue aria-live="polite">Elige un número: el punto se acerca al centro mientras más nos recomiendes.</p>
-        <p class="rotulo">¿Y cómo te fue hoy?</p>
-        <div class="caras" role="radiogroup" aria-label="Satisfacción">${caras.map(([t, c], i) => `<button type="button" role="radio" aria-checked="false" aria-label="${t}" class="cara" data-cara="${i}"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17"/><circle class="cara__ojo" cx="14" cy="16" r="2"/><circle class="cara__ojo" cx="26" cy="16" r="2"/><path d="M12 ${26 - c * 0.2} Q20 ${26 + c * 0.6} 28 ${26 - c * 0.2}"/></svg><span>${t}</span></button>`).join("")}</div>
-      </div></div>`;
-    cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["La nota mueve el punto: 10 lo deja en el centro, 0 lo deja en la órbita de afuera.", "La pregunta siguiente cambia según la nota (detractor, neutro, promotor).", "Caras dibujadas con el trazo de la marca, nunca emojis."], 'nps.addEventListener("cambio", (e) => guardar({ nps: e.detail }));') });
-    activarPiezas(el);
-    const raiz = el.querySelector("[data-nps]"), p = raiz.querySelector("[data-nps-p]"), botones = [...raiz.querySelectorAll(".nps2__escala button")];
-    let pos = { x: 170, y: +p.getAttribute("cy") }, raf = 0;
-    const llevar = (n) => {
-      const a = -Math.PI / 2 + (n - 5) * 0.16, r = R(n), meta = { x: 170 + Math.cos(a) * r, y: 170 + Math.sin(a) * r };
-      raiz.querySelectorAll(".nps2__orbita").forEach((o) => o.classList.toggle("activa", +o.dataset.o === n));
-      if (reducido()) { pos = meta; p.setAttribute("cx", pos.x); p.setAttribute("cy", pos.y); return; }
-      cancelAnimationFrame(raf); const v = { x: 0, y: 0 }; let prev = performance.now();
-      const paso = (ahora) => { const dt = Math.min(0.033, (ahora - prev) / 1000); prev = ahora; const w = 9;
-        for (const k of ["x", "y"]) { const ac = w * w * (meta[k] - pos[k]) - 2 * w * v[k]; v[k] += ac * dt; pos[k] += v[k] * dt; }
-        p.setAttribute("cx", pos.x); p.setAttribute("cy", pos.y); if (Math.hypot(meta.x - pos.x, meta.y - pos.y) > 0.2) raf = requestAnimationFrame(paso); };
-      raf = requestAnimationFrame(paso);
-    };
-    const elegir = (b) => {
-      botones.forEach((x) => { const si = x === b; x.setAttribute("aria-checked", si); x.tabIndex = si ? 0 : -1; });
-      const n = +b.dataset.n; llevar(n);
-      raiz.dataset.tipo = n >= 9 ? "promotor" : n <= 6 ? "detractor" : "neutro";
-      raiz.querySelector("[data-sigue]").textContent = n >= 9 ? "¡Gracias! ¿Qué fue lo que más te sirvió?" : n <= 6 ? "Gracias por decirlo. ¿Qué tendríamos que arreglar primero?" : "Gracias. ¿Qué nos falta para un 10?";
-      raiz.dispatchEvent(new CustomEvent("cambio", { detail: n, bubbles: true }));
-    };
-    botones.forEach((b, i) => {
-      b.addEventListener("click", () => elegir(b));
-      b.addEventListener("keydown", (e) => { const d = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1 }[e.key]; if (!d) return; e.preventDefault(); const s = botones[Math.max(0, Math.min(10, i + d))]; s.focus(); elegir(s); });
-    });
-    const caras2 = [...raiz.querySelectorAll(".cara")];
-    caras2.forEach((c, i) => {
-      c.addEventListener("click", () => caras2.forEach((x) => x.setAttribute("aria-checked", x === c)));
-      c.addEventListener("keydown", (e) => { const d = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!d) return; e.preventDefault(); const s = caras2[Math.max(0, Math.min(4, i + d))]; s.focus(); s.click(); });
-    });
-    caras2.forEach((c, i) => (c.tabIndex = i === 2 ? 0 : -1));
   },
 };

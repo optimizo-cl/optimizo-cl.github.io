@@ -1,11 +1,11 @@
 /* Capítulo 1 · Identidad v2 (ola 1): concepto narrado con scroll, pigmentos, tipografía cinética, retícula viva,
    forma bajo luz real, banco de materiales, íconos con gesto. Cada sección tiene su propia composición. */
-import { progreso, entrar, contar } from "../kit/coreografia.js?v=19f4b98";
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=19f4b98";
-import { contraste, colorDe } from "../kit/color.js?v=19f4b98";
-import { icono, cargarIconos, rellenarIconos } from "../kit/iconos.js?v=19f4b98";
-import { boton } from "../kit/controles.js?v=19f4b98";
-import { ICONOS_IDENTIDAD } from "./identidad.js?v=19f4b98";
+import { progreso, entrar, contar } from "../kit/coreografia.js?v=e217e49";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=e217e49";
+import { contraste, colorDe } from "../kit/color.js?v=e217e49";
+import { icono, cargarIconos, rellenarIconos } from "../kit/iconos.js?v=e217e49";
+import { boton } from "../kit/controles.js?v=e217e49";
+import { ICONOS_IDENTIDAD } from "./identidad.js?v=e217e49";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const raiz = document.documentElement;

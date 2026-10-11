@@ -1,0 +1,61 @@
+/* Subir archivos y Encuesta v3: el isotipo como medidor. */
+.medidor { overflow: visible; display: block; }
+.medidor__contorno { fill: none; stroke: var(--borde-fuerte); stroke-width: 2.4; stroke-dasharray: 6 5; }
+.medidor__relleno { fill: url(#punto-marca); }
+.medidor__nivel { transition: transform 700ms cubic-bezier(.65, 0, .35, 1); }
+.medidor__nido { fill: none; stroke: var(--borde-fuerte); stroke-width: 2; stroke-dasharray: 3 3.5; }
+.medidor__punto { fill: url(#punto-marca); transform-box: view-box; will-change: transform; filter: drop-shadow(0 3px 4px rgba(22, 38, 58, .3)); }
+
+/* ── Subir archivos ── */
+.subir { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: var(--e-5); align-items: stretch; }
+.subir__zona { display: grid; justify-items: center; align-content: center; gap: var(--e-4); padding: var(--e-6) var(--e-5); border-radius: var(--r-4); background: var(--superficie); box-shadow: inset 0 0 0 1.5px var(--borde-fuerte); text-align: center; transition: box-shadow 250ms var(--suave), background 300ms var(--suave); }
+.subir__zona.sobre { box-shadow: inset 0 0 0 2px var(--acento-profundo); background: color-mix(in srgb, var(--acento) 8%, var(--superficie)); }
+.subir__zona.sobre .subir__medidor { transform: scale(1.04); }
+.subir__medidor { width: min(100%, 200px); transition: transform 400ms var(--llegada); }
+.subir__texto { display: grid; gap: 6px; justify-items: center; }
+.subir__texto b { font-size: var(--t-3); font-weight: 650; }
+.subir__lista { display: grid; grid-template-rows: auto 1fr auto; gap: 12px; padding: var(--e-5); border-radius: var(--r-4); background: var(--superficie-hundida); min-height: 360px; }
+.subir__cabeza { display: flex; justify-content: space-between; align-items: baseline; }
+.subir__filas { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; align-content: start; }
+.subir__fila { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto 44px; gap: 12px; align-items: center; padding: 8px 6px 8px 12px; border-radius: var(--r-3); background: var(--superficie-2); box-shadow: inset 0 0 0 1px var(--borde); animation: fila-sube 420ms var(--llegada); transition: opacity 300ms var(--suave), transform 300ms var(--suave); }
+.subir__fila.sale { opacity: 0; transform: translateX(16px); }
+@keyframes fila-sube { from { opacity: 0; transform: translateY(8px); } }
+.subir__mini { width: 40px; }
+.subir__mini .medidor__contorno { stroke-width: 6; stroke-dasharray: 10 8; }
+.subir__mini .medidor__nido { stroke-width: 5; }
+.subir__info { display: grid; min-width: 0; }
+.subir__info b { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.subir__estado { font-variant-numeric: tabular-nums; }
+.subir__fila--lista .subir__estado { color: var(--exito); }
+.subir__fila--error { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--error) 50%, transparent); }
+.subir__fila--error .chico, .subir__fila--error .subir__estado { color: var(--error); }
+.subir__fila--error .subir__info b { white-space: normal; }
+.subir__fila--error .chico { white-space: normal; }
+.subir__quitar { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 10px; color: var(--texto-2); }
+.subir__quitar:hover { background: var(--superficie-hundida); color: var(--texto); }
+.subir__pie { display: grid; gap: 6px; justify-items: start; }
+@media (max-width: 860px) { .subir { grid-template-columns: minmax(0, 1fr); } .subir__fila { grid-template-columns: 40px minmax(0, 1fr) 44px; } .subir__estado { grid-column: 2; grid-row: 2; } }
+
+/* ── Encuesta ── */
+.encuesta2 { display: grid; grid-template-columns: minmax(220px, 1fr) minmax(0, 1.6fr); gap: var(--e-6); align-items: center; }
+.encuesta2__medidor { display: grid; justify-items: center; gap: 8px; }
+.encuesta2__iso { width: min(100%, 240px); }
+.encuesta2__nota { display: flex; align-items: baseline; gap: 4px; font-variant-numeric: tabular-nums; }
+.encuesta2__nota b { font-size: 44px; font-weight: 700; letter-spacing: -0.04em; }
+.encuesta2__nota span { color: var(--texto-3); font-weight: 600; }
+.encuesta2__form { display: grid; gap: var(--e-4); padding: var(--e-6); border-radius: var(--r-4); }
+.encuesta2__paso { display: grid; gap: 12px; }
+.encuesta2__q { font-size: clamp(1.3rem, 1rem + 1vw, 1.9rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; }
+.encuesta2__escala { display: grid; grid-template-columns: repeat(11, minmax(0, 1fr)); gap: 4px; }
+.encuesta2__escala button { min-height: 48px; border-radius: 12px; font-weight: 650; font-variant-numeric: tabular-nums; background: var(--superficie-2); box-shadow: inset 0 0 0 1px var(--borde-fuerte); transition: background 300ms var(--suave), color 300ms var(--suave), box-shadow 300ms var(--suave), transform 160ms var(--llegada); transition-delay: calc(var(--k) * 18ms); }
+.encuesta2__escala button:hover { transform: translateY(-2px); }
+/* hasta la nota elegida, la escala se llena con el degradado de la marca (izquierda a derecha) */
+.encuesta2__escala button.bajo { background: color-mix(in srgb, var(--acento) calc(18% + var(--k) * 4%), var(--superficie-2)); box-shadow: none; }
+.encuesta2__escala button[aria-checked="true"] { background: var(--acento-profundo); color: #fff; box-shadow: 0 6px 14px -8px color-mix(in srgb, var(--acento-profundo) 80%, transparent); }
+:root[data-tema="oscuro"] .encuesta2__escala button[aria-checked="true"] { color: var(--tinta); background: var(--acento); }
+.encuesta2__extremos { display: flex; justify-content: space-between; }
+.encuesta2__q2 { font-weight: 650; font-size: var(--t-3); }
+.entra-paso2 { animation: fila-sube 520ms var(--llegada); }
+.encuesta2__gracias { display: grid; gap: 6px; justify-items: start; animation: fila-sube 520ms var(--llegada); }
+@media (max-width: 860px) { .encuesta2 { grid-template-columns: minmax(0, 1fr); } .encuesta2__escala { grid-template-columns: repeat(6, minmax(0, 1fr)); } .encuesta2__iso { width: 180px; } }
+@media (prefers-reduced-motion: reduce) { .medidor__nivel, .encuesta2__escala button { transition: none; } }
