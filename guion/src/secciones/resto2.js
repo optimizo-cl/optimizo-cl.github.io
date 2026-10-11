@@ -1,14 +1,14 @@
 /* v2 de las secciones que quedaban con la composición repetida de la versión 1: contacto, validación, correos,
    firma, íconos de app, usos incorrectos, color y letra para producción, voz, imagen y aplicaciones. */
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=e217e49";
-import { campo, validar } from "../kit/campos.js?v=e217e49";
-import { boton, trabajar } from "../kit/controles.js?v=e217e49";
-import { listo } from "../kit/punto.js?v=e217e49";
-import { toast, estado } from "../kit/avisos.js?v=e217e49";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=e217e49";
-import { isotipo, logo } from "../kit/marca.js?v=e217e49";
-import { correo, firma } from "../kit/correos.js?v=e217e49";
-import { etapas, activarEtapas } from "../kit/etapas.js?v=e217e49";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=aa26df1";
+import { campo, validar } from "../kit/campos.js?v=aa26df1";
+import { boton, trabajar } from "../kit/controles.js?v=aa26df1";
+import { listo } from "../kit/punto.js?v=aa26df1";
+import { toast, estado } from "../kit/avisos.js?v=aa26df1";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=aa26df1";
+import { isotipo, logo } from "../kit/marca.js?v=aa26df1";
+import { correo, firma } from "../kit/correos.js?v=aa26df1";
+import { etapas, activarEtapas } from "../kit/etapas.js?v=aa26df1";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));

@@ -1,18 +1,18 @@
 /* Capítulo 5 · Producto v2 (ola 7): mapa de procesos que se ordena con el scroll (en Órbitas), escalera con el punto
    que sube, implementación como pista de estaciones, informe y propuesta como documentos vivos con portada de cerámica. */
-import { orden } from "../kit/orden.js?v=e217e49";
-import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=e217e49";
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=e217e49";
-import { boton } from "../kit/controles.js?v=e217e49";
-import { toast, estado } from "../kit/avisos.js?v=e217e49";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=e217e49";
-import { isotipo, logo } from "../kit/marca.js?v=e217e49";
-import { ejemplo } from "../kit/guion.js?v=e217e49";
-import { progreso as alAvanzar, contar } from "../kit/coreografia.js?v=e217e49";
-import { barrasTrama } from "../patrones/graficas2.js?v=e217e49";
-import { EMPRESA, PROCESOS, PERSONAS, HORAS_PERDIDAS, clp } from "../demo/quillay.js?v=e217e49";
-import { PASOS_MADUREZ } from "./producto.js?v=e217e49";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=e217e49";
+import { orden } from "../kit/orden.js?v=aa26df1";
+import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=aa26df1";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=aa26df1";
+import { boton } from "../kit/controles.js?v=aa26df1";
+import { toast, estado } from "../kit/avisos.js?v=aa26df1";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=aa26df1";
+import { isotipo, logo } from "../kit/marca.js?v=aa26df1";
+import { ejemplo } from "../kit/guion.js?v=aa26df1";
+import { progreso as alAvanzar, contar } from "../kit/coreografia.js?v=aa26df1";
+import { barrasTrama } from "../patrones/graficas2.js?v=aa26df1";
+import { EMPRESA, PROCESOS, PERSONAS, HORAS_PERDIDAS, clp } from "../demo/quillay.js?v=aa26df1";
+import { PASOS_MADUREZ } from "./producto.js?v=aa26df1";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=aa26df1";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const persona = (id) => PERSONAS.find((p) => p.id === id)?.nombre || "Sin responsable";

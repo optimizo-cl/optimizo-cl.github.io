@@ -1,6 +1,6 @@
 /* Buscador ⌘K: busca en la memoria de la empresa y en las acciones. Resultados con la parte que coincide resaltada. */
-import { icono, rellenarIconos } from "../kit/iconos.js?v=e217e49";
-import { NOTAS, PROCESOS } from "../demo/quillay.js?v=e217e49";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=aa26df1";
+import { NOTAS, PROCESOS } from "../demo/quillay.js?v=aa26df1";
 
 const sinTildes = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 export function resaltar(texto, q) {

@@ -1,13 +1,13 @@
 /* Capítulo 6 · Web y marca v2 (ola 8): el sitio nuevo, el video de marca exportable, redes animadas, una presentación
    con transiciones del punto, papelería en 3D y una 404 en la que se devuelve el punto a su nido. */
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=e217e49";
-import { boton, segmento } from "../kit/controles.js?v=e217e49";
-import { toast } from "../kit/avisos.js?v=e217e49";
-import { isotipo, logo } from "../kit/marca.js?v=e217e49";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=e217e49";
-import { pelicula } from "../kit/pelicula.js?v=e217e49";
-import { contar } from "../kit/coreografia.js?v=e217e49";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=e217e49";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=aa26df1";
+import { boton, segmento } from "../kit/controles.js?v=aa26df1";
+import { toast } from "../kit/avisos.js?v=aa26df1";
+import { isotipo, logo } from "../kit/marca.js?v=aa26df1";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=aa26df1";
+import { pelicula } from "../kit/pelicula.js?v=aa26df1";
+import { contar } from "../kit/coreografia.js?v=aa26df1";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=aa26df1";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const raiz = document.documentElement;

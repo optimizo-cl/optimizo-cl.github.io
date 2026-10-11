@@ -72,14 +72,22 @@
 .peldano__lado { fill: color-mix(in srgb, var(--superficie-hundida) 85%, var(--navy)); stroke: var(--borde-fuerte); transition: fill 600ms var(--suave); }
 .peldano text { font-size: 13px; font-weight: 600; fill: var(--texto-2); }
 .peldano .peldano__n { font-size: 14px; font-weight: 700; fill: var(--texto-3); }
-.peldano.encendido .peldano__cara { fill: var(--acento); }
-.peldano.encendido .peldano__tapa { fill: color-mix(in srgb, var(--acento) 55%, #fff); }
-.peldano.encendido .peldano__lado { fill: var(--acento-profundo); }
-.peldano.encendido text { fill: var(--texto); }
-.peldano.encendido .peldano__n { fill: var(--tinta); }
-.peldano { transition-delay: calc(var(--d, 0) * 80ms); }
-.escalera__punto { fill: var(--navy); stroke: var(--superficie); stroke-width: 3; filter: drop-shadow(0 4px 6px rgba(22, 38, 58, .3)); }
-:root[data-tema="oscuro"] .escalera__punto { fill: var(--hueso); }
+.peldano { cursor: pointer; outline: none; }
+.peldano:focus-visible .peldano__cara { stroke: var(--foco); stroke-width: 3; }
+.peldano:hover .peldano__tapa { fill: color-mix(in srgb, var(--acento) 25%, var(--superficie-hundida)); }
+/* elegido: el servicio se enciende con el degradado de la marca */
+.peldano.elegido .peldano__cara { fill: url(#punto-marca); stroke: transparent; }
+.peldano.elegido .peldano__tapa { fill: color-mix(in srgb, var(--deg-a) 70%, #fff); stroke: transparent; }
+.peldano.elegido .peldano__lado { fill: var(--deg-b); stroke: transparent; filter: brightness(.82); }
+.peldano.elegido text { fill: var(--texto); font-weight: 700; }
+.peldano.elegido .peldano__n { fill: #fff; }
+/* falta: está debajo de lo elegido pero no se eligió → punteado, con la invitación */
+.peldano.falta .peldano__cara, .peldano.falta .peldano__tapa, .peldano.falta .peldano__lado { fill: transparent; stroke: var(--acento-profundo); stroke-dasharray: 4 4; }
+.peldano__falta { font-size: 26px !important; font-weight: 500; fill: var(--acento-texto) !important; opacity: 0; transition: opacity 300ms var(--suave); }
+.peldano.falta .peldano__falta { opacity: 1; }
+.peldano__cara, .peldano__tapa, .peldano__lado { transition: fill 500ms var(--suave), stroke 300ms var(--suave); }
+.cotizador__camino { display: grid; gap: 8px; justify-items: start; min-height: 3.2em; }
+.escalera__punto { fill: url(#punto-marca); stroke: var(--superficie); stroke-width: 3; filter: drop-shadow(0 4px 6px rgba(22, 38, 58, .3)); }
 .cotizador__estima { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .cotizador__estima > div { display: grid; gap: 2px; padding: 12px 14px; border-radius: var(--r-3); background: var(--superficie-hundida); }
 .cotizador__estima b { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }

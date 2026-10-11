@@ -1,15 +1,15 @@
 /* Sitio de Optimizo v2: armado SOLO con piezas del guion (Trama, isotipo 3D, Órbitas, kit de cerámica, cotizador, familia). */
-import { logo, isotipo } from "../src/kit/marca.js?v=e217e49";
-import { icono, rellenarIconos, cargarIconos } from "../src/kit/iconos.js?v=e217e49";
-import { campo, validar, activarCampos } from "../src/kit/campos.js?v=e217e49";
-import { boton, trabajar, activarControles, prepararSegmentos } from "../src/kit/controles.js?v=e217e49";
-import { listo } from "../src/kit/punto.js?v=e217e49";
-import { orden as ordenar } from "../src/kit/orden.js?v=e217e49";
-import { etapas, activarEtapas, moverEtapa } from "../src/kit/etapas.js?v=e217e49";
-import { progreso } from "../src/kit/coreografia.js?v=e217e49";
-import { movimientoReducido } from "../src/kit/escenas/vigia.js?v=e217e49";
-import { formularios2 } from "../src/secciones/formularios2.js?v=e217e49";
-import { sello2, auroraMedula, medulaSVG } from "../src/secciones/familia2.js?v=e217e49";
+import { logo, isotipo } from "../src/kit/marca.js?v=aa26df1";
+import { icono, rellenarIconos, cargarIconos } from "../src/kit/iconos.js?v=aa26df1";
+import { campo, validar, activarCampos } from "../src/kit/campos.js?v=aa26df1";
+import { boton, trabajar, activarControles, prepararSegmentos } from "../src/kit/controles.js?v=aa26df1";
+import { listo } from "../src/kit/punto.js?v=aa26df1";
+import { orden as ordenar } from "../src/kit/orden.js?v=aa26df1";
+import { etapas, activarEtapas, moverEtapa } from "../src/kit/etapas.js?v=aa26df1";
+import { progreso } from "../src/kit/coreografia.js?v=aa26df1";
+import { movimientoReducido } from "../src/kit/escenas/vigia.js?v=aa26df1";
+import { formularios2 } from "../src/secciones/formularios2.js?v=aa26df1";
+import { sello2, auroraMedula, medulaSVG } from "../src/secciones/familia2.js?v=aa26df1";
 
 const $ = (s) => document.querySelector(s);
 const tramo = (p, a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));

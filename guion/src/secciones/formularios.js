@@ -1,13 +1,13 @@
 /* Capítulo 3 · Formularios (fase 8). Directos: piden lo justo, sin explicar el método. */
-import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js?v=e217e49";
-import { campo, validar } from "../kit/campos.js?v=e217e49";
-import { boton, trabajar, segmento, casilla } from "../kit/controles.js?v=e217e49";
-import { listo } from "../kit/punto.js?v=e217e49";
-import { toast } from "../kit/avisos.js?v=e217e49";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=e217e49";
-import { asistente, tarjetasOpcion } from "../patrones/asistente.js?v=e217e49";
-import { calendario, horas, fechaLarga } from "../patrones/fechas.js?v=e217e49";
-import { soltar } from "../patrones/soltar.js?v=e217e49";
+import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js?v=aa26df1";
+import { campo, validar } from "../kit/campos.js?v=aa26df1";
+import { boton, trabajar, segmento, casilla } from "../kit/controles.js?v=aa26df1";
+import { listo } from "../kit/punto.js?v=aa26df1";
+import { toast } from "../kit/avisos.js?v=aa26df1";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=aa26df1";
+import { asistente, tarjetasOpcion } from "../patrones/asistente.js?v=aa26df1";
+import { calendario, horas, fechaLarga } from "../patrones/fechas.js?v=aa26df1";
+import { soltar } from "../patrones/soltar.js?v=aa26df1";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -16,7 +16,7 @@ const DOLORES = { cotizaciones: "Cotizaciones", seguimiento: "Seguimiento comerc
 export const formularios = {
   async diagnostico(el) {
     cuerpo(el).innerHTML = `<div class="formulario mate" data-asistente></div>
-      ${ficha({ que: "Asistente en pasos para levantar cómo trabaja una empresa. Cada paso se valida antes de seguir; lo escrito se conserva al volver.", importar: 'import { asistente, tarjetasOpcion } from "./patrones/asistente.js?v=e217e49";', codigo: 'asistente(el, { pasos: [{ nombre: "Empresa", html }, …], alTerminar: enviar, listoTexto: "Diagnóstico enviado" });', reglas: ["4 a 6 pasos, nunca más.", "Lo difícil al medio, lo fácil al principio y al final.", "El último paso es un resumen que se puede corregir."] })}`;
+      ${ficha({ que: "Asistente en pasos para levantar cómo trabaja una empresa. Cada paso se valida antes de seguir; lo escrito se conserva al volver.", importar: 'import { asistente, tarjetasOpcion } from "./patrones/asistente.js?v=aa26df1";', codigo: 'asistente(el, { pasos: [{ nombre: "Empresa", html }, …], alTerminar: enviar, listoTexto: "Diagnóstico enviado" });', reglas: ["4 a 6 pasos, nunca más.", "Lo difícil al medio, lo fácil al principio y al final.", "El último paso es un resumen que se puede corregir."] })}`;
     asistente(el.querySelector("[data-asistente]"), {
       listoTexto: "Diagnóstico enviado",
       listoDetalle: "Te escribimos en menos de un día hábil con la fecha para la primera conversación.",
@@ -58,7 +58,7 @@ export const formularios = {
           <p class="agendar__elegido chico" data-elegido>Reunión de 30 minutos por videollamada.</p>
           ${boton("Agendar reunión", { variante: "primario", tam: "l", attrs: "data-agendar disabled" })}</form>
       </div>
-      ${ficha({ que: "Agenda en tres pasos visibles a la vez: día, hora, datos. El botón se habilita al elegir hora.", importar: 'import { calendario, horas } from "./patrones/fechas.js?v=e217e49";', reglas: ["La zona horaria siempre visible.", "Solo días y horas realmente disponibles.", "Datos mínimos: nombre y correo."] })}`;
+      ${ficha({ que: "Agenda en tres pasos visibles a la vez: día, hora, datos. El botón se habilita al elegir hora.", importar: 'import { calendario, horas } from "./patrones/fechas.js?v=aa26df1";', reglas: ["La zona horaria siempre visible.", "Solo días y horas realmente disponibles.", "Datos mínimos: nombre y correo."] })}`;
     let dia = null, hora = null;
     const elegido = el.querySelector("[data-elegido]"), btn = el.querySelector("[data-agendar]");
     const actualizar = () => { btn.disabled = !(dia && hora); if (dia && hora) elegido.innerHTML = `<b>${fechaLarga(dia)}, ${hora} h</b> · 30 minutos por videollamada.`; };

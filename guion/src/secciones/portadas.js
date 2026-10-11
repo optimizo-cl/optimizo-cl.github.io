@@ -1,6 +1,6 @@
 /* Escenas de las portadas de capítulo: cada capítulo abre con algo propio, vivo y liviano (SVG + CSS).
    Todo es SVG y CSS: barato, y se duerme fuera de vista. */
-import { isotipo } from "../kit/marca.js?v=e217e49";
+import { isotipo } from "../kit/marca.js?v=aa26df1";
 
 const svg = (contenido, vb = "0 0 400 400") => `<svg viewBox="${vb}" class="escena-svg" aria-hidden="true">${contenido}</svg>`;
 
