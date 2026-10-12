@@ -193,6 +193,8 @@
 .m-video__rec i { width: 8px; height: 8px; border-radius: 50%; background: var(--acento); animation: respira-punto 2.4s var(--suave) infinite; }
 
 .curvas-firma { margin-top: var(--e-7); display: grid; gap: var(--e-4); }
+.curvas-firma--enlace { grid-template-columns: minmax(0, 1fr) auto; align-items: center; padding: var(--e-4) var(--e-5); border-radius: var(--r-4); background: var(--superficie); box-shadow: inset 0 0 0 1px var(--borde); }
+@media (max-width: 760px) { .curvas-firma--enlace { grid-template-columns: minmax(0, 1fr); justify-items: start; } }
 .curvas-firma__lista { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--e-4); }
 .curvas-firma .curva-mov { grid-template-columns: 1fr; padding: var(--e-4); border-radius: var(--r-4); background: var(--superficie); box-shadow: inset 0 0 0 1px var(--borde); }
 .curvas-firma .curva-mov svg { justify-self: center; }

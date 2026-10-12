@@ -52,46 +52,16 @@
 @media (prefers-reduced-motion: reduce) { .mapa__traba circle, .mapa__gente circle, .mapa__nodo { animation: none; } }
 
 /* ── Cotizador con escalera ── */
-.cotizador { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: var(--e-6); align-items: start; }
-.cotizador__servicios { display: grid; gap: 10px; }
-.servicio { display: grid; grid-template-columns: 44px minmax(0, 1fr) 22px; gap: 14px; align-items: center; text-align: left; padding: 14px 16px; border-radius: var(--r-3); transition: transform 160ms var(--llegada); }
-.servicio:hover { transform: translateY(-1px); }
-.servicio:active { transform: translateY(1px); }
-.servicio__ico { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--superficie-hundida); color: var(--texto-2); transition: background 300ms var(--suave), color 300ms var(--suave); }
-.servicio__texto { display: grid; gap: 2px; }
-.servicio__texto b { font-weight: 650; }
-.servicio__check { width: 22px; height: 22px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--borde-fuerte); position: relative; }
-.servicio__check::after { content: ""; position: absolute; inset: 5px; border-radius: 50%; background: var(--acento); transform: scale(0); transition: transform 420ms var(--llegada); }
-.servicio[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--acento-profundo), 0 8px 18px -10px rgba(22, 38, 58, .4); }
-.servicio[aria-pressed="true"] .servicio__ico { background: var(--acento-profundo); color: #fff; }
-.servicio[aria-pressed="true"] .servicio__check::after { transform: scale(1); }
-.cotizador__escalera { display: grid; gap: var(--e-4); padding: var(--e-5); border-radius: var(--r-4); background: var(--superficie); box-shadow: inset 0 0 0 1px var(--borde); }
-.escalera { width: 100%; overflow: visible; }
-.peldano__cara { fill: var(--superficie-hundida); stroke: var(--borde-fuerte); transition: fill 600ms var(--suave); }
-.peldano__tapa { fill: color-mix(in srgb, var(--superficie-hundida) 60%, #fff); stroke: var(--borde-fuerte); transition: fill 600ms var(--suave); }
-.peldano__lado { fill: color-mix(in srgb, var(--superficie-hundida) 85%, var(--navy)); stroke: var(--borde-fuerte); transition: fill 600ms var(--suave); }
-.peldano text { font-size: 13px; font-weight: 600; fill: var(--texto-2); }
-.peldano .peldano__n { font-size: 14px; font-weight: 700; fill: var(--texto-3); }
-.peldano { cursor: pointer; outline: none; }
-.peldano:focus-visible .peldano__cara { stroke: var(--foco); stroke-width: 3; }
-.peldano:hover .peldano__tapa { fill: color-mix(in srgb, var(--acento) 25%, var(--superficie-hundida)); }
-/* elegido: el servicio se enciende con el degradado de la marca */
-.peldano.elegido .peldano__cara { fill: url(#punto-marca); stroke: transparent; }
-.peldano.elegido .peldano__tapa { fill: color-mix(in srgb, var(--deg-a) 70%, #fff); stroke: transparent; }
-.peldano.elegido .peldano__lado { fill: var(--deg-b); stroke: transparent; filter: brightness(.82); }
-.peldano.elegido text { fill: var(--texto); font-weight: 700; }
-.peldano.elegido .peldano__n { fill: #fff; }
-/* falta: está debajo de lo elegido pero no se eligió → punteado, con la invitación */
-.peldano.falta .peldano__cara, .peldano.falta .peldano__tapa, .peldano.falta .peldano__lado { fill: transparent; stroke: var(--acento-profundo); stroke-dasharray: 4 4; }
-.peldano__falta { font-size: 26px !important; font-weight: 500; fill: var(--acento-texto) !important; opacity: 0; transition: opacity 300ms var(--suave); }
-.peldano.falta .peldano__falta { opacity: 1; }
-.peldano__cara, .peldano__tapa, .peldano__lado { transition: fill 500ms var(--suave), stroke 300ms var(--suave); }
+/* Cotizador: la escalera única de Optimizo a todo el ancho; abajo el camino, la estimación y el pedido */
+.cotizador { display: grid; gap: var(--e-5); }
+.cotizador__escalera { padding: var(--e-5); border-radius: var(--r-4); background: var(--superficie); box-shadow: inset 0 0 0 1px var(--borde); }
+.cotizador__pie { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: var(--e-5); align-items: start; }
 .cotizador__camino { display: grid; gap: 8px; justify-items: start; min-height: 3.2em; }
-.escalera__punto { fill: url(#punto-marca); stroke: var(--superficie); stroke-width: 3; filter: drop-shadow(0 4px 6px rgba(22, 38, 58, .3)); }
 .cotizador__estima { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .cotizador__estima > div { display: grid; gap: 2px; padding: 12px 14px; border-radius: var(--r-3); background: var(--superficie-hundida); }
 .cotizador__estima b { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
-@media (max-width: 960px) { .cotizador { grid-template-columns: minmax(0, 1fr); } .cotizador__estima { grid-template-columns: minmax(0, 1fr); } }
+.cotizador__pedir { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-4); }
+@media (max-width: 960px) { .cotizador__pie { grid-template-columns: minmax(0, 1fr); } .cotizador__estima { grid-template-columns: minmax(0, 1fr); } }
 
 /* ── Agenda ── */
 .agenda { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--e-6); align-items: start; }

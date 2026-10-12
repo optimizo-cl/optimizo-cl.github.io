@@ -83,3 +83,4 @@
 .e404.encontrado .isotipo__disco { animation: respira 1600ms var(--suave) 400ms; transform-box: fill-box; transform-origin: center; }
 .e404__texto { display: grid; gap: 12px; }
 @media (max-width: 860px) { .e404 { grid-template-columns: minmax(0, 1fr); } }
+.papeleria2__misma { display: grid; gap: var(--e-3); align-content: center; padding: var(--e-5); }

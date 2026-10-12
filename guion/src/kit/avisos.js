@@ -1,5 +1,5 @@
 /* Avisos: toast con deshacer (cola), banner, alerta, insignias. Los avisos de app viven en la app, no imitan al sistema. */
-import { icono } from "./iconos.js?v=8ed8960";
+import { icono } from "./iconos.js?v=5bdbf1b";
 
 const ICO = { exito: "check-circle", alerta: "warning", error: "warning-circle", info: "info", neutro: "info" };
 
@@ -22,7 +22,7 @@ export function toast(texto, { tono = "neutro", accion = null, duracion } = {}) 
     ${accion ? `<button type="button" class="toast__accion">${accion.texto}</button>` : ""}
     <button type="button" class="toast__cerrar" aria-label="Cerrar aviso">${icono("x", { tam: 16 })}</button>`;
   p.appendChild(t);
-  import("./iconos.js?v=8ed8960").then((m) => m.rellenarIconos());
+  import("./iconos.js?v=5bdbf1b").then((m) => m.rellenarIconos());
   const cerrar = () => { t.classList.add("toast--sale"); t.addEventListener("animationend", () => t.remove(), { once: true }); };
   let restante = duracion ?? (accion ? 7000 : 5000), inicio = Date.now(), timer = setTimeout(cerrar, restante);
   t.addEventListener("mouseenter", () => { clearTimeout(timer); restante -= Date.now() - inicio; });
@@ -40,9 +40,19 @@ function reordenar(p) {
   let alto = 0; [...hijos].reverse().forEach((t) => { t.style.setProperty("--y", alto + "px"); alto += t.offsetHeight + 10; });
 }
 
-/** Banner de página o sección (persistente hasta que se resuelve o se cierra). */
+/** El estado dicho con el isotipo: el punto en su nido (listo), asomado en la mordida (atención), saliendo como en el
+    logo (informa) o lejos, afuera (algo falló). El disco lleva el color; la posición del punto lo dice sin color. */
+let nIso = 0;
+const POSE = { exito: [16, 17], info: [6.2, 7.2], alerta: [9, 10], error: [28.4, 5.4], neutro: [6.2, 7.2] };
+export function isoEstado(tono = "info") {
+  const id = `iso-e${++nIso}`, [px, py] = POSE[tono] ?? POSE.info;
+  return `<svg class="iso-estado iso-estado--${tono}" viewBox="0 0 32 32" aria-hidden="true"><defs><mask id="${id}"><rect width="32" height="32" fill="#fff"/><circle cx="8.6" cy="9.6" r="6.2" fill="#000"/><circle cx="16" cy="17" r="3.6" fill="#000"/></mask></defs>
+    <circle cx="16" cy="17" r="11" mask="url(#${id})" class="iso-estado__disco"/><circle cx="${px}" cy="${py}" r="3.3" class="iso-estado__punto"/></svg>`;
+}
+
+/** Banner de página o sección (persistente hasta que se resuelve o se cierra). Papel con canto de color y el estado en el isotipo. */
 export function banner(titulo, texto, { tono = "info", accion = "", cerrable = true } = {}) {
-  return `<div class="banner banner--${tono}" role="${tono === "error" ? "alert" : "status"}"><svg class="banner__orbitas" viewBox="0 0 200 80" aria-hidden="true"><circle cx="214" cy="40" r="30"/><circle cx="214" cy="40" r="50"/><circle cx="214" cy="40" r="70"/><circle class="banner__punto" cx="214" cy="-10" r="3.5"/></svg>${icono(ICO[tono], { tam: 20 })}
+  return `<div class="banner banner--${tono}" role="${tono === "error" ? "alert" : "status"}">${isoEstado(tono)}
     <div class="banner__texto"><b>${titulo}</b><span>${texto}</span></div>
     ${accion ? `<button type="button" class="banner__accion">${accion}</button>` : ""}
     ${cerrable ? `<button type="button" class="banner__cerrar" aria-label="Cerrar" onclick="this.closest('.banner').remove()">${icono("x", { tam: 16 })}</button>` : ""}</div>`;
@@ -50,7 +60,7 @@ export function banner(titulo, texto, { tono = "info", accion = "", cerrable = t
 
 /** Alerta en línea: dentro del contenido, junto a lo que afecta. */
 export function alerta(texto, { tono = "alerta", titulo = "" } = {}) {
-  return `<div class="alerta alerta--${tono}" role="note">${icono(ICO[tono], { tam: 18 })}<p>${titulo ? `<b>${titulo}</b> ` : ""}${texto}</p></div>`;
+  return `<div class="alerta alerta--${tono}" role="note">${isoEstado(tono)}<p>${titulo ? `<b>${titulo}</b> ` : ""}${texto}</p></div>`;
 }
 
 /** Insignia de estado. tono: neutro | exito | alerta | error | info | acento */

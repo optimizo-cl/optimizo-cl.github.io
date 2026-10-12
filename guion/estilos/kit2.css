@@ -142,11 +142,13 @@
 @keyframes toast-sale2 { to { opacity: 0; transform: translateX(40px) rotate(1deg); } }
 
 /* ── Banners con órbitas ── */
-.banner { position: relative; overflow: hidden; isolation: isolate; }
-.banner__orbitas { position: absolute; right: 0; top: 0; height: 100%; width: auto; z-index: -1; pointer-events: none; }
-.banner__orbitas circle { fill: none; stroke: currentColor; stroke-opacity: .14; stroke-dasharray: 2 4; }
-.banner--info .banner__orbitas { color: var(--info); } .banner--exito .banner__orbitas { color: var(--exito); } .banner--alerta .banner__orbitas { color: var(--alerta); } .banner--error .banner__orbitas { color: var(--error); }
-.banner__orbitas .banner__punto { fill: currentColor; stroke: none; fill-opacity: .7; transform-origin: 214px 40px; animation: orbita 14s linear infinite; }
+/* Banner de papel: canto del color del estado, el isotipo dice el estado con su punto */
+.banner { position: relative; overflow: hidden; isolation: isolate; background: var(--superficie-2) !important; box-shadow: inset 3px 0 0 var(--tono-banner), inset 0 0 0 1px var(--borde), var(--sombra-1); }
+.banner--info { --tono-banner: var(--info); } .banner--exito { --tono-banner: var(--exito); } .banner--alerta { --tono-banner: var(--alerta); } .banner--error { --tono-banner: var(--error); }
+.iso-estado { width: 34px; height: 34px; flex: none; overflow: visible; }
+.iso-estado__disco { fill: var(--tono-banner, var(--acento)); }
+.iso-estado__punto { fill: url(#punto-marca); }
+.iso-estado--error .iso-estado__disco { fill: none; stroke: var(--tono-banner, var(--error)); stroke-width: 2; stroke-dasharray: 3 2.4; }
 .banner > .icono, .banner__texto, .banner__accion, .banner__cerrar { position: relative; }
 
 /* ── Estado por forma ── */
@@ -208,6 +210,10 @@
   .flotante, .dialogo--modal .dialogo__caja, .dialogo--modal .dialogo__caja > *, .dialogo__punto, .toast { animation: none !important; }
   .dialogo__punto { display: none; }
   .esqueleto::after { animation: none; }
-  .banner__orbitas .banner__punto { animation: none; }
 }
 @media (max-width: 640px), (pointer: coarse) { .ficha-ceramica { min-height: 44px; } .perilla__cuerpo { cursor: grab; } }
+/* Alerta en línea: el mismo papel que el banner, más callada (canto fino, isotipo chico) */
+.alerta { align-items: center; background: var(--superficie-2) !important; box-shadow: inset 2px 0 0 var(--tono-banner), inset 0 0 0 1px var(--borde); }
+.alerta--info { --tono-banner: var(--info); } .alerta--exito { --tono-banner: var(--exito); } .alerta--alerta { --tono-banner: var(--alerta); } .alerta--error { --tono-banner: var(--error); }
+.alerta .iso-estado { width: 24px; height: 24px; }
+.alerta p { margin: 0; }

@@ -1,15 +1,16 @@
 /* Sitio de Optimizo v2: armado SOLO con piezas del guion (isotipo, etapas, kit de cerámica, cotizador, familia). */
-import { logo, isotipo } from "../src/kit/marca.js?v=8ed8960";
-import { icono, rellenarIconos, cargarIconos } from "../src/kit/iconos.js?v=8ed8960";
-import { campo, validar, activarCampos } from "../src/kit/campos.js?v=8ed8960";
-import { boton, trabajar, activarControles, prepararSegmentos } from "../src/kit/controles.js?v=8ed8960";
-import { listo } from "../src/kit/punto.js?v=8ed8960";
-import { orden as ordenar } from "../src/kit/orden.js?v=8ed8960";
-import { etapas, activarEtapas, moverEtapa } from "../src/kit/etapas.js?v=8ed8960";
-import { progreso } from "../src/kit/coreografia.js?v=8ed8960";
-import { movimientoReducido } from "../src/kit/escenas/vigia.js?v=8ed8960";
-import { formularios2 } from "../src/secciones/formularios2.js?v=8ed8960";
-import { sello2, auroraMedula, medulaSVG } from "../src/secciones/familia2.js?v=8ed8960";
+import { logo, isotipo } from "../src/kit/marca.js?v=5bdbf1b";
+import { icono, rellenarIconos, cargarIconos } from "../src/kit/iconos.js?v=5bdbf1b";
+import { campo, validar, activarCampos } from "../src/kit/campos.js?v=5bdbf1b";
+import { boton, trabajar, activarControles, prepararSegmentos } from "../src/kit/controles.js?v=5bdbf1b";
+import { listo } from "../src/kit/punto.js?v=5bdbf1b";
+import { orden as ordenar } from "../src/kit/orden.js?v=5bdbf1b";
+import { etapas, activarEtapas, moverEtapa } from "../src/kit/etapas.js?v=5bdbf1b";
+import { progreso } from "../src/kit/coreografia.js?v=5bdbf1b";
+import { movimientoReducido } from "../src/kit/escenas/vigia.js?v=5bdbf1b";
+import { formularios2 } from "../src/secciones/formularios2.js?v=5bdbf1b";
+import { ESCALERA } from "../src/kit/escalera.js?v=5bdbf1b";
+import { sello2, auroraMedula, medulaSVG } from "../src/secciones/familia2.js?v=5bdbf1b";
 
 const $ = (s) => document.querySelector(s);
 const tramo = (p, a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));
@@ -47,7 +48,8 @@ activarEtapas($("[data-pista]"));
 new IntersectionObserver(async ([e], o) => { if (!e.isIntersecting) return; o.disconnect(); const et = $("[data-pista] [data-etapas]"); await new Promise((r) => setTimeout(r, 500)); await moverEtapa(et, 0, 1); await new Promise((r) => setTimeout(r, 700)); await moverEtapa(et, 1, 1); await new Promise((r) => setTimeout(r, 700)); await moverEtapa(et, 2, 0.5); }, { threshold: 0.5 }).observe($("[data-pista]"));
 
 /* ── Servicios ── */
-const SERVICIOS = [["target", "Diagnóstico de procesos", "Mapa de cómo trabaja tu empresa y por dónde empezar."], ["users-three", "CRM a medida", "Clientes, cotizaciones y ventas en un solo lugar, hecho para tu proceso."], ["brain", "Memoria de la empresa", "Lo que sabe una persona, lo sabe la empresa (Medula)."], ["lightning", "Automatizaciones", "Lo repetido se hace solo y avisa cuando algo falla."], ["robot", "Equipos de agentes", "Agentes que atienden, ordenan y reportan con tus datos."]];
+// los servicios son los peldaños de la escalera única de Optimizo (kit/escalera.js)
+const SERVICIOS = ESCALERA.map((p) => [p.ico, p.servicio, p.servicioD]);
 $("[data-servicios]").innerHTML = SERVICIOS.map(([ic, t, d], k) => `<article class="l-servicio2 ceramica" style="--i:${k}"><span class="l-servicio2__ico">${icono(ic, { tam: 24 })}</span><b class="titulo-3">${t}</b><p class="chico">${d}</p></article>`).join("");
 
 /* ── Familia ── */

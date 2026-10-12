@@ -11,6 +11,20 @@ export const PERSONAS = [
   { id: "dm", nombre: "Diego Muñoz", cargo: "Vendedor en terreno" },
 ];
 
+// Quien lleva la cuenta desde Optimizo (no confundir con Camila Rojas, gerenta de Quillay)
+export const CONSULTORA = { nombre: "Martina Fuentes", corto: "Martina", cargo: "Directora de proyectos", correo: "martina@optimizo.cl", telefono: "+56 9 1234 5678" };
+
+// La historia de Quillay con Optimizo, en orden. Todas las secciones de cliente leen de acá. «Hoy» es el lunes 12 de octubre de 2026.
+export const HISTORIA = {
+  reunion: { dia: "Lunes 14 de septiembre", hora: "10:30 h" },
+  diagnostico: "14 – 25 sep",
+  informe: "29 de septiembre de 2026",
+  propuesta: { fecha: "30 de septiembre de 2026", valida: "15 oct 2026", semanas: "cinco" },
+  crm: "1 oct – 6 nov", crmAvance: 0.4,
+  medula: "noviembre", agentes: "diciembre",
+  hitos: [["16 oct", "Embudo de ventas listo para usar"], ["23 oct", "Capacitación del equipo comercial (2 h)"], ["6 nov", "CRM en marcha · cierre de etapa"]],
+};
+
 export const PROCESOS = [
   { id: "cotizaciones", nombre: "Cotizaciones", area: "Ventas", horas: 12, estado: "trabado", responsable: "jm", sistemas: ["Excel", "WhatsApp", "Correo"] },
   { id: "seguimiento", nombre: "Seguimiento comercial", area: "Ventas", horas: 7, estado: "trabado", responsable: "dm", sistemas: ["WhatsApp"] },

@@ -1,10 +1,10 @@
 /* Capítulo 6 · Web y marca (fase 11): landing real, correos HTML, firma, redes, presentación, papelería, íconos, 404. */
-import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js?v=8ed8960";
-import { segmento, boton } from "../kit/controles.js?v=8ed8960";
-import { toast } from "../kit/avisos.js?v=8ed8960";
-import { isotipo, logo } from "../kit/marca.js?v=8ed8960";
-import { correo, firma } from "../kit/correos.js?v=8ed8960";
-import { lienzoPieza, isotipoCanvas, granoCanvas, parrafo, LETRA } from "../kit/piezas.js?v=8ed8960";
+import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js?v=5bdbf1b";
+import { segmento, boton } from "../kit/controles.js?v=5bdbf1b";
+import { toast } from "../kit/avisos.js?v=5bdbf1b";
+import { isotipo, logo } from "../kit/marca.js?v=5bdbf1b";
+import { correo, firma } from "../kit/correos.js?v=5bdbf1b";
+import { lienzoPieza, isotipoCanvas, granoCanvas, parrafo, LETRA } from "../kit/piezas.js?v=5bdbf1b";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const raiz = document.documentElement;
@@ -34,7 +34,7 @@ export const web = {
     const datos = { logoURL: urlAsset("logo/optimizo-isotipo.svg") };
     cuerpo(el).innerHTML = `${rejilla([
       marco("Vista", `<div class="firma-vista" data-firma>${firma(datos)}</div>`),
-      marco("Personalizar", `<form class="pila" data-firma-form><label class="campo"><span class="campo__etiqueta">Nombre</span><span class="campo__control"><input name="nombre" value="Camila Rojas"></span></label>
+      marco("Personalizar", `<form class="pila" data-firma-form><label class="campo"><span class="campo__etiqueta">Nombre</span><span class="campo__control"><input name="nombre" value="Martina Fuentes"></span></label>
         <label class="campo"><span class="campo__etiqueta">Cargo</span><span class="campo__control"><input name="cargo" value="Directora de proyectos"></span></label>
         <label class="campo"><span class="campo__etiqueta">Teléfono</span><span class="campo__control"><input name="telefono" value="+56 9 1234 5678"></span></label>
         <div class="fila-botones">${boton("Copiar firma", { attrs: "data-copiar-firma" })}</div></form>`, { nota: "Copia y pega en Gmail (Configuración → Firma) o en Outlook." }),
@@ -96,10 +96,10 @@ export const web = {
   async presentacion(el) {
     const lamina = (contenido, clase = "") => `<div class="lamina ${clase}"><div class="lamina__dentro">${contenido}</div></div>`;
     cuerpo(el).innerHTML = `<div class="laminas">
-        ${lamina(`<div class="lamina__portada">${isotipo({ clase: "lamina__iso" })}<div><p class="ceja">Propuesta · octubre 2026</p><p class="lamina__titulo">Cotizar en minutos, no en días</p><p class="lamina__sub">Quillay Suministros Industriales</p></div></div>`, "lamina--portada")}
+        ${lamina(`<div class="lamina__portada">${isotipo({ clase: "lamina__iso" })}<div><p class="ceja">Propuesta · septiembre 2026</p><p class="lamina__titulo">Cotizar en minutos, no en días</p><p class="lamina__sub">Quillay Suministros Industriales</p></div></div>`, "lamina--portada")}
         ${lamina(`<p class="ceja">Lo que encontramos</p><p class="lamina__titulo lamina__titulo--m">31 horas por semana se van en 6 procesos</p><ul class="lista-punto lamina__lista"><li>Cotizaciones a mano · 12 h</li><li>Seguimiento en WhatsApp · 7 h</li><li>Inventario que no calza · 6 h</li></ul>`)}
         ${lamina(`<p class="ceja">El número</p><p class="lamina__heroe">31 h</p><p class="lamina__sub">recuperables por semana, sin contratar a nadie</p>`)}
-        ${lamina(`<div class="lamina__cierre"><p class="lamina__titulo">Todo proceso tiene una salida.</p><p class="lamina__sub">camila@optimizo.cl · optimizo.cl</p></div>`, "lamina--oscura")}
+        ${lamina(`<div class="lamina__cierre"><p class="lamina__titulo">Todo proceso tiene una salida.</p><p class="lamina__sub">martina@optimizo.cl · optimizo.cl</p></div>`, "lamina--oscura")}
       </div>
       ${ficha({ que: "Plantilla de presentación 16:9 en cuatro tipos de lámina: portada, contenido, número héroe y cierre.", reglas: ["Una idea por lámina; el título dice la conclusión, no el tema.", "Máximo 3 viñetas de una línea.", "Letra: Inter en las láminas (archivo fijo); Poppins solo en el logo.", "La lámina oscura solo para cierre."] })}`;
   },
@@ -108,9 +108,9 @@ export const web = {
     cuerpo(el).innerHTML = `${rejilla([
       marco("Portada de propuesta (A4)", `<div class="a4"><div class="a4__arriba">${await logo({ clase: "a4__logo" })}<span class="rotulo">Propuesta comercial</span></div>
         <div class="a4__centro">${isotipo({ clase: "a4__iso" })}<p class="a4__titulo">Cotizar en minutos, no en días</p><p class="chico">Preparada para Quillay Suministros Industriales</p></div>
-        <div class="a4__pie rotulo"><span>Octubre 2026</span><span>Confidencial</span></div></div>`, { nota: "Formato A4 vertical para PDF. Mucho aire; el isotipo como ancla visual." }),
+        <div class="a4__pie rotulo"><span>Septiembre 2026</span><span>Confidencial</span></div></div>`, { nota: "Formato A4 vertical para PDF. Mucho aire; el isotipo como ancla visual." }),
       marco("Tarjeta digital (frente y dorso)", `<div class="tarjetas"><div class="tarjeta tarjeta--frente">${isotipo({ clase: "tarjeta__iso" })}</div>
-        <div class="tarjeta tarjeta--dorso"><div><b>Camila Rojas</b><span>Directora de proyectos</span></div><div class="tarjeta__datos"><span>+56 9 1234 5678</span><span>camila@optimizo.cl</span><span>optimizo.cl</span></div><span class="tarjeta__logo">${await logo()}</span></div></div>`, { nota: "85 × 55 mm. Frente navy con el isotipo; dorso hueso con los datos." }),
+        <div class="tarjeta tarjeta--dorso"><div><b>Martina Fuentes</b><span>Directora de proyectos</span></div><div class="tarjeta__datos"><span>+56 9 1234 5678</span><span>martina@optimizo.cl</span><span>optimizo.cl</span></div><span class="tarjeta__logo">${await logo()}</span></div></div>`, { nota: "85 × 55 mm. Frente navy con el isotipo; dorso hueso con los datos." }),
     ])}`;
   },
 

@@ -1,14 +1,14 @@
 /* v2 de las secciones que quedaban con la composición repetida de la versión 1: contacto, validación, correos,
    firma, íconos de app, usos incorrectos, color y letra para producción, voz, imagen y aplicaciones. */
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=8ed8960";
-import { campo, validar } from "../kit/campos.js?v=8ed8960";
-import { boton, trabajar } from "../kit/controles.js?v=8ed8960";
-import { listo } from "../kit/punto.js?v=8ed8960";
-import { toast, estado } from "../kit/avisos.js?v=8ed8960";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=8ed8960";
-import { isotipo, logo } from "../kit/marca.js?v=8ed8960";
-import { correo, firma } from "../kit/correos.js?v=8ed8960";
-import { etapas, activarEtapas } from "../kit/etapas.js?v=8ed8960";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=5bdbf1b";
+import { campo, validar } from "../kit/campos.js?v=5bdbf1b";
+import { boton, trabajar } from "../kit/controles.js?v=5bdbf1b";
+import { listo } from "../kit/punto.js?v=5bdbf1b";
+import { toast, estado } from "../kit/avisos.js?v=5bdbf1b";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=5bdbf1b";
+import { isotipo, logo } from "../kit/marca.js?v=5bdbf1b";
+import { correo, firma } from "../kit/correos.js?v=5bdbf1b";
+import { etapas, activarEtapas } from "../kit/etapas.js?v=5bdbf1b";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -69,7 +69,7 @@ export const resto2 = {
 
   /* ── Correos: una bandeja de entrada de verdad ── */
   async correos(el) {
-    const tipos = [["bienvenida", "Bienvenida a Optimizo", "Tu diagnóstico empieza el lunes. Esto es lo que viene."], ["reunion", "Reunión agendada", "Jueves 15 de octubre, 11:30 h · videollamada"], ["informe", "Tu informe está listo", "Encontramos 31 horas por semana. Te contamos dónde."]];
+    const tipos = [["bienvenida", "Bienvenida a Optimizo", "Tu diagnóstico empieza el lunes. Esto es lo que viene."], ["reunion", "Reunión agendada", "Lunes 14 de septiembre, 10:30 h · videollamada"], ["informe", "Tu informe está listo", "Encontramos 31 horas por semana. Te contamos dónde."]];
     const logoPNG = urlAsset(`descargas/png/${raiz.dataset.paleta === "naranjo" ? "naranjo" : "teal"}/optimizo-logo-2400.png`);
     const vivo = `<div class="bandeja papel">
       <div class="bandeja__lista" role="tablist" aria-label="Correos">${tipos.map(([k, a, p], i) => `<button type="button" role="tab" class="bandeja__item" aria-selected="${i === 0}" tabindex="${i ? -1 : 0}" data-k="${k}"><span class="bandeja__de">${isotipo({ clase: "bandeja__iso", titulo: "" }).replace('role="img" aria-label=""', 'aria-hidden="true"')}<b>Optimizo</b><span class="rotulo">09:${12 + i * 7}</span></span><b class="bandeja__asunto">${a}</b><span class="chico bandeja__pre">${p}</span></button>`).join("")}</div>
@@ -88,7 +88,7 @@ export const resto2 = {
   async "firma-correo"(el) {
     const datos = { logoURL: urlAsset(`descargas/png/${raiz.dataset.paleta === "naranjo" ? "naranjo" : "teal"}/optimizo-isotipo-1024.png`) };
     const vivo = `<div class="firma2">
-      <form class="firma2__form" data-firma-form>${campo("Nombre", { nombre: "nombre", valor: "Camila Rojas" })}${campo("Cargo", { nombre: "cargo", valor: "Directora de proyectos" })}${campo("Teléfono", { nombre: "telefono", tipo: "telefono", valor: "9 1234 5678" })}${boton("Copiar firma", { attrs: "data-copiar-firma", variante: "acento" })}<p class="chico">Pégala en Gmail (Configuración → Firma) o en Outlook.</p></form>
+      <form class="firma2__form" data-firma-form>${campo("Nombre", { nombre: "nombre", valor: "Martina Fuentes" })}${campo("Cargo", { nombre: "cargo", valor: "Directora de proyectos" })}${campo("Teléfono", { nombre: "telefono", tipo: "telefono", valor: "9 1234 5678" })}${boton("Copiar firma", { attrs: "data-copiar-firma", variante: "acento" })}<p class="chico">Pégala en Gmail (Configuración → Firma) o en Outlook.</p></form>
       <div class="firma2__correo papel"><div class="firma2__cab"><span class="rotulo">Para</span> jorge@quillay.cl<br><span class="rotulo">Asunto</span> Propuesta para cotizar en minutos</div>
         <p>Hola Jorge:</p><p>Te dejo la propuesta que conversamos. La primera etapa toma cinco semanas y en la primera ya ves el embudo con tus clientes.</p><p>Quedo atenta,</p>
         <div class="firma2__firma" data-firma>${firma(datos)}</div></div></div>`;

@@ -1,13 +1,13 @@
 /* Guion v2: arma portada, portadas de capítulo, secciones, navegación lateral, dock, comparador A | B y modo presentación.
    Dos ejes: paleta (A/B) y tema (claro/oscuro). Las secciones se arman al acercarse. */
-import { CAPITULOS, SECCIONES, seccionesDe, capituloDe, numeroDe } from "./plan.js?v=8ed8960";
-import { CONSTRUIDAS, REPINTAR, pendiente, PORTADAS } from "./secciones/index.js?v=8ed8960";
-import { icono, cargarIconos, rellenarIconos } from "./kit/iconos.js?v=8ed8960";
-import { activarControles, prepararSegmentos } from "./kit/controles.js?v=8ed8960";
-import { activarEtapas } from "./kit/etapas.js?v=8ed8960";
-import { activarCampos } from "./kit/campos.js?v=8ed8960";
-import { entrar, abrirEnCirculo, progreso } from "./kit/coreografia.js?v=8ed8960";
-import { isotipo } from "./kit/marca.js?v=8ed8960";
+import { CAPITULOS, SECCIONES, seccionesDe, capituloDe, numeroDe } from "./plan.js?v=5bdbf1b";
+import { CONSTRUIDAS, REPINTAR, pendiente, PORTADAS } from "./secciones/index.js?v=5bdbf1b";
+import { icono, cargarIconos, rellenarIconos } from "./kit/iconos.js?v=5bdbf1b";
+import { activarControles, prepararSegmentos } from "./kit/controles.js?v=5bdbf1b";
+import { activarEtapas } from "./kit/etapas.js?v=5bdbf1b";
+import { activarCampos } from "./kit/campos.js?v=5bdbf1b";
+import { entrar, abrirEnCirculo, progreso } from "./kit/coreografia.js?v=5bdbf1b";
+import { isotipo } from "./kit/marca.js?v=5bdbf1b";
 
 for (const sec of SECCIONES) sec.estado = CONSTRUIDAS[sec.id] ? "listo" : "por-hacer";
 

@@ -1,13 +1,13 @@
 /* Capítulo 3 · Subir archivos y Encuesta, rehechos (plan en docs/PLAN-ARCHIVOS-ENCUESTA.md).
    Las dos piezas usan el isotipo como medidor: el disco se llena con lo que llega (archivos) o con la nota (encuesta),
    y el punto dice el estado: en su nido = todo bien; afuera = falta algo. */
-import { campo } from "../kit/campos.js?v=8ed8960";
-import { boton, trabajar } from "../kit/controles.js?v=8ed8960";
-import { toast } from "../kit/avisos.js?v=8ed8960";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=8ed8960";
-import { DISCO } from "../kit/marca.js?v=8ed8960";
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=8ed8960";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=8ed8960";
+import { campo } from "../kit/campos.js?v=5bdbf1b";
+import { boton, trabajar } from "../kit/controles.js?v=5bdbf1b";
+import { toast } from "../kit/avisos.js?v=5bdbf1b";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=5bdbf1b";
+import { DISCO } from "../kit/marca.js?v=5bdbf1b";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=5bdbf1b";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=5bdbf1b";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const reducido = () => movimientoReducido();

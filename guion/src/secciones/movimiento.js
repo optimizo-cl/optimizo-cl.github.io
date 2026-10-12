@@ -1,9 +1,9 @@
 /* Capítulo 1 · Marca en movimiento (fase 6): la firma en sus siete momentos y la carga. */
-import { marco, rejilla, ficha } from "../kit/guion.js?v=8ed8960";
-import { isotipo } from "../kit/marca.js?v=8ed8960";
-import { carga, cargaMarca, progreso, moverProgreso, listo, cursorPunto } from "../kit/punto.js?v=8ed8960";
-import { flujos } from "../kit/escenas/flujos.js?v=8ed8960";
-import { colorDe } from "../kit/color.js?v=8ed8960";
+import { marco, rejilla, ficha } from "../kit/guion.js?v=5bdbf1b";
+import { isotipo } from "../kit/marca.js?v=5bdbf1b";
+import { carga, cargaMarca, progreso, moverProgreso, listo, cursorPunto } from "../kit/punto.js?v=5bdbf1b";
+import { flujos } from "../kit/escenas/flujos.js?v=5bdbf1b";
+import { colorDe } from "../kit/color.js?v=5bdbf1b";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 let guia = null;
@@ -45,6 +45,6 @@ export const movimiento = {
         marco("Espera larga (más de 4 s)", `<div class="carga-pantalla">${cargaMarca({ tam: 112, larga: true })}<p class="chico">Estamos leyendo 1.240 documentos. Puede tomar un minuto.</p></div>`, { nota: "La órbita se abre y el texto dice qué está pasando y cuánto falta." }),
         marco("Qué usar", `<ul class="lista-punto"><li><b>Menos de 1 s:</b> nada (no mostrar carga).</li><li><b>1–4 s:</b> carga chica en el botón o esqueleto en el contenido.</li><li><b>Más de 4 s:</b> carga de marca + qué está pasando.</li><li><b>Proceso largo:</b> progreso por pasos.</li></ul>`),
       ])}
-      ${ficha({ que: "El punto como indicador de espera. La carga chica hereda el color del texto (anillo) y usa el acento (punto).", importar: 'import { carga, cargaMarca } from "./kit/punto.js?v=8ed8960";', codigo: 'boton.innerHTML = carga({ tam: 16 }) + " Guardando…";\npantalla.innerHTML = cargaMarca({ tam: 112, larga: segundos > 4 });', reglas: ["Una sola carga por pantalla.", "Siempre con role=status y una etiqueta que diga qué se carga.", "Nunca un spinner genérico de terceros."] })}`;
+      ${ficha({ que: "El punto como indicador de espera. La carga chica hereda el color del texto (anillo) y usa el acento (punto).", importar: 'import { carga, cargaMarca } from "./kit/punto.js?v=5bdbf1b";', codigo: 'boton.innerHTML = carga({ tam: 16 }) + " Guardando…";\npantalla.innerHTML = cargaMarca({ tam: 112, larga: segundos > 4 });', reglas: ["Una sola carga por pantalla.", "Siempre con role=status y una etiqueta que diga qué se carga.", "Nunca un spinner genérico de terceros."] })}`;
   },
 };

@@ -1,13 +1,13 @@
 /* Capítulo 6 · Web y marca v2 (ola 8): el sitio nuevo, el video de marca exportable, redes animadas, una presentación
    con transiciones del punto, papelería en 3D y una 404 en la que se devuelve el punto a su nido. */
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=8ed8960";
-import { boton, segmento } from "../kit/controles.js?v=8ed8960";
-import { toast } from "../kit/avisos.js?v=8ed8960";
-import { isotipo, logo } from "../kit/marca.js?v=8ed8960";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=8ed8960";
-import { pelicula } from "../kit/pelicula.js?v=8ed8960";
-import { contar } from "../kit/coreografia.js?v=8ed8960";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=8ed8960";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=5bdbf1b";
+import { boton, segmento } from "../kit/controles.js?v=5bdbf1b";
+import { toast } from "../kit/avisos.js?v=5bdbf1b";
+import { isotipo, logo } from "../kit/marca.js?v=5bdbf1b";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=5bdbf1b";
+import { pelicula } from "../kit/pelicula.js?v=5bdbf1b";
+import { contar } from "../kit/coreografia.js?v=5bdbf1b";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=5bdbf1b";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const raiz = document.documentElement;
@@ -75,11 +75,11 @@ export const web2 = {
   /* ── Presentación: láminas con transiciones del punto ── */
   async presentacion(el) {
     const laminas = [
-      `<div class="pres__portada"><div class="pres__iso">${isoLimpio("firma-escape")}</div><div><p class="pres__ceja">Propuesta · octubre 2026</p><p class="pres__titulo">Cotizar en minutos, no en días</p><p class="pres__sub">Quillay Suministros Industriales</p></div></div>`,
+      `<div class="pres__portada"><div class="pres__iso">${isoLimpio("firma-escape")}</div><div><p class="pres__ceja">Propuesta · septiembre 2026</p><p class="pres__titulo">Cotizar en minutos, no en días</p><p class="pres__sub">Quillay Suministros Industriales</p></div></div>`,
       `<p class="pres__ceja">Lo que encontramos</p><p class="pres__titulo pres__titulo--m">31 horas por semana se van en 6 procesos</p><ul class="pres__lista"><li><b>12 h</b> Cotizaciones a mano</li><li><b>7 h</b> Seguimiento en WhatsApp</li><li><b>6 h</b> Inventario que no calza</li></ul>`,
       `<p class="pres__ceja">El número</p><p class="pres__heroe" data-heroe-n>0 h</p><p class="pres__sub">recuperables por semana, sin contratar a nadie</p>`,
       `<p class="pres__ceja">El camino</p><p class="pres__titulo pres__titulo--m">Primero el CRM. Después, la memoria.</p><div class="pres__escalera">${["Sin CRM", "CRM a medida", "Medula", "Agentes"].map((t, i) => `<span style="--i:${i}" class="${i === 1 ? "hoy" : ""}">${t}</span>`).join("")}</div>`,
-      `<div class="pres__iso-cierre" aria-hidden="true">${isoLimpio("firma-escape")}</div><div class="pres__cierre"><p class="pres__titulo">Todo proceso tiene una salida.</p><p class="pres__sub">camila@optimizo.cl · optimizo.cl</p></div>`,
+      `<div class="pres__iso-cierre" aria-hidden="true">${isoLimpio("firma-escape")}</div><div class="pres__cierre"><p class="pres__titulo">Todo proceso tiene una salida.</p><p class="pres__sub">martina@optimizo.cl · optimizo.cl</p></div>`,
     ];
     const vivo = `<div class="pres" data-pres tabindex="0" role="region" aria-roledescription="presentación" aria-label="Presentación de ejemplo: usa las flechas">
       <div class="pres__pantalla">${laminas.map((l, i) => `<section class="pres__lamina ${i === 0 ? "activa" : ""} ${i === 4 ? "pres__lamina--oscura" : ""}" aria-hidden="${i !== 0}" data-i="${i}">${l}</section>`).join("")}<i class="pres__punto" aria-hidden="true"></i></div>
@@ -115,10 +115,15 @@ export const web2 = {
   /* ── Papelería: la tarjeta de cerámica que gira ── */
   papeleria: (v1) => async (el) => {
     await v1(el);
+    // una sola tarjeta (la que se da vuelta); en su lugar, la A4 se conecta con la propuesta y la presentación
+    const digital = [...el.querySelectorAll(".marco")].find((m) => m.querySelector(".marco__titulo")?.textContent.includes("Tarjeta digital"));
+    digital?.replaceWith(Object.assign(document.createElement("div"), { className: "papeleria2__misma", innerHTML: `<p class="titulo-3">Una propuesta, tres soportes</p>
+      <p class="chico">La A4 es la misma propuesta de Quillay que se lee en pantalla y la misma portada de la presentación: cambia el formato, no la idea.</p>
+      <div class="fila-botones"><a class="boton boton--secundario boton--s" href="#propuesta">Propuesta → 5.08</a><a class="boton boton--secundario boton--s" href="#presentacion">Presentación → 6.04</a></div>` }));
     cuerpo(el).insertAdjacentHTML("afterbegin", `<div class="tarjeta3d-banco"><div class="tarjeta3d" data-tarjeta tabindex="0" role="button" aria-label="Tarjeta de presentación: presiona para darla vuelta" aria-pressed="false">
         <div class="tarjeta3d__cara tarjeta3d__frente ceramica ceramica--navy">${isoLimpio("tarjeta3d__iso")}<span class="tarjeta3d__marca" data-logo-t></span></div>
-        <div class="tarjeta3d__cara tarjeta3d__dorso ceramica ceramica--hueso"><div><b>Camila Rojas</b><span>Directora de proyectos</span></div><div class="tarjeta3d__datos"><span>+56 9 1234 5678</span><span>camila@optimizo.cl</span><span>optimizo.cl</span></div><i class="tarjeta3d__punto" aria-hidden="true"></i></div></div>
-      <p class="chico">Mueve el mouse sobre la tarjeta: la luz la recorre. Presiona para darla vuelta. Frente en cerámica navy con el isotipo en relieve; dorso hueso con el punto como único color.</p></div><p class="titulo-3">Piezas impresas y digitales</p>`);
+        <div class="tarjeta3d__cara tarjeta3d__dorso ceramica ceramica--hueso"><div><b>Martina Fuentes</b><span>Directora de proyectos</span></div><div class="tarjeta3d__datos"><span>+56 9 1234 5678</span><span>martina@optimizo.cl</span><span>optimizo.cl</span></div><i class="tarjeta3d__punto" aria-hidden="true"></i></div></div>
+      <p class="chico">Mueve el mouse sobre la tarjeta: la luz la recorre. Presiona para darla vuelta. Frente en cerámica navy con el isotipo en relieve; dorso hueso con el punto como único color.</p></div><p class="titulo-3">Propuesta impresa</p>`);
     const t = el.querySelector("[data-tarjeta]"); t.querySelector("[data-logo-t]").innerHTML = await logo({ clase: "" });
     t.addEventListener("pointermove", (e) => { if (movimientoReducido()) return; const r = t.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5; t.style.setProperty("--rx", (-y * 14).toFixed(2) + "deg"); t.style.setProperty("--ry", (x * 18).toFixed(2) + "deg"); t.style.setProperty("--lx", (x + 0.5) * 100 + "%"); t.style.setProperty("--ly", (y + 0.5) * 100 + "%"); });
     t.addEventListener("pointerleave", () => { t.style.setProperty("--rx", "0deg"); t.style.setProperty("--ry", "0deg"); });

@@ -1,25 +1,20 @@
 /* Capítulo 5 · Producto Optimizo (fase 10): las piezas que solo Optimizo tiene. Datos de Quillay. */
-import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js?v=8ed8960";
-import { boton } from "../kit/controles.js?v=8ed8960";
-import { insignia, toast } from "../kit/avisos.js?v=8ed8960";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=8ed8960";
-import { isotipo, logo } from "../kit/marca.js?v=8ed8960";
-import { progreso } from "../kit/punto.js?v=8ed8960";
-import { flujos } from "../kit/escenas/flujos.js?v=8ed8960";
-import { heroe } from "../patrones/graficas.js?v=8ed8960";
-import { EMPRESA, PROCESOS, ESTADOS, PERSONAS, HORAS_PERDIDAS, clp } from "../demo/quillay.js?v=8ed8960";
+import { ESCALERA } from "../kit/escalera.js?v=5bdbf1b";
+import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js?v=5bdbf1b";
+import { boton } from "../kit/controles.js?v=5bdbf1b";
+import { insignia, toast } from "../kit/avisos.js?v=5bdbf1b";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=5bdbf1b";
+import { isotipo, logo } from "../kit/marca.js?v=5bdbf1b";
+import { progreso } from "../kit/punto.js?v=5bdbf1b";
+import { flujos } from "../kit/escenas/flujos.js?v=5bdbf1b";
+import { heroe } from "../patrones/graficas.js?v=5bdbf1b";
+import { EMPRESA, PROCESOS, ESTADOS, PERSONAS, HORAS_PERDIDAS, clp } from "../demo/quillay.js?v=5bdbf1b";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const persona = (id) => PERSONAS.find((p) => p.id === id)?.nombre || "Sin responsable";
 let flujoVivo = null;
 
-export const PASOS_MADUREZ = [
-  ["Sin CRM", "Ventas en planillas y WhatsApp. Nadie ve el total.", "file-xls"],
-  ["CRM a medida", "Clientes, cotizaciones y ventas en un solo lugar.", "kanban"],
-  ["Medula", "La empresa recuerda: correos, reuniones y acuerdos, buscables.", "brain"],
-  ["Agentes", "Tareas repetitivas que ya no hace una persona.", "robot"],
-  ["Departamentos", "Un equipo completo (por ejemplo, marketing) trabajando con el tuyo.", "users-three"],
-];
+export const PASOS_MADUREZ = ESCALERA.map((p) => [p.etapa, p.etapaD, p.icoEtapa]); // la misma escalera de kit/escalera.js
 /** Escalera de madurez: UNA pieza para el guion y el sitio. hoy = escalón actual (lleva el punto); el siguiente se marca. */
 export function escaleraHTML(pasos, { hoy = 0, etiqueta = "La empresa está acá" } = {}) {
   return `<div class="escalera mate" style="--n:${pasos.length}">${pasos.map(([t, d, ic], i) => `

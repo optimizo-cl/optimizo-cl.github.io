@@ -2,8 +2,8 @@
    según el avance y el punto de la marca está en su nido. Pendiente = contorno punteado y el nido vacío.
    Al avanzar, el disco actual termina de llenarse, la línea recta hasta la siguiente se completa y el punto salta
    en un arco limpio al nido de la siguiente etapa, que empieza a llenarse. Reemplaza al progreso por pasos y a la «pista». */
-import { DISCO } from "./marca.js?v=8ed8960";
-import { movimientoReducido } from "./escenas/vigia.js?v=8ed8960";
+import { DISCO } from "./marca.js?v=5bdbf1b";
+import { movimientoReducido } from "./escenas/vigia.js?v=5bdbf1b";
 
 const NIDO = { x: 25.863281, y: 22.753906, r: 17.289 };
 let n = 0;

@@ -1,7 +1,7 @@
 /* Capítulo 7 · Manual de marca (fase 12): el brandbook sale del sistema real, no de láminas aparte. */
-import { marco, rejilla } from "../kit/guion.js?v=8ed8960";
-import { isotipo, logo, LADO } from "../kit/marca.js?v=8ed8960";
-import { icono } from "../kit/iconos.js?v=8ed8960";
+import { marco, rejilla } from "../kit/guion.js?v=5bdbf1b";
+import { isotipo, logo, LADO } from "../kit/marca.js?v=5bdbf1b";
+import { icono } from "../kit/iconos.js?v=5bdbf1b";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const raiz = document.documentElement;

@@ -1,13 +1,13 @@
 /* Capítulo 2 · Kit v2 (ola 4): cerámica que se hunde, controles con el punto, campos que validan en vivo,
    cargas que dibujan, avisos de papel, estados por forma, flotantes que nacen en círculo y diálogos que se expanden. */
-import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=8ed8960";
-import { boton, botonIcono, botonMantener, trabajar, segmento, interruptor, casilla, radio, deslizador, perilla } from "../kit/controles.js?v=8ed8960";
-import { campo, validar } from "../kit/campos.js?v=8ed8960";
-import { toast, banner, alerta, insignia, etiqueta, contador, estado, fichaCeramica } from "../kit/avisos.js?v=8ed8960";
-import { abrirMenu, abrirPopover, abrirDialogo, confirmarDestructivo, confirmarManteniendo, cerrarFlotante } from "../kit/popups.js?v=8ed8960";
-import { carga, cargaSalto, cargaLlenado, cargaFases, fijarFase, progreso, moverProgreso } from "../kit/punto.js?v=8ed8960";
-import { isotipo } from "../kit/marca.js?v=8ed8960";
-import { icono } from "../kit/iconos.js?v=8ed8960";
+import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=5bdbf1b";
+import { boton, botonIcono, botonMantener, trabajar, segmento, interruptor, casilla, radio, deslizador, perilla } from "../kit/controles.js?v=5bdbf1b";
+import { campo, validar } from "../kit/campos.js?v=5bdbf1b";
+import { toast, banner, alerta, insignia, etiqueta, contador, estado, fichaCeramica } from "../kit/avisos.js?v=5bdbf1b";
+import { abrirMenu, abrirPopover, abrirDialogo, confirmarDestructivo, confirmarManteniendo, cerrarFlotante } from "../kit/popups.js?v=5bdbf1b";
+import { carga, cargaSalto, cargaLlenado, cargaFases, fijarFase, progreso, moverProgreso } from "../kit/punto.js?v=5bdbf1b";
+import { isotipo } from "../kit/marca.js?v=5bdbf1b";
+import { icono } from "../kit/iconos.js?v=5bdbf1b";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -101,10 +101,8 @@ export const kit2 = {
         <figure class="carga-ficha carga-ficha--ancha"><div class="carga-ficha__escena"><div class="pila" style="width:100%">${progreso(["Datos", "Procesos", "Sistemas", "Resumen"], 1)}<div class="fila-botones">${boton("Atrás", { variante: "secundario", tam: "s", attrs: 'data-paso="-1"' })}${boton("Siguiente", { tam: "s", attrs: 'data-paso="1"' })}</div></div></div><figcaption><b>Etapas</b><span class="chico">Cada etapa es un isotipo que se llena; el punto salta de nido en nido.</span></figcaption></figure>
         <figure class="carga-ficha carga-ficha--ancha"><div class="carga-ficha__escena"><div class="esq-tarjeta"><div class="esqueleto" style="width:48px;height:48px;border-radius:50%"></div><div style="display:grid;gap:9px;flex:1"><div class="esqueleto" style="height:14px;width:58%"></div><div class="esqueleto" style="height:11px;width:92%"></div><div class="esqueleto" style="height:11px;width:74%"></div></div></div></div><figcaption><b>Esqueleto de grano</b><span class="chico">El barrido es grano que se desplaza, no un brillo plano.</span></figcaption></figure>
       </div>
-      <div class="cargas2__estados">
-        <div class="estado-tarjeta">${isotipo({ clase: "m-iso m-iso--sin-punto estado-tarjeta__iso" })}<b>Aún no hay procesos</b><p class="chico">Documenta el primero y el disco se completa.</p>${boton("Documentar un proceso", { tam: "s", ico: "plus" })}</div>
-        <div class="estado-tarjeta"><span class="estado-tarjeta__ico estado-tarjeta__ico--error">${icono("warning-circle", { tam: 24 })}</span><b>No pudimos traer las cotizaciones</b><p class="chico">El CRM no respondió a tiempo. Tus datos están a salvo.</p>${boton("Reintentar", { variante: "secundario", tam: "s", ico: "arrow-clockwise" })}</div>
-        <div class="estado-tarjeta estado-tarjeta--ancha">${banner("Sin conexión", "Los cambios se guardan en este equipo y se envían al volver.", { tono: "alerta", cerrable: false })}</div>
+      <div class="curvas-firma curvas-firma--enlace"><p class="chico">Cuando no hay nada que mostrar o algo falla, la pantalla no queda en blanco: cada vista tiene su vacío y su error, hechos con poses del isotipo.</p>
+        <a class="boton boton--secundario boton--s" href="#vacios">Vacíos y errores → 4.05</a></div>
       </div></div>`;
     const uso = usoDe(["Una sola carga por pantalla, siempre con <code>role=status</code> y una etiqueta que diga qué se carga.", "Ningún estado deja la pantalla en blanco: cada vista define su carga, su vacío y su error.", "Los errores no culpan y dicen qué hacer; el vacío invita a empezar."],
       'boton.innerHTML = carga({ tam: 16 }) + " Guardando…";\npantalla.innerHTML = cargaLlenado({ etiqueta: "Preparando tu diagnóstico" });\nespera.innerHTML = cargaFases({ fase: 1, total: 3 });\nfijarFase(espera.firstElementChild, 2);');

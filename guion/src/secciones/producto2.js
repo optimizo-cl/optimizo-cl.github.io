@@ -1,18 +1,18 @@
-/* Capítulo 5 · Producto v2 (ola 7): mapa de procesos que se ordena con el scroll (en Órbitas), escalera con el punto
-   que sube, implementación como pista de estaciones, informe y propuesta como documentos vivos con portada de cerámica. */
-import { orden } from "../kit/orden.js?v=8ed8960";
-import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=8ed8960";
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=8ed8960";
-import { boton } from "../kit/controles.js?v=8ed8960";
-import { toast, estado } from "../kit/avisos.js?v=8ed8960";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=8ed8960";
-import { isotipo, logo } from "../kit/marca.js?v=8ed8960";
-import { ejemplo } from "../kit/guion.js?v=8ed8960";
-import { progreso as alAvanzar, contar } from "../kit/coreografia.js?v=8ed8960";
-import { barrasTrama } from "../patrones/graficas2.js?v=8ed8960";
-import { EMPRESA, PROCESOS, PERSONAS, HORAS_PERDIDAS, clp } from "../demo/quillay.js?v=8ed8960";
-import { PASOS_MADUREZ } from "./producto.js?v=8ed8960";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=8ed8960";
+/* Capítulo 5 · Producto v2 (ola 7): mapa de procesos que se ordena con el scroll (tareas rectas en columnas), la escalera
+   única con el punto, implementación con etapas-isotipo, informe y propuesta como documentos vivos con portada de cerámica. */
+import { orden } from "../kit/orden.js?v=5bdbf1b";
+import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=5bdbf1b";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=5bdbf1b";
+import { boton } from "../kit/controles.js?v=5bdbf1b";
+import { toast, estado } from "../kit/avisos.js?v=5bdbf1b";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=5bdbf1b";
+import { isotipo, logo } from "../kit/marca.js?v=5bdbf1b";
+import { ejemplo } from "../kit/guion.js?v=5bdbf1b";
+import { progreso as alAvanzar, contar } from "../kit/coreografia.js?v=5bdbf1b";
+import { barrasTrama } from "../patrones/graficas2.js?v=5bdbf1b";
+import { EMPRESA, PROCESOS, PERSONAS, HORAS_PERDIDAS, HISTORIA, clp } from "../demo/quillay.js?v=5bdbf1b";
+import { ESCALERA, escaleraHTML, moverPunto } from "../kit/escalera.js?v=5bdbf1b";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=5bdbf1b";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const persona = (id) => PERSONAS.find((p) => p.id === id)?.nombre || "Sin responsable";
@@ -51,21 +51,20 @@ export const producto2 = {
 
   /* ── Escalera de madurez: el punto sube al escalón donde está la empresa ── */
   async escalera(el) {
-    const vivo = `<div class="escalera2" data-escalera2>
-      <div class="escalera2__pasos">${PASOS_MADUREZ.map(([t, d, ic], i) => `<button type="button" class="escalon2" style="--i:${i}" data-i="${i}" aria-pressed="${i === 1}"><span class="escalon2__bloque ceramica"><span class="escalon2__n">${i + 1}</span>${icono(ic, { tam: 22 })}</span><b>${t}</b><span class="chico">${d}</span></button>`).join("")}
-        <i class="escalera2__punto" aria-hidden="true"></i></div>
+    const vivo = `<div class="escalera2" data-escalera2>${escaleraHTML({ modo: "madurez" })}
       <p class="escalera2__estado" aria-live="polite" data-estado-e></p></div>`;
-    cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["Una sola pieza para el guion, el sitio y las propuestas.", "El punto marca dónde está la empresa; el siguiente escalón se ilumina.", "Se elige haciendo clic en un escalón."]) });
+    cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["Es la misma escalera del cotizador y del sitio: cada etapa de la empresa es el servicio que la lleva ahí.", "El punto marca dónde está la empresa y salta en arco cuando cambia; el siguiente escalón se marca.", "Se elige haciendo clic en un escalón."], 'escaleraHTML({ modo: "madurez" }); moverPunto(pasos, i);') });
     activarPiezas(el); await rellenarIconos();
-    const raiz = el.querySelector("[data-escalera2]"), pasos = [...raiz.querySelectorAll(".escalon2")], punto = raiz.querySelector(".escalera2__punto"), est = raiz.querySelector("[data-estado-e]");
+    const raiz = el.querySelector("[data-escalera2]"), caja = raiz.querySelector(".escalera2__pasos"), pasos = [...raiz.querySelectorAll(".escalon2")], est = raiz.querySelector("[data-estado-e]");
+    let actual = 1;
     const ir = (i) => {
+      actual = i;
       pasos.forEach((b, k) => { b.setAttribute("aria-pressed", k === i); b.classList.toggle("hecho", k < i); b.classList.toggle("sigue", k === i + 1); });
-      const b = pasos[i].querySelector(".escalon2__bloque"), base = raiz.querySelector(".escalera2__pasos").getBoundingClientRect(), r = b.getBoundingClientRect();
-      punto.style.left = r.left - base.left + r.width / 2 + "px"; punto.style.top = r.top - base.top - 10 + "px";
-      est.textContent = `${EMPRESA.corto} está en «${PASOS_MADUREZ[i][0]}». Siguiente paso: ${PASOS_MADUREZ[i + 1]?.[0] || "seguir creciendo"}.`;
+      moverPunto(caja, i);
+      est.textContent = `${EMPRESA.corto} está en «${ESCALERA[i].etapa}». Siguiente paso: ${ESCALERA[i + 1]?.etapa || "seguir creciendo"}.`;
     };
     pasos.forEach((b) => b.addEventListener("click", () => ir(+b.dataset.i)));
-    requestAnimationFrame(() => ir(1)); addEventListener("resize", () => ir(+raiz.querySelector('[aria-pressed="true"]').dataset.i));
+    requestAnimationFrame(() => ir(1)); addEventListener("resize", () => ir(actual));
   },
 
   /* ── Implementación: una pista con estaciones ── */
@@ -73,15 +72,15 @@ export const producto2 = {
     const tareas = [["Plantilla de cotización", "jm", true], ["Importar 1.240 clientes", "vs", true], ["Etapas del embudo", "jm", false], ["Capacitar al equipo comercial", "cr", false], ["Conectar Bsale", "pa", false]];
     const vivo = `<div class="impl2 papel">
       <div class="impl2__cabeza"><div><p class="ceja">${EMPRESA.nombre}</p><p class="titulo-2">Implementación</p></div>${estado("En curso · a tiempo", { forma: "medio", tono: "exito" })}</div>
-      ${etapas([{ nombre: "Diagnóstico", detalle: "14 – 25 sep" }, { nombre: "CRM a medida", detalle: "28 sep – 30 oct" }, { nombre: "Medula", detalle: "noviembre" }, { nombre: "Agentes", detalle: "diciembre" }], { actual: 1, avance: 0.6, etiqueta: "Etapas de la implementación" })}<div class="impl2__mandos">${boton("Retroceder", { variante: "texto", tam: "s", ico: "arrow-left", attrs: "data-etapa=-1" })}${boton("Simular avance", { variante: "secundario", tam: "s", icoFin: "arrow-right", attrs: "data-etapa=1" })}</div>
+      ${etapas([{ nombre: "Diagnóstico", detalle: HISTORIA.diagnostico }, { nombre: "CRM a medida", detalle: HISTORIA.crm }, { nombre: "Medula", detalle: HISTORIA.medula }, { nombre: "Agentes", detalle: HISTORIA.agentes }], { actual: 1, avance: HISTORIA.crmAvance, etiqueta: "Etapas de la implementación" })}<div class="impl2__mandos">${boton("Retroceder", { variante: "texto", tam: "s", ico: "arrow-left", attrs: "data-etapa=-1" })}${boton("Simular avance", { variante: "secundario", tam: "s", icoFin: "arrow-right", attrs: "data-etapa=1" })}</div>
       <div class="impl2__dos">
         <div><p class="titulo-3">Tareas de esta etapa</p><ul class="tareas2">${tareas.map(([t, p, ok]) => `<li class="${ok ? "hecha" : ""}">${estado(t, { forma: ok ? "lleno" : "vacio", tono: ok ? "exito" : "neutro" })}<span class="rotulo">${persona(p)}</span></li>`).join("")}</ul></div>
-        <div><p class="titulo-3">Próximos hitos</p><ol class="hitos2"><li><b>16 oct</b><span>Embudo de ventas listo para usar</span></li><li><b>23 oct</b><span>Capacitación del equipo comercial (2 h)</span></li><li><b>30 oct</b><span>CRM en marcha · cierre de etapa</span></li></ol></div>
+        <div><p class="titulo-3">Próximos hitos</p><ol class="hitos2">${HISTORIA.hitos.map(([f, t]) => `<li><b>${f}</b><span>${t}</span></li>`).join("")}</ol></div>
       </div></div><div class="nav-pie">${ejemplo()}<p class="chico">El cliente ve lo mismo que el equipo: etapa, avance, quién hace qué y qué viene.</p></div>`;
     cuerpo(el).innerHTML = pieza({ vivo });
     activarPiezas(el);
     activarEtapas(el);
-    const et = el.querySelector("[data-etapas]"), avances = [1, 0.6, 0.3, 0.15];
+    const et = el.querySelector("[data-etapas]"), avances = [1, HISTORIA.crmAvance, 0.3, 0.15];
     el.querySelectorAll("[data-etapa]").forEach((b) => b.addEventListener("click", () => { const i = Math.max(0, Math.min(4, +et.dataset.actual + +b.dataset.etapa)); moverEtapa(et, i, avances[i] ?? 1); }));
   },
 
@@ -90,7 +89,7 @@ export const producto2 = {
     const hallazgos = [["Cotizaciones a mano", 12, "alto", "bajo", "Plantilla en el CRM con precios vigentes"], ["Seguimiento en WhatsApp", 7, "alto", "medio", "Embudo con recordatorios al vendedor"], ["Inventario que no calza", 6, "medio", "medio", "Conectar Bsale y conteo cíclico"], ["Cobranza sin dueño", 2, "medio", "bajo", "Responsable y aviso de vencimiento"], ["Conocimiento en 3 personas", 0, "alto", "alto", "Memoria de la empresa (Medula)"]];
     const pos = { bajo: 0.2, medio: 0.5, alto: 0.82 };
     const vivo = `<article class="doc2">
-      ${await portadaDoc("Informe de diagnóstico", "Dónde se va el tiempo", "octubre 2026")}
+      ${await portadaDoc("Informe de diagnóstico", "Dónde se va el tiempo", HISTORIA.informe)}
       <div class="doc2__cuerpo papel">
         <div class="doc2__resumen"><div class="doc2__heroe"><span class="rotulo">Horas recuperables por semana</span><b data-h>0 h</b><span class="chico">en 6 procesos, sin contratar a nadie</span></div>
           <p class="bajada">El mayor costo de ${EMPRESA.corto} no está en lo que vende, sino en cómo cotiza y hace seguimiento: <b>19 de las ${HORAS_PERDIDAS} horas</b> se van ahí.</p></div>
@@ -111,10 +110,10 @@ export const producto2 = {
 
   /* ── Propuesta: documento vivo ── */
   async propuesta(el) {
-    const lineas = [["Diagnóstico de procesos", "2 semanas", 1_800_000], ["CRM a medida (ventas y cotizaciones)", "5 semanas", 6_400_000], ["Integración con Bsale", "1 semana", 1_200_000], ["Capacitación del equipo", "2 sesiones", 400_000]];
+    const lineas = [["Diseño del embudo y la cotización", "1 semana", 1_200_000], ["CRM a medida (ventas y cotizaciones)", "3 semanas", 6_400_000], ["Integración con Bsale", "1 semana", 1_200_000], ["Capacitación del equipo", "2 sesiones", 400_000]];
     const total = lineas.reduce((s, l) => s + l[2], 0);
     const vivo = `<article class="doc2">
-      ${await portadaDoc("Propuesta", "Cotizar en minutos, no en días", "válida hasta el 31 oct 2026")}
+      ${await portadaDoc("Propuesta", "Cotizar en minutos, no en días", `${HISTORIA.propuesta.fecha} · válida hasta el ${HISTORIA.propuesta.valida}`)}
       <div class="doc2__cuerpo papel">
         <p class="bajada">Primera etapa: dejar las cotizaciones y el seguimiento comercial funcionando en un CRM hecho para cómo trabaja ${EMPRESA.corto}.</p>
         ${etapas(lineas.map(([n, d]) => ({ nombre: n.split(" (")[0], detalle: d })), { actual: 0, avance: 0, porcentaje: false, etiqueta: "Etapas de la propuesta" })}

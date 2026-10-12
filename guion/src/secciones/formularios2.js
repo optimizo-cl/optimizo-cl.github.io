@@ -1,15 +1,16 @@
 /* Capítulo 3 · Formularios v2 (ola 5): pedir datos como una conversación. Mientras respondes, se dibuja tu empresa;
-   la escalera se ilumina; la agenda muestra la disponibilidad como puntos; los archivos caen al disco; la NPS es una órbita. */
-import { campo, validar } from "../kit/campos.js?v=8ed8960";
-import { boton, trabajar } from "../kit/controles.js?v=8ed8960";
-import { listo } from "../kit/punto.js?v=8ed8960";
-import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=8ed8960";
-import { toast } from "../kit/avisos.js?v=8ed8960";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=8ed8960";
-import { isotipo } from "../kit/marca.js?v=8ed8960";
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=8ed8960";
-import { contar } from "../kit/coreografia.js?v=8ed8960";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=8ed8960";
+   la escalera única se elige peldaño a peldaño; la agenda muestra la disponibilidad como puntos; archivos y encuesta usan el isotipo como medidor. */
+import { campo, validar } from "../kit/campos.js?v=5bdbf1b";
+import { boton, trabajar } from "../kit/controles.js?v=5bdbf1b";
+import { listo } from "../kit/punto.js?v=5bdbf1b";
+import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=5bdbf1b";
+import { toast } from "../kit/avisos.js?v=5bdbf1b";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=5bdbf1b";
+import { isotipo } from "../kit/marca.js?v=5bdbf1b";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=5bdbf1b";
+import { contar } from "../kit/coreografia.js?v=5bdbf1b";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=5bdbf1b";
+import { ESCALERA, escaleraHTML, moverPunto } from "../kit/escalera.js?v=5bdbf1b";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -87,14 +88,7 @@ function mapaEmpresa(svg) {
   };
 }
 
-/* ═════════ Escalera de madurez ═════════ */
-const SERVICIOS = [
-  ["diagnostico", "Diagnóstico", "Medimos dónde se va el tiempo.", 1, [2, 4], "target"],
-  ["memoria", "Memoria de la empresa", "Todo lo que sabe tu equipo, en un lugar (Medula).", 2, [4, 8], "brain"],
-  ["crm", "CRM a medida", "Clientes, cotizaciones y seguimiento juntos.", 3, [6, 10], "users-three"],
-  ["automatizaciones", "Automatizaciones", "Lo repetido se hace solo.", 4, [5, 9], "lightning"],
-  ["agentes", "Equipo de agentes", "Agentes que atienden, ordenan y reportan.", 5, [8, 14], "robot"],
-];
+/* La escalera es la única de Optimizo (kit/escalera.js): cada peldaño es un servicio. */
 
 export const formularios2 = {
   async diagnostico(el) {
@@ -166,63 +160,40 @@ export const formularios2 = {
     });
   },
 
-  /* ── Cotizador: la escalera de madurez se ilumina ── */
+  /* ── Cotizador: la misma escalera de Optimizo; se eligen los peldaños ── */
   async cotizacion(el) {
     // cada peldaño es un servicio: solo se encienden los elegidos; los que faltan abajo se marcan como «conviene antes»
-    const corto = { diagnostico: "Diagnóstico", memoria: "Memoria", crm: "CRM", automatizaciones: "Automatizar", agentes: "Agentes" };
     const vivo = `<div class="cotizador" data-cotizador>
-      <div class="cotizador__servicios"><p class="rotulo">Elige lo que te interesa</p>
-        ${SERVICIOS.map(([k, n, d, p, , ico]) => `<button type="button" class="servicio ceramica" aria-pressed="false" data-servicio="${k}"><span class="servicio__ico">${icono(ico, { tam: 22 })}</span><span class="servicio__texto"><b>${n}</b><span class="chico">${d}</span></span><i class="servicio__check" aria-hidden="true"></i></button>`).join("")}</div>
-      <div class="cotizador__escalera">
-        <svg class="escalera" viewBox="0 -24 520 354" role="group" aria-label="Escalera: cada peldaño es un servicio; haz clic para elegirlo" data-escalera>
-          ${SERVICIOS.map(([k], i) => { const x = 20 + i * 98, h = 50 + i * 48, y = 290 - h; return `<g class="peldano" data-p="${i + 1}" data-k="${k}" tabindex="0" role="button" aria-pressed="false" aria-label="${corto[k]}"><path class="peldano__cara" d="M${x} ${y} h90 v${h} h-90 z"/><path class="peldano__tapa" d="M${x} ${y} l14 -14 h90 l-14 14 z"/><path class="peldano__lado" d="M${x + 90} ${y} l14 -14 v${h} l-14 14 z"/><text x="${x + 45}" y="314" text-anchor="middle">${corto[k]}</text><text class="peldano__n" x="${x + 12}" y="${y + 24}">${i + 1}</text><text class="peldano__falta" x="${x + 45}" y="${y + h / 2 + 9}" text-anchor="middle">+</text></g>`; }).join("")}
-          <circle class="escalera__punto" r="10" cx="-30" cy="270"/>
-        </svg>
+      <div class="cotizador__escalera escalera2"><p class="rotulo">Elige uno o más peldaños</p>${escaleraHTML({ modo: "servicios" })}</div>
+      <div class="cotizador__pie">
         <div class="cotizador__camino" aria-live="polite" data-camino><p class="chico">Elige uno o más servicios: la escalera muestra hasta dónde llegas y qué conviene tener antes.</p></div>
         <div class="cotizador__estima"><div><span class="rotulo">Horas por semana recuperables</span><b data-estima-h>—</b></div><div><span class="rotulo">Llegas a</span><b data-estima-p>—</b></div><div><span class="rotulo">Plazo</span><b data-estima-s>—</b></div></div>
-        <p class="chico">Estimaciones de ejemplo; la propuesta real sale del diagnóstico. Sin precios inventados.</p>
-        ${boton("Pedir propuesta", { variante: "acento", icoFin: "arrow-right", attrs: "data-pedir disabled" })}
+        <div class="cotizador__pedir">${boton("Pedir propuesta", { variante: "acento", icoFin: "arrow-right", attrs: "data-pedir disabled" })}<p class="chico">Estimaciones de ejemplo; la propuesta real sale del diagnóstico. Sin precios inventados.</p></div>
       </div></div>`;
-    cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["Cada peldaño es un servicio: solo se encienden los que eliges.", "Si eliges uno alto sin los de abajo, esos quedan punteados como «conviene antes», con la opción de sumarlos. No se encienden solos.", "El punto de la marca sube al peldaño más alto que elegiste.", "Se puede elegir en la lista o haciendo clic en la escalera. Nada de precios inventados."], "cotizador(el, { servicios, alPedir });") });
+    cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["Es la misma escalera de la sección Escalera de madurez: cada peldaño es un servicio.", "Solo se encienden los que eliges. Si eliges uno alto sin los de abajo, esos quedan punteados como «conviene antes», con la opción de sumarlos.", "El punto de la marca salta al peldaño más alto que elegiste.", "Nada de precios inventados: horas y plazos de ejemplo."], 'escaleraHTML({ modo: "servicios" });') });
     activarPiezas(el); await rellenarIconos();
-    const raiz = el.querySelector("[data-cotizador]"), punto = raiz.querySelector(".escalera__punto"), camino = raiz.querySelector("[data-camino]");
-    let pos = { x: -30, y: 270 }, raf = 0;
-    const ponerPunto = (p) => {
-      const meta = p ? { x: 20 + (p - 1) * 98 + 52, y: 290 - (50 + (p - 1) * 48) - 26 } : { x: -30, y: 270 };
-      cancelAnimationFrame(raf);
-      if (reducido()) { pos = meta; punto.setAttribute("cx", meta.x); punto.setAttribute("cy", meta.y); return; }
-      const de = { ...pos }, t0 = performance.now(), dur = 900, alto = 30 + Math.abs(meta.x - de.x) * 0.12;
-      const paso = (ahora) => { const q = Math.min(1, (ahora - t0) / dur), e = q < 0.5 ? 4 * q * q * q : 1 - Math.pow(-2 * q + 2, 3) / 2;
-        pos = { x: de.x + (meta.x - de.x) * e, y: de.y + (meta.y - de.y) * e - alto * 4 * e * (1 - e) };
-        punto.setAttribute("cx", pos.x.toFixed(1)); punto.setAttribute("cy", pos.y.toFixed(1)); if (q < 1) raf = requestAnimationFrame(paso); };
-      raf = requestAnimationFrame(paso);
-    };
-    const elegido = (k) => raiz.querySelector(`[data-servicio="${k}"]`).getAttribute("aria-pressed") === "true";
-    const poner = (k, si) => { raiz.querySelector(`[data-servicio="${k}"]`).setAttribute("aria-pressed", si); recalcular(); };
+    const raiz = el.querySelector("[data-cotizador]"), caja = raiz.querySelector(".escalera2__pasos"), camino = raiz.querySelector("[data-camino]");
+    const pasos = [...raiz.querySelectorAll(".escalon2")];
+    const elegido = (k) => raiz.querySelector(`.escalon2[data-k="${k}"]`).getAttribute("aria-pressed") === "true";
     const recalcular = () => {
-      const elegidos = SERVICIOS.filter(([k]) => elegido(k)), max = Math.max(0, ...elegidos.map((s) => s[3]));
-      const faltan = SERVICIOS.filter(([k, , , p]) => p < max && !elegido(k));
-      raiz.querySelectorAll(".peldano").forEach((g) => {
-        const si = elegido(g.dataset.k), falta = !si && +g.dataset.p < max;
-        g.classList.toggle("elegido", si); g.classList.toggle("falta", falta); g.setAttribute("aria-pressed", si);
-      });
-      ponerPunto(max);
-      const h0 = elegidos.reduce((a, s) => a + s[4][0], 0), h1 = elegidos.reduce((a, s) => a + s[4][1], 0);
+      const elegidos = ESCALERA.filter((p) => elegido(p.k)), max = Math.max(0, ...elegidos.map((p) => ESCALERA.indexOf(p) + 1));
+      const faltan = ESCALERA.filter((p, i) => i + 1 < max && !elegido(p.k));
+      pasos.forEach((b, i) => { const si = elegido(b.dataset.k); b.classList.toggle("elegido", si); b.classList.toggle("falta", !si && i + 1 < max); });
+      moverPunto(caja, max - 1);
+      const h0 = elegidos.reduce((a, p) => a + p.horas[0], 0), h1 = elegidos.reduce((a, p) => a + p.horas[1], 0);
       raiz.querySelector("[data-estima-h]").textContent = elegidos.length ? `${h0}–${h1} h` : "—";
-      raiz.querySelector("[data-estima-p]").textContent = max ? SERVICIOS[max - 1][1] : "—";
+      raiz.querySelector("[data-estima-p]").textContent = max ? ESCALERA[max - 1].servicio : "—";
       raiz.querySelector("[data-estima-s]").textContent = elegidos.length ? `${2 + elegidos.length}–${4 + elegidos.length * 2} semanas` : "—";
       raiz.querySelector("[data-pedir]").disabled = !elegidos.length;
+      const nombre = max ? ESCALERA[max - 1].servicio : "";
       camino.innerHTML = !elegidos.length ? `<p class="chico">Elige uno o más servicios: la escalera muestra hasta dónde llegas y qué conviene tener antes.</p>`
-        : faltan.length ? `<p class="chico">Para que <b>${SERVICIOS[max - 1][1]}</b> rinda, conviene tener antes: ${faltan.map((f) => `<b>${f[1]}</b>`).join(", ")}.</p>${boton(`Sumar ${faltan.length === 1 ? "ese paso" : "esos pasos"}`, { variante: "secundario", tam: "s", ico: "plus", attrs: "data-sumar" })}`
-        : `<p class="chico">Camino completo hasta <b>${SERVICIOS[max - 1][1]}</b>: cada paso se apoya en el anterior.</p>`;
+        : faltan.length ? `<p class="chico">Para que <b>${nombre}</b> rinda, conviene tener antes: ${faltan.map((f) => `<b>${f.servicio}</b>`).join(", ")}.</p>${boton(`Sumar ${faltan.length === 1 ? "ese paso" : "esos pasos"}`, { variante: "secundario", tam: "s", ico: "plus", attrs: "data-sumar" })}`
+        : `<p class="chico">Camino completo hasta <b>${nombre}</b>: cada paso se apoya en el anterior.</p>`;
       rellenarIconos();
-      camino.querySelector("[data-sumar]")?.addEventListener("click", () => { faltan.forEach(([k]) => raiz.querySelector(`[data-servicio="${k}"]`).setAttribute("aria-pressed", "true")); recalcular(); });
+      camino.querySelector("[data-sumar]")?.addEventListener("click", () => { faltan.forEach((f) => raiz.querySelector(`.escalon2[data-k="${f.k}"]`).setAttribute("aria-pressed", "true")); recalcular(); });
     };
-    raiz.querySelectorAll("[data-servicio]").forEach((b) => b.addEventListener("click", () => poner(b.dataset.servicio, b.getAttribute("aria-pressed") !== "true")));
-    raiz.querySelectorAll(".peldano").forEach((g) => {
-      const alternar = () => poner(g.dataset.k, !elegido(g.dataset.k));
-      g.addEventListener("click", alternar); g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); alternar(); } });
-    });
+    pasos.forEach((b) => b.addEventListener("click", () => { b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true"); recalcular(); }));
+    requestAnimationFrame(() => moverPunto(caja, -1)); addEventListener("resize", recalcular);
     raiz.querySelector("[data-pedir]").addEventListener("click", (e) => trabajar(e.currentTarget, () => espera(1200), { cargando: "Enviando…", listo: "Pedido" }));
   },
 
