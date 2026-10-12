@@ -1,6 +1,6 @@
 /* El punto: la firma de Optimizo convertida en piezas reutilizables (carga, progreso, listo, cursor). */
-import { isotipo, DISCO } from "./marca.js?v=aa26df1";
-import { etapas, moverEtapa, activarEtapas } from "./etapas.js?v=aa26df1";
+import { isotipo, DISCO } from "./marca.js?v=8ed8960";
+import { etapas, moverEtapa, activarEtapas } from "./etapas.js?v=8ed8960";
 
 const PUNTO = { cx: 25.863281, cy: 22.753906, r: 17.289 };
 

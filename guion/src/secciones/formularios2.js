@@ -1,15 +1,15 @@
 /* Capítulo 3 · Formularios v2 (ola 5): pedir datos como una conversación. Mientras respondes, se dibuja tu empresa;
    la escalera se ilumina; la agenda muestra la disponibilidad como puntos; los archivos caen al disco; la NPS es una órbita. */
-import { campo, validar } from "../kit/campos.js?v=aa26df1";
-import { boton, trabajar } from "../kit/controles.js?v=aa26df1";
-import { listo } from "../kit/punto.js?v=aa26df1";
-import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=aa26df1";
-import { toast } from "../kit/avisos.js?v=aa26df1";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=aa26df1";
-import { isotipo } from "../kit/marca.js?v=aa26df1";
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=aa26df1";
-import { contar } from "../kit/coreografia.js?v=aa26df1";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=aa26df1";
+import { campo, validar } from "../kit/campos.js?v=8ed8960";
+import { boton, trabajar } from "../kit/controles.js?v=8ed8960";
+import { listo } from "../kit/punto.js?v=8ed8960";
+import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=8ed8960";
+import { toast } from "../kit/avisos.js?v=8ed8960";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=8ed8960";
+import { isotipo } from "../kit/marca.js?v=8ed8960";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=8ed8960";
+import { contar } from "../kit/coreografia.js?v=8ed8960";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=8ed8960";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));

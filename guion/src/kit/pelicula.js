@@ -1,8 +1,8 @@
 /* Película: piezas de marca animadas, dibujadas en canvas y exportables a video (MP4 si el navegador lo permite, WebM si no).
    Guiones: «marca» (16:9, 12 s: el logo se arma, la frase, el punto que se escapa), «dato» (4:5, 8 s: un número que se
    cuenta) y «frase» (1:1, 6 s: dos líneas con el punto como cursor). Todo lee los colores de la paleta activa. */
-import { DISCO } from "./marca.js?v=aa26df1";
-import { cargarLetras } from "./logo-vivo.js?v=aa26df1";
+import { DISCO } from "./marca.js?v=8ed8960";
+import { cargarLetras } from "./logo-vivo.js?v=8ed8960";
 
 const P = { x: 25.863281, y: 22.753906, r: 17.289 }, C = { x: 75.207031, y: 71.753906 };
 const LETRA = '"SF Pro Display", "Inter", system-ui, sans-serif';
@@ -133,7 +133,8 @@ export async function pelicula(canvas, guion = "marca") {
   };
   const tic = (ahora) => { const tt = (ahora - t0) / 1000; if (tt >= g.dur) { pintar(g.dur); raf = 0; alTerminar?.(); return; } pintar(tt); raf = requestAnimationFrame(tic); };
   const reproducir = (desde = 0) => new Promise((res) => { cancelAnimationFrame(raf); t0 = performance.now() - desde * 1000; alTerminar = res; raf = requestAnimationFrame(tic); });
-  pintar(matchMedia("(prefers-reduced-motion: reduce)").matches ? g.dur : 0);
+  // antes de reproducirse muestra el cuadro final (logo armado y frase), nunca un lienzo vacío
+  pintar(g.dur);
   return {
     dur: g.dur, formato: g.formato, reproducir,
     ir(tt) { cancelAnimationFrame(raf); raf = 0; pintar(Math.max(0, Math.min(g.dur, tt))); },

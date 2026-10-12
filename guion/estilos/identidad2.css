@@ -138,7 +138,13 @@
 .material--papel .material__muestra { background: radial-gradient(70% 60% at var(--lx, 30%) var(--ly, 10%), #fff, var(--papel) 60%); }
 .material--bizcocho .material__muestra { background: radial-gradient(80% 70% at var(--lx, 30%) var(--ly, 10%), #F4F2EC, #DCD8CE 75%); }
 .material--bizcocho .material__muestra::after, .material--ceramica .material__muestra::before { content: ""; position: absolute; inset: 0; background-image: var(--grano); background-size: 120px; opacity: 1; }
-.material__macro { position: absolute; right: 16px; top: 16px; width: 76px; height: 76px; border-radius: 50%; border: 3px solid var(--superficie-2); box-shadow: var(--sombra-2); background-color: var(--superficie); background-image: var(--grano); background-size: 60px; }
+/* La lupa: el mismo material visto de cerca (×6), para que el grano se lea como huella del taller */
+.material__macro { position: absolute; right: 16px; top: 16px; width: 84px; height: 84px; border-radius: 50%; border: 3px solid var(--superficie-2); box-shadow: var(--sombra-2); background-size: 220px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.22' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .14  0 0 0 0 .2  0 0 0 0 .26  0 0 0 1.3 -.5'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>"); }
+.material__macro::after { content: "×6"; position: absolute; right: -6px; bottom: -6px; padding: 2px 7px; border-radius: 99px; font: 600 11px/1.4 var(--letra); color: var(--texto-2); background: var(--superficie-2); box-shadow: var(--sombra-1); }
+.material--ceramica .material__macro { background-color: var(--acento-claro); }
+.material--papel .material__macro { background-color: var(--papel); background-size: 160px; }
+.material--bizcocho .material__macro { background-color: #DCD8CE; }
 .material figcaption { display: grid; gap: 4px; }
 .material figcaption b { font-weight: 650; }
 .material-manifiesto { display: grid; gap: var(--e-4); max-width: 760px; margin-top: var(--e-7); }

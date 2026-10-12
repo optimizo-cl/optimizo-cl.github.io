@@ -1,10 +1,10 @@
 /* Capítulo 6 · Web y marca (fase 11): landing real, correos HTML, firma, redes, presentación, papelería, íconos, 404. */
-import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js?v=aa26df1";
-import { segmento, boton } from "../kit/controles.js?v=aa26df1";
-import { toast } from "../kit/avisos.js?v=aa26df1";
-import { isotipo, logo } from "../kit/marca.js?v=aa26df1";
-import { correo, firma } from "../kit/correos.js?v=aa26df1";
-import { lienzoPieza, isotipoCanvas, granoCanvas, parrafo, LETRA } from "../kit/piezas.js?v=aa26df1";
+import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js?v=8ed8960";
+import { segmento, boton } from "../kit/controles.js?v=8ed8960";
+import { toast } from "../kit/avisos.js?v=8ed8960";
+import { isotipo, logo } from "../kit/marca.js?v=8ed8960";
+import { correo, firma } from "../kit/correos.js?v=8ed8960";
+import { lienzoPieza, isotipoCanvas, granoCanvas, parrafo, LETRA } from "../kit/piezas.js?v=8ed8960";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const raiz = document.documentElement;

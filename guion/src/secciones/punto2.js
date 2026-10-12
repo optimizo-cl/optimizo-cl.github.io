@@ -1,14 +1,14 @@
 /* Capítulo 1 · El punto v2 (ola 3): el logo que se arma, las «i» vivas, los dieciséis momentos de la firma
    y el Laboratorio del punto (un juguete de física para sentir el resorte de la marca). */
-import { logoVivo, armar, instante, soltar, saltarIes, activarLogoVivo } from "../kit/logo-vivo.js?v=aa26df1";
-import { isotipo, DISCO } from "../kit/marca.js?v=aa26df1";
-import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=aa26df1";
-import { boton } from "../kit/controles.js?v=aa26df1";
-import { campo } from "../kit/campos.js?v=aa26df1";
-import { icono } from "../kit/iconos.js?v=aa26df1";
-import { contar } from "../kit/coreografia.js?v=aa26df1";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=aa26df1";
-import { cargaSalto, cargaLlenado, cargaFases, fijarFase } from "../kit/punto.js?v=aa26df1";
+import { logoVivo, armar, instante, soltar, saltarIes, activarLogoVivo } from "../kit/logo-vivo.js?v=8ed8960";
+import { isotipo, DISCO } from "../kit/marca.js?v=8ed8960";
+import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=8ed8960";
+import { boton } from "../kit/controles.js?v=8ed8960";
+import { campo } from "../kit/campos.js?v=8ed8960";
+import { icono } from "../kit/iconos.js?v=8ed8960";
+import { contar } from "../kit/coreografia.js?v=8ed8960";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=8ed8960";
+import { cargaSalto, cargaLlenado, cargaFases, fijarFase } from "../kit/punto.js?v=8ed8960";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const C = { x: 75.207, y: 71.754, r: 69.152 };
@@ -77,16 +77,16 @@ export const punto2 = {
     m.push(momento(13, "Contador", `<div class="m-contador"><b class="m-contador__n" data-contador>0</b><i class="m-contador__tic"></i><span class="chico">horas ahorradas por semana</span></div>`, "Los números grandes se cuentan con un punto que marca cada paso.", { clase: "momento2--ancho" }));
     m.push(momento(14, "Descanso", `<div class="m-descanso" data-descanso>${iso("m-descanso__iso")}<p class="chico" data-descanso-t>Quédate quieto…</p></div>`, "Después de 20 s sin moverse, el punto respira (acá, a los 4 s para probarlo)."));
     m.push(momento(15, "Laboratorio", `<a class="m-enlace" href="#laboratorio">${iso("m-enlace__iso")}<span><b>El punto con física</b><span class="chico">Tira del punto y siente el resorte de la marca.</span></span>${icono("arrow-right", { tam: 20 })}</a>`, "El juguete que define cómo se mueve todo: resorte crítico, llegada larga."));
-    m.push(momento(16, "Video de marca", `<div class="m-video" data-video><div class="m-video__cuadro">${await logoVivo({ clase: "m-video__logo", armado: false })}<p class="m-video__frase" data-video-f>Todo proceso tiene una salida.</p></div><span class="m-video__rec rotulo"><i></i>20–30 s · se exporta a MP4 en «Web y marca»</span></div>`, "El guion de la pieza de marca: construcción, frase, el punto que sale. Se arma en el navegador.", { clase: "momento2--pleno" }));
+    m.push(momento(16, "Video de marca", `<div class="m-video" data-video><div class="m-video__cuadro">${await logoVivo({ clase: "m-video__logo", armado: false })}<p class="m-video__frase" data-video-f>Todo proceso tiene una salida.</p></div><span class="m-video__rec rotulo"><i></i>20–30 s · se exporta a MP4 en «Web y marca»</span></div>`, "El guion de la pieza de marca: el logo se arma, aparece la frase y las «i» saludan. Se arma en el navegador.", { clase: "momento2--pleno" }));
 
     const curvas = [
       { nombre: "Llegada", bezier: [0.16, 1, 0.3, 1], ms: 1200, uso: "Todo lo que llega a su lugar: entradas, el punto aterrizando." },
       { nombre: "Suave", bezier: [0.25, 0.1, 0.25, 1], ms: 640, uso: "Fundidos y cambios de color." },
-      { nombre: "Firma", bezier: [0.45, 0.05, 0.55, 0.95], ms: 1600, uso: "El punto en órbita: acelera y frena con calma." },
+      { nombre: "Firma", bezier: [0.45, 0.05, 0.55, 0.95], ms: 1600, uso: "El punto que viaja de un lugar a otro: acelera y frena con calma." },
     ];
     cuerpo(el).innerHTML = `<div class="momentos">${m.join("")}</div>
       <div class="curvas-firma"><p class="titulo-3">Curvas y tiempos</p><div class="curvas-firma__lista">${curvas.map(curvaMovimiento).join("")}</div>
-      <p class="chico">Nada rebota ni es juguetón: el «juego» está en las ideas, no en la elasticidad. Con «reducir movimiento» cada momento muestra su estado final.</p></div>`;
+      <p class="chico">Solo las «i» rebotan, una vez y chico: es su saludo. Lo demás no rebota; el juego está en las ideas. Con «reducir movimiento» cada momento muestra su estado final.</p></div>`;
     activarCurvas(el);
     activarMomentos(el);
   },

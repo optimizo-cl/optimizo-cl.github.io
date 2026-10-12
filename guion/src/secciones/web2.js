@@ -1,13 +1,13 @@
 /* Capítulo 6 · Web y marca v2 (ola 8): el sitio nuevo, el video de marca exportable, redes animadas, una presentación
    con transiciones del punto, papelería en 3D y una 404 en la que se devuelve el punto a su nido. */
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=aa26df1";
-import { boton, segmento } from "../kit/controles.js?v=aa26df1";
-import { toast } from "../kit/avisos.js?v=aa26df1";
-import { isotipo, logo } from "../kit/marca.js?v=aa26df1";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=aa26df1";
-import { pelicula } from "../kit/pelicula.js?v=aa26df1";
-import { contar } from "../kit/coreografia.js?v=aa26df1";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=aa26df1";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=8ed8960";
+import { boton, segmento } from "../kit/controles.js?v=8ed8960";
+import { toast } from "../kit/avisos.js?v=8ed8960";
+import { isotipo, logo } from "../kit/marca.js?v=8ed8960";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=8ed8960";
+import { pelicula } from "../kit/pelicula.js?v=8ed8960";
+import { contar } from "../kit/coreografia.js?v=8ed8960";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=8ed8960";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const raiz = document.documentElement;
@@ -49,7 +49,7 @@ export const web2 = {
     const vivo = `<div class="landing-vista">
       <div class="landing-vista__barra">${segmento(["Computador", "Celular"], { etiqueta: "Ancho", nombre: "ancho" })}<a class="boton boton--texto boton--s" href="web/landing.html${consulta()}" target="_blank" rel="noopener">Abrir completo ↗</a></div>
       <div class="landing-vista__marco"><iframe src="web/landing.html${consulta()}" title="Sitio de Optimizo" loading="lazy"></iframe></div></div>`;
-    cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["Héroe con la Trama y el isotipo 3D; al bajar, la trama se vuelve grano.", "La historia «caos → orden» ocurre con el scroll, con el motor de Órbitas.", "Servicios en cerámica, la familia (Medula y Bárbara con su material) y el cotizador vivo.", "Una sola llamada: «Agendar diagnóstico». El cierre usa la Trama en anillos."]) });
+    cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["Héroe con el isotipo de la portada: el punto sale por la mordida una vez, al llegar.", "La historia «caos → orden» ocurre con el scroll: las tareas se acomodan rectas en columnas por área.", "Servicios en cerámica, la familia (Medula y Bárbara con su material) y el cotizador vivo.", "Una sola llamada: «Agendar diagnóstico». El cierre es navy con el isotipo grande."]) });
     activarPiezas(el);
     el.querySelector('[data-segmento="ancho"]').addEventListener("cambio", (e) => el.querySelector(".landing-vista__marco").classList.toggle("landing-vista__marco--celular", e.detail === "Celular"));
   },
@@ -133,7 +133,7 @@ export const web2 = {
         <text x="190" y="300" text-anchor="middle" class="e404__num">4</text><text x="610" y="300" text-anchor="middle" class="e404__num">4</text>
         <g transform="translate(296 91) scale(1.5)">${isoLimpio().replace(/<svg[^>]*>|<\/svg>/g, "").replace('<g class="isotipo__punto">', '<circle class="e404__nido" cx="25.863" cy="22.754" r="16.3"/><g class="isotipo__punto" style="display:none">')}</g>
         <circle class="e404__punto" r="26" cx="700" cy="70" tabindex="0" role="button" aria-label="Punto perdido: arrástralo a su nido o presiona Enter"/></svg>
-      <div class="e404__texto"><p class="titulo-2" data-e-t>Esta página se salió de su órbita.</p><p class="chico" data-e-d>El punto se perdió. Devuélvelo a su nido y te llevamos al inicio.</p>
+      <div class="e404__texto"><p class="titulo-2" data-e-t>Esta página se salió del camino.</p><p class="chico" data-e-d>El punto se perdió. Devuélvelo a su nido y te llevamos al inicio.</p>
         <div class="fila-botones">${boton("Volver al inicio", { variante: "acento", attrs: "data-volver" })}${boton("Buscar en el sitio", { variante: "texto", ico: "magnifying-glass" })}</div></div></div>`;
     cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["Siempre ofrece salir: «Volver al inicio» funciona aunque no juegues.", "El juego es opcional y dura segundos: arrastrar el punto o presionar Enter.", "El mensaje no culpa: «esta página se salió de su órbita»."]) });
     activarPiezas(el); await rellenarIconos();
@@ -148,7 +148,7 @@ export const web2 = {
     new IntersectionObserver(([e]) => { cancelAnimationFrame(deriva); if (e.isIntersecting) deriva = requestAnimationFrame(flotar); }).observe(svg);
     const encontrado = () => {
       cancelAnimationFrame(deriva); caja.classList.add("encontrado");
-      caja.querySelector("[data-e-t]").textContent = "Encontrado. Todo vuelve a su órbita.";
+      caja.querySelector("[data-e-t]").textContent = "Encontrado. Todo vuelve a su nido.";
       caja.querySelector("[data-e-d]").textContent = "En un sitio real, ahora te llevaríamos al inicio.";
       resorte(nido, () => caja.querySelector("[data-volver]").focus());
     };

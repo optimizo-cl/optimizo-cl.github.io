@@ -1,8 +1,8 @@
 /* Capítulo 1 · Héroe: un banner plano, mate. El isotipo grande (con la firma: el punto sale y vuelve) y, al bajar,
    el isotipo viaja y se achica hasta el de la navegación. Sin 3D y sin trama. */
-import { progreso } from "../kit/coreografia.js?v=aa26df1";
-import { isotipo } from "../kit/marca.js?v=aa26df1";
-import { SECCIONES } from "../plan.js?v=aa26df1";
+import { progreso } from "../kit/coreografia.js?v=8ed8960";
+import { isotipo } from "../kit/marca.js?v=8ed8960";
+import { SECCIONES } from "../plan.js?v=8ed8960";
 
 const tramo = (p, a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));
 const suave = (x) => x * x * (3 - 2 * x);
@@ -15,7 +15,7 @@ const frase = (txt, clase) => {
 
 export const escenas2 = {
   async portada(el) {
-    const listas = SECCIONES.filter((x) => x.estado === "listo").length;
+    const listas = SECCIONES.filter((x) => x.estado === "listo" && x.id !== "portada").length;
     el.className = "heroe";
     el.innerHTML = `<div class="heroe__pista">
       <div class="heroe__escena">
@@ -26,7 +26,7 @@ export const escenas2 = {
           <p class="ceja heroe__ceja">Guion visual · v2</p>
           <h1 class="heroe__frase">${frase("Todo proceso\ntiene una salida.", "heroe__letras")}</h1>
           <p class="bajada heroe__bajada">El lenguaje completo de Optimizo, funcionando: color, letra, material, movimiento, componentes, formularios y piezas.</p>
-          <p class="rotulo heroe__estado"><i></i>${listas} secciones listas · se actualiza en cada avance</p>
+          <p class="rotulo heroe__estado"><i></i>7 capítulos · ${listas} secciones · todo funcionando</p>
         </div>
         <a class="heroe__bajar" href="#cap-identidad" aria-label="Bajar al capítulo 1"><span>Baja</span><i></i></a>
       </div></div>`;

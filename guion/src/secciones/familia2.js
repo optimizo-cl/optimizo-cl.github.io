@@ -1,11 +1,11 @@
 /* Capítulo 5 · Familia de marcas (ola 7). Optimizo es la madre mate; cada producto conserva su material propio
    (Medula: cobalto, aurora de grano, Geist; Bárbara: noche, lima, Fraunces y su personaje). Los une el punto y el sello. */
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=aa26df1";
-import { isotipo } from "../kit/marca.js?v=aa26df1";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=aa26df1";
-import { boton } from "../kit/controles.js?v=aa26df1";
-import { toast } from "../kit/avisos.js?v=aa26df1";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=aa26df1";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=8ed8960";
+import { isotipo } from "../kit/marca.js?v=8ed8960";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=8ed8960";
+import { boton } from "../kit/controles.js?v=8ed8960";
+import { toast } from "../kit/avisos.js?v=8ed8960";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=8ed8960";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const usoDe = (lista, cod) => `<div class="rejilla-2"><ul class="lista-punto">${lista.map((r) => `<li>${r}</li>`).join("")}</ul>${cod ? codigo(cod) : ""}</div>`;
@@ -45,10 +45,10 @@ export function auroraMedula(lienzo) {
 }
 
 export const familia2 = {
-  /* ── Arquitectura: la madre mate y los productos en órbita, unidos por el punto ── */
+  /* ── Arquitectura: la madre mate y los productos a su lado, unidos por el punto ── */
   async familia(el) {
     const vivo = `<div class="familia2">
-      <svg class="familia2__orbitas" viewBox="0 0 1000 560" aria-hidden="true"><ellipse cx="500" cy="300" rx="420" ry="190"/><ellipse cx="500" cy="300" rx="300" ry="120"/>
+      <svg class="familia2__orbitas" viewBox="0 0 1000 560" aria-hidden="true">
         <path id="fam-arco-a" d="M500 300 Q 330 140 190 250"/><path id="fam-arco-b" d="M500 300 Q 670 140 810 250"/>
         <circle r="7" cx="0" cy="0" class="familia2__dato"><animateMotion dur="5s" repeatCount="indefinite" path="M500 300 Q 330 140 190 250"/></circle>
         <circle r="7" class="familia2__dato" opacity="0"><set attributeName="opacity" to="1" begin="2.5s"/><animateMotion dur="5s" begin="2.5s" repeatCount="indefinite" path="M500 300 Q 670 140 810 250"/></circle></svg>

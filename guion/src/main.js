@@ -1,13 +1,13 @@
 /* Guion v2: arma portada, portadas de capítulo, secciones, navegación lateral, dock, comparador A | B y modo presentación.
    Dos ejes: paleta (A/B) y tema (claro/oscuro). Las secciones se arman al acercarse. */
-import { CAPITULOS, SECCIONES, seccionesDe, capituloDe, numeroDe } from "./plan.js?v=aa26df1";
-import { CONSTRUIDAS, REPINTAR, pendiente, PORTADAS } from "./secciones/index.js?v=aa26df1";
-import { icono, cargarIconos, rellenarIconos } from "./kit/iconos.js?v=aa26df1";
-import { activarControles, prepararSegmentos } from "./kit/controles.js?v=aa26df1";
-import { activarEtapas } from "./kit/etapas.js?v=aa26df1";
-import { activarCampos } from "./kit/campos.js?v=aa26df1";
-import { entrar, abrirEnCirculo, progreso } from "./kit/coreografia.js?v=aa26df1";
-import { isotipo } from "./kit/marca.js?v=aa26df1";
+import { CAPITULOS, SECCIONES, seccionesDe, capituloDe, numeroDe } from "./plan.js?v=8ed8960";
+import { CONSTRUIDAS, REPINTAR, pendiente, PORTADAS } from "./secciones/index.js?v=8ed8960";
+import { icono, cargarIconos, rellenarIconos } from "./kit/iconos.js?v=8ed8960";
+import { activarControles, prepararSegmentos } from "./kit/controles.js?v=8ed8960";
+import { activarEtapas } from "./kit/etapas.js?v=8ed8960";
+import { activarCampos } from "./kit/campos.js?v=8ed8960";
+import { entrar, abrirEnCirculo, progreso } from "./kit/coreografia.js?v=8ed8960";
+import { isotipo } from "./kit/marca.js?v=8ed8960";
 
 for (const sec of SECCIONES) sec.estado = CONSTRUIDAS[sec.id] ? "listo" : "por-hacer";
 
@@ -29,7 +29,7 @@ function portadaCapitulo(c) {
     <div class="envoltura cap-portada__texto">
       <span class="cap-portada__n" aria-hidden="true">${c.n}</span>
       <div><p class="ceja">Capítulo ${c.n}</p><h2 class="cap-portada__nombre" id="cap-${c.id}-t">${c.nombre}</h2><p class="bajada">${c.que}</p>
-        <p class="rotulo">${secs.length} secciones · ${secs.filter((x) => x.estado === "listo").length} listas</p></div>
+        <p class="rotulo">${secs.filter((x) => x.id !== "portada").length} secciones</p></div>
     </div></section>`;
 }
 
@@ -107,7 +107,7 @@ function lateral() {
     const donde = document.querySelector(".dock__donde");
     if (donde) { donde.querySelector("b").textContent = sec ? sec.nombre : cap ? cap.nombre : "Portada"; donde.querySelector("span").textContent = sec ? numeroDe(id) + " · " + cap.nombre : cap ? "Capítulo " + cap.n : "Guion visual"; }
   }), { rootMargin: "-45% 0px -50% 0px" });
-  document.querySelectorAll("#guion section, #guion header").forEach((s) => obs.observe(s));
+  document.querySelectorAll("#portada, .cap-portada, .seccion").forEach((s) => obs.observe(s));
 }
 
 /* ── Dock: dónde estoy, paleta, comparador, tema, presentación ── */

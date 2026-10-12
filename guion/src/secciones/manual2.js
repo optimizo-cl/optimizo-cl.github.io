@@ -1,11 +1,11 @@
 /* Capítulo 7 · Manual v2 (ola 9): la construcción del logo con cotas que se trazan, la especificación completa del
    movimiento (curvas, tiempos y el resorte), y descargas ampliadas (videos generados en el navegador). */
-import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=aa26df1";
-import { logo, isotipo } from "../kit/marca.js?v=aa26df1";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=aa26df1";
-import { toast } from "../kit/avisos.js?v=aa26df1";
-import { pelicula } from "../kit/pelicula.js?v=aa26df1";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=aa26df1";
+import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=8ed8960";
+import { logo, isotipo } from "../kit/marca.js?v=8ed8960";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=8ed8960";
+import { toast } from "../kit/avisos.js?v=8ed8960";
+import { pelicula } from "../kit/pelicula.js?v=8ed8960";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=8ed8960";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const raiz = document.documentElement;
@@ -40,15 +40,15 @@ export const manual2 = {
     const curvas = [
       { nombre: "Llegada", bezier: [0.16, 1, 0.3, 1], ms: 1200, uso: "Todo lo que entra o llega a su lugar: secciones, el punto aterrizando, menús." },
       { nombre: "Suave", bezier: [0.25, 0.1, 0.25, 1], ms: 640, uso: "Cambios de color, fundidos, el grano." },
-      { nombre: "Firma", bezier: [0.45, 0.05, 0.55, 0.95], ms: 1600, uso: "El punto en órbita: acelera y frena con calma." },
+      { nombre: "Firma", bezier: [0.45, 0.05, 0.55, 0.95], ms: 1600, uso: "El punto que viaja de un lugar a otro: acelera y frena con calma." },
     ];
-    const tiempos = [["Respuesta", 160, "Hover y presión: la cerámica se hunde."], ["Transición", 320, "Pestañas, segmentados, interruptores."], ["Escena", 640, "Hojas, diálogos, entradas de sección."], ["Recorrido", 1200, "Progreso, el punto viajando."], ["Firma", 1600, "El punto saliendo o aterrizando."], ["Ciclo", 14000, "La firma del isotipo 3D (sale, da la vuelta, vuelve)."]];
+    const tiempos = [["Respuesta", 160, "Hover y presión: la cerámica se hunde."], ["Transición", 320, "Pestañas, segmentados, interruptores."], ["Escena", 640, "Hojas, diálogos, entradas de sección."], ["Recorrido", 1200, "Progreso, el punto viajando."], ["Firma", 1600, "El punto saliendo o aterrizando."], ["Descanso", 20000, "Tras 20 s quieto, el punto respira una vez."]];
     const vivo = `<div class="mov2">
       <div class="mov2__curvas">${curvas.map(curvaMovimiento).join("")}</div>
       <div class="mov2__tiempos" data-tiempos><p class="titulo-3">Tiempos</p>${tiempos.map(([n, ms, d], i) => `<div class="mov2__t" style="--w:${Math.min(100, (Math.log10(ms) - 2) / 2.2 * 100)}%;--i:${i}"><b>${n}</b><span class="mono">${ms >= 1000 ? (ms / 1000).toString().replace(".", ",") + " s" : ms + " ms"}</span><i></i><span class="chico">${d}</span></div>`).join("")}</div>
       <div class="mov2__resorte"><p class="titulo-3">El resorte de la marca</p><p class="chico">Lo que se arrastra y se suelta vuelve con un resorte <b>crítico</b>: rigidez ω = 7 y amortiguación ζ = 1. Llega lo más rápido posible sin pasarse. Nunca rebota.</p>
         ${codigo("// cada cuadro\nconst a = ω*ω*(meta - x) - 2*ζ*ω*v;\nv += a * dt; x += v * dt;   // ω = 7 · ζ = 1")}<a class="boton boton--secundario boton--s" href="#laboratorio">Probarlo en el laboratorio</a></div>
-      <div class="mov2__reglas">${[["Nada rebota", "La elasticidad no es la marca. El juego está en las ideas."], ["Una firma por pantalla", "Solo una cosa compleja se mueve a la vez."], ["Reducir movimiento", "Con la preferencia activa, todo aparece en su estado final."], ["Se duerme fuera de pantalla", "Las escenas no consumen nada si no se ven."]].map(([t, d]) => `<div><b>${t}</b><span class="chico">${d}</span></div>`).join("")}</div></div>`;
+      <div class="mov2__reglas">${[["Solo las «i» rebotan", "Una vez, chico: es su saludo. Nada más rebota; el juego está en las ideas."], ["Una firma por pantalla", "Solo una cosa compleja se mueve a la vez."], ["Reducir movimiento", "Con la preferencia activa, todo aparece en su estado final."], ["Se duerme fuera de pantalla", "Las escenas no consumen nada si no se ven."]].map(([t, d]) => `<div><b>${t}</b><span class="chico">${d}</span></div>`).join("")}</div></div>`;
     cuerpo(el).innerHTML = pieza({ vivo, uso: `<div class="rejilla-2"><ul class="lista-punto"><li>Las curvas viven en los tokens: <code>--llegada</code>, <code>--suave</code>, <code>--firma</code>.</li><li>Los tiempos también: <code>--d-1</code> a <code>--d-4</code> y <code>--d-firma</code>.</li></ul>${codigo(".pieza { transition: transform var(--d-3) var(--llegada); }")}</div>` });
     activarPiezas(el); activarCurvas(el);
     const t = el.querySelector("[data-tiempos]");
