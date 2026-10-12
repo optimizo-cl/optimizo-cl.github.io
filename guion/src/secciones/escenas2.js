@@ -1,8 +1,8 @@
 /* Capítulo 1 · Héroe: un banner plano, mate. El isotipo grande (con la firma: el punto sale y vuelve) y, al bajar,
    el isotipo viaja y se achica hasta el de la navegación. Sin 3D y sin trama. */
-import { progreso } from "../kit/coreografia.js?v=5bdbf1b";
-import { isotipo } from "../kit/marca.js?v=5bdbf1b";
-import { SECCIONES } from "../plan.js?v=5bdbf1b";
+import { progreso } from "../kit/coreografia.js?v=7a04113";
+import { isotipo } from "../kit/marca.js?v=7a04113";
+import { SECCIONES } from "../plan.js?v=7a04113";
 
 const tramo = (p, a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));
 const suave = (x) => x * x * (3 - 2 * x);
@@ -31,6 +31,9 @@ export const escenas2 = {
         <a class="heroe__bajar" href="#cap-identidad" aria-label="Bajar al capítulo 1"><span>Baja</span><i></i></a>
       </div></div>`;
     requestAnimationFrame(() => el.classList.add("heroe--listo"));
+    // si se entra directo a una sección (o al final), el isotipo de la navegación igual se ve
+    const yaPaso = () => { if (el.getBoundingClientRect().bottom < innerHeight * 0.5) document.body.classList.add("heroe-pasado"); };
+    addEventListener("scroll", yaPaso, { passive: true }); yaPaso();
 
     const pista = el.querySelector(".heroe__pista"), hueco = el.querySelector(".heroe__hueco"), objeto = el.querySelector(".heroe__objeto");
     const destino = () => document.querySelector(".lateral__iso");

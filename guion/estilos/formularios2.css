@@ -30,7 +30,7 @@
 .conv__mapa { margin: 0; display: grid; place-items: center; align-content: center; gap: 10px; padding: var(--e-4); border-radius: var(--r-4); background: radial-gradient(70% 70% at 50% 45%, var(--superficie-2), var(--superficie-hundida)); box-shadow: inset 0 0 0 1px var(--borde); position: relative; overflow: hidden; isolation: isolate; }
 .conv__mapa::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(circle, color-mix(in srgb, var(--texto) 9%, transparent) 1px, transparent 1.4px); background-size: 16px 16px; z-index: -1; }
 .conv__mapa svg { width: min(100%, 540px); overflow: visible; }
-.mapa__orbita { fill: none; stroke: var(--borde-fuerte); stroke-dasharray: 2 5; }
+.mapa__cauce { fill: none; stroke: var(--borde-fuerte); stroke-width: 1.4; stroke-dasharray: 3 4; }
 .mapa__nombre { font-size: 15px; font-weight: 700; fill: var(--texto); letter-spacing: -0.02em; }
 .mapa__gente circle { fill: var(--acento-claro); animation: gente-entra 600ms var(--llegada) both; animation-delay: calc(var(--i) * 12ms); }
 @keyframes gente-entra { from { opacity: 0; r: 0; } }
@@ -47,7 +47,7 @@
 .mapa__traba circle:nth-child(2) { animation-delay: .2s; } .mapa__traba circle:nth-child(3) { animation-delay: .4s; }
 .mapa__traba text { fill: var(--alerta); font-weight: 700; }
 @keyframes traba-late { 50% { opacity: .55; } }
-.mapa--ordenado .mapa__orbita { stroke: var(--acento-profundo); stroke-opacity: .5; }
+.mapa--ordenado .mapa__cauce, .mapa--ordenado .mapa__flujo { stroke: var(--acento-profundo); stroke-opacity: .6; stroke-dasharray: none; }
 @media (max-width: 960px) { .conv { grid-template-columns: minmax(0, 1fr); gap: var(--e-4); } .conv__mapa { order: -1; padding: 6px; } .conv__mapa svg { width: min(100%, 360px); } .conv__mapa figcaption { display: none; } .conv__charla { min-height: 0; padding: var(--e-5); } }
 @media (prefers-reduced-motion: reduce) { .mapa__traba circle, .mapa__gente circle, .mapa__nodo { animation: none; } }
 
@@ -98,3 +98,6 @@
 @media (max-width: 960px) { .agenda { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 520px) { .agenda__cal { padding: 16px 10px; } .agenda__semana, .agenda__dias { gap: 2px; } .agenda__dia { min-height: 48px; min-width: 44px; } }
 
+
+.mapa__dato { fill: url(#punto-marca); }
+.mapa__traba text { font-size: 11px; }

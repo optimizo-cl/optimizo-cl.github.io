@@ -1,6 +1,6 @@
 /* Botones y controles de elección. HTML como texto + comportamiento delegado (funciona en cualquier página). */
-import { icono } from "./iconos.js?v=5bdbf1b";
-import { carga } from "./punto.js?v=5bdbf1b";
+import { icono } from "./iconos.js?v=7a04113";
+import { carga } from "./punto.js?v=7a04113";
 
 /** Botón. variante: primario | acento | secundario | texto | peligro · tam: s | m | l */
 export function boton(texto, { variante = "primario", tam = "m", ico = "", icoFin = "", deshabilitado = false, tipo = "button", attrs = "" } = {}) {

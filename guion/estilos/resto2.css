@@ -149,9 +149,9 @@
 /* ── Aplicaciones ── */
 .aplicaciones2 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--e-4); }
 .aplicacion2 { display: grid; gap: 10px; padding: 12px; border-radius: 20px; text-decoration: none; color: var(--texto); transition: transform 260ms var(--llegada); --c-base: var(--superficie-2); }
-.aplicacion2:hover { transform: translateY(-4px) rotate(-.5deg); }
+.aplicacion2:hover { transform: translateY(-4px); }
 .aplicacion2 .aplicacion__vista { border-radius: 12px; }
-.aplicacion2__nombre { display: flex; align-items: center; justify-content: space-between; padding: 0 6px 4px; font-weight: 650; font-size: var(--t-chico); }
+.aplicacion2__nombre { display: flex; align-items: center; gap: 8px; padding: 0 6px 4px; font-weight: 650; font-size: var(--t-chico); }
 .aplicacion__vista--video { display: grid; place-items: center; background: var(--navy-profundo); }
 .aplicacion__vista--video svg { width: 34%; }
 @media (max-width: 960px) { .aplicaciones2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -159,3 +159,10 @@
 .proporcion2 i { color: #14212F; }
 .bandeja__lectura .rotulo { color: #4d4d4d; }
 .imagen2__etapas { padding: var(--e-5) var(--e-3); }
+
+.aplicacion2__mini { display: block; aspect-ratio: 560 / 370; border-radius: 12px; overflow: hidden; background: var(--superficie-hundida); box-shadow: inset 0 0 0 1px var(--borde); }
+.aplicacion2__img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 600ms var(--llegada); }
+.aplicacion2:hover .aplicacion2__img { transform: scale(1.04); }
+.aplicacion2__img--b, :root[data-paleta="naranjo"] .aplicacion2__img--a { display: none; }
+:root[data-paleta="naranjo"] .aplicacion2__img--b { display: block; }
+.aplicacion2__nombre .rotulo { margin-left: auto; }

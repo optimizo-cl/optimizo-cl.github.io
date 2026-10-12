@@ -1,11 +1,11 @@
 /* Capítulo 5 · Familia de marcas (ola 7). Optimizo es la madre mate; cada producto conserva su material propio
    (Medula: cobalto, aurora de grano, Geist; Bárbara: noche, lima, Fraunces y su personaje). Los une el punto y el sello. */
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=5bdbf1b";
-import { isotipo } from "../kit/marca.js?v=5bdbf1b";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=5bdbf1b";
-import { boton } from "../kit/controles.js?v=5bdbf1b";
-import { toast } from "../kit/avisos.js?v=5bdbf1b";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=5bdbf1b";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=7a04113";
+import { isotipo } from "../kit/marca.js?v=7a04113";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=7a04113";
+import { boton } from "../kit/controles.js?v=7a04113";
+import { toast } from "../kit/avisos.js?v=7a04113";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=7a04113";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const usoDe = (lista, cod) => `<div class="rejilla-2"><ul class="lista-punto">${lista.map((r) => `<li>${r}</li>`).join("")}</ul>${cod ? codigo(cod) : ""}</div>`;

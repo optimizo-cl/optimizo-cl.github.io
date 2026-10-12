@@ -1,8 +1,8 @@
 /* Película: piezas de marca animadas, dibujadas en canvas y exportables a video (MP4 si el navegador lo permite, WebM si no).
    Guiones: «marca» (16:9, 12 s: el logo se arma, la frase, el punto que se escapa), «dato» (4:5, 8 s: un número que se
    cuenta) y «frase» (1:1, 6 s: dos líneas con el punto como cursor). Todo lee los colores de la paleta activa. */
-import { DISCO } from "./marca.js?v=5bdbf1b";
-import { cargarLetras } from "./logo-vivo.js?v=5bdbf1b";
+import { DISCO } from "./marca.js?v=7a04113";
+import { cargarLetras } from "./logo-vivo.js?v=7a04113";
 
 const P = { x: 25.863281, y: 22.753906, r: 17.289 }, C = { x: 75.207031, y: 71.753906 };
 const LETRA = '"SF Pro Display", "Inter", system-ui, sans-serif';

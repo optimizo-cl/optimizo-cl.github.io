@@ -1,16 +1,16 @@
 /* Capítulo 3 · Formularios v2 (ola 5): pedir datos como una conversación. Mientras respondes, se dibuja tu empresa;
    la escalera única se elige peldaño a peldaño; la agenda muestra la disponibilidad como puntos; archivos y encuesta usan el isotipo como medidor. */
-import { campo, validar } from "../kit/campos.js?v=5bdbf1b";
-import { boton, trabajar } from "../kit/controles.js?v=5bdbf1b";
-import { listo } from "../kit/punto.js?v=5bdbf1b";
-import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=5bdbf1b";
-import { toast } from "../kit/avisos.js?v=5bdbf1b";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=5bdbf1b";
-import { isotipo } from "../kit/marca.js?v=5bdbf1b";
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=5bdbf1b";
-import { contar } from "../kit/coreografia.js?v=5bdbf1b";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=5bdbf1b";
-import { ESCALERA, escaleraHTML, moverPunto } from "../kit/escalera.js?v=5bdbf1b";
+import { campo, validar } from "../kit/campos.js?v=7a04113";
+import { boton, trabajar } from "../kit/controles.js?v=7a04113";
+import { listo } from "../kit/punto.js?v=7a04113";
+import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=7a04113";
+import { toast } from "../kit/avisos.js?v=7a04113";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=7a04113";
+import { isotipo } from "../kit/marca.js?v=7a04113";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=7a04113";
+import { contar } from "../kit/coreografia.js?v=7a04113";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=7a04113";
+import { ESCALERA, escaleraHTML, moverPunto } from "../kit/escalera.js?v=7a04113";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -25,33 +25,33 @@ const SISTEMAS = [["planillas", "Planillas", "files"], ["whatsapp", "WhatsApp", 
 const DOLORES = [["cotizaciones", "Cotizaciones"], ["seguimiento", "Seguimiento"], ["inventario", "Inventario"], ["reportes", "Reportes"], ["conocimiento", "Lo que sabe cada uno"], ["coordinacion", "Coordinación"]];
 const PERSONAS = [["1-10", "1 a 10", 6], ["11-50", "11 a 50", 14], ["51-200", "51 a 200", 26], ["200+", "Más de 200", 40]];
 
+/* Tu empresa, dibujada en orden (sin órbitas): arriba los sistemas con los que trabaja, que bajan por líneas rectas
+   a un mismo cauce y entran al isotipo (los datos viajan por ahí); abajo su gente, en filas; y colgando del cauce de
+   abajo, los nudos donde se pierde el tiempo. Todo recto, como la marca ordena. */
 function mapaEmpresa(svg) {
-  const C = 200, nodos = new Map(), trabas = new Map();
-  const capaOrb = svgEl("g", { class: "mapa__orbitas" }), capaFlujo = svgEl("g", { class: "mapa__flujos" }), capaNodos = svgEl("g"), capaGente = svgEl("g", { class: "mapa__gente" });
-  [128, 172].forEach((r) => capaOrb.appendChild(svgEl("circle", { cx: C, cy: C, r, class: "mapa__orbita" })));
+  const W = 440, C = 220, CY = 196, BUS = 118, BAJO = 346;
+  svg.setAttribute("viewBox", `0 0 ${W} 420`);
+  const capa = (cls) => { const g = svgEl("g", { class: cls }); svg.appendChild(g); return g; };
+  const capaFlujo = capa("mapa__flujos"), capaGente = capa("mapa__gente"), capaNodos = capa(""), capaNudos = capa("mapa__nudos");
+  const cauce = svgEl("path", { class: "mapa__cauce" }), cauceBajo = svgEl("path", { class: "mapa__cauce mapa__cauce--bajo" });
+  capaFlujo.append(cauce); capaNudos.append(cauceBajo);
   const centro = svgEl("g", { class: "mapa__centro" });
-  centro.innerHTML = `<g transform="translate(${C - 46} ${C - 46}) scale(.665)">${isotipo({ clase: "" }).replace(/<svg[^>]*>|<\/svg>/g, "")}</g><text class="mapa__nombre" x="${C}" y="${C + 62}" text-anchor="middle">Tu empresa</text>`;
-  svg.append(capaOrb, capaGente, capaFlujo, capaNodos, centro);
-  let gente = 0, t0 = performance.now(), raf = 0, vivo = false;
-  const posNodo = (i, n, r, t) => { const a = (i / Math.max(1, n)) * Math.PI * 2 - Math.PI / 2 + t * 0.00006; return [C + Math.cos(a) * r, C + Math.sin(a) * r]; };
+  centro.innerHTML = `<g transform="translate(${C - 46} ${CY - 46}) scale(.665)">${isotipo({ clase: "" }).replace(/<svg[^>]*>|<\/svg>/g, "")}</g><text class="mapa__nombre" x="${C}" y="${CY + 66}" text-anchor="middle">Tu empresa</text>`;
+  svg.appendChild(centro);
+  const nodos = new Map(), nudos = new Map();
+  let gente = 0, raf = 0, vivo = false, t0 = performance.now();
+  const repartir = (n, ancho = 360) => Array.from({ length: n }, (_, k) => (n === 1 ? C : C - ancho / 2 + (ancho / (n - 1)) * k));
+  const dibujar = () => {
+    const lista = [...nodos.values()], xs = repartir(lista.length, Math.min(390, 96 * Math.max(1, lista.length - 1)));
+    lista.forEach((nd, k) => { const x = xs[k]; nd.x = x; nd.g.setAttribute("transform", `translate(${x} 54)`); nd.flujo.setAttribute("d", `M${x} 72 V${BUS} H${C} V${CY - 50}`); });
+    cauce.setAttribute("d", lista.length ? `M${Math.min(...xs)} ${BUS} H${Math.max(...xs)} M${C} ${BUS} V${CY - 50}` : "");
+    const ns = [...nudos.values()], xn = repartir(ns.length, Math.min(340, 84 * Math.max(1, ns.length - 1)));
+    ns.forEach((g, k) => g.setAttribute("transform", `translate(${xn[k]} ${BAJO + 14})`));
+    cauceBajo.setAttribute("d", ns.length ? `M${C} ${CY + 122} V${BAJO} M${Math.min(...xn)} ${BAJO} H${Math.max(...xn)}` : "");
+  };
   const cuadro = () => {
-    const t = reducido() ? 0 : performance.now() - t0;
-    const lista = [...nodos.values()];
-    lista.forEach((nd, i) => {
-      const [x, y] = posNodo(i, lista.length, 172, t);
-      nd.g.setAttribute("transform", `translate(${x} ${y})`);
-      // la etiqueta del sistema siempre hacia afuera de la órbita
-      const ux = (x - C) / 172, uy = (y - C) / 172, tx = nd.g.querySelector("text");
-      tx.setAttribute("x", ux * 30); tx.setAttribute("y", uy * 30 + 4); tx.setAttribute("text-anchor", ux > 0.35 ? "start" : ux < -0.35 ? "end" : "middle");
-      nd.flujo.setAttribute("d", `M${x} ${y} Q ${(x + C) / 2 + (y - C) * 0.25} ${(y + C) / 2 - (x - C) * 0.25} ${C} ${C}`);
-      if (nd.dato) { const L = nd.flujo.getTotalLength(), k = ((t / 2400) + i * 0.37) % 1; const p = nd.flujo.getPointAtLength(L * k); nd.dato.setAttribute("cx", p.x); nd.dato.setAttribute("cy", p.y); }
-    });
-    [...trabas.values()].forEach((tr, i, arr) => {
-      const [x, y] = posNodo(i + 0.5, arr.length, 128, -t * 0.6); tr.setAttribute("transform", `translate(${x} ${y})`);
-      // la etiqueta del nudo, hacia adentro: así no se cruza con las de los sistemas
-      const ux = (x - C) / 128, uy = (y - C) / 128, tx = tr.querySelector("text");
-      tx.setAttribute("x", -ux * 16); tx.setAttribute("y", -uy * 16 + 4); tx.setAttribute("text-anchor", ux > 0.35 ? "end" : ux < -0.35 ? "start" : "middle");
-    });
+    const t = movimientoReducido() ? 0 : performance.now() - t0;
+    [...nodos.values()].forEach((nd, k) => { if (!nd.dato) return; const L = nd.flujo.getTotalLength(), q = ((t / 2600) + k * 0.31) % 1, p = nd.flujo.getPointAtLength(L * q); nd.dato.setAttribute("cx", p.x); nd.dato.setAttribute("cy", p.y); });
     if (vivo) raf = requestAnimationFrame(cuadro);
   };
   new IntersectionObserver(([e]) => { vivo = e.isIntersecting; if (vivo && !raf) raf = requestAnimationFrame(cuadro); if (!vivo) { cancelAnimationFrame(raf); raf = 0; } }).observe(svg);
@@ -59,30 +59,32 @@ function mapaEmpresa(svg) {
     nombre(txt) { centro.querySelector(".mapa__nombre").textContent = txt || "Tu empresa"; },
     personas(n) {
       if (n === gente) return; gente = n; capaGente.innerHTML = "";
-      const total = Math.min(60, Math.max(8, n));
-      for (let i = 0; i < total; i++) { const a = (i / total) * Math.PI * 2, r = 82 + (i % 2) * 7; capaGente.appendChild(svgEl("circle", { cx: C + Math.cos(a) * r, cy: C + Math.sin(a) * r, r: 2.2, style: `--i:${i}` })); }
+      const total = Math.min(60, Math.max(6, n)), porFila = 20, filas = Math.ceil(total / porFila);
+      for (let k = 0; k < total; k++) { const f = Math.floor(k / porFila), enFila = Math.min(porFila, total - f * porFila), c = k % porFila;
+        capaGente.appendChild(svgEl("circle", { cx: C + (c - (enFila - 1) / 2) * 11, cy: CY + 88 + f * 11, r: 3, style: `--i:${k}` })); }
+      void filas;
     },
     sistemas(lista) {
-      for (const [k, nd] of nodos) if (!lista.includes(k)) { nd.g.classList.add("sale"); nd.flujo.remove(); setTimeout(() => nd.g.remove(), 500); nodos.delete(k); }
+      for (const [k, nd] of nodos) if (!lista.includes(k)) { nd.g.classList.add("sale"); nd.flujo.remove(); nd.dato.remove(); setTimeout(() => nd.g.remove(), 400); nodos.delete(k); }
       for (const k of lista) if (!nodos.has(k)) {
-        const [, nombre] = SISTEMAS.find((s) => s[0] === k);
+        const nombre = { erp: "ERP", crm: "CRM" }[k] || SISTEMAS.find((x) => x[0] === k)[1];
         const g = svgEl("g", { class: "mapa__nodo" });
-        g.innerHTML = `<circle r="17" class="mapa__nodo-disco"/><circle r="5.5" class="mapa__nodo-hueco"/><text>${nombre}</text>`;
-        const flujo = svgEl("path", { class: "mapa__flujo" }), dato = svgEl("circle", { r: 3, class: "mapa__dato" });
+        g.innerHTML = `<circle r="17" class="mapa__nodo-disco"/><circle r="5.5" class="mapa__nodo-hueco"/><text y="-26" text-anchor="middle">${nombre}</text>`;
+        const flujo = svgEl("path", { class: "mapa__flujo" }), dato = svgEl("circle", { r: 3.4, class: "mapa__dato" });
         capaFlujo.append(flujo, dato); capaNodos.appendChild(g);
         nodos.set(k, { g, flujo, dato });
       }
-      cuadro();
+      dibujar(); cuadro();
     },
     dolores(lista) {
-      for (const [k, tr] of trabas) if (!lista.includes(k)) { tr.remove(); trabas.delete(k); }
-      for (const k of lista) if (!trabas.has(k)) {
+      for (const [k, g] of nudos) if (!lista.includes(k)) { g.remove(); nudos.delete(k); }
+      for (const k of lista) if (!nudos.has(k)) {
         const [, nombre] = DOLORES.find((d) => d[0] === k);
         const g = svgEl("g", { class: "mapa__traba" });
-        g.innerHTML = `<circle r="3.4" cx="-5" cy="1"/><circle r="3.4" cx="2" cy="-4"/><circle r="3.4" cx="4" cy="4"/><text>${nombre}</text>`;
-        capaNodos.appendChild(g); trabas.set(k, g);
+        g.innerHTML = `<circle r="3.4" cx="-5" cy="1"/><circle r="3.4" cx="2" cy="-4"/><circle r="3.4" cx="4" cy="4"/><text y="26" text-anchor="middle">${nombre}</text>`;
+        capaNudos.appendChild(g); nudos.set(k, g);
       }
-      cuadro();
+      dibujar();
     },
     ordenar() { svg.classList.add("mapa--ordenado"); },
   };
@@ -108,7 +110,7 @@ export const formularios2 = {
             <p class="conv__horas"><b data-horas>0</b><span>horas por semana que se podrían recuperar</span></p><p class="chico">Estimación de ejemplo según tamaño y nudos. El diagnóstico real la mide.</p></div>
           <div class="conv__acciones"><button type="button" class="boton boton--texto" data-atras hidden>${icono("arrow-left", { tam: 18 })}<span class="boton__texto">Atrás</span></button><button type="submit" class="boton boton--acento boton--l" data-seguir><span class="boton__texto">Seguir</span>${icono("arrow-right", { tam: 20 })}</button><span class="rotulo conv__tecla">o presiona Enter ↵</span></div>
         </form></div>
-      <figure class="conv__mapa"><svg viewBox="-80 -30 560 460" role="img" aria-label="Mapa de tu empresa: se dibuja mientras respondes" data-mapa></svg><figcaption class="rotulo">Tu empresa, dibujada mientras respondes</figcaption></figure>
+      <figure class="conv__mapa"><svg viewBox="0 0 440 420" role="img" aria-label="Mapa de tu empresa: se dibuja mientras respondes" data-mapa></svg><figcaption class="rotulo">Tu empresa, dibujada mientras respondes</figcaption></figure>
     </div>`;
     cuerpo(el).innerHTML = pieza({ vivo, uso: usoDe(["Una pregunta por pantalla, con letra grande; Enter avanza.", "Lo que respondes se ve al instante en el mapa: nadie llena a ciegas.", "Solo lo justo: 5 preguntas. El resto se conversa.", "Al final, el mapa y una estimación honesta (marcada como ejemplo)."], 'const mapa = mapaEmpresa(svg);\nmapa.sistemas(["planillas", "whatsapp"]);\nmapa.dolores(["cotizaciones"]);') });
     activarPiezas(el); await rellenarIconos(); activarEtapas(el);
@@ -199,14 +201,14 @@ export const formularios2 = {
 
   /* ── Agendar: disponibilidad como densidad de puntos y una cinta de horas ── */
   async agendar(el) {
-    const HOY = new Date(2026, 9, 12), MES = new Date(2026, 9, 1);
+    const HOY = new Date(2026, 8, 14), MES = new Date(2026, 8, 1);
     const libres = (d) => { const dia = d.getDay(); if (dia === 0 || dia === 6 || d < HOY) return 0; return [1, 5, 3, 6, 2, 4, 6, 1, 5, 2][(d.getDate() * 7) % 10]; };
     const dias = []; const primero = (MES.getDay() + 6) % 7; for (let k = 0; k < primero; k++) dias.push(null);
-    for (let d = 1; d <= 31; d++) dias.push(new Date(2026, 9, d));
+    for (let d = 1; d <= 30; d++) dias.push(new Date(2026, 8, d));
     const vivo = `<div class="agenda" data-agenda>
-      <div class="agenda__cal papel"><div class="agenda__mes"><b>Octubre 2026</b><span class="rotulo">Más puntos = más horas libres</span></div>
+      <div class="agenda__cal papel"><div class="agenda__mes"><b>Septiembre 2026</b><span class="rotulo">Más puntos = más horas libres</span></div>
         <div class="agenda__semana" aria-hidden="true">${["L", "M", "M", "J", "V", "S", "D"].map((x) => `<span>${x}</span>`).join("")}</div>
-        <div class="agenda__dias" role="group" aria-label="Días de octubre">${dias.map((d) => { if (!d) return `<span></span>`; const n = libres(d); return `<button type="button" class="agenda__dia" data-dia="${d.getDate()}" ${n ? "" : "disabled"} tabindex="-1" aria-label="${d.toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" })}${n ? `, ${n} horarios libres` : ", sin horarios"}"><span>${d.getDate()}</span><i class="agenda__puntos" style="--n:${n}">${"<i></i>".repeat(n)}</i></button>`; }).join("")}</div></div>
+        <div class="agenda__dias" role="group" aria-label="Días de septiembre">${dias.map((d) => { if (!d) return `<span></span>`; const n = libres(d); return `<button type="button" class="agenda__dia" data-dia="${d.getDate()}" ${n ? "" : "disabled"} tabindex="-1" aria-label="${d.toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" })}${n ? `, ${n} horarios libres` : ", sin horarios"}"><span>${d.getDate()}</span><i class="agenda__puntos" style="--n:${n}">${"<i></i>".repeat(n)}</i></button>`; }).join("")}</div></div>
       <div class="agenda__horas"><p class="rotulo" data-dia-t>Elige un día</p>
         <div class="cinta" data-cinta><div class="cinta__aguja" aria-hidden="true"></div><div class="cinta__pista" role="listbox" aria-label="Horarios" data-pista></div></div>
         <p class="chico agenda__zona">${icono("clock", { tam: 16 })} Hora de Santiago (GMT−3) · 30 minutos por videollamada</p>
@@ -226,7 +228,7 @@ export const formularios2 = {
     const elegirDia = (b) => {
       botones.forEach((x) => { x.setAttribute("aria-pressed", x === b); x.tabIndex = x === b ? 0 : -1; });
       dia = +b.dataset.dia; hora = null; raiz.querySelector("[data-confirmar]").disabled = true;
-      const fecha = new Date(2026, 9, dia);
+      const fecha = new Date(2026, 8, dia);
       raiz.querySelector("[data-dia-t]").textContent = fecha.toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" });
       const ocupadas = new Set(["10:00", "12:30", "15:00", "15:30"].filter((_, k) => (dia + k) % 3));
       const horas = []; for (let h = 9; h < 18; h++) for (const m of ["00", "30"]) horas.push(`${h}:${m}`);
@@ -257,7 +259,7 @@ export const formularios2 = {
     raiz.querySelector("[data-confirmar]").addEventListener("click", async (e) => {
       await trabajar(e.currentTarget, () => espera(1000), { cargando: "Reservando…", listo: "Reservado" });
       const l = raiz.querySelector("[data-listo]"); l.hidden = false;
-      l.innerHTML = `${listo({ tam: 56, texto: "Reunión agendada" })}<p class="chico">${new Date(2026, 9, dia).toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" })} a las ${hora} h. Te llega la invitación al correo.</p>`;
+      l.innerHTML = `${listo({ tam: 56, texto: "Reunión agendada" })}<p class="chico">${new Date(2026, 8, dia).toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" })} a las ${hora} h. Te llega la invitación al correo.</p>`;
     });
     elegirDia(botones[0]);
   },

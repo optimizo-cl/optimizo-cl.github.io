@@ -1,16 +1,16 @@
 /* Sitio de Optimizo v2: armado SOLO con piezas del guion (isotipo, etapas, kit de cerámica, cotizador, familia). */
-import { logo, isotipo } from "../src/kit/marca.js?v=5bdbf1b";
-import { icono, rellenarIconos, cargarIconos } from "../src/kit/iconos.js?v=5bdbf1b";
-import { campo, validar, activarCampos } from "../src/kit/campos.js?v=5bdbf1b";
-import { boton, trabajar, activarControles, prepararSegmentos } from "../src/kit/controles.js?v=5bdbf1b";
-import { listo } from "../src/kit/punto.js?v=5bdbf1b";
-import { orden as ordenar } from "../src/kit/orden.js?v=5bdbf1b";
-import { etapas, activarEtapas, moverEtapa } from "../src/kit/etapas.js?v=5bdbf1b";
-import { progreso } from "../src/kit/coreografia.js?v=5bdbf1b";
-import { movimientoReducido } from "../src/kit/escenas/vigia.js?v=5bdbf1b";
-import { formularios2 } from "../src/secciones/formularios2.js?v=5bdbf1b";
-import { ESCALERA } from "../src/kit/escalera.js?v=5bdbf1b";
-import { sello2, auroraMedula, medulaSVG } from "../src/secciones/familia2.js?v=5bdbf1b";
+import { logo, isotipo } from "../src/kit/marca.js?v=7a04113";
+import { icono, rellenarIconos, cargarIconos } from "../src/kit/iconos.js?v=7a04113";
+import { campo, validar, activarCampos } from "../src/kit/campos.js?v=7a04113";
+import { boton, trabajar, activarControles, prepararSegmentos } from "../src/kit/controles.js?v=7a04113";
+import { listo } from "../src/kit/punto.js?v=7a04113";
+import { orden as ordenar } from "../src/kit/orden.js?v=7a04113";
+import { etapas, activarEtapas, moverEtapa } from "../src/kit/etapas.js?v=7a04113";
+import { progreso } from "../src/kit/coreografia.js?v=7a04113";
+import { movimientoReducido } from "../src/kit/escenas/vigia.js?v=7a04113";
+import { formularios2 } from "../src/secciones/formularios2.js?v=7a04113";
+import { ESCALERA } from "../src/kit/escalera.js?v=7a04113";
+import { sello2, auroraMedula, medulaSVG } from "../src/secciones/familia2.js?v=7a04113";
 
 const $ = (s) => document.querySelector(s);
 const tramo = (p, a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));

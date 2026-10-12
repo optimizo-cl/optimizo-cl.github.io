@@ -4,7 +4,7 @@ export const CAPITULOS = [
   { id: "identidad", n: "1", nombre: "Identidad", que: "El disco, la mordida y el punto que se escapa: concepto, logo, color, letra, material y escenas.", escena: "isotipo" },
   { id: "kit", n: "2", nombre: "Kit", que: "Piezas de cerámica que se hunden, responden y confirman con el punto.", escena: "ceramica" },
   { id: "formularios", n: "3", nombre: "Formularios", que: "Pedir datos como una conversación: mientras respondes, se dibuja tu empresa.", escena: "escritura" },
-  { id: "datos", n: "4", nombre: "Datos y cimientos", que: "Números que se leen de un vistazo, gráficas que se dibujan y la base de cualquier app.", escena: "trama" },
+  { id: "datos", n: "4", nombre: "Datos y cimientos", que: "Números que se leen de un vistazo, gráficas que se dibujan y la base de cualquier app.", escena: "grafica" },
   { id: "producto", n: "5", nombre: "Producto y familia", que: "Lo que solo Optimizo tiene, y cómo conviven Medula y Bárbara bajo el sello.", escena: "familia" },
   { id: "web", n: "6", nombre: "Web y marca", que: "Donde la marca sale al mundo: sitio, redes, presentaciones, correos.", escena: "pieza" },
   { id: "manual", n: "7", nombre: "Manual", que: "Las reglas, la anatomía y las descargas: el brandbook vivo.", escena: "reticula" },

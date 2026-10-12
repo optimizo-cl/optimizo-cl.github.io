@@ -1,9 +1,9 @@
 /* Capítulo 1 · Identidad. Las secciones solo MUESTRAN; las piezas viven en src/kit. */
-import { SECCIONES } from "../plan.js?v=5bdbf1b";
-import { isotipo, logo } from "../kit/marca.js?v=5bdbf1b";
-import { contraste, colorDe } from "../kit/color.js?v=5bdbf1b";
-import { icono } from "../kit/iconos.js?v=5bdbf1b";
-import { marco, rejilla } from "../kit/guion.js?v=5bdbf1b";
+import { SECCIONES } from "../plan.js?v=7a04113";
+import { isotipo, logo } from "../kit/marca.js?v=7a04113";
+import { contraste, colorDe } from "../kit/color.js?v=7a04113";
+import { icono } from "../kit/iconos.js?v=7a04113";
+import { marco, rejilla } from "../kit/guion.js?v=7a04113";
 
 const raiz = document.documentElement;
 const paletaActiva = () => raiz.dataset.paleta || "teal";

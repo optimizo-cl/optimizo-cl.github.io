@@ -1,8 +1,8 @@
 /* Escalera de Optimizo: UNA sola escalera para todo el guion (madurez, cotizador, sitio, propuestas).
    Cada peldaño es a la vez una etapa de madurez de la empresa y el servicio que la lleva ahí:
    Sin CRM → CRM a medida → Medula → Agentes → Departamentos. El punto de la marca salta en arco al peldaño que toca. */
-import { icono } from "./iconos.js?v=5bdbf1b";
-import { movimientoReducido } from "./escenas/vigia.js?v=5bdbf1b";
+import { icono } from "./iconos.js?v=7a04113";
+import { movimientoReducido } from "./escenas/vigia.js?v=7a04113";
 
 export const ESCALERA = [
   { k: "diagnostico", etapa: "Sin CRM", etapaD: "Ventas en planillas y WhatsApp. Nadie ve el total.", icoEtapa: "file-xls",

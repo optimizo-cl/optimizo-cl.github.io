@@ -53,26 +53,32 @@
 }
 
 /* ── Portadas de capítulo ── */
-.cap-portada { position: relative; min-height: min(92svh, 900px); display: grid; align-items: center; overflow: hidden; background: var(--superficie-hundida); isolation: isolate; }
+/* Portadas de capítulo: UN sistema. Número, título y bajada a la izquierda; a la derecha la escena, donde el punto de la
+   marca aterriza en lo que trata el capítulo. Nada se encima: texto y escena son columnas. Hueso en todas; navy solo
+   en Producto y familia, donde Medula y Bárbara necesitan contraste. */
+.cap-portada { position: relative; min-height: min(88svh, 860px); display: grid; align-items: center; overflow: hidden; background: var(--superficie-hundida); isolation: isolate; }
 .cap-portada::before { content: ""; position: absolute; inset: 0; background-image: var(--grano); background-size: var(--grano-tam, 220px); opacity: calc(var(--grano-opacidad) * 1.3); z-index: -1; }
-.cap-portada:nth-of-type(even) { background: var(--navy); color: var(--hueso); }
-.cap-portada:nth-of-type(even) .bajada, .cap-portada:nth-of-type(even) .rotulo { color: rgba(237, 238, 232, .78); }
-.cap-portada:nth-of-type(even) .ceja { color: var(--acento-claro); }
-.cap-portada__escena { contain: paint; position: absolute; inset: 0 0 0 auto; width: min(56%, 820px); display: grid; place-items: center; pointer-events: none; -webkit-mask-image: linear-gradient(90deg, transparent, #000 28%); mask-image: linear-gradient(90deg, transparent, #000 28%); }
-.cap-portada__texto > div { max-width: min(520px, 42vw); }
-.cap-portada__texto { position: relative; display: grid; grid-template-columns: auto 1fr; gap: clamp(16px, 3vw, 48px); align-items: end; }
-.cap-portada__n { font-size: clamp(8rem, 5rem + 14vw, 22rem); font-weight: 700; line-height: .78; letter-spacing: -0.07em; color: transparent; -webkit-text-stroke: 1.5px var(--borde-fuerte); font-variant-numeric: tabular-nums; }
-.cap-portada:nth-of-type(even) .cap-portada__n { -webkit-text-stroke-color: rgba(237, 238, 232, .3); }
-.cap-portada__texto > div { display: grid; gap: var(--e-3); max-width: 520px; padding-bottom: 1.2em; }
-.cap-portada__nombre { font-size: var(--t-hero); font-weight: 700; letter-spacing: -0.045em; line-height: .98; }
+.cap-portada[data-escena="familia"] { background: var(--navy); color: var(--hueso); }
+.cap-portada[data-escena="familia"] .bajada, .cap-portada[data-escena="familia"] .rotulo { color: rgba(237, 238, 232, .78); }
+.cap-portada[data-escena="familia"] .ceja { color: var(--acento-claro); }
+.cap-portada__texto { position: relative; display: grid; grid-template-columns: auto minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(16px, 3vw, 48px); align-items: center; }
+.cap-portada__n { align-self: end; font-size: clamp(7rem, 4rem + 10vw, 16rem); font-weight: 700; line-height: .78; letter-spacing: -0.07em; color: transparent; -webkit-text-stroke: 1.5px var(--borde-fuerte); font-variant-numeric: tabular-nums; }
+.cap-portada[data-escena="familia"] .cap-portada__n { -webkit-text-stroke-color: rgba(237, 238, 232, .3); }
+.cap-portada__texto > div:not(.cap-portada__escena) { display: grid; gap: var(--e-3); max-width: 480px; align-self: end; padding-bottom: 1.2em; }
+.cap-portada__nombre { font-size: clamp(2.6rem, 1.6rem + 3vw, 4.6rem); font-weight: 700; letter-spacing: -0.045em; line-height: .98; }
+.cap-portada__escena { position: relative; min-height: 420px; display: grid; place-items: center; pointer-events: none; }
 .cap-portada.abierto .cap-portada__n { animation: cap-numero 1800ms var(--llegada) both; }
 @keyframes cap-numero { from { transform: translateY(40px); opacity: 0; } }
-@media (max-width: 860px) {
-  .cap-portada { min-height: 80svh; align-items: end; padding-bottom: var(--e-7); }
-  .cap-portada__escena { width: 100%; height: 55%; inset: 0 0 auto 0; opacity: .9; }
-  .cap-portada__texto { grid-template-columns: 1fr; }
-  .cap-portada__n { font-size: 7rem; }
+@media (max-width: 1100px) {
+  .cap-portada { min-height: 0; padding-block: var(--e-7); }
+  .cap-portada__texto { grid-template-columns: auto minmax(0, 1fr); }
+  .cap-portada__escena { grid-column: 1 / -1; grid-row: 1; min-height: 320px; }
 }
+@media (max-width: 860px) {
+  .cap-portada__n { font-size: 6rem; }
+  .cap-portada__escena { min-height: 260px; }
+}
+
 
 /* ── Encabezado de sección con número ── */
 .sec-cabeza { display: grid; grid-template-columns: 120px 1fr; gap: var(--e-5); align-items: start; margin-bottom: var(--e-7); max-width: 980px; }
@@ -87,36 +93,19 @@
 .escena-svg { width: min(100%, 560px); height: auto; overflow: visible; }
 .escena-iso { width: min(70%, 460px); overflow: visible; }
 .escena-iso-mini { overflow: visible; }
-.escena-fichas { display: grid; gap: 18px; justify-items: center; transform: rotate(-6deg); }
-.escena-ficha { display: inline-flex; align-items: center; gap: 12px; padding: 22px 34px; border-radius: 22px; font-size: clamp(18px, 2vw, 26px); font-weight: 600; background: var(--superficie-2); color: var(--texto); box-shadow: 0 1px 0 rgba(255,255,255,.7) inset, 0 -3px 0 rgba(22,38,58,.06) inset, var(--sombra-3); animation: ficha-hunde 4.8s var(--suave) infinite; animation-delay: calc(var(--i) * 1.6s); }
-.escena-ficha i { width: 12px; height: 12px; border-radius: 50%; background: var(--acento); }
-.escena-ficha:nth-child(2) { margin-left: 140px; } .escena-ficha:nth-child(3) { margin-left: -60px; }
 @keyframes ficha-hunde { 0%, 70%, 100% { transform: none; box-shadow: 0 1px 0 rgba(255,255,255,.7) inset, var(--sombra-3); } 78% { transform: translateY(3px) scale(.975); box-shadow: 0 2px 6px rgba(22,38,58,.18) inset, var(--sombra-1); } }
 .escena-escribe { font-size: clamp(26px, 3.4vw, 54px); font-weight: 700; letter-spacing: -0.035em; max-width: 12ch; line-height: 1.05; }
 .escena-escribe__punto { display: inline-block; width: .28em; height: .28em; margin-left: .08em; border-radius: 50%; background: var(--acento); vertical-align: baseline; animation: punto-late 1.1s var(--suave) infinite; }
 @keyframes punto-late { 50% { opacity: .25; } }
-.escena-trama circle { fill: var(--acento); opacity: 0; animation: trama-aparece 900ms var(--llegada) forwards; animation-delay: var(--d); }
-.cap-portada:not(.abierto) .escena-trama circle { animation: none; }
-.cap-portada:nth-of-type(even) .escena-trama circle { fill: var(--acento-claro); }
 @keyframes trama-aparece { from { opacity: 0; transform: scale(0); transform-origin: center; transform-box: fill-box; } to { opacity: .9; transform: none; } }
-.escena-orbita { fill: none; stroke: currentColor; stroke-opacity: .2; stroke-width: 1.2; stroke-dasharray: 2 6; }
-.escena-gira { transform-origin: 200px 200px; animation: orbita calc(var(--t)) linear infinite; animation-direction: var(--d2, normal); }
-.escena-gira[style*="--dir:-1"] { animation-direction: reverse; }
-.escena-dato { fill: var(--acento); }
-.escena-dato--b { fill: currentColor; opacity: .5; }
-.escena-piezas { position: relative; width: 420px; height: 420px; perspective: 1200px; }
-.escena-pieza { position: absolute; inset: 40px; display: grid; align-items: end; padding: 34px; border-radius: 18px; background: var(--hueso); color: var(--navy); font-size: 30px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; box-shadow: var(--sombra-3); transform: rotateY(-22deg) rotateX(8deg) translateZ(calc(var(--i) * -90px)) translateX(calc(var(--i) * var(--dx, 46px))) translateY(calc(var(--i) * -30px)); animation: pieza-flota 9s var(--suave) infinite; animation-delay: calc(var(--i) * -3s); }
-.escena-pieza:nth-child(1) { background: var(--navy); color: var(--hueso); font-size: 72px; }
-.escena-pieza:nth-child(2) { background: var(--acento-claro); }
 @keyframes pieza-flota { 50% { translate: 0 -12px; } }
-@media (max-width: 860px) { .escena-piezas { width: 300px; height: 300px; --dx: 18px; } .escena-pieza { inset: 26px; padding: 22px; font-size: 22px; } .escena-pieza:nth-child(1) { font-size: 52px; } }
 .escena-reticula__l { stroke: currentColor; stroke-opacity: .12; stroke-width: 1; }
 .escena-cota { fill: none; stroke: var(--acento); stroke-width: 1.5; stroke-dasharray: 400; stroke-dashoffset: 400; }
 .cap-portada.abierto .escena-cota { animation: cota-traza 2.2s var(--llegada) 600ms forwards; }
 @keyframes cota-traza { to { stroke-dashoffset: 0; } }
 .escena-cotas text { font-size: 13px; font-weight: 600; fill: var(--acento-texto); }
-.cap-portada:nth-of-type(even) .escena-cotas text { fill: var(--acento-claro); }
-@media (prefers-reduced-motion: reduce) { .escena-cota { stroke-dashoffset: 0; } .escena-trama circle { opacity: .9; } }
+.cap-portada[data-escena="familia"] .escena-cotas text { fill: var(--acento-claro); }
+@media (prefers-reduced-motion: reduce) { .escena-cota { stroke-dashoffset: 0; } }
 
 /* ── Comparador A | B ── */
 .comparador { position: fixed; inset: 0; z-index: calc(var(--z-dock) - 1); pointer-events: none; }
@@ -157,7 +146,7 @@
 .ef-ficha--bar img { width: 66px; height: 66px; border-radius: 50%; box-shadow: 0 0 0 3px #CDFB3E; }
 .ef-ficha--bar .barbara-palabra { font-size: 19px; }
 .ef-sello { position: absolute; left: 50%; bottom: -30px; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-size: 12.5px; font-weight: 600; color: var(--hueso); }
-.cap-portada:not(:nth-of-type(even)) .ef-sello { color: var(--texto-2); }
+.cap-portada:not([data-escena="familia"]) .ef-sello { color: var(--texto-2); }
 .ef-sello__punto { width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 1px currentColor; opacity: .5; transition: opacity 300ms var(--suave); }
 .ef-sello { opacity: .35; transition: opacity 500ms var(--suave); }
 .ef-sello.puesto { opacity: 1; }
@@ -170,3 +159,63 @@
 .ef-iso { width: 70px; } .ef-ficha--med img { width: 44px; } .ef-ficha--med .medula-palabra { font-size: 22px; } .ef-ficha--bar img { width: 56px; height: 56px; } .ef-ficha--bar .barbara-palabra { font-size: 16px; } .ef-ficha b { font-size: 15px; }
 @media (max-width: 860px) { .cap-portada__escena:has(.escena-familia) { justify-items: center; padding-right: 0; } }
 .cap-portada:has(.escena-familia) .cap-portada__texto > div { max-width: min(400px, 30vw); }
+
+/* ── Escenas de portada: el punto de la marca ── */
+.escena-punto { position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--punto-marca); box-shadow: 0 6px 14px -4px rgba(22, 38, 58, .35); transition: opacity 400ms var(--suave); will-change: transform; z-index: 2; }
+/* Kit: el botón de cerámica que se hunde y confirma */
+.escena-boton { position: relative; width: 100%; display: grid; place-items: center; min-height: 320px; }
+.escena-boton__pieza { position: relative; display: inline-grid; place-items: center; min-width: 380px; padding: 30px 92px 30px 40px; border-radius: 28px; font-size: clamp(22px, 2.2vw, 32px); font-weight: 650; letter-spacing: -0.02em; --c-base: var(--superficie-2); color: var(--texto); transition: transform 260ms var(--llegada), box-shadow 260ms var(--llegada); }
+.escena-boton__t, .escena-boton__ok { grid-area: 1 / 1; transition: opacity 360ms var(--suave), transform 360ms var(--llegada); }
+.escena-boton__ok { display: inline-flex; align-items: center; gap: 12px; opacity: 0; transform: translateY(10px); color: var(--exito); }
+.escena-boton.hundido .escena-boton__pieza { transform: translateY(4px) scale(.985); }
+.escena-boton.listo .escena-boton__t { opacity: 0; transform: translateY(-10px); }
+.escena-boton.listo .escena-boton__ok { opacity: 1; transform: none; }
+/* Datos: la gráfica se dibuja con el punto en la punta */
+.escena-grafica { position: relative; width: min(100%, 560px); }
+.escena-grafica__guia { stroke: currentColor; stroke-opacity: .1; }
+.escena-grafica__area { fill: color-mix(in srgb, var(--acento) 12%, transparent); opacity: 0; transition: opacity 900ms var(--suave); }
+.escena-grafica__linea { fill: none; stroke: var(--acento-profundo); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.escena-grafica.listo .escena-grafica__area { opacity: 1; }
+.escena-grafica__dato { position: absolute; left: 0; top: -22px; display: grid; justify-items: start; opacity: 0; transform: translateY(8px); transition: opacity 600ms var(--suave), transform 600ms var(--llegada); }
+.escena-grafica__dato b { font-size: clamp(40px, 4vw, 64px); font-weight: 700; letter-spacing: -0.05em; line-height: 1; color: var(--texto); }
+.escena-grafica__dato span { font-size: var(--t-chico); color: var(--texto-2); }
+.escena-grafica.listo .escena-grafica__dato { opacity: 1; transform: none; }
+/* Web: una pieza de marca (4:5) */
+.escena-post { width: min(78%, 340px); aspect-ratio: 4 / 5; display: grid; grid-template-rows: auto 1fr auto; padding: 30px; border-radius: 20px; background: var(--hueso); color: var(--navy); box-shadow: 0 30px 60px -30px rgba(22, 38, 58, .45), 0 0 0 1px var(--borde); position: relative; overflow: hidden; }
+.escena-post::before { content: ""; position: absolute; inset: 0; background-image: var(--grano); background-size: 220px; opacity: .6; pointer-events: none; }
+.escena-post__logo svg { width: 70%; height: auto; overflow: visible; }
+.escena-post__frase { align-self: end; font-size: clamp(24px, 2.2vw, 32px); font-weight: 700; letter-spacing: -0.035em; line-height: 1.05; }
+.escena-post__pie { margin-top: 14px; font-size: 13px; font-weight: 600; color: var(--grafito); }
+@media (max-width: 860px) { .escena-boton__pieza { min-width: 0; padding: 22px 70px 22px 28px; } .escena-boton { min-height: 240px; } }
+/* Recorrido de Quillay: la historia que une las secciones de cliente */
+.recorrido { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--e-3) var(--e-5); margin-top: var(--e-6); padding: var(--e-4) var(--e-5); border-radius: var(--r-4); background: var(--superficie); box-shadow: inset 0 0 0 1px var(--borde); }
+.recorrido__t { grid-column: 1 / -1; }
+.recorrido__pista { display: flex; align-items: center; list-style: none; margin: 0; padding: 0; }
+.recorrido__pista li { display: flex; align-items: center; }
+.recorrido__pista li + li::before { content: ""; width: 22px; border-top: 2px dashed var(--borde-fuerte); }
+.recorrido__pista li.hecho + li::before, .recorrido__pista li.actual::before { border-top-style: solid; border-color: var(--acento-profundo); }
+.recorrido__pista a { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; }
+.recorrido__pista a:focus-visible { outline: 3px solid var(--foco); }
+.recorrido__pista i { width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 2px var(--borde-fuerte); transition: transform 200ms var(--llegada); }
+.recorrido__pista li.hecho i { background: var(--acento-profundo); box-shadow: none; }
+.recorrido__pista li.actual i { width: 18px; height: 18px; background: var(--punto-marca); box-shadow: 0 3px 8px -2px rgba(22, 38, 58, .35); }
+.recorrido__pista a:hover i { transform: scale(1.25); }
+.recorrido__enlaces { display: flex; align-items: center; justify-content: space-between; gap: var(--e-4); flex-wrap: wrap; }
+.recorrido__ant { font-size: var(--t-chico); font-weight: 600; color: var(--texto-2); text-decoration: none; }
+.recorrido__ant:hover { color: var(--texto); text-decoration: underline; }
+@media (max-width: 760px) { .recorrido { grid-template-columns: minmax(0, 1fr); } }
+/* Cierre: navy, el isotipo grande y el punto que vuelve a su nido */
+.cierre { position: relative; overflow: hidden; isolation: isolate; background: var(--navy); color: var(--hueso); padding-block: var(--e-10) calc(var(--e-9) + 56px); }
+.cierre::before { content: ""; position: absolute; inset: 0; background-image: var(--grano); background-size: 220px; opacity: calc(var(--grano-opacidad) * 1.2); z-index: -1; }
+.cierre__dentro { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: var(--e-7); align-items: center; }
+.cierre__iso { display: grid; place-items: center; }
+.cierre__isotipo { width: min(100%, 380px); overflow: visible; filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .25)); }
+.cierre__texto { display: grid; gap: var(--e-4); justify-items: start; }
+.cierre .ceja { color: var(--acento-claro); }
+.cierre__frase { font-size: clamp(2.6rem, 1.4rem + 3.6vw, 5rem); font-weight: 700; letter-spacing: -0.045em; line-height: .98; opacity: .35; transition: opacity 900ms var(--suave); }
+.cierre.en-nido .cierre__frase { opacity: 1; }
+.cierre .bajada { color: rgba(237, 238, 232, .8); max-width: 46ch; }
+.cierre .boton--secundario { --c-base: transparent; background: transparent; color: var(--hueso); box-shadow: inset 0 0 0 1.5px rgba(237, 238, 232, .5); }
+.cierre__volver { align-self: center; font-weight: 600; font-size: var(--t-chico); color: var(--hueso); text-underline-offset: 3px; }
+.cierre__pie { position: absolute; left: 0; right: 0; bottom: calc(var(--e-5) + 56px); text-align: center; color: rgba(237, 238, 232, .6); }
+@media (max-width: 860px) { .cierre__dentro { grid-template-columns: minmax(0, 1fr); } .cierre__isotipo { width: min(70%, 260px); } }

@@ -1,14 +1,15 @@
 /* v2 de las secciones que quedaban con la composición repetida de la versión 1: contacto, validación, correos,
    firma, íconos de app, usos incorrectos, color y letra para producción, voz, imagen y aplicaciones. */
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=5bdbf1b";
-import { campo, validar } from "../kit/campos.js?v=5bdbf1b";
-import { boton, trabajar } from "../kit/controles.js?v=5bdbf1b";
-import { listo } from "../kit/punto.js?v=5bdbf1b";
-import { toast, estado } from "../kit/avisos.js?v=5bdbf1b";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=5bdbf1b";
-import { isotipo, logo } from "../kit/marca.js?v=5bdbf1b";
-import { correo, firma } from "../kit/correos.js?v=5bdbf1b";
-import { etapas, activarEtapas } from "../kit/etapas.js?v=5bdbf1b";
+import { numeroDe } from "../plan.js?v=7a04113";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=7a04113";
+import { campo, validar } from "../kit/campos.js?v=7a04113";
+import { boton, trabajar } from "../kit/controles.js?v=7a04113";
+import { listo } from "../kit/punto.js?v=7a04113";
+import { toast, estado } from "../kit/avisos.js?v=7a04113";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=7a04113";
+import { isotipo, logo } from "../kit/marca.js?v=7a04113";
+import { correo, firma } from "../kit/correos.js?v=7a04113";
+import { etapas, activarEtapas } from "../kit/etapas.js?v=7a04113";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -175,8 +176,11 @@ export const resto2 = {
 
   /* ── Aplicaciones: la marca en sus soportes, en cerámica ── */
   async aplicaciones(el) {
-    const apps = [["#landing", "Sitio web", "web", `${isotipo({ titulo: "" })}<b>Todo proceso tiene una salida.</b>`], ["#cimientos", "App y paneles", "app", "<i></i><i></i><i></i>"], ["#correos", "Correos", "correo", `${isotipo({ titulo: "" })}<i></i><i></i><i class="corta"></i>`], ["#redes", "Redes", "redes", "<b>31 h</b>"], ["#presentacion", "Presentaciones", "lamina", "<b>Cotizar en minutos</b>"], ["#papeleria", "Papelería", "tarjeta", isotipo({ titulo: "" })], ["#familia", "Productos con sello", "sello", `<img src="assets/productos/medula-marca-blanca.svg" alt="">`], ["#video", "Video", "video", `${isotipo({ titulo: "" })}`]];
-    const vivo = `<div class="aplicaciones2">${apps.map(([h, n, k, v], i) => `<a class="aplicacion2 ceramica" href="${h}" style="--i:${i}"><span class="aplicacion__vista aplicacion__vista--${k}">${v.replaceAll('role="img" aria-label=""', 'aria-hidden="true"')}</span><span class="aplicacion2__nombre">${n}${icono("arrow-right", { tam: 16 })}</span></a>`).join("")}</div><p class="chico">Cada aplicación lleva a su sección del guion, donde está funcionando.</p>`;
+    // miniaturas reales de cada sección (capturadas con paleta A y B); el clic lleva a la pieza funcionando
+    const apps = [["landing", "Sitio web"], ["cimientos", "App y paneles"], ["correos", "Correos"], ["redes", "Redes"], ["presentacion", "Presentaciones"], ["papeleria", "Papelería"], ["familia", "Productos con sello"], ["video", "Video"]];
+    const vivo = `<div class="aplicaciones2">${apps.map(([k, n], i) => `<a class="aplicacion2 ceramica" href="#${k}" style="--i:${i}"><span class="aplicacion2__mini">
+        <img class="aplicacion2__img aplicacion2__img--a" src="assets/aplicaciones/${k}-a.webp" alt="" loading="lazy" width="560" height="370"><img class="aplicacion2__img aplicacion2__img--b" src="assets/aplicaciones/${k}-b.webp" alt="" loading="lazy" width="560" height="370"></span>
+        <span class="aplicacion2__nombre">${n}<span class="rotulo">${numeroDe(k)}</span>${icono("arrow-right", { tam: 16 })}</span></a>`).join("")}</div><p class="chico">Cada aplicación es una captura real de su sección y lleva a ella, donde está funcionando.</p>`;
     cuerpo(el).innerHTML = pieza({ vivo });
     activarPiezas(el); await rellenarIconos();
   },

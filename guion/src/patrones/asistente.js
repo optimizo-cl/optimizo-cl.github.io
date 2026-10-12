@@ -1,8 +1,8 @@
 /* Asistente en pasos: el punto marca el avance, cada paso se valida antes de seguir y al final aterriza en «Listo». */
-import { progreso, moverProgreso, listo } from "../kit/punto.js?v=5bdbf1b";
-import { boton, trabajar } from "../kit/controles.js?v=5bdbf1b";
-import { validar } from "../kit/campos.js?v=5bdbf1b";
-import { rellenarIconos } from "../kit/iconos.js?v=5bdbf1b";
+import { progreso, moverProgreso, listo } from "../kit/punto.js?v=7a04113";
+import { boton, trabajar } from "../kit/controles.js?v=7a04113";
+import { validar } from "../kit/campos.js?v=7a04113";
+import { rellenarIconos } from "../kit/iconos.js?v=7a04113";
 
 /** pasos: [{ nombre, html, resumen?(datos) }] · alTerminar(datos) → Promise · listoTexto */
 export function asistente(el, { pasos, alTerminar = async () => {}, listoTexto = "Enviado", listoDetalle = "" }) {

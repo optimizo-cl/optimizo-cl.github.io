@@ -1,14 +1,14 @@
 /* Capítulo 5 · Producto Optimizo (fase 10): las piezas que solo Optimizo tiene. Datos de Quillay. */
-import { ESCALERA } from "../kit/escalera.js?v=5bdbf1b";
-import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js?v=5bdbf1b";
-import { boton } from "../kit/controles.js?v=5bdbf1b";
-import { insignia, toast } from "../kit/avisos.js?v=5bdbf1b";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=5bdbf1b";
-import { isotipo, logo } from "../kit/marca.js?v=5bdbf1b";
-import { progreso } from "../kit/punto.js?v=5bdbf1b";
-import { flujos } from "../kit/escenas/flujos.js?v=5bdbf1b";
-import { heroe } from "../patrones/graficas.js?v=5bdbf1b";
-import { EMPRESA, PROCESOS, ESTADOS, PERSONAS, HORAS_PERDIDAS, clp } from "../demo/quillay.js?v=5bdbf1b";
+import { ESCALERA } from "../kit/escalera.js?v=7a04113";
+import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js?v=7a04113";
+import { boton } from "../kit/controles.js?v=7a04113";
+import { insignia, toast } from "../kit/avisos.js?v=7a04113";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=7a04113";
+import { isotipo, logo } from "../kit/marca.js?v=7a04113";
+import { progreso } from "../kit/punto.js?v=7a04113";
+import { flujos } from "../kit/escenas/flujos.js?v=7a04113";
+import { heroe } from "../patrones/graficas.js?v=7a04113";
+import { EMPRESA, PROCESOS, ESTADOS, PERSONAS, HORAS_PERDIDAS, clp } from "../demo/quillay.js?v=7a04113";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const persona = (id) => PERSONAS.find((p) => p.id === id)?.nombre || "Sin responsable";

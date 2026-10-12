@@ -1,14 +1,14 @@
 /* Capítulo 1 · El punto v2 (ola 3): el logo que se arma, las «i» vivas, los dieciséis momentos de la firma
    y el Laboratorio del punto (un juguete de física para sentir el resorte de la marca). */
-import { logoVivo, armar, instante, soltar, saltarIes, activarLogoVivo } from "../kit/logo-vivo.js?v=5bdbf1b";
-import { isotipo, DISCO } from "../kit/marca.js?v=5bdbf1b";
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=5bdbf1b";
-import { boton } from "../kit/controles.js?v=5bdbf1b";
-import { campo } from "../kit/campos.js?v=5bdbf1b";
-import { icono } from "../kit/iconos.js?v=5bdbf1b";
-import { contar } from "../kit/coreografia.js?v=5bdbf1b";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=5bdbf1b";
-import { cargaSalto, cargaLlenado, cargaFases, fijarFase } from "../kit/punto.js?v=5bdbf1b";
+import { logoVivo, armar, instante, soltar, saltarIes, activarLogoVivo } from "../kit/logo-vivo.js?v=7a04113";
+import { isotipo, DISCO } from "../kit/marca.js?v=7a04113";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=7a04113";
+import { boton } from "../kit/controles.js?v=7a04113";
+import { campo } from "../kit/campos.js?v=7a04113";
+import { icono } from "../kit/iconos.js?v=7a04113";
+import { contar } from "../kit/coreografia.js?v=7a04113";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=7a04113";
+import { cargaSalto, cargaLlenado, cargaFases, fijarFase } from "../kit/punto.js?v=7a04113";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const C = { x: 75.207, y: 71.754, r: 69.152 };

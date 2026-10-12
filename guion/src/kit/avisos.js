@@ -1,5 +1,5 @@
 /* Avisos: toast con deshacer (cola), banner, alerta, insignias. Los avisos de app viven en la app, no imitan al sistema. */
-import { icono } from "./iconos.js?v=5bdbf1b";
+import { icono } from "./iconos.js?v=7a04113";
 
 const ICO = { exito: "check-circle", alerta: "warning", error: "warning-circle", info: "info", neutro: "info" };
 
@@ -22,7 +22,7 @@ export function toast(texto, { tono = "neutro", accion = null, duracion } = {}) 
     ${accion ? `<button type="button" class="toast__accion">${accion.texto}</button>` : ""}
     <button type="button" class="toast__cerrar" aria-label="Cerrar aviso">${icono("x", { tam: 16 })}</button>`;
   p.appendChild(t);
-  import("./iconos.js?v=5bdbf1b").then((m) => m.rellenarIconos());
+  import("./iconos.js?v=7a04113").then((m) => m.rellenarIconos());
   const cerrar = () => { t.classList.add("toast--sale"); t.addEventListener("animationend", () => t.remove(), { once: true }); };
   let restante = duracion ?? (accion ? 7000 : 5000), inicio = Date.now(), timer = setTimeout(cerrar, restante);
   t.addEventListener("mouseenter", () => { clearTimeout(timer); restante -= Date.now() - inicio; });

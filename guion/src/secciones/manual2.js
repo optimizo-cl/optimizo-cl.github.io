@@ -1,11 +1,11 @@
 /* Capítulo 7 · Manual v2 (ola 9): la construcción del logo con cotas que se trazan, la especificación completa del
    movimiento (curvas, tiempos y el resorte), y descargas ampliadas (videos generados en el navegador). */
-import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=5bdbf1b";
-import { logo, isotipo } from "../kit/marca.js?v=5bdbf1b";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=5bdbf1b";
-import { toast } from "../kit/avisos.js?v=5bdbf1b";
-import { pelicula } from "../kit/pelicula.js?v=5bdbf1b";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=5bdbf1b";
+import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=7a04113";
+import { logo, isotipo } from "../kit/marca.js?v=7a04113";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=7a04113";
+import { toast } from "../kit/avisos.js?v=7a04113";
+import { pelicula } from "../kit/pelicula.js?v=7a04113";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=7a04113";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const raiz = document.documentElement;

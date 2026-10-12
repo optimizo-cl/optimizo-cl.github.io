@@ -1,6 +1,28 @@
-/* Escenas de las portadas de capítulo: cada capítulo abre con algo propio, vivo y liviano (SVG + CSS).
-   Todo es SVG y CSS: barato, y se duerme fuera de vista. */
-import { isotipo } from "../kit/marca.js?v=5bdbf1b";
+/* Escenas de las portadas de capítulo: UN sistema. En cada capítulo el punto de la marca aterriza en lo que trata:
+   sale por la mordida (identidad), hunde un botón (kit), es el cursor que escribe (formularios), es la punta de la
+   gráfica (datos), sella «de Optimizo» (producto), es el punto de las «i» (web) y la cota que mide (manual).
+   SVG y CSS, liviano; cada escena se duerme fuera de vista. */
+import { isotipo } from "../kit/marca.js?v=7a04113";
+import { icono } from "../kit/iconos.js?v=7a04113";
+import { logoVivo, armar, saltarIes } from "../kit/logo-vivo.js?v=7a04113";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=7a04113";
+
+const espera = (ms) => new Promise((r) => setTimeout(r, ms));
+const curva = (q) => (q < 0.5 ? 4 * q * q * q : 1 - Math.pow(-2 * q + 2, 3) / 2);
+/** El punto salta en arco de a → b (coordenadas dentro de su caja). */
+const saltar = (punto, a, b, { dur = 1000, alto = 70 } = {}) => new Promise((fin) => {
+  const t0 = performance.now();
+  const f = (ahora) => { const q = Math.min(1, (ahora - t0) / dur), e = curva(q);
+    punto.style.transform = `translate(${(a.x + (b.x - a.x) * e).toFixed(1)}px, ${(a.y + (b.y - a.y) * e - alto * 4 * e * (1 - e)).toFixed(1)}px)`;
+    q < 1 ? requestAnimationFrame(f) : fin(); };
+  requestAnimationFrame(f);
+});
+/** Corre un ciclo mientras la portada se ve; se duerme fuera de vista. */
+const mientrasSeVe = (el, ciclo) => {
+  let vivo = false, corriendo = false;
+  const correr = async () => { if (corriendo) return; corriendo = true; while (vivo && el.isConnected) await ciclo(() => vivo); corriendo = false; };
+  new IntersectionObserver(([e]) => { vivo = e.isIntersecting; if (vivo) correr(); }, { threshold: 0.35 }).observe(el);
+};
 
 const svg = (contenido, vb = "0 0 400 400") => `<svg viewBox="${vb}" class="escena-svg" aria-hidden="true">${contenido}</svg>`;
 
@@ -8,9 +30,21 @@ export const PORTADAS = {
   // Identidad: el isotipo grande, con su firma
   isotipo(el) { el.innerHTML = isotipo({ clase: "escena-iso firma-escape" }); },
 
-  // Kit: fichas de cerámica apiladas que se hunden por turnos
+  // Kit: el punto cae sobre el botón, la cerámica se hunde y el botón confirma
   ceramica(el) {
-    el.innerHTML = `<div class="escena-fichas">${["Agendar diagnóstico", "Guardar", "Listo"].map((t, i) => `<span class="escena-ficha" style="--i:${i}"><i></i>${t}</span>`).join("")}</div>`;
+    el.innerHTML = `<div class="escena-boton" aria-hidden="true"><span class="escena-boton__pieza ceramica"><span class="escena-boton__t">Agendar diagnóstico</span><span class="escena-boton__ok">${icono("check", { tam: 30 })}Listo</span></span><i class="escena-punto"></i></div>`;
+    import("../kit/iconos.js?v=7a04113").then((m) => m.rellenarIconos());
+    const caja = el.querySelector(".escena-boton"), pieza = caja.querySelector(".escena-boton__pieza"), punto = caja.querySelector(".escena-punto");
+    const lugar = () => { const b = caja.getBoundingClientRect(), r = pieza.getBoundingClientRect(), d = punto.offsetWidth / 2;
+      return { fuera: { x: r.left - b.left - 120, y: r.top - b.top - 150 }, encima: { x: r.right - b.left - 46 - d, y: r.top - b.top + r.height / 2 - d } }; };
+    if (movimientoReducido()) { requestAnimationFrame(() => { const l = lugar(); punto.style.transform = `translate(${l.encima.x}px, ${l.encima.y}px)`; caja.classList.add("listo"); }); return; }
+    mientrasSeVe(el, async (vivo) => {
+      const l = lugar(); caja.classList.remove("hundido", "listo"); punto.style.transform = `translate(${l.fuera.x}px, ${l.fuera.y}px)`; punto.style.opacity = "1";
+      await espera(900); if (!vivo()) return;
+      await saltar(punto, l.fuera, l.encima, { dur: 1100, alto: 90 });
+      caja.classList.add("hundido"); await espera(380); caja.classList.remove("hundido"); caja.classList.add("listo");
+      await espera(3200); punto.style.opacity = "0"; await espera(500);
+    });
   },
 
   // Formularios: una frase que se escribe sola con el punto como cursor
@@ -29,14 +63,24 @@ export const PORTADAS = {
     new IntersectionObserver(([e]) => { const antes = vivo; vivo = e.isIntersecting; if (vivo && !antes) tic(); }).observe(el);
   },
 
-  // Datos: una trama de puntos cuyo tamaño dibuja una curva de crecimiento
-  trama(el) {
-    const pts = [];
-    for (let y = 0; y < 16; y++) for (let x = 0; x < 24; x++) {
-      const v = Math.max(0, Math.min(1, (x / 23) * 1.1 - Math.abs(y / 15 - (1 - x / 23) * 0.8 - 0.1) * 1.6 + 0.35));
-      if (v > 0.04) pts.push(`<circle cx="${10 + x * 16.5}" cy="${20 + y * 16.5}" r="${(v * 6.5).toFixed(2)}" style="--d:${(x * 40 + y * 12)}ms"/>`);
-    }
-    el.innerHTML = svg(`<g class="escena-trama">${pts.join("")}</g>`, "0 0 400 290");
+  // Datos: la gráfica se dibuja y el punto viaja en su punta hasta el último dato
+  grafica(el) {
+    const v = [62, 58, 71, 69, 74, 66, 72, 79, 83, 88], X = (k) => 20 + k * 40, Y = (n) => 250 - (n - 40) * 4;
+    const d = v.map((n, k) => `${k ? "L" : "M"}${X(k)} ${Y(n)}`).join(" ");
+    el.innerHTML = `<div class="escena-grafica" aria-hidden="true"><svg viewBox="0 0 400 290" class="escena-svg">
+      ${[0, 1, 2, 3].map((k) => `<line x1="20" x2="380" y1="${70 + k * 60}" y2="${70 + k * 60}" class="escena-grafica__guia"/>`).join("")}
+      <path d="${d} L380 270 L20 270 Z" class="escena-grafica__area"/><path d="${d}" class="escena-grafica__linea" pathLength="1"/></svg>
+      <i class="escena-punto"></i><p class="escena-grafica__dato"><b>31 h</b><span>recuperadas por semana</span></p></div>`;
+    const caja = el.querySelector(".escena-grafica"), svgEl = caja.querySelector("svg"), linea = caja.querySelector(".escena-grafica__linea"), punto = caja.querySelector(".escena-punto");
+    const en = (q) => { const L = linea.getTotalLength(), p = linea.getPointAtLength(L * q), m = svgEl.getScreenCTM(), b = caja.getBoundingClientRect(), r = punto.offsetWidth / 2;
+      const pt = new DOMPoint(p.x, p.y).matrixTransform(m); return { x: pt.x - b.left - r, y: pt.y - b.top - r }; };
+    const poner = (q) => { const p = en(q); punto.style.transform = `translate(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px)`; linea.style.strokeDashoffset = String(1 - q); };
+    if (movimientoReducido()) { requestAnimationFrame(() => { poner(1); caja.classList.add("listo"); }); return; }
+    mientrasSeVe(el, async (vivo) => {
+      caja.classList.remove("listo"); poner(0); await espera(700); if (!vivo()) return;
+      await new Promise((fin) => { const t0 = performance.now(); const f = (ahora) => { const q = Math.min(1, (ahora - t0) / 2600); poner(curva(q)); q < 1 ? requestAnimationFrame(f) : fin(); }; requestAnimationFrame(f); });
+      caja.classList.add("listo"); await espera(4200);
+    });
   },
 
   // Producto: el punto es el apellido. Sale del isotipo de Optimizo y va a sellar a cada producto («de Optimizo»);
@@ -72,9 +116,13 @@ export const PORTADAS = {
     requestAnimationFrame(() => poner(nido()));
   },
 
-  // Web: piezas de marca que giran lentamente en profundidad
-  pieza(el) {
-    el.innerHTML = `<div class="escena-piezas">${["31 h", "Todo proceso tiene una salida.", "No recomendamos. Implementamos."].map((t, i) => `<div class="escena-pieza" style="--i:${i}"><span>${t}</span></div>`).join("")}</div>`;
+  // Web: una pieza de marca (post 4:5) donde el logo se arma y los puntos de las «i» saludan
+  async pieza(el) {
+    el.innerHTML = `<div class="escena-post" aria-hidden="true"><div class="escena-post__logo">${await logoVivo({ armado: false, titulo: "" })}</div>
+      <p class="escena-post__frase">Todo proceso<br>tiene una salida.</p><span class="escena-post__pie">optimizo.cl</span></div>`;
+    const svg = el.querySelector(".escena-post__logo svg");
+    if (movimientoReducido()) { armar(svg); return; }
+    mientrasSeVe(el, async (vivo) => { const ms = armar(svg); await espera(ms + 600); for (let k = 0; k < 3 && vivo(); k++) { saltarIes(svg); await espera(2600); } });
   },
 
   // Manual: retícula técnica con cotas que se dibujan
