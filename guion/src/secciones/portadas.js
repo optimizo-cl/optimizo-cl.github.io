@@ -2,10 +2,10 @@
    sale por la mordida (identidad), hunde un botón (kit), es el cursor que escribe (formularios), es la punta de la
    gráfica (datos), sella «de Optimizo» (producto), es el punto de las «i» (web) y la cota que mide (manual).
    SVG y CSS, liviano; cada escena se duerme fuera de vista. */
-import { isotipo } from "../kit/marca.js?v=7a04113";
-import { icono } from "../kit/iconos.js?v=7a04113";
-import { logoVivo, armar, saltarIes } from "../kit/logo-vivo.js?v=7a04113";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=7a04113";
+import { isotipo } from "../kit/marca.js?v=e33c371";
+import { icono } from "../kit/iconos.js?v=e33c371";
+import { logoVivo, armar, saltarIes } from "../kit/logo-vivo.js?v=e33c371";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=e33c371";
 
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
 const curva = (q) => (q < 0.5 ? 4 * q * q * q : 1 - Math.pow(-2 * q + 2, 3) / 2);
@@ -33,7 +33,7 @@ export const PORTADAS = {
   // Kit: el punto cae sobre el botón, la cerámica se hunde y el botón confirma
   ceramica(el) {
     el.innerHTML = `<div class="escena-boton" aria-hidden="true"><span class="escena-boton__pieza ceramica"><span class="escena-boton__t">Agendar diagnóstico</span><span class="escena-boton__ok">${icono("check", { tam: 30 })}Listo</span></span><i class="escena-punto"></i></div>`;
-    import("../kit/iconos.js?v=7a04113").then((m) => m.rellenarIconos());
+    import("../kit/iconos.js?v=e33c371").then((m) => m.rellenarIconos());
     const caja = el.querySelector(".escena-boton"), pieza = caja.querySelector(".escena-boton__pieza"), punto = caja.querySelector(".escena-punto");
     const lugar = () => { const b = caja.getBoundingClientRect(), r = pieza.getBoundingClientRect(), d = punto.offsetWidth / 2;
       return { fuera: { x: r.left - b.left - 120, y: r.top - b.top - 150 }, encima: { x: r.right - b.left - 46 - d, y: r.top - b.top + r.height / 2 - d } }; };

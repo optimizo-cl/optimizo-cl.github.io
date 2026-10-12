@@ -1,7 +1,7 @@
 /* Aura con grano: un campo fluido y lento de la paleta donde el grano ES el degradado.
    El color se cuantiza en pocos niveles y cada píxel elige entre el nivel de abajo y el de arriba según
    un umbral fijo por grano: el degradado está hecho de grano, no tiene ruido encima. WebGL1, ½ costo, 30 fps. */
-import { bucle, alCambiarPaleta, rgbDe, movimientoReducido } from "./vigia.js?v=7a04113";
+import { bucle, alCambiarPaleta, rgbDe, movimientoReducido } from "./vigia.js?v=e33c371";
 
 const VERT = `attribute vec2 p; void main(){ gl_Position = vec4(p, 0., 1.); }`;
 const FRAG = `precision highp float;

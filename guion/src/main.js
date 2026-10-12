@@ -1,15 +1,15 @@
 /* Guion v2: arma portada, portadas de capítulo, secciones, navegación lateral, dock, comparador A | B y modo presentación.
    Dos ejes: paleta (A/B) y tema (claro/oscuro). Las secciones se arman al acercarse. */
-import { CAPITULOS, SECCIONES, seccionesDe, capituloDe, numeroDe } from "./plan.js?v=7a04113";
-import { recorridoHTML } from "./kit/recorrido.js?v=7a04113";
-import { cierreHTML, activarCierre } from "./secciones/cierre.js?v=7a04113";
-import { CONSTRUIDAS, REPINTAR, pendiente, PORTADAS } from "./secciones/index.js?v=7a04113";
-import { icono, cargarIconos, rellenarIconos } from "./kit/iconos.js?v=7a04113";
-import { activarControles, prepararSegmentos } from "./kit/controles.js?v=7a04113";
-import { activarEtapas } from "./kit/etapas.js?v=7a04113";
-import { activarCampos } from "./kit/campos.js?v=7a04113";
-import { entrar, abrirEnCirculo, progreso } from "./kit/coreografia.js?v=7a04113";
-import { isotipo } from "./kit/marca.js?v=7a04113";
+import { CAPITULOS, SECCIONES, seccionesDe, capituloDe, numeroDe } from "./plan.js?v=e33c371";
+import { recorridoHTML } from "./kit/recorrido.js?v=e33c371";
+import { cierreHTML, activarCierre } from "./secciones/cierre.js?v=e33c371";
+import { CONSTRUIDAS, REPINTAR, pendiente, PORTADAS } from "./secciones/index.js?v=e33c371";
+import { icono, cargarIconos, rellenarIconos } from "./kit/iconos.js?v=e33c371";
+import { activarControles, prepararSegmentos } from "./kit/controles.js?v=e33c371";
+import { activarEtapas } from "./kit/etapas.js?v=e33c371";
+import { activarCampos } from "./kit/campos.js?v=e33c371";
+import { entrar, abrirEnCirculo, progreso } from "./kit/coreografia.js?v=e33c371";
+import { isotipo } from "./kit/marca.js?v=e33c371";
 
 for (const sec of SECCIONES) sec.estado = CONSTRUIDAS[sec.id] ? "listo" : "por-hacer";
 

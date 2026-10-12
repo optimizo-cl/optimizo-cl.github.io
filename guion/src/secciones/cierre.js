@@ -1,7 +1,7 @@
 /* Cierre del guion, espejo de la portada: al empezar, el punto sale por la mordida; acá vuelve a su nido.
    El punto del isotipo mide lo mismo que el hueco del centro (r 17,29), así que al volver el disco queda entero. */
-import { isotipo, PUNTO, CENTRO } from "../kit/marca.js?v=7a04113";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=7a04113";
+import { isotipo, PUNTO, CENTRO } from "../kit/marca.js?v=e33c371";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=e33c371";
 
 export function cierreHTML() {
   return `<footer class="cierre" id="cierre" aria-labelledby="cierre-t">

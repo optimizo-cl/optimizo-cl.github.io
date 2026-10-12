@@ -1,5 +1,5 @@
 /* Campos de formulario con formato y validación chilena (RUT, teléfono, pesos). Los errores dicen qué hacer. */
-import { icono } from "./iconos.js?v=7a04113";
+import { icono } from "./iconos.js?v=e33c371";
 
 let n = 0;
 /** Campo de texto. tipo: texto | correo | rut | telefono | pesos | area | selector */

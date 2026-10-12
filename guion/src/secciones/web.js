@@ -1,10 +1,10 @@
 /* Capítulo 6 · Web y marca (fase 11): landing real, correos HTML, firma, redes, presentación, papelería, íconos, 404. */
-import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js?v=7a04113";
-import { segmento, boton } from "../kit/controles.js?v=7a04113";
-import { toast } from "../kit/avisos.js?v=7a04113";
-import { isotipo, logo } from "../kit/marca.js?v=7a04113";
-import { correo, firma } from "../kit/correos.js?v=7a04113";
-import { lienzoPieza, isotipoCanvas, granoCanvas, parrafo, LETRA } from "../kit/piezas.js?v=7a04113";
+import { marco, rejilla, ficha, ejemplo } from "../kit/guion.js?v=e33c371";
+import { segmento, boton } from "../kit/controles.js?v=e33c371";
+import { toast } from "../kit/avisos.js?v=e33c371";
+import { isotipo, logo } from "../kit/marca.js?v=e33c371";
+import { correo, firma } from "../kit/correos.js?v=e33c371";
+import { lienzoPieza, isotipoCanvas, granoCanvas, parrafo, LETRA } from "../kit/piezas.js?v=e33c371";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const raiz = document.documentElement;
@@ -116,7 +116,7 @@ export const web = {
 
   async "iconos-app"(el) {
     cuerpo(el).innerHTML = `<div class="piezas-rejilla piezas-rejilla--iconos"><div data-pieza="app"></div><div data-pieza="app-osc"></div><div data-pieza="og" class="piezas-rejilla__ancho"></div></div>
-      ${marco("Favicon a tamaño real", `<div class="favicons">${[16, 32, 48].map((t) => `<span><img src="assets/logo/optimizo-isotipo.svg" width="${t}" height="${t}" alt=""><span class="mono">${t}</span></span>`).join("")}<span class="pestana"><img src="assets/logo/optimizo-isotipo.svg" width="16" height="16" alt="">Optimizo — Todo proceso…</span></div>`, { nota: "En 16 px el isotipo se lee igual: disco, agujero y punto. Por eso no se simplifica." })}`;
+      ${marco("Favicon a tamaño real", `<div class="favicons">${[16, 32, 48].map((t) => `<span>${isotipo({ titulo: "" }).replace("<svg ", `<svg width="${t}" height="${t}" style="width:${t}px;height:${t}px" aria-hidden="true" `).replace('role="img" aria-label=""', "")}<span class="mono">${t}</span></span>`).join("")}<span class="pestana">${isotipo({ titulo: "" }).replace("<svg ", '<svg width="16" height="16" style="width:16px;height:16px" aria-hidden="true" ').replace('role="img" aria-label=""', "")}Optimizo — Todo proceso…</span></div>`, { nota: "En 16 px el isotipo se lee igual: disco, agujero y punto. Por eso no se simplifica." })}`;
     const app = (oscuro) => (ctx, w, h, t) => {
       const r = 230; ctx.beginPath(); ctx.roundRect(0, 0, w, h, r); ctx.fillStyle = oscuro ? t("--navy") : t("--hueso"); ctx.fill();
       ctx.save(); ctx.clip(); granoCanvas(ctx, w, h, 0.04); ctx.restore();

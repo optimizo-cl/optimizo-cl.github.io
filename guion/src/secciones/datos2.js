@@ -1,17 +1,17 @@
 /* Capítulo 4 · Datos v2 (ola 6): gráficas con trama que se dibujan, tablas que se ordenan deslizándose y se editan
    en línea, fechas sobre una pista de puntos, búsqueda en órbitas de relevancia y vacíos hechos con el disco. */
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=7a04113";
-import { boton, segmento } from "../kit/controles.js?v=7a04113";
-import { toast, estado } from "../kit/avisos.js?v=7a04113";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=7a04113";
-import { isotipo, DISCO } from "../kit/marca.js?v=7a04113";
-import { ejemplo } from "../kit/guion.js?v=7a04113";
-import { contar } from "../kit/coreografia.js?v=7a04113";
-import { tabla } from "../patrones/tabla.js?v=7a04113";
-import { barrasTrama, lineaViva, antesDespuesBarras, apiladaTextura } from "../patrones/graficas2.js?v=7a04113";
-import { abrirBuscador, activarAtajoBuscador } from "../patrones/buscador.js?v=7a04113";
-import { COTIZACIONES, VENTAS, PROCESOS, CANALES, NOTAS, clp, clpCorto, fechaCorta } from "../demo/quillay.js?v=7a04113";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=7a04113";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=e33c371";
+import { boton, segmento } from "../kit/controles.js?v=e33c371";
+import { toast, estado } from "../kit/avisos.js?v=e33c371";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=e33c371";
+import { isotipo, DISCO } from "../kit/marca.js?v=e33c371";
+import { ejemplo } from "../kit/guion.js?v=e33c371";
+import { contar } from "../kit/coreografia.js?v=e33c371";
+import { tabla } from "../patrones/tabla.js?v=e33c371";
+import { barrasTrama, lineaViva, antesDespuesBarras, apiladaTextura } from "../patrones/graficas2.js?v=e33c371";
+import { abrirBuscador, activarAtajoBuscador } from "../patrones/buscador.js?v=e33c371";
+import { COTIZACIONES, VENTAS, PROCESOS, CANALES, NOTAS, clp, clpCorto, fechaCorta } from "../demo/quillay.js?v=e33c371";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=e33c371";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const usoDe = (lista, cod) => `<div class="rejilla-2"><ul class="lista-punto">${lista.map((r) => `<li>${r}</li>`).join("")}</ul>${cod ? codigo(cod) : ""}</div>`;

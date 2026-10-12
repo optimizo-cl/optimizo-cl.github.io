@@ -217,5 +217,12 @@
 .cierre .bajada { color: rgba(237, 238, 232, .8); max-width: 46ch; }
 .cierre .boton--secundario { --c-base: transparent; background: transparent; color: var(--hueso); box-shadow: inset 0 0 0 1.5px rgba(237, 238, 232, .5); }
 .cierre__volver { align-self: center; font-weight: 600; font-size: var(--t-chico); color: var(--hueso); text-underline-offset: 3px; }
-.cierre__pie { position: absolute; left: 0; right: 0; bottom: calc(var(--e-5) + 56px); text-align: center; color: rgba(237, 238, 232, .6); }
+.cierre__pie { position: absolute; left: 0; right: 0; bottom: calc(var(--e-5) + 56px); text-align: center; color: rgba(237, 238, 232, .74); }
 @media (max-width: 860px) { .cierre__dentro { grid-template-columns: minmax(0, 1fr); } .cierre__isotipo { width: min(70%, 260px); } }
+:root[data-tema="oscuro"] .cierre { background: var(--tinta); }
+.recorrido__ant, .cierre__volver { display: inline-flex; align-items: center; min-height: 44px; }
+@media (max-width: 760px) {
+  .recorrido { padding: var(--e-4); }
+  .recorrido__pista li + li::before { width: 12px; }
+  .recorrido__pista a { width: 26px; height: 44px; }
+}

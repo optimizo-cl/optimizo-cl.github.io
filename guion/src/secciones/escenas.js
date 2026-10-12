@@ -1,8 +1,8 @@
 /* Capítulo 1 · Material y escenas (fase 5). */
-import { marco, rejilla, ejemplo } from "../kit/guion.js?v=7a04113";
-import { aura } from "../kit/escenas/aura.js?v=7a04113";
-import { flujos } from "../kit/escenas/flujos.js?v=7a04113";
-import { isotipo } from "../kit/marca.js?v=7a04113";
+import { marco, rejilla, ejemplo } from "../kit/guion.js?v=e33c371";
+import { aura } from "../kit/escenas/aura.js?v=e33c371";
+import { flujos } from "../kit/escenas/flujos.js?v=e33c371";
+import { isotipo } from "../kit/marca.js?v=e33c371";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const vivas = new Map(); // una instancia viva por sección

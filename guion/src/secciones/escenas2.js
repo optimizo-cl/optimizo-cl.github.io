@@ -1,8 +1,8 @@
 /* Capítulo 1 · Héroe: un banner plano, mate. El isotipo grande (con la firma: el punto sale y vuelve) y, al bajar,
    el isotipo viaja y se achica hasta el de la navegación. Sin 3D y sin trama. */
-import { progreso } from "../kit/coreografia.js?v=7a04113";
-import { isotipo } from "../kit/marca.js?v=7a04113";
-import { SECCIONES } from "../plan.js?v=7a04113";
+import { progreso } from "../kit/coreografia.js?v=e33c371";
+import { isotipo } from "../kit/marca.js?v=e33c371";
+import { SECCIONES } from "../plan.js?v=e33c371";
 
 const tramo = (p, a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));
 const suave = (x) => x * x * (3 - 2 * x);

@@ -2,7 +2,7 @@
    El disco es un círculo con máscara: la mordida y el agujero son círculos negros que crecen (se «perforan»).
    Las letras y los puntos de las «i» son trazos aparte (assets/logo/letras.json, de marca/logo/letras_logo.py).
    armar(svg) reproduce la construcción; las «i» saltan en ola al pasar el mouse. */
-import { movimientoReducido } from "./escenas/vigia.js?v=7a04113";
+import { movimientoReducido } from "./escenas/vigia.js?v=e33c371";
 
 const C = { x: 75.207031, y: 71.753906, r: 69.152, hueco: 17.288 };
 const P = { x: 25.863281, y: 22.753906, r: 17.289 };

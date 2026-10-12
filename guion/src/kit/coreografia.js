@@ -3,7 +3,7 @@
    - progreso(el, fn): fn(p 0→1) mientras el elemento cruza la pantalla (solo cuando se ve).
    - abrirEnCirculo(el): revela con una máscara circular que nace de un punto.
    Con «reducir movimiento» todo aparece directo en su estado final. */
-import { movimientoReducido } from "./escenas/vigia.js?v=7a04113";
+import { movimientoReducido } from "./escenas/vigia.js?v=e33c371";
 
 const entradas = new IntersectionObserver((lista) => lista.forEach((e) => {
   if (!e.isIntersecting) return;

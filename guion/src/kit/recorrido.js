@@ -1,6 +1,6 @@
 /* La historia de Quillay como hilo del guion: las secciones de cliente se leen en orden, como un caso real.
    Al pie de cada una, el recorrido con el punto de la marca en el paso actual y el enlace al siguiente. */
-import { numeroDe } from "../plan.js?v=7a04113";
+import { numeroDe } from "../plan.js?v=e33c371";
 
 export const RECORRIDO = [
   ["agendar", "Agenda la primera reunión"],

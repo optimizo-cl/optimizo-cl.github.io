@@ -230,3 +230,4 @@
 @media (max-width: 960px) { .lab { grid-template-columns: minmax(0, 1fr); } .lab__escena { min-height: 360px; } }
 
 .m-exito .m-iso .isotipo__punto { transition: none; }
+.curvas-firma--enlace .boton { max-width: 100%; white-space: normal; text-align: left; height: auto; min-height: 44px; }

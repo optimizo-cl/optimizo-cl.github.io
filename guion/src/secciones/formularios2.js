@@ -1,16 +1,16 @@
 /* Capítulo 3 · Formularios v2 (ola 5): pedir datos como una conversación. Mientras respondes, se dibuja tu empresa;
    la escalera única se elige peldaño a peldaño; la agenda muestra la disponibilidad como puntos; archivos y encuesta usan el isotipo como medidor. */
-import { campo, validar } from "../kit/campos.js?v=7a04113";
-import { boton, trabajar } from "../kit/controles.js?v=7a04113";
-import { listo } from "../kit/punto.js?v=7a04113";
-import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=7a04113";
-import { toast } from "../kit/avisos.js?v=7a04113";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=7a04113";
-import { isotipo } from "../kit/marca.js?v=7a04113";
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=7a04113";
-import { contar } from "../kit/coreografia.js?v=7a04113";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=7a04113";
-import { ESCALERA, escaleraHTML, moverPunto } from "../kit/escalera.js?v=7a04113";
+import { campo, validar } from "../kit/campos.js?v=e33c371";
+import { boton, trabajar } from "../kit/controles.js?v=e33c371";
+import { listo } from "../kit/punto.js?v=e33c371";
+import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=e33c371";
+import { toast } from "../kit/avisos.js?v=e33c371";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=e33c371";
+import { isotipo } from "../kit/marca.js?v=e33c371";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=e33c371";
+import { contar } from "../kit/coreografia.js?v=e33c371";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=e33c371";
+import { ESCALERA, escaleraHTML, moverPunto } from "../kit/escalera.js?v=e33c371";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));

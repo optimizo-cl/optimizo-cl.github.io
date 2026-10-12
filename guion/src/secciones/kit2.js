@@ -1,13 +1,13 @@
 /* Capítulo 2 · Kit v2 (ola 4): cerámica que se hunde, controles con el punto, campos que validan en vivo,
    cargas que dibujan, avisos de papel, estados por forma, flotantes que nacen en círculo y diálogos que se expanden. */
-import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=7a04113";
-import { boton, botonIcono, botonMantener, trabajar, segmento, interruptor, casilla, radio, deslizador, perilla } from "../kit/controles.js?v=7a04113";
-import { campo, validar } from "../kit/campos.js?v=7a04113";
-import { toast, banner, alerta, insignia, etiqueta, contador, estado, fichaCeramica } from "../kit/avisos.js?v=7a04113";
-import { abrirMenu, abrirPopover, abrirDialogo, confirmarDestructivo, confirmarManteniendo, cerrarFlotante } from "../kit/popups.js?v=7a04113";
-import { carga, cargaSalto, cargaLlenado, cargaFases, fijarFase, progreso, moverProgreso } from "../kit/punto.js?v=7a04113";
-import { isotipo } from "../kit/marca.js?v=7a04113";
-import { icono } from "../kit/iconos.js?v=7a04113";
+import { pieza, activarPiezas, curvaMovimiento, activarCurvas, codigo } from "../kit/presentar.js?v=e33c371";
+import { boton, botonIcono, botonMantener, trabajar, segmento, interruptor, casilla, radio, deslizador, perilla } from "../kit/controles.js?v=e33c371";
+import { campo, validar } from "../kit/campos.js?v=e33c371";
+import { toast, banner, alerta, insignia, etiqueta, contador, estado, fichaCeramica } from "../kit/avisos.js?v=e33c371";
+import { abrirMenu, abrirPopover, abrirDialogo, confirmarDestructivo, confirmarManteniendo, cerrarFlotante } from "../kit/popups.js?v=e33c371";
+import { carga, cargaSalto, cargaLlenado, cargaFases, fijarFase, progreso, moverProgreso } from "../kit/punto.js?v=e33c371";
+import { isotipo } from "../kit/marca.js?v=e33c371";
+import { icono } from "../kit/iconos.js?v=e33c371";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));

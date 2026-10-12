@@ -1,18 +1,18 @@
 /* Capítulo 5 · Producto v2 (ola 7): mapa de procesos que se ordena con el scroll (tareas rectas en columnas), la escalera
    única con el punto, implementación con etapas-isotipo, informe y propuesta como documentos vivos con portada de cerámica. */
-import { orden } from "../kit/orden.js?v=7a04113";
-import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=7a04113";
-import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=7a04113";
-import { boton } from "../kit/controles.js?v=7a04113";
-import { toast, estado } from "../kit/avisos.js?v=7a04113";
-import { icono, rellenarIconos } from "../kit/iconos.js?v=7a04113";
-import { isotipo, logo } from "../kit/marca.js?v=7a04113";
-import { ejemplo } from "../kit/guion.js?v=7a04113";
-import { progreso as alAvanzar, contar } from "../kit/coreografia.js?v=7a04113";
-import { barrasTrama } from "../patrones/graficas2.js?v=7a04113";
-import { EMPRESA, PROCESOS, PERSONAS, HORAS_PERDIDAS, HISTORIA, clp } from "../demo/quillay.js?v=7a04113";
-import { ESCALERA, escaleraHTML, moverPunto } from "../kit/escalera.js?v=7a04113";
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=7a04113";
+import { orden } from "../kit/orden.js?v=e33c371";
+import { etapas, activarEtapas, moverEtapa } from "../kit/etapas.js?v=e33c371";
+import { pieza, activarPiezas, codigo } from "../kit/presentar.js?v=e33c371";
+import { boton } from "../kit/controles.js?v=e33c371";
+import { toast, estado } from "../kit/avisos.js?v=e33c371";
+import { icono, rellenarIconos } from "../kit/iconos.js?v=e33c371";
+import { isotipo, logo } from "../kit/marca.js?v=e33c371";
+import { ejemplo } from "../kit/guion.js?v=e33c371";
+import { progreso as alAvanzar, contar } from "../kit/coreografia.js?v=e33c371";
+import { barrasTrama } from "../patrones/graficas2.js?v=e33c371";
+import { EMPRESA, PROCESOS, PERSONAS, HORAS_PERDIDAS, HISTORIA, clp } from "../demo/quillay.js?v=e33c371";
+import { ESCALERA, escaleraHTML, moverPunto } from "../kit/escalera.js?v=e33c371";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=e33c371";
 
 const cuerpo = (el) => el.querySelector(".seccion__cuerpo");
 const persona = (id) => PERSONAS.find((p) => p.id === id)?.nombre || "Sin responsable";

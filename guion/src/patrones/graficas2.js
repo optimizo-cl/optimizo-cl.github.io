@@ -1,6 +1,6 @@
 /* Gráficas v2: la trama es material (y segunda codificación), todo entra dibujándose, la lectura tiene lupa
    y las gráficas cuentan una historia con anotaciones. Siempre con vista de tabla y un solo eje. */
-import { movimientoReducido } from "../kit/escenas/vigia.js?v=7a04113";
+import { movimientoReducido } from "../kit/escenas/vigia.js?v=e33c371";
 
 const NS = "http://www.w3.org/2000/svg";
 const svgEl = (tag, attrs = {}, padre) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); padre?.appendChild(e); return e; };
