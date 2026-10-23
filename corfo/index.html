@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Optimizo · Cámaras para bodegas seguras</title>
+<meta name="description" content="Presentación para Corfo: cómo funcionan las cámaras con visión artificial de Optimizo para la seguridad en bodegas.">
+<link rel="icon" href="../marca/logo/svg/naranjo/optimizo-isotipo.svg">
+<style>
+@font-face { font-family: "Inter"; src: url("../guion/assets/fuentes/inter-opsz.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+
+/* Tokens del guion visual de Optimizo · paleta B (Mandarina + navy) */
+:root {
+  --navy: #26405B; --navy-profundo: #16263A; --tinta: #14212F; --grafito: #424E4E;
+  --hueso: #EDEEE8; --papel: #F6F6F1; --hundida: #E4E6DE; --blanco: #FFFFFF;
+  --acento-claro: #FFB98A; --acento: #FF6A13; --acento-profundo: #B8420A; --acento-texto: #A83C09;
+  --texto-3: #586262; --borde: rgba(38, 64, 91, .12);
+  --letra: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
+  --llegada: cubic-bezier(.16, 1, .3, 1);
+  --suave: cubic-bezier(.25, .1, .25, 1);
+  --grano: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .14  0 0 0 0 .2  0 0 0 0 .26  0 0 0 .55 -.18'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+}
+
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; }
+body { background: var(--hueso); color: var(--navy); font-family: var(--letra); -webkit-font-smoothing: antialiased; overflow: hidden; display: grid; place-items: center; }
+button { font: inherit; color: inherit; }
+
+/* ── Escenario 16:9 que llena la pantalla ── */
+.escenario { position: relative; width: min(100vw, 177.78vh); aspect-ratio: 16 / 9; container-type: inline-size; overflow: hidden; outline: none; }
+.lamina { position: absolute; inset: 0; padding: 6cqw 7cqw; display: grid; align-content: center; gap: 1.6cqw; background: var(--hueso); color: var(--navy); visibility: hidden; isolation: isolate; }
+.lamina::after { content: ""; position: absolute; inset: 0; background-image: var(--grano); background-size: 220px; opacity: .5; z-index: -1; pointer-events: none; }
+.lamina.activa, .lamina.entra { visibility: visible; }
+.lamina--oscura { background: var(--navy); color: var(--hueso); }
+
+/* ── Texto ── */
+.ceja { font-size: max(1.5cqw, 12px); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--acento-texto); }
+.lamina--oscura .ceja { color: var(--acento-claro); }
+.titulo { font-size: max(5.4cqw, 30px); font-weight: 700; letter-spacing: -0.045em; line-height: 1; text-wrap: balance; max-width: 18ch; }
+.titulo--m { font-size: max(4cqw, 26px); max-width: 24ch; letter-spacing: -0.04em; line-height: 1.04; }
+.sub { font-size: max(1.9cqw, 16px); color: var(--grafito); line-height: 1.35; max-width: 52ch; }
+.lamina--oscura .sub { color: rgba(237, 238, 232, .78); }
+.nota { display: flex; align-items: center; gap: .8cqw; font-size: max(1.35cqw, 13px); color: var(--texto-3); line-height: 1.4; margin-top: 1.4cqw; }
+.nota .ico { width: max(1.8cqw, 18px); height: max(1.8cqw, 18px); color: var(--acento-profundo); flex: none; }
+.ico { width: 1em; height: 1em; display: inline-block; vertical-align: middle; }
+
+/* ── Portada ── */
+.portada { display: grid; grid-template-columns: 22cqw 1fr; gap: 5cqw; align-items: center; }
+.portada__iso svg { width: 100%; height: auto; overflow: visible; }
+.portada .sub { margin-top: 1.2cqw; }
+.iso-punto { animation: punto-escapa 1600ms var(--llegada) 300ms both; }
+@keyframes punto-escapa { from { transform: translate(49px, 49px) scale(.35); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* ── Tarjetas (mate, sin vidrio) ── */
+.fila { display: grid; gap: 1.8cqw; margin-top: 2cqw; }
+.fila--3 { grid-template-columns: repeat(3, 1fr); }
+.fila--2 { grid-template-columns: repeat(2, 1fr); }
+.tarjeta { background: var(--papel); border-radius: 1.6cqw; padding: 2.2cqw; display: grid; gap: .9cqw; align-content: start; box-shadow: inset 0 0 0 1px var(--borde); }
+.tarjeta .ico { width: max(3cqw, 26px); height: max(3cqw, 26px); color: var(--acento-profundo); }
+.tarjeta b { font-size: max(2.1cqw, 17px); font-weight: 650; letter-spacing: -0.02em; }
+.tarjeta p { font-size: max(1.55cqw, 14px); color: var(--grafito); line-height: 1.4; }
+.tarjeta--oscura { background: var(--navy-profundo); color: var(--hueso); box-shadow: none; }
+.tarjeta--oscura p { color: rgba(237, 238, 232, .78); }
+.tarjeta--oscura .ico { color: var(--acento-claro); }
+
+/* ── Flujo (cómo funciona) ── */
+.flujo { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3cqw; margin-top: 2.4cqw; position: relative; }
+.flujo .tarjeta { position: relative; }
+.flujo .tarjeta:not(:last-child)::after { content: ""; position: absolute; right: -2.4cqw; top: 3.4cqw; width: 1.8cqw; height: 1.8cqw; border-top: 2px solid var(--acento-profundo); border-right: 2px solid var(--acento-profundo); transform: rotate(45deg) scale(.6); }
+.paso { font-family: var(--mono); font-size: max(1.2cqw, 11px); color: var(--acento-texto); }
+.flujo .tarjeta:last-child { background: var(--navy); color: var(--hueso); box-shadow: none; }
+.flujo .tarjeta:last-child p { color: rgba(237, 238, 232, .78); }
+.flujo .tarjeta:last-child .ico, .flujo .tarjeta:last-child .paso { color: var(--acento-claro); }
+
+/* ── Zona ── */
+.dos { display: grid; grid-template-columns: 1.15fr 1fr; gap: 4cqw; align-items: center; }
+.ilustracion svg { width: 100%; height: auto; display: block; border-radius: 1.6cqw; }
+.lista { list-style: none; padding: 0; display: grid; gap: 1.6cqw; }
+.lista li { display: grid; grid-template-columns: max(3cqw, 26px) 1fr; gap: 1.2cqw; align-items: start; font-size: max(1.8cqw, 15px); line-height: 1.35; }
+.lista .ico { width: max(2.6cqw, 22px); height: max(2.6cqw, 22px); color: var(--acento-profundo); }
+.lista small { display: block; font-size: max(1.45cqw, 13px); color: var(--grafito); margin-top: .3cqw; }
+
+/* ── Cifras ── */
+.tarjeta .cifra { font-size: max(8cqw, 52px); font-weight: 700; letter-spacing: -0.06em; line-height: .95; font-variant-numeric: tabular-nums; color: var(--navy); }
+.tarjeta .cifra { white-space: nowrap; }
+.cifra em { font-style: normal; font-size: .5em; letter-spacing: -0.02em; color: var(--acento-profundo); }
+.tarjeta .cifra--m { font-size: max(5.6cqw, 40px); }
+.tarjeta .cifra + p { font-size: max(1.6cqw, 14px); }
+.tarjeta small { font-size: max(1.25cqw, 12px); color: var(--texto-3); }
+
+/* ── Estado: funcionando / en desarrollo ── */
+.estado h3 { display: flex; align-items: center; gap: .8cqw; font-size: max(1.5cqw, 13px); text-transform: uppercase; letter-spacing: .08em; color: var(--acento-texto); margin-bottom: .6cqw; }
+.estado h3 .ico { width: max(2.2cqw, 20px); height: max(2.2cqw, 20px); }
+.estado ul { list-style: none; padding: 0; display: grid; gap: .9cqw; }
+.estado li { display: flex; gap: 1cqw; align-items: baseline; font-size: max(1.75cqw, 15px); line-height: 1.3; }
+.estado li::before { content: ""; flex: none; width: .9cqw; height: .9cqw; min-width: 8px; min-height: 8px; border-radius: 50%; background: var(--acento); transform: translateY(-.15cqw); }
+.estado--desarrollo li::before { background: transparent; box-shadow: inset 0 0 0 2px var(--acento-profundo); }
+.estado--desarrollo h3 { color: var(--grafito); }
+
+/* ── Escalera (hoja de ruta), como en el guion ── */
+.escalera { display: flex; align-items: flex-end; gap: 1.4cqw; margin-top: 3cqw; }
+.escalera > div { flex: 1; height: calc(9cqw + var(--i) * 4.2cqw); display: grid; align-content: end; gap: .5cqw; padding: 1.4cqw; border-radius: 1.4cqw; background: color-mix(in srgb, var(--navy) 8%, var(--hueso)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--navy) 15%, transparent); position: relative; }
+.escalera b { font-size: max(1.75cqw, 15px); font-weight: 650; letter-spacing: -0.015em; }
+.escalera span { font-size: max(1.35cqw, 12px); color: var(--grafito); line-height: 1.3; }
+.escalera .hoy { background: var(--acento-profundo); color: #fff; box-shadow: none; }
+.escalera .hoy span { color: rgba(255, 255, 255, .85); }
+.escalera .hoy::before { content: "hoy"; position: absolute; left: 1.4cqw; top: -3.2cqw; font-family: var(--mono); font-size: max(1.2cqw, 11px); color: var(--acento-texto); }
+.escalera .hoy::after { content: ""; position: absolute; left: 50%; top: -2.2cqw; width: 1.4cqw; height: 1.4cqw; margin-left: -.7cqw; border-radius: 50%; background: var(--navy); }
+
+/* ── Cierre ── */
+.cierre__iso { position: absolute; right: -8cqw; top: 50%; width: 46cqw; transform: translateY(-50%); z-index: -1; }
+.cierre__iso svg { width: 100%; height: auto; }
+.cierre { display: grid; gap: 1.6cqw; max-width: 56cqw; }
+.cierre__logo { width: max(15cqw, 140px); margin-top: 2.4cqw; }
+
+/* ── Transición: el punto viaja al centro y se abre en la siguiente lámina ── */
+.punto-viaje { position: absolute; z-index: 5; left: 92%; top: 88%; width: 1.4cqw; height: 1.4cqw; margin: -.7cqw 0 0 -.7cqw; border-radius: 50%; background: var(--acento); pointer-events: none; }
+.punto-viaje.viaja { animation: viaja 1300ms cubic-bezier(.45, .05, .55, .95); }
+@keyframes viaja { 0% { left: 92%; top: 88%; } 40% { left: 50%; top: 50%; transform: scale(1); opacity: 1; } 60% { left: 50%; top: 50%; transform: scale(3); opacity: 0; } 61% { left: 92%; top: 88%; transform: scale(0); opacity: 0; } 100% { left: 92%; top: 88%; transform: scale(1); opacity: 1; } }
+
+/* ── Mandos ── */
+.mandos { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 6px 8px; border-radius: 999px; background: var(--papel); box-shadow: inset 0 0 0 1px var(--borde), 0 14px 32px -12px rgba(22, 38, 58, .28); z-index: 10; transition: opacity 400ms var(--suave); }
+body.quieto .mandos { opacity: 0; pointer-events: none; }
+.boton { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 40px; height: 40px; padding: 0 12px; border: 0; border-radius: 999px; background: transparent; color: var(--navy); cursor: pointer; font-size: 14px; font-weight: 600; }
+.boton:hover { background: var(--hundida); }
+.boton:focus-visible, .escenario:focus-visible { outline: 3px solid var(--acento-profundo); outline-offset: 2px; }
+.boton .ico { width: 18px; height: 18px; }
+.puntos { display: flex; gap: 6px; }
+.puntos i { width: 8px; height: 8px; border-radius: 50%; background: rgba(38, 64, 91, .24); transition: background 300ms var(--suave), transform 300ms var(--llegada); }
+.puntos i.activo { background: var(--acento); transform: scale(1.3); }
+.contador { font-family: var(--mono); font-size: 12.5px; color: var(--grafito); min-width: 52px; text-align: center; }
+
+@media (prefers-reduced-motion: reduce) { .iso-punto, .punto-viaje.viaja { animation: none; } }
+
+/* ── Celular o pantalla vertical: láminas apiladas, se leen con scroll ── */
+@media (max-aspect-ratio: 1/1) {
+  body { display: block; overflow: auto; }
+  .escenario { width: 100%; aspect-ratio: auto; overflow: visible; }
+  .lamina { position: relative; inset: auto; visibility: visible; padding: 48px 16px; gap: 14px; border-bottom: 1px solid var(--borde); }
+  .portada, .dos, .fila--3, .fila--2, .flujo { grid-template-columns: 1fr; }
+  .portada__iso { width: 132px; }
+  .flujo .tarjeta::after { display: none; }
+  .tarjeta { padding: 18px; border-radius: 16px; gap: 8px; }
+  .escalera { flex-direction: column; align-items: stretch; margin-top: 28px; }
+  .escalera > div { height: auto; padding: 16px; border-radius: 14px; }
+  .escalera .hoy::before { left: auto; right: 16px; top: 14px; color: rgba(255, 255, 255, .85); }
+  .escalera .hoy::after { display: none; }
+  .cierre { max-width: none; }
+  .cierre__iso { width: 70%; right: -20%; opacity: .5; }
+  .punto-viaje, .mandos { display: none; }
+}
+
+/* ── Imprimir o guardar como PDF: una lámina por página ── */
+@media print {
+  @page { size: 1600px 900px; margin: 0; }
+  body { display: block; overflow: visible; background: none; }
+  .escenario { width: 1600px; aspect-ratio: auto; overflow: visible; }
+  .lamina { position: relative; inset: auto; visibility: visible; width: 1600px; height: 900px; break-after: page; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .punto-viaje, .mandos { display: none; }
+}
+</style>
+</head>
+<body>
+<main class="escenario" id="escenario" tabindex="0" aria-roledescription="presentación" aria-label="Presentación de Optimizo para Corfo. Usa las flechas para avanzar.">
+
+  <!-- 1 · Portada -->
+  <section class="lamina activa" aria-label="Portada">
+    <div class="portada">
+      <div class="portada__iso"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 138.305 138.305" aria-hidden="true" focusable="false"><defs><linearGradient id="gia-a" gradientUnits="userSpaceOnUse" x1="8.574219" y1="0" x2="43.152344" y2="0"><stop offset="0" stop-color="#FFA05A"/><stop offset="1" stop-color="#EE560E"/></linearGradient><linearGradient id="gib-a" gradientUnits="userSpaceOnUse" x1="6.054688" y1="0" x2="144.359375" y2="0"><stop offset="0" stop-color="#FFA05A"/><stop offset="1" stop-color="#EE560E"/></linearGradient></defs><g transform="translate(-6.054688 -2.601562)"><path fill="url(#gib-a)" fill-rule="evenodd" d="M 55.757812 5.390625 C 58.730469 10.496094 60.441406 16.425781 60.441406 22.753906 C 60.441406 41.851562 44.960938 57.332031 25.863281 57.332031 C 19.621094 57.332031 13.769531 55.667969 8.710938 52.773438 C 6.992188 58.804688 6.054688 65.167969 6.054688 71.753906 C 6.054688 109.945312 37.011719 140.90625 75.207031 140.90625 C 113.398438 140.90625 144.359375 109.945312 144.359375 71.753906 C 144.359375 33.5625 113.398438 2.601562 75.207031 2.601562 C 68.453125 2.601562 61.929688 3.585938 55.757812 5.390625 Z M 57.917969 71.753906 C 57.917969 62.207031 65.65625 54.464844 75.207031 54.464844 C 84.753906 54.464844 92.492188 62.207031 92.492188 71.753906 C 92.492188 81.300781 84.753906 89.042969 75.207031 89.042969 C 65.65625 89.042969 57.917969 81.300781 57.917969 71.753906 Z"/><path class="iso-punto" fill="url(#gia-a)" d="M 8.574219 22.753906 C 8.574219 32.300781 16.316406 40.042969 25.863281 40.042969 C 35.414062 40.042969 43.152344 32.300781 43.152344 22.753906 C 43.152344 13.207031 35.414062 5.464844 25.863281 5.464844 C 16.316406 5.464844 8.574219 13.207031 8.574219 22.753906 Z"/></g></svg>
+</div>
+      <div>
+        <p class="ceja">Presentación para Corfo · Octubre 2026</p>
+        <h1 class="titulo">Cámaras que ven el riesgo antes que el accidente</h1>
+        <p class="sub">Visión artificial para la seguridad en bodegas</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · El desafío -->
+  <section class="lamina" aria-label="El desafío">
+    <p class="ceja">El desafío</p>
+    <h2 class="titulo titulo--m">En una bodega, el riesgo está donde se cruzan personas y montacargas</h2>
+    <div class="fila fila--3">
+      <div class="tarjeta"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M253.57,117.78l-14-35a13.93,13.93,0,0,0-13-8.8H190V64a6,6,0,0,0-6-6H32A14,14,0,0,0,18,72V184a14,14,0,0,0,14,14H50.6a30,30,0,0,0,58.8,0h53.2a30,30,0,0,0,58.8,0H240a14,14,0,0,0,14-14V120A6,6,0,0,0,253.57,117.78ZM190,86h36.58a2,2,0,0,1,1.86,1.26L239.14,114H190ZM30,72a2,2,0,0,1,2-2H178v68H30ZM80,210a18,18,0,1,1,18-18A18,18,0,0,1,80,210Zm82.6-24H109.4a30,30,0,0,0-58.8,0H32a2,2,0,0,1-2-2V150H178v15.48A30.1,30.1,0,0,0,162.6,186ZM192,210a18,18,0,1,1,18-18A18,18,0,0,1,192,210Zm50-26a2,2,0,0,1-2,2H221.4A30.05,30.05,0,0,0,192,162c-.67,0-1.34,0-2,.07V126h52Z"/></svg><b>Pasillos compartidos</b><p>Peatones y montacargas circulan por los mismos espacios durante todo el turno.</p></div>
+      <div class="tarjeta"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M235.07,189.09,147.61,37.22h0a22.75,22.75,0,0,0-39.22,0L20.93,189.09a21.53,21.53,0,0,0,0,21.72A22.35,22.35,0,0,0,40.55,222h174.9a22.35,22.35,0,0,0,19.6-11.19A21.53,21.53,0,0,0,235.07,189.09ZM224.66,204.8a10.46,10.46,0,0,1-9.21,5.2H40.55a10.46,10.46,0,0,1-9.21-5.2,9.51,9.51,0,0,1,0-9.72L118.79,43.21a10.75,10.75,0,0,1,18.42,0l87.46,151.87A9.51,9.51,0,0,1,224.66,204.8ZM122,144V104a6,6,0,0,1,12,0v40a6,6,0,0,1-12,0Zm16,36a10,10,0,1,1-10-10A10,10,0,0,1,138,180Z"/></svg><b>Cuasi-accidentes invisibles</b><p>Los casi-choques no quedan registrados: sin datos, la prevención llega tarde.</p></div>
+      <div class="tarjeta"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M243.6,148.8a6,6,0,0,1-8.4-1.2A53.58,53.58,0,0,0,192,126a6,6,0,0,1,0-12,26,26,0,1,0-25.18-32.5,6,6,0,0,1-11.62-3,38,38,0,1,1,59.91,39.63A65.69,65.69,0,0,1,244.8,140.4,6,6,0,0,1,243.6,148.8ZM189.19,213a6,6,0,0,1-2.19,8.2,5.9,5.9,0,0,1-3,.81,6,6,0,0,1-5.2-3,59,59,0,0,0-101.62,0,6,6,0,1,1-10.38-6A70.1,70.1,0,0,1,103,182.55a46,46,0,1,1,50.1,0A70.1,70.1,0,0,1,189.19,213ZM128,178a34,34,0,1,0-34-34A34,34,0,0,0,128,178ZM70,120a6,6,0,0,0-6-6A26,26,0,1,1,89.18,81.49a6,6,0,1,0,11.62-3,38,38,0,1,0-59.91,39.63A65.69,65.69,0,0,0,11.2,140.4a6,6,0,1,0,9.6,7.2A53.58,53.58,0,0,1,64,126,6,6,0,0,0,70,120Z"/></svg><b>Supervisión limitada</b><p>Ningún equipo puede mirar todas las zonas, todo el tiempo.</p></div>
+    </div>
+  </section>
+
+  <!-- 3 · La solución -->
+  <section class="lamina" aria-label="La solución">
+    <p class="ceja">La solución</p>
+    <h2 class="titulo titulo--m">Optimizo convierte las cámaras en un supervisor que no se distrae</h2>
+    <div class="fila fila--3">
+      <div class="tarjeta"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M232,122H221.8A94.13,94.13,0,0,0,134,34.2V24a6,6,0,0,0-12,0V34.2A94.13,94.13,0,0,0,34.2,122H24a6,6,0,0,0,0,12H34.2A94.13,94.13,0,0,0,122,221.8V232a6,6,0,0,0,12,0V221.8A94.13,94.13,0,0,0,221.8,134H232a6,6,0,0,0,0-12Zm-98,87.76V200a6,6,0,0,0-12,0v9.76A82.09,82.09,0,0,1,46.24,134H56a6,6,0,0,0,0-12H46.24A82.09,82.09,0,0,1,122,46.24V56a6,6,0,0,0,12,0V46.24A82.09,82.09,0,0,1,209.76,122H200a6,6,0,0,0,0,12h9.76A82.09,82.09,0,0,1,134,209.76ZM128,90a38,38,0,1,0,38,38A38,38,0,0,0,128,90Zm0,64a26,26,0,1,1,26-26A26,26,0,0,1,128,154Z"/></svg><b>Detecta</b><p>Personas y vehículos dentro de las zonas que la empresa define.</p></div>
+      <div class="tarjeta"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M223.05,69.33A6,6,0,0,1,215,66.76,96,96,0,0,0,180.8,29.08a6,6,0,0,1,6.4-10.15,109.26,109.26,0,0,1,38.41,42.31A6,6,0,0,1,223.05,69.33ZM41,66.76A96,96,0,0,1,75.2,29.08a6,6,0,0,0-6.4-10.15A109.26,109.26,0,0,0,30.39,61.24,6,6,0,1,0,41,66.76Zm179,110.18A14,14,0,0,1,208,198h-42.5a38,38,0,0,1-75,0H48a14,14,0,0,1-12.06-21.06C45.13,161.09,50,138.63,50,112a78,78,0,0,1,156,0C206,139,210.74,160.86,220.08,176.94ZM153.29,198H102.71a26,26,0,0,0,50.58,0Zm56.42-15C199.29,165,194,141.15,194,112a66,66,0,0,0-132,0c0,29.16-5.29,53-15.71,71a2,2,0,0,0,0,2,1.9,1.9,0,0,0,1.7,1H208a1.9,1.9,0,0,0,1.7-1A2,2,0,0,0,209.71,183Z"/></svg><b>Alerta</b><p>Al equipo responsable y en el mismo lugar, en segundos.</p></div>
+      <div class="tarjeta"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,202H214V40a6,6,0,0,0-6-6H152a6,6,0,0,0-6,6V82H96a6,6,0,0,0-6,6v42H48a6,6,0,0,0-6,6v66H32a6,6,0,0,0,0,12H224a6,6,0,0,0,0-12ZM158,46h44V202H158ZM102,94h44V202H102ZM54,142H90v60H54Z"/></svg><b>Mide</b><p>Cuasi-accidentes por zona y turno, para prevenir con datos.</p></div>
+    </div>
+  </section>
+
+  <!-- 4 · Cómo funciona -->
+  <section class="lamina" aria-label="Cómo funciona">
+    <p class="ceja">Cómo funciona</p>
+    <h2 class="titulo titulo--m">El análisis ocurre en la bodega, en tiempo real</h2>
+    <div class="flujo">
+      <div class="tarjeta"><span class="paso">01</span><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M250.83,74.71a6,6,0,0,0-6.16.3L206,100.79V72a14,14,0,0,0-14-14H32A14,14,0,0,0,18,72V184a14,14,0,0,0,14,14H192a14,14,0,0,0,14-14V155.21L244.67,181a6,6,0,0,0,9.33-5V80A6,6,0,0,0,250.83,74.71ZM194,184a2,2,0,0,1-2,2H32a2,2,0,0,1-2-2V72a2,2,0,0,1,2-2H192a2,2,0,0,1,2,2Zm48-19.21-36-24V115.21l36-24Z"/></svg><b>Cámara IP</b><p>4 MP, conectada por estándares abiertos (ONVIF y RTSP).</p></div>
+      <div class="tarjeta"><span class="paso">02</span><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M152,98H104a6,6,0,0,0-6,6v48a6,6,0,0,0,6,6h48a6,6,0,0,0,6-6V104A6,6,0,0,0,152,98Zm-6,48H110V110h36Zm86,0H214V110h18a6,6,0,0,0,0-12H214V56a14,14,0,0,0-14-14H158V24a6,6,0,0,0-12,0V42H110V24a6,6,0,0,0-12,0V42H56A14,14,0,0,0,42,56V98H24a6,6,0,0,0,0,12H42v36H24a6,6,0,0,0,0,12H42v42a14,14,0,0,0,14,14H98v18a6,6,0,0,0,12,0V214h36v18a6,6,0,0,0,12,0V214h42a14,14,0,0,0,14-14V158h18a6,6,0,0,0,0-12Zm-30,54a2,2,0,0,1-2,2H56a2,2,0,0,1-2-2V56a2,2,0,0,1,2-2H200a2,2,0,0,1,2,2Z"/></svg><b>Equipo de borde</b><p>Raspberry Pi 5 con acelerador de IA Hailo-8: analiza 15 imágenes por segundo.</p></div>
+      <div class="tarjeta"><span class="paso">03</span><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M229.23,50.78a30,30,0,0,0-42.44,0h0a29.82,29.82,0,0,0-5.56,7.69l-31.31-8.54A30,30,0,0,0,98.78,26.77h0A30.09,30.09,0,0,0,94.13,63.2L57.83,95.87a30.07,30.07,0,0,0-39.06,2.91h0a30,30,0,0,0,41.38,43.44l72.6,53.25a30,30,0,1,0,48.47-8.68,29.65,29.65,0,0,0-5.77-4.5l28.44-80.59A31.57,31.57,0,0,0,208,102a30,30,0,0,0,21.22-51.2Zm-122-15.52a18,18,0,1,1,0,25.46A18,18,0,0,1,107.27,35.26Zm-80,97.47a18,18,0,1,1,25.46,0A18,18,0,0,1,27.26,132.73Zm145.47,88a18,18,0,1,1,0-25.46A18,18,0,0,1,172.73,220.74Zm-8.61-42.43a30,30,0,0,0-24.27,7.48L67.24,132.54a30.14,30.14,0,0,0-1.38-27.75l36.3-32.67a30,30,0,0,0,44.62-10.61l31.31,8.54a30,30,0,0,0,8.7,23.16,30.47,30.47,0,0,0,5.78,4.51Zm56.62-93.59a18,18,0,1,1,0-25.46A18,18,0,0,1,220.74,84.72Z"/></svg><b>Plataforma Optimizo</b><p>Zonas, reglas, eventos y reportes en un solo panel.</p></div>
+      <div class="tarjeta"><span class="paso">04</span><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M223.05,69.33A6,6,0,0,1,215,66.76,96,96,0,0,0,180.8,29.08a6,6,0,0,1,6.4-10.15,109.26,109.26,0,0,1,38.41,42.31A6,6,0,0,1,223.05,69.33ZM41,66.76A96,96,0,0,1,75.2,29.08a6,6,0,0,0-6.4-10.15A109.26,109.26,0,0,0,30.39,61.24,6,6,0,1,0,41,66.76Zm179,110.18A14,14,0,0,1,208,198h-42.5a38,38,0,0,1-75,0H48a14,14,0,0,1-12.06-21.06C45.13,161.09,50,138.63,50,112a78,78,0,0,1,156,0C206,139,210.74,160.86,220.08,176.94ZM153.29,198H102.71a26,26,0,0,0,50.58,0Zm56.42-15C199.29,165,194,141.15,194,112a66,66,0,0,0-132,0c0,29.16-5.29,53-15.71,71a2,2,0,0,0,0,2,1.9,1.9,0,0,0,1.7,1H208a1.9,1.9,0,0,0,1.7-1A2,2,0,0,0,209.71,183Z"/></svg><b>Respuesta</b><p>Aviso al equipo y señal en el lugar.</p></div>
+    </div>
+    <p class="nota"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M208,82H174V56a46,46,0,0,0-92,0V82H48A14,14,0,0,0,34,96V208a14,14,0,0,0,14,14H208a14,14,0,0,0,14-14V96A14,14,0,0,0,208,82ZM94,56a34,34,0,0,1,68,0V82H94ZM210,208a2,2,0,0,1-2,2H48a2,2,0,0,1-2-2V96a2,2,0,0,1,2-2H208a2,2,0,0,1,2,2Zm-82-94a26,26,0,0,0-6,51.29V184a6,6,0,0,0,12,0V165.29A26,26,0,0,0,128,114Zm0,40a14,14,0,1,1,14-14A14,14,0,0,1,128,154Z"/></svg>El video se procesa y se queda en el recinto: a internet sólo sale el aviso.</p>
+  </section>
+
+  <!-- 5 · Zonas y reglas -->
+  <section class="lamina" aria-label="Zonas y reglas">
+    <div class="dos">
+      <div class="ilustracion">
+        <svg viewBox="0 0 640 400" role="img" aria-label="Pasillo de bodega con una zona demarcada: la persona dentro de la zona se detecta y la que está fuera se ignora">
+          <defs>
+            <pattern id="rayado" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="12" height="12" fill="#FBE6D8"/><line x1="0" y1="0" x2="0" y2="12" stroke="#FFB98A" stroke-width="3"/></pattern>
+          </defs>
+          <rect width="640" height="400" fill="#E4E6DE"/>
+          <polygon points="250,70 390,70 390,150 250,150" fill="#D6D9CF"/>
+          <polygon points="90,400 550,400 390,150 250,150" fill="#F6F6F1"/>
+          <polygon points="0,0 250,70 250,150 90,400 0,400" fill="#E9EBE4"/>
+          <polygon points="390,70 640,0 640,400 550,400 390,150" fill="#DDE0D7"/>
+          <g stroke="#B9BFB6" stroke-width="2" fill="none">
+            <line x1="390" y1="100" x2="640" y2="60"/><line x1="390" y1="125" x2="640" y2="150"/><line x1="458" y1="250" x2="640" y2="250"/>
+            <line x1="452" y1="62" x2="452" y2="246"/><line x1="530" y1="40" x2="530" y2="368"/><line x1="610" y1="20" x2="610" y2="400"/>
+          </g>
+          <g stroke="#C9CEC6" stroke-width="2"><line x1="320" y1="150" x2="320" y2="400" stroke-dasharray="14 12"/></g>
+          <rect x="198" y="140" width="231" height="248" fill="url(#rayado)" stroke="#B8420A" stroke-width="3" rx="6"/>
+          <g transform="translate(208 150)"><rect width="164" height="30" rx="15" fill="#B8420A"/><text x="82" y="20.5" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing=".06em">ZONA DEMARCADA</text></g>
+          <g transform="translate(300 240)">
+            <circle cx="20" cy="16" r="13" fill="#26405B"/><rect x="4" y="33" width="32" height="70" rx="14" fill="#26405B"/>
+            <path d="M-8 4 v-12 h12 M36 -8 h12 v12 M48 102 v12 h-12 M4 114 h-12 v-12" stroke="#B8420A" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <g transform="translate(-8 -42)"><rect width="122" height="26" rx="13" fill="#26405B"/><text x="61" y="17.5" text-anchor="middle" font-size="13" font-weight="600" fill="#EDEEE8">persona · dentro</text></g>
+          </g>
+          <g transform="translate(70 262)">
+            <circle cx="18" cy="14" r="12" fill="#9AA6A8"/><rect x="4" y="29" width="28" height="62" rx="12" fill="#9AA6A8"/>
+            <rect x="-8" y="-6" width="52" height="108" rx="6" fill="none" stroke="#9AA6A8" stroke-width="2" stroke-dasharray="6 6"/>
+            <g transform="translate(-20 -36)"><rect width="122" height="24" rx="12" fill="#E9EBE4" stroke="#9AA6A8"/><text x="61" y="16.5" text-anchor="middle" font-size="12.5" font-weight="600" fill="#586262">fuera · se ignora</text></g>
+          </g>
+          <circle cx="429" cy="140" r="9" fill="#FF6A13"/>
+        </svg>
+      </div>
+      <div>
+        <p class="ceja">Zonas y reglas</p>
+        <h2 class="titulo titulo--m">Cada área de la bodega tiene su propia regla</h2>
+        <ul class="lista" style="margin-top:2.4cqw">
+          <li><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M229.23,50.78a30,30,0,0,0-42.44,0h0a29.82,29.82,0,0,0-5.56,7.69l-31.31-8.54A30,30,0,0,0,98.78,26.77h0A30.09,30.09,0,0,0,94.13,63.2L57.83,95.87a30.07,30.07,0,0,0-39.06,2.91h0a30,30,0,0,0,41.38,43.44l72.6,53.25a30,30,0,1,0,48.47-8.68,29.65,29.65,0,0,0-5.77-4.5l28.44-80.59A31.57,31.57,0,0,0,208,102a30,30,0,0,0,21.22-51.2Zm-122-15.52a18,18,0,1,1,0,25.46A18,18,0,0,1,107.27,35.26Zm-80,97.47a18,18,0,1,1,25.46,0A18,18,0,0,1,27.26,132.73Zm145.47,88a18,18,0,1,1,0-25.46A18,18,0,0,1,172.73,220.74Zm-8.61-42.43a30,30,0,0,0-24.27,7.48L67.24,132.54a30.14,30.14,0,0,0-1.38-27.75l36.3-32.67a30,30,0,0,0,44.62-10.61l31.31,8.54a30,30,0,0,0,8.7,23.16,30.47,30.47,0,0,0,5.78,4.51Zm56.62-93.59a18,18,0,1,1,0-25.46A18,18,0,0,1,220.74,84.72Z"/></svg><div>La zona se demarca una vez<small>Directamente sobre la imagen de la cámara.</small></div></li>
+          <li><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M232,122H221.8A94.13,94.13,0,0,0,134,34.2V24a6,6,0,0,0-12,0V34.2A94.13,94.13,0,0,0,34.2,122H24a6,6,0,0,0,0,12H34.2A94.13,94.13,0,0,0,122,221.8V232a6,6,0,0,0,12,0V221.8A94.13,94.13,0,0,0,221.8,134H232a6,6,0,0,0,0-12Zm-98,87.76V200a6,6,0,0,0-12,0v9.76A82.09,82.09,0,0,1,46.24,134H56a6,6,0,0,0,0-12H46.24A82.09,82.09,0,0,1,122,46.24V56a6,6,0,0,0,12,0V46.24A82.09,82.09,0,0,1,209.76,122H200a6,6,0,0,0,0,12h9.76A82.09,82.09,0,0,1,134,209.76ZM128,90a38,38,0,1,0,38,38A38,38,0,0,0,128,90Zm0,64a26,26,0,1,1,26-26A26,26,0,0,1,128,154Z"/></svg><div>Sólo cuenta quien está dentro<small>Lo que ocurre fuera de la zona no genera alertas.</small></div></li>
+          <li><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M223.05,69.33A6,6,0,0,1,215,66.76,96,96,0,0,0,180.8,29.08a6,6,0,0,1,6.4-10.15,109.26,109.26,0,0,1,38.41,42.31A6,6,0,0,1,223.05,69.33ZM41,66.76A96,96,0,0,1,75.2,29.08a6,6,0,0,0-6.4-10.15A109.26,109.26,0,0,0,30.39,61.24,6,6,0,1,0,41,66.76Zm179,110.18A14,14,0,0,1,208,198h-42.5a38,38,0,0,1-75,0H48a14,14,0,0,1-12.06-21.06C45.13,161.09,50,138.63,50,112a78,78,0,0,1,156,0C206,139,210.74,160.86,220.08,176.94ZM153.29,198H102.71a26,26,0,0,0,50.58,0Zm56.42-15C199.29,165,194,141.15,194,112a66,66,0,0,0-132,0c0,29.16-5.29,53-15.71,71a2,2,0,0,0,0,2,1.9,1.9,0,0,0,1.7,1H208a1.9,1.9,0,0,0,1.7-1A2,2,0,0,0,209.71,183Z"/></svg><div>Cada zona define su respuesta<small>Aviso al equipo, luz, baliza o sólo registro.</small></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · Respuesta inmediata -->
+  <section class="lamina" aria-label="Respuesta inmediata">
+    <p class="ceja">Respuesta inmediata</p>
+    <h2 class="titulo titulo--m">Del ingreso a la zona al aviso, en un segundo</h2>
+    <div class="fila fila--3">
+      <div class="tarjeta"><p class="cifra">1<em> s</em></p><p>desde que una persona entra a la zona hasta el aviso en el celular del responsable.</p></div>
+      <div class="tarjeta"><p class="cifra">&lt;1<em> s</em></p><p>para encender la luz de la cámara en el mismo lugar.</p></div>
+      <div class="tarjeta"><p class="cifra">1<em> aviso</em></p><p>por ingreso, no por imagen: 122 imágenes con la persona generaron un solo mensaje.</p></div>
+    </div>
+    <p class="nota"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M172.24,99.76a6,6,0,0,1,0,8.48l-56,56a6,6,0,0,1-8.48,0l-24-24a6,6,0,0,1,8.48-8.48L112,151.51l51.76-51.75A6,6,0,0,1,172.24,99.76ZM230,128A102,102,0,1,1,128,26,102.12,102.12,0,0,1,230,128Zm-12,0a90,90,0,1,0-90,90A90.1,90.1,0,0,0,218,128Z"/></svg>Medido en la bodega piloto el 23 de octubre de 2026.</p>
+  </section>
+
+  <!-- 7 · Señal en terreno -->
+  <section class="lamina" aria-label="Señal en terreno">
+    <p class="ceja">Señal en terreno</p>
+    <h2 class="titulo titulo--m">La cámara también advierte en el mismo lugar</h2>
+    <div class="fila fila--2">
+      <div class="tarjeta"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M122,40V16a6,6,0,0,1,12,0V40a6,6,0,0,1-12,0Zm68,88a62,62,0,1,1-62-62A62.07,62.07,0,0,1,190,128Zm-12,0a50,50,0,1,0-50,50A50.06,50.06,0,0,0,178,128ZM59.76,68.24a6,6,0,1,0,8.48-8.48l-16-16a6,6,0,0,0-8.48,8.48Zm0,119.52-16,16a6,6,0,1,0,8.48,8.48l16-16a6,6,0,1,0-8.48-8.48ZM192,70a6,6,0,0,0,4.24-1.76l16-16a6,6,0,0,0-8.48-8.48l-16,16A6,6,0,0,0,192,70Zm4.24,117.76a6,6,0,0,0-8.48,8.48l16,16a6,6,0,0,0,8.48-8.48ZM46,128a6,6,0,0,0-6-6H16a6,6,0,0,0,0,12H40A6,6,0,0,0,46,128Zm82,82a6,6,0,0,0-6,6v24a6,6,0,0,0,12,0V216A6,6,0,0,0,128,210Zm112-88H216a6,6,0,0,0,0,12h24a6,6,0,0,0,0-12Z"/></svg><b>De día</b><p>Al detectar un ingreso a la zona, la cámara enciende su luz blanca. Se apaga sola 10 segundos después de que la zona queda libre.</p></div>
+      <div class="tarjeta tarjeta--oscura"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M232.13,143.64a6,6,0,0,0-6-1.49A90.07,90.07,0,0,1,113.86,29.85a6,6,0,0,0-7.49-7.48A102.88,102.88,0,0,0,54.48,58.68,102,102,0,0,0,197.32,201.52a102.88,102.88,0,0,0,36.31-51.89A6,6,0,0,0,232.13,143.64Zm-42,48.29a90,90,0,0,1-126-126A90.9,90.9,0,0,1,99.65,37.66,102.06,102.06,0,0,0,218.34,156.35,90.9,90.9,0,0,1,190.1,191.93Z"/></svg><b>De noche</b><p>La cámara vigila con infrarrojo, invisible para las personas. La luz blanca se enciende sólo ante un ingreso y actúa como señal disuasiva.</p></div>
+    </div>
+    <p class="nota"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M122,16V8a6,6,0,0,1,12,0v8a6,6,0,0,1-12,0Zm78,30a6,6,0,0,0,4.24-1.76l8-8a6,6,0,1,0-8.48-8.48l-8,8A6,6,0,0,0,200,46ZM51.76,44.24a6,6,0,0,0,8.48-8.48l-8-8a6,6,0,0,0-8.48,8.48ZM137,74.08a6,6,0,1,0-2,11.84c20,3.34,35,21.44,35,42.08a6,6,0,0,0,12,0C182,101.57,162.65,78.39,137,74.08ZM230,176v24a14,14,0,0,1-14,14H40a14,14,0,0,1-14-14V176a14,14,0,0,1,14-14h2V128a86,86,0,0,1,86-86h.65c47.06.35,85.35,39.38,85.35,87v33h2A14,14,0,0,1,230,176ZM54,162H202V129c0-41-32.94-74.7-73.44-75H128a74,74,0,0,0-74,74Zm164,14a2,2,0,0,0-2-2H40a2,2,0,0,0-2,2v24a2,2,0,0,0,2,2H216a2,2,0,0,0,2-2Z"/></svg>La plataforma está preparada para activar balizas y sirenas en la zona.</p>
+  </section>
+
+  <!-- 8 · Estado actual -->
+  <section class="lamina" aria-label="Estado actual">
+    <p class="ceja">Estado actual</p>
+    <h2 class="titulo titulo--m">El sistema ya opera en una bodega real</h2>
+    <div class="fila fila--2" style="margin-top:2.6cqw">
+      <div class="estado">
+        <h3><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M172.24,99.76a6,6,0,0,1,0,8.48l-56,56a6,6,0,0,1-8.48,0l-24-24a6,6,0,0,1,8.48-8.48L112,151.51l51.76-51.75A6,6,0,0,1,172.24,99.76ZM230,128A102,102,0,1,1,128,26,102.12,102.12,0,0,1,230,128Zm-12,0a90,90,0,1,0-90,90A90.1,90.1,0,0,0,218,128Z"/></svg>Funcionando hoy</h3>
+        <ul>
+          <li>Detección de personas en tiempo real</li>
+          <li>Zonas demarcadas con aviso por Telegram</li>
+          <li>Luz de la cámara activada por la zona</li>
+          <li>Aviso en el panel si una cámara deja de transmitir</li>
+          <li>Panel con eventos, zonas, reglas y reportes</li>
+          <li>Motor de reglas verificado en 15 escenarios de prueba</li>
+        </ul>
+      </div>
+      <div class="estado estado--desarrollo">
+        <h3><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,26A102,102,0,1,0,230,128,102.12,102.12,0,0,0,128,26Zm0,192a90,90,0,1,1,90-90A90.1,90.1,0,0,1,128,218Zm62-90a6,6,0,0,1-6,6H128a6,6,0,0,1-6-6V72a6,6,0,0,1,12,0v50h50A6,6,0,0,1,190,128Z"/></svg>En desarrollo</h3>
+        <ul>
+          <li>Detección de montacargas con modelo propio</li>
+          <li>Elementos de protección: casco y chaleco</li>
+          <li>Alerta por cercanía persona–montacargas</li>
+          <li>Detección de personas a mayor distancia</li>
+          <li>Avisos por WhatsApp y correo</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · Medimos antes de prometer -->
+  <section class="lamina" aria-label="Medimos antes de prometer">
+    <p class="ceja">Medimos antes de prometer</p>
+    <h2 class="titulo titulo--m">Cada avance se valida con datos de la propia bodega</h2>
+    <div class="fila fila--3">
+      <div class="tarjeta"><p class="cifra cifra--m">66→98<em>%</em></p><p>de las personas del pasillo detectadas al analizar además una vista ampliada del fondo.</p><small>60 escenas reales · modelo de referencia</small></div>
+      <div class="tarjeta"><p class="cifra cifra--m">45<em> ms</em></p><p>por imagen para detectar montacargas en el equipo de borde.</p><small>Primer modelo propio · TensorFlow</small></div>
+      <div class="tarjeta"><p class="cifra cifra--m">1.413</p><p>imágenes de la bodega piloto capturadas en un día para entrenar.</p><small>Captura automática al detectar movimiento</small></div>
+    </div>
+    <p class="nota"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,202H214V40a6,6,0,0,0-6-6H152a6,6,0,0,0-6,6V82H96a6,6,0,0,0-6,6v42H48a6,6,0,0,0-6,6v66H32a6,6,0,0,0,0,12H224a6,6,0,0,0,0-12ZM158,46h44V202H158ZM102,94h44V202H102ZM54,142H90v60H54Z"/></svg>Un modelo genérico detecta el 77 % de los montacargas en datos públicos, pero sólo el 38 % en una bodega distinta. Por eso entrenamos con imágenes propias.</p>
+  </section>
+
+  <!-- 10 · Privacidad -->
+  <section class="lamina" aria-label="Privacidad por diseño">
+    <p class="ceja">Privacidad por diseño</p>
+    <h2 class="titulo titulo--m">Detecta situaciones de riesgo, no identifica personas</h2>
+    <div class="fila fila--3">
+      <div class="tarjeta"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M208,82H174V56a46,46,0,0,0-92,0V82H48A14,14,0,0,0,34,96V208a14,14,0,0,0,14,14H208a14,14,0,0,0,14-14V96A14,14,0,0,0,208,82ZM94,56a34,34,0,0,1,68,0V82H94ZM210,208a2,2,0,0,1-2,2H48a2,2,0,0,1-2-2V96a2,2,0,0,1,2-2H208a2,2,0,0,1,2,2Zm-82-94a26,26,0,0,0-6,51.29V184a6,6,0,0,0,12,0V165.29A26,26,0,0,0,128,114Zm0,40a14,14,0,1,1,14-14A14,14,0,0,1,128,154Z"/></svg><b>Procesamiento local</b><p>El video se analiza y se queda en el recinto del cliente.</p></div>
+      <div class="tarjeta"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M52.44,36A6,6,0,0,0,43.56,44L64.44,67c-37.28,21.9-53.23,57-53.92,58.57a6,6,0,0,0,0,4.88c.34.77,8.66,19.22,27.24,37.8C55,185.47,84.62,206,128,206a124.91,124.91,0,0,0,52.57-11.25l23,25.29a6,6,0,0,0,8.88-8.08Zm48.62,71.32,45,49.52a34,34,0,0,1-45-49.52ZM128,194c-31.38,0-58.78-11.42-81.45-33.93A134.57,134.57,0,0,1,22.69,128c4.29-8.2,20.1-35.18,50-51.91L92.89,98.3a46,46,0,0,0,61.35,67.48l17.81,19.6A113.47,113.47,0,0,1,128,194Zm6.4-99.4a6,6,0,0,1,2.25-11.79,46.17,46.17,0,0,1,37.15,40.87,6,6,0,0,1-5.42,6.53l-.56,0a6,6,0,0,1-6-5.45A34.1,34.1,0,0,0,134.4,94.6Zm111.08,35.85c-.41.92-10.37,23-32.86,43.12a6,6,0,1,1-8-8.94A134.07,134.07,0,0,0,233.31,128a134.67,134.67,0,0,0-23.86-32.07C186.78,73.42,159.38,62,128,62a120.19,120.19,0,0,0-19.69,1.6,6,6,0,1,1-2-11.83A131.12,131.12,0,0,1,128,50c43.38,0,73,20.54,90.24,37.76,18.58,18.58,26.9,37,27.24,37.81A6,6,0,0,1,245.48,130.45Z"/></svg><b>Sin reconocimiento facial</b><p>Los reportes se agrupan por zona y turno, sin identificar a nadie.</p></div>
+      <div class="tarjeta"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M208,42H48A14,14,0,0,0,34,56v56c0,51.94,25.12,83.4,46.2,100.64,22.73,18.6,45.27,24.89,46.22,25.15a6,6,0,0,0,3.16,0c.95-.26,23.49-6.55,46.22-25.15C196.88,195.4,222,163.94,222,112V56A14,14,0,0,0,208,42Zm2,70c0,37.76-13.94,68.39-41.44,91.06A131.17,131.17,0,0,1,128,225.72a130.94,130.94,0,0,1-40.56-22.66C59.94,180.39,46,149.76,46,112V56a2,2,0,0,1,2-2H208a2,2,0,0,1,2,2ZM172.24,99.76a6,6,0,0,1,0,8.48l-56,56a6,6,0,0,1-8.48,0l-24-24a6,6,0,0,1,8.48-8.48L112,151.51l51.76-51.75A6,6,0,0,1,172.24,99.76Z"/></svg><b>Menos datos, menos riesgo</b><p>Un enfoque alineado con la nueva Ley 21.719 de protección de datos personales.</p></div>
+    </div>
+  </section>
+
+  <!-- 11 · Hoja de ruta -->
+  <section class="lamina" aria-label="Hoja de ruta">
+    <p class="ceja">Hoja de ruta</p>
+    <h2 class="titulo titulo--m">Del piloto técnico a un producto listo para escalar</h2>
+    <div class="escalera">
+      <div class="hoy" style="--i:0"><b>Piloto técnico</b><span>Personas, zonas, avisos y luz operando</span></div>
+      <div style="--i:1"><b>Modelos propios</b><span>Montacargas, casco y chaleco con datos de bodega</span></div>
+      <div style="--i:2"><b>Piloto con clientes</b><span>2 a 3 bodegas y reportes de cuasi-accidentes</span></div>
+      <div style="--i:3"><b>Escalamiento</b><span>Instalación estándar, replicable en cualquier bodega</span></div>
+    </div>
+    <p class="nota"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M44.08,51.37A6,6,0,0,0,42,55.9V224a6,6,0,0,0,12,0V178.78c28.08-22.79,51.88-11,79.34,2.57,16.12,8,33.49,16.58,52,16.58,13.57,0,27.76-4.6,42.56-17.42A6,6,0,0,0,230,176V55.9a6,6,0,0,0-9.93-4.54c-29,25.12-53.28,13.09-81.41-.84C110.77,36.71,79,21.16,44.08,51.37ZM218,173.17c-28.08,22.8-51.88,11-79.34-2.58C113.4,158.08,85.09,144.07,54,164V58.72c28.08-22.8,51.88-11,79.34,2.56C158.6,73.79,186.91,87.8,218,67.91Z"/></svg>Próximo paso: entrenar los modelos propios con imágenes de la bodega y validarlos en más sitios.</p>
+  </section>
+
+  <!-- 12 · Cierre -->
+  <section class="lamina lamina--oscura" aria-label="Cierre">
+    <div class="cierre__iso" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 138.305 138.305" aria-hidden="true" focusable="false"><defs><linearGradient id="gia-b" gradientUnits="userSpaceOnUse" x1="8.574219" y1="0" x2="43.152344" y2="0"><stop offset="0" stop-color="#FFA05A"/><stop offset="1" stop-color="#EE560E"/></linearGradient><linearGradient id="gib-b" gradientUnits="userSpaceOnUse" x1="6.054688" y1="0" x2="144.359375" y2="0"><stop offset="0" stop-color="#FFA05A"/><stop offset="1" stop-color="#EE560E"/></linearGradient></defs><g transform="translate(-6.054688 -2.601562)"><path fill="url(#gib-b)" fill-rule="evenodd" d="M 55.757812 5.390625 C 58.730469 10.496094 60.441406 16.425781 60.441406 22.753906 C 60.441406 41.851562 44.960938 57.332031 25.863281 57.332031 C 19.621094 57.332031 13.769531 55.667969 8.710938 52.773438 C 6.992188 58.804688 6.054688 65.167969 6.054688 71.753906 C 6.054688 109.945312 37.011719 140.90625 75.207031 140.90625 C 113.398438 140.90625 144.359375 109.945312 144.359375 71.753906 C 144.359375 33.5625 113.398438 2.601562 75.207031 2.601562 C 68.453125 2.601562 61.929688 3.585938 55.757812 5.390625 Z M 57.917969 71.753906 C 57.917969 62.207031 65.65625 54.464844 75.207031 54.464844 C 84.753906 54.464844 92.492188 62.207031 92.492188 71.753906 C 92.492188 81.300781 84.753906 89.042969 75.207031 89.042969 C 65.65625 89.042969 57.917969 81.300781 57.917969 71.753906 Z"/><path fill="url(#gia-b)" d="M 8.574219 22.753906 C 8.574219 32.300781 16.316406 40.042969 25.863281 40.042969 C 35.414062 40.042969 43.152344 32.300781 43.152344 22.753906 C 43.152344 13.207031 35.414062 5.464844 25.863281 5.464844 C 16.316406 5.464844 8.574219 13.207031 8.574219 22.753906 Z"/></g></svg>
+</div>
+    <div class="cierre">
+      <p class="ceja">Optimizo</p>
+      <h2 class="titulo">Todo proceso tiene una salida.</h2>
+      <p class="sub">Visión artificial para bodegas más seguras.</p>
+      <img class="cierre__logo" src="../marca/logo/svg/naranjo/optimizo-logo-sobre-oscuro.svg" alt="Optimizo">
+    </div>
+  </section>
+
+  <i class="punto-viaje" aria-hidden="true"></i>
+</main>
+
+<nav class="mandos" aria-label="Controles de la presentación">
+  <button type="button" class="boton" data-ant aria-label="Lámina anterior"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M222,128a6,6,0,0,1-6,6H54.49l61.75,61.76a6,6,0,1,1-8.48,8.48l-72-72a6,6,0,0,1,0-8.48l72-72a6,6,0,0,1,8.48,8.48L54.49,122H216A6,6,0,0,1,222,128Z"/></svg></button>
+  <div class="puntos" aria-hidden="true"></div>
+  <span class="contador" aria-live="polite" data-n>1 / 12</span>
+  <button type="button" class="boton" data-sig aria-label="Lámina siguiente"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M220.24,132.24l-72,72a6,6,0,0,1-8.48-8.48L201.51,134H40a6,6,0,0,1,0-12H201.51L139.76,60.24a6,6,0,0,1,8.48-8.48l72,72A6,6,0,0,1,220.24,132.24Z"/></svg></button>
+  <button type="button" class="boton" data-full aria-label="Pantalla completa"><svg class="ico" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M214,48V96a6,6,0,0,1-12,0V62.48l-45.76,45.76a6,6,0,0,1-8.48-8.48L193.52,54H160a6,6,0,0,1,0-12h48A6,6,0,0,1,214,48ZM99.76,147.76,54,193.52V160a6,6,0,0,0-12,0v48a6,6,0,0,0,6,6H96a6,6,0,0,0,0-12H62.48l45.76-45.76a6,6,0,0,0-8.48-8.48ZM208,154a6,6,0,0,0-6,6v33.52l-45.76-45.76a6,6,0,0,0-8.48,8.48L193.52,202H160a6,6,0,0,0,0,12h48a6,6,0,0,0,6-6V160A6,6,0,0,0,208,154ZM62.48,54H96a6,6,0,0,0,0-12H48a6,6,0,0,0-6,6V96a6,6,0,0,0,12,0V62.48l45.76,45.76a6,6,0,0,0,8.48-8.48Z"/></svg></button>
+</nav>
+
+<script>
+(() => {
+  const escenario = document.getElementById("escenario");
+  const ls = [...escenario.querySelectorAll(".lamina")];
+  const punto = escenario.querySelector(".punto-viaje");
+  const puntos = document.querySelector(".puntos");
+  const contador = document.querySelector("[data-n]");
+  const quieto = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const apilado = () => matchMedia("(max-aspect-ratio: 1/1)").matches;
+  puntos.innerHTML = ls.map(() => "<i></i>").join("");
+  let i = 0, ocupado = false;
+
+  const marcar = () => {
+    ls.forEach((l, k) => { l.classList.toggle("activa", k === i); l.setAttribute("aria-hidden", k === i ? "false" : "true"); });
+    [...puntos.children].forEach((p, k) => p.classList.toggle("activo", k === i));
+    contador.textContent = `${i + 1} / ${ls.length}`;
+    history.replaceState(null, "", `#${i + 1}`);
+  };
+
+  const ir = async (n) => {
+    n = Math.max(0, Math.min(ls.length - 1, n));
+    if (n === i || ocupado) return;
+    ocupado = true;
+    const nueva = ls[n];
+    if (!quieto() && !apilado()) {
+      punto.classList.remove("viaja"); void punto.offsetWidth; punto.classList.add("viaja");
+      await new Promise((r) => setTimeout(r, 520));
+      nueva.classList.add("entra"); nueva.style.zIndex = 2;
+      // tope de 1,2 s: si el navegador frena la animación (pestaña en segundo plano, equipo lento) igual se avanza
+      await Promise.race([
+        nueva.animate([{ clipPath: "circle(0% at 50% 50%)" }, { clipPath: "circle(75% at 50% 50%)" }],
+                      { duration: 900, easing: "cubic-bezier(.16,1,.3,1)" }).finished,
+        new Promise((r) => setTimeout(r, 1200)),
+      ]);
+      nueva.classList.remove("entra"); nueva.style.zIndex = "";
+    }
+    i = n; marcar(); ocupado = false;
+  };
+
+  const desdeHash = () => { const n = parseInt(location.hash.slice(1), 10); if (n >= 1 && n <= ls.length) { i = n - 1; } marcar(); };
+  desdeHash();
+  if (apilado() && i > 0) ls[i].scrollIntoView();
+
+  document.querySelector("[data-sig]").addEventListener("click", () => ir(i + 1));
+  document.querySelector("[data-ant]").addEventListener("click", () => ir(i - 1));
+  const pantallaCompleta = () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.());
+  document.querySelector("[data-full]").addEventListener("click", pantallaCompleta);
+  document.addEventListener("keydown", (e) => {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (["ArrowRight", " ", "PageDown", "Enter"].includes(e.key) && !e.target.closest?.("button")) { e.preventDefault(); ir(i + 1); }
+    else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); ir(i - 1); }
+    else if (e.key === "Home") { e.preventDefault(); ir(0); }
+    else if (e.key === "End") { e.preventDefault(); ir(ls.length - 1); }
+    else if (e.key.toLowerCase() === "f") { pantallaCompleta(); }
+  });
+
+  let x0 = null;
+  escenario.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+  escenario.addEventListener("touchend", (e) => {
+    if (x0 === null || apilado()) return;
+    const dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 50) ir(i + (dx < 0 ? 1 : -1));
+  });
+
+  // Los mandos se esconden mientras se presenta y vuelven al mover el mouse
+  let t;
+  const despertar = () => { document.body.classList.remove("quieto"); clearTimeout(t); t = setTimeout(() => document.body.classList.add("quieto"), 2500); };
+  ["mousemove", "keydown", "touchstart", "focusin"].forEach((ev) => document.addEventListener(ev, despertar, { passive: true }));
+  despertar();
+  escenario.focus({ preventScroll: true });
+})();
+</script>
+</body>
+</html>
