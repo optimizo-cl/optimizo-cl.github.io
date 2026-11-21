@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ficha de Lumina para equipos de TI en Paraguay. Arquitectura, requisitos de red, seguridad, tratamiento de datos y puesta en marcha.">
+  <meta name="theme-color" content="#EDEEE8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'">
+  <title>Lumina para equipos de TI · Optimizo Paraguay</title>
+  <link rel="canonical" href="https://optimizo-cl.github.io/lumina/ti-paraguay/">
+  <link rel="icon" href="/guion/assets/logo/naranjo/optimizo-isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="cabecera">
+    <div class="marco cabecera__interior">
+      <a class="marca" href="#inicio" aria-label="Optimizo · volver al inicio">
+        <img src="/guion/assets/logo/naranjo/optimizo-logo.svg" alt="" width="132" height="31">
+      </a>
+      <nav aria-label="Secciones de la ficha">
+        <a href="#arquitectura">Arquitectura</a>
+        <a href="#red">Red</a>
+        <a href="#seguridad">Seguridad</a>
+        <a href="#puesta-en-marcha">Puesta en marcha</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="portada" id="inicio" aria-labelledby="titulo">
+      <div class="marco portada__interior">
+        <div class="portada__texto">
+          <p class="rotulo">Ficha técnica <span aria-hidden="true">·</span> Paraguay</p>
+          <h1 id="titulo">Lumina para<br><strong>equipos de TI</strong></h1>
+          <p class="bajada">Arquitectura, controles de seguridad y requisitos para implementar monitoreo visual en planta.</p>
+          <a class="boton" href="#red">Revisar requisitos de red</a>
+        </div>
+
+        <figure class="flujo">
+          <figcaption>Flujo dentro de la planta</figcaption>
+          <ol>
+            <li><span class="nodo nodo--captura" aria-hidden="true"></span><div><b>Captura</b><span>Video desde cámaras en la red local</span></div></li>
+            <li><span class="nodo nodo--analisis" aria-hidden="true"></span><div><b>Análisis local</b><span>Detección y evaluación de reglas</span></div></li>
+            <li><span class="nodo nodo--revision" aria-hidden="true"></span><div><b>Revisión</b><span>Alertas y evidencias para usuarios autorizados</span></div></li>
+          </ol>
+          <p>Los avisos y la consulta móvil se habilitan según el alcance acordado.</p>
+        </figure>
+      </div>
+    </section>
+
+    <section class="bloque" id="arquitectura" aria-labelledby="titulo-arquitectura">
+      <div class="marco intro-doble">
+        <div>
+          <p class="rotulo">Arquitectura</p>
+          <h2 id="titulo-arquitectura">Qué queda en planta</h2>
+        </div>
+        <div>
+          <p class="entradilla">Lumina procesa el video en la red local. Cuando una regla configurada se cumple, registra un evento para su revisión y puede activar un aviso o una señal operativa.</p>
+          <dl class="lista-datos">
+            <div><dt>Video en vivo</dt><dd>Permanece en la planta durante la operación habitual. El acceso desde el panel se controla por rol.</dd></div>
+            <div><dt>Eventos y evidencias</dt><dd>Incluyen la regla, el momento del evento y, si se configura, una imagen asociada. Su consulta y conservación se acuerdan para el sitio.</dd></div>
+            <div><dt>Servicios opcionales</dt><dd>La app móvil, los avisos externos y el asistente se habilitan según el proyecto. TI revisa los destinos y los datos de cada función antes de activarla.</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="bloque bloque--papel" id="red" aria-labelledby="titulo-red">
+      <div class="marco">
+        <div class="encabezado">
+          <p class="rotulo">Red e integración</p>
+          <h2 id="titulo-red">Segmentación y accesos</h2>
+          <p>La instalación utiliza conexiones salientes para los servicios externos. El perímetro del cliente mantiene cerrados los puertos de entrada desde Internet.</p>
+        </div>
+        <div class="red-grid">
+          <div class="red-lista">
+            <dl>
+              <div><dt>Panel de operación</dt><dd>Acceso HTTPS desde las redes de usuario autorizadas. El puerto estándar es <code>TCP 5443</code>.</dd></div>
+              <div><dt>Cámaras y señalización</dt><dd>Comunicación local dentro del segmento aprobado. Los protocolos y puertos se confirman con el inventario del sitio.</dd></div>
+              <div><dt>Servicios externos</dt><dd>Salidas limitadas por función habilitada. La matriz del proyecto identifica el destino, el puerto, el sentido y la finalidad de cada flujo.</dd></div>
+              <div><dt>Servicios de infraestructura</dt><dd>Resolución de nombres y sincronización de hora según la política de TI. Direcciones estables mediante configuración fija o reservas.</dd></div>
+            </dl>
+          </div>
+          <aside class="recuadro" aria-labelledby="titulo-diseno">
+            <h3 id="titulo-diseno">Configuración de referencia</h3>
+            <ul>
+              <li>Segmento dedicado para el equipo y las cámaras.</li>
+              <li>Conexión por cable como perfil de partida.</li>
+              <li>Acceso al panel desde subredes autorizadas.</li>
+              <li>Validación de salidas y políticas antes de operar.</li>
+            </ul>
+            <a class="enlace" href="#documentacion">Ver documentación para TI</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="bloque" id="seguridad" aria-labelledby="titulo-seguridad">
+      <div class="marco">
+        <div class="encabezado">
+          <p class="rotulo">Seguridad y datos</p>
+          <h2 id="titulo-seguridad">Acceso, trazabilidad y privacidad</h2>
+        </div>
+        <div class="columnas">
+          <article>
+            <h3>Controles del sistema</h3>
+            <ul class="detalle">
+              <li><b>Identidad y permisos.</b> Cuentas individuales y roles para administración, supervisión y consulta. TI define la asignación y las bajas.</li>
+              <li><b>Panel y actualizaciones.</b> Acceso por HTTPS. El equipo verifica la firma del paquete antes de instalarlo y cuenta con un mecanismo de reversión.</li>
+              <li><b>Auditoría.</b> La versión 1.4.2 permite registrar cierres de sesión y accesos a video o evidencias, con exportación administrativa.</li>
+            </ul>
+          </article>
+          <article>
+            <h3>Tratamiento de datos</h3>
+            <ul class="detalle">
+              <li><b>Finalidad.</b> Detección de condiciones operativas y revisión de alertas, sin identificación biométrica de personas.</li>
+              <li><b>Conservación.</b> Definir finalidad, alcance de captura, plazos de conservación y acceso a evidencias antes de activar el sistema.</li>
+              <li><b>Privacidad en Paraguay.</b> Acordar el aviso a trabajadores, la atención de solicitudes, los roles de tratamiento y cualquier transferencia con revisión jurídica local.</li>
+            </ul>
+          </article>
+        </div>
+        <p class="nota">Lumina 1.4.2 está disponible. Los controles del equipo de planta se instalan, configuran y verifican durante la puesta en marcha.</p>
+      </div>
+    </section>
+
+    <section class="bloque bloque--oscuro" id="operacion" aria-labelledby="titulo-operacion">
+      <div class="marco intro-doble">
+        <div>
+          <p class="rotulo">Operación</p>
+          <h2 id="titulo-operacion">Soporte y continuidad</h2>
+        </div>
+        <div class="operacion">
+          <article>
+            <h3>Asistencia autorizada</h3>
+            <p>El cliente acuerda el alcance y la ventana de intervención. Con el componente de 1.4.2 instalado y validado, el administrador puede habilitar una ventana temporal, cerrarla y consultar el historial disponible.</p>
+          </article>
+          <article>
+            <h3>Operación local</h3>
+            <p>Con energía y red local disponibles, el análisis y la señalización local pueden continuar durante una caída de Internet. La consulta móvil, los avisos externos y la asistencia dependen de la conectividad.</p>
+          </article>
+          <article>
+            <h3>Incidentes y recuperación</h3>
+            <p>Las partes acuerdan responsables, canales de aviso y plazos. La recuperación, las copias de respaldo y la señal ante fallas se comprueban con el entorno real.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="bloque" id="puesta-en-marcha" aria-labelledby="titulo-puesta">
+      <div class="marco">
+        <div class="encabezado">
+          <p class="rotulo">Implementación</p>
+          <h2 id="titulo-puesta">Puesta en marcha y aceptación</h2>
+          <p>TI y Operaciones definen las pruebas y registran sus resultados antes de activar las funciones acordadas.</p>
+        </div>
+        <ol class="etapas">
+          <li><span class="fase">Diseño</span><h3>Acordar el alcance</h3><p>Validar segmentación, flujos, cuentas, datos, plazos de conservación y ventana de instalación.</p></li>
+          <li><span class="fase">Piloto</span><h3>Probar en planta</h3><p>Comprobar video, reglas, permisos, avisos y comportamiento ante pérdida de red o energía.</p></li>
+          <li><span class="fase">Entrega</span><h3>Registrar la aceptación</h3><p>Documentar respaldo y restauración, recuperación del equipo y autorización del soporte remoto.</p></li>
+        </ol>
+        <div class="preguntas">
+          <h3>Preguntas frecuentes</h3>
+          <details><summary>¿Qué ocurre con el video y las imágenes?</summary><p>El análisis del video se realiza localmente. Si se habilitan evidencias en avisos, consulta móvil o asistencia, el proyecto documenta qué puede salir, hacia dónde y quién puede consultarlo.</p></details>
+          <details><summary>¿Cómo se asignan los accesos de usuario?</summary><p>Lumina utiliza cuentas individuales y permisos por rol. Si la organización requiere MFA o integración con su directorio, esos requisitos se evalúan en la revisión técnica.</p></details>
+          <details><summary>¿Cómo se valida una señal de seguridad?</summary><p>El piloto comprueba la detección con las condiciones reales de luz y tránsito, los avisos y el comportamiento ante fallas. Lumina complementa las medidas y los procedimientos de seguridad de la planta.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="bloque bloque--papel documentacion" id="documentacion" aria-labelledby="titulo-documentacion">
+      <div class="marco intro-doble">
+        <div>
+          <p class="rotulo">Revisión técnica</p>
+          <h2 id="titulo-documentacion">Documentación para TI</h2>
+          <p>Solicite a su contacto de Optimizo las fichas y borradores aplicables al proyecto.</p>
+        </div>
+        <ul class="documentos">
+          <li>Ficha técnica y matriz de red</li>
+          <li>Procedimiento de asistencia y acta de sesión</li>
+          <li>Política de seguridad y plan de incidentes</li>
+          <li>Encargo de tratamiento, aviso y cartel</li>
+          <li>Resumen de auditorías y evidencias de aceptación</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="marco pie__interior">
+      <img src="/guion/assets/logo/naranjo/optimizo-logo-sobre-oscuro.svg" alt="Optimizo" width="122" height="29">
+      <p>Lumina <span aria-hidden="true">·</span> Ficha técnica para Paraguay</p>
+    </div>
+  </footer>
+</body>
+</html>
