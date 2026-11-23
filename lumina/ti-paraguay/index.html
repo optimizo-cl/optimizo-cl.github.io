@@ -9,8 +9,8 @@
   <title>Lumina para equipos de TI · Paraguay</title>
   <link rel="canonical" href="https://optimizo-cl.github.io/lumina/ti-paraguay/">
   <link rel="icon" href="lumina-isotipo.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="estilos.css?v=funcionamiento">
-  <script src="presentacion.js?v=funcionamiento" defer></script>
+  <link rel="stylesheet" href="estilos.css?v=mapa-red">
+  <script src="presentacion.js?v=mapa-red" defer></script>
 </head>
 <body>
   <a class="saltar" href="#contenido">Saltar al contenido</a>
@@ -44,15 +44,15 @@
         </div>
       </section>
 
-      <section class="diapositiva diapositiva--funcionamiento" id="arquitectura" data-diapositiva data-titulo="Funcionamiento" aria-labelledby="titulo-arquitectura">
+      <section class="diapositiva diapositiva--compacta" id="arquitectura" data-diapositiva data-titulo="Funcionamiento" aria-labelledby="titulo-arquitectura">
         <header class="encabezado entrada">
           <h2 id="titulo-arquitectura" tabindex="-1">De la cámara a una alerta</h2>
           <p>Lumina analiza el video en planta y responde según las reglas de cada operación.</p>
         </header>
-        <div class="demostracion entrada" data-demostracion>
+        <div class="demostracion entrada" data-animacion>
           <div class="demostracion__cabecera">
             <p>Ejemplo <span aria-hidden="true">·</span> Montacargas en zona restringida</p>
-            <button class="boton boton--discreto demostracion__repetir" type="button" data-repetir hidden>Repetir animación</button>
+            <button class="boton boton--discreto" type="button" data-repetir hidden>Repetir animación</button>
           </div>
           <ol class="flujo flujo--demostracion">
             <li class="demostracion__captura">
@@ -111,26 +111,67 @@
         </div>
       </section>
 
-      <section class="diapositiva" id="red" data-diapositiva data-titulo="Red" aria-labelledby="titulo-red">
+      <section class="diapositiva diapositiva--compacta" id="red" data-diapositiva data-titulo="Red" aria-labelledby="titulo-red">
         <header class="encabezado entrada">
-          <p class="rotulo">Red e integración</p>
-          <h2 id="titulo-red" tabindex="-1">Una red segmentada y accesos definidos</h2>
-          <p>Los servicios externos usan conexiones salientes. El perímetro conserva cerrados los puertos de entrada desde Internet.</p>
+          <h2 id="titulo-red" tabindex="-1">Qué queda en planta y qué sale</h2>
+          <p>El video en vivo queda en la planta. Los servicios externos se habilitan por separado.</p>
         </header>
-        <div class="dos-columnas entrada">
-          <dl class="matriz">
-            <div><dt>Panel</dt><dd>HTTPS para subredes autorizadas. Puerto estándar <code>TCP 5443</code>.</dd></div>
-            <div><dt>Cámaras y señalización</dt><dd>Comunicación local por los protocolos acordados con TI.</dd></div>
-            <div><dt>Servicios externos</dt><dd>Salidas según función, destino, puerto y finalidad aprobados.</dd></div>
-          </dl>
-          <aside class="tarjeta tarjeta--tinta" aria-label="Perfil de partida">
-            <h3>Perfil de partida</h3>
-            <ul class="lista">
-              <li>Segmento dedicado y conexión por cable.</li>
-              <li>Direcciones estables, DNS y hora sincronizada.</li>
-              <li>Matriz de red validada antes de operar.</li>
-            </ul>
-          </aside>
+        <div class="mapa-red entrada" data-animacion>
+          <div class="mapa-red__zonas">
+            <section class="mapa-red__planta" aria-labelledby="mapa-planta">
+              <h3 id="mapa-planta">Red de la planta</h3>
+              <div class="mapa-red__equipos">
+                <div class="mapa-red__nodo">
+                  <strong>Cámaras IP</strong><span>Envían video a Lumina</span>
+                </div>
+                <span class="mapa-red__flecha mapa-red__flecha--video" aria-hidden="true">→</span>
+                <div class="mapa-red__nodo">
+                  <strong>Semáforo o baliza</strong><span>Recibe la orden de Lumina</span>
+                </div>
+                <span class="mapa-red__flecha mapa-red__flecha--respuesta" aria-hidden="true">←</span>
+                <div class="mapa-red__nodo">
+                  <strong>PC de la planta</strong><span>Abre el panel por HTTPS</span>
+                </div>
+                <span class="mapa-red__flecha mapa-red__flecha--respuesta" aria-hidden="true">↔</span>
+                <div class="mapa-red__equipo">
+                  <h4>Equipo Lumina</h4>
+                  <p>Analiza el video, aplica reglas y guarda eventos y evidencias.</p>
+                  <p class="mapa-red__continuidad">Opera sin Internet con energía, cámaras y red local.</p>
+                </div>
+              </div>
+            </section>
+            <div class="mapa-red__limite">
+              <strong>Cortafuegos</strong>
+              <span class="mapa-red__salida" aria-hidden="true"></span>
+              <p><b>El equipo inicia la conexión.</b> Sin puertos de entrada desde Internet.</p>
+            </div>
+            <section class="mapa-red__internet" aria-labelledby="mapa-internet">
+              <h3 id="mapa-internet">Servicios por Internet</h3>
+              <dl class="mapa-red__servicios">
+                <div><dt>Asistencia remota</dt><dd>Sesión autorizada</dd></div>
+                <div><dt>App de Lumina</dt><dd>Punto de encuentro con el teléfono</dd></div>
+                <div><dt>Copia en la nube</dt><dd>Eventos sin fotos y configuración</dd></div>
+                <div><dt>Avisos al teléfono</dt><dd>Notificaciones cifradas</dd></div>
+                <div><dt>Correo y mensajería</dt><dd>Avisos y reportes</dd></div>
+                <div><dt>Asistente de IA</dt><dd>Consultas según permisos</dd></div>
+              </dl>
+            </section>
+          </div>
+          <div class="mapa-red__versiones">
+            <strong>PC de la planta</strong><span class="mapa-red__salida mapa-red__salida--versiones" aria-hidden="true"></span>
+            <p><strong>Descarga de versiones</strong><span>El PC solicita instaladores firmados por HTTPS.</span></p>
+          </div>
+          <div class="mapa-red__controles">
+            <details>
+              <summary>Requisitos de red para TI</summary>
+              <dl class="matriz">
+                <div><dt>Panel</dt><dd>HTTPS para subredes autorizadas por <code>TCP 5443</code>.</dd></div>
+                <div><dt>Red local</dt><dd>Segmento dedicado y conexión por cable. TI valida protocolos, direcciones, DNS y hora.</dd></div>
+                <div><dt>Salidas autorizadas</dt><dd>Asistencia por <code>UDP 51820</code> con alternativa <code>HTTPS 443</code>. App, nube, avisos al teléfono, asistente y descargas por HTTPS. Correo y mensajería según los canales acordados con TI.</dd></div>
+              </dl>
+            </details>
+            <button class="boton boton--discreto" type="button" data-repetir hidden>Repetir flujo</button>
+          </div>
         </div>
       </section>
 
