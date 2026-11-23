@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Presentación interactiva de Lumina para equipos de TI en Paraguay. Arquitectura, red, seguridad, privacidad y puesta en marcha.">
+  <meta name="description" content="Cómo Lumina detecta, registra y avisa en planta. Demostración visual y presentación para equipos de TI en Paraguay.">
   <meta name="theme-color" content="#EDEEE8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'">
   <title>Lumina para equipos de TI · Paraguay</title>
   <link rel="canonical" href="https://optimizo-cl.github.io/lumina/ti-paraguay/">
   <link rel="icon" href="lumina-isotipo.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="estilos.css?v=1a803b88">
-  <script src="presentacion.js" defer></script>
+  <link rel="stylesheet" href="estilos.css?v=funcionamiento">
+  <script src="presentacion.js?v=funcionamiento" defer></script>
 </head>
 <body>
   <a class="saltar" href="#contenido">Saltar al contenido</a>
@@ -34,7 +34,7 @@
         <div class="portada__texto entrada">
           <p class="rotulo">Presentación para TI <span aria-hidden="true">·</span> Paraguay</p>
           <h1 id="titulo" tabindex="-1">Lumina en la <strong>planta</strong></h1>
-          <p class="bajada">Arquitectura, controles de seguridad y decisiones para la puesta en marcha.</p>
+          <p class="bajada">Cómo detecta lo que ocurre en la operación, registra eventos y avisa al equipo.</p>
         </div>
         <div class="orbita entrada" aria-hidden="true">
           <span class="orbita__anillo"></span>
@@ -44,18 +44,71 @@
         </div>
       </section>
 
-      <section class="diapositiva" id="arquitectura" data-diapositiva data-titulo="Arquitectura" aria-labelledby="titulo-arquitectura">
+      <section class="diapositiva diapositiva--funcionamiento" id="arquitectura" data-diapositiva data-titulo="Funcionamiento" aria-labelledby="titulo-arquitectura">
         <header class="encabezado entrada">
-          <p class="rotulo">Arquitectura</p>
           <h2 id="titulo-arquitectura" tabindex="-1">De la cámara a una alerta</h2>
-          <p>El análisis se ejecuta en planta. Cada evento puede revisarse desde el panel por personal autorizado.</p>
+          <p>Lumina analiza el video en planta y responde según las reglas de cada operación.</p>
         </header>
-        <ol class="flujo entrada">
-          <li><span class="marca-flujo marca-flujo--captura" aria-hidden="true"></span><h3>Captura</h3><p>Las cámaras entregan video por la red local.</p></li>
-          <li><span class="marca-flujo marca-flujo--analisis" aria-hidden="true"></span><h3>Análisis local</h3><p>Lumina evalúa las condiciones de operación y aplica las reglas del sitio.</p></li>
-          <li><span class="marca-flujo marca-flujo--revision" aria-hidden="true"></span><h3>Revisión</h3><p>El equipo registra el evento y puede emitir un aviso o una señal operativa.</p></li>
-        </ol>
-        <p class="nota entrada">La validación del sitio incluye escena, condiciones de luz y comportamiento de las señales.</p>
+        <div class="demostracion entrada" data-demostracion>
+          <div class="demostracion__cabecera">
+            <p>Ejemplo <span aria-hidden="true">·</span> Montacargas en zona restringida</p>
+            <button class="boton boton--discreto demostracion__repetir" type="button" data-repetir hidden>Repetir animación</button>
+          </div>
+          <ol class="flujo flujo--demostracion">
+            <li class="demostracion__captura">
+              <div class="demostracion__grafico demostracion__grafico--camara" aria-hidden="true">
+                <span class="demostracion__zona"></span>
+                <span class="demostracion__seguimiento"><span class="demostracion__vehiculo"><span class="demostracion__horquilla"></span></span></span>
+              </div>
+              <h3>Observa</h3>
+              <p>Las cámaras entregan video a Lumina por la red local.</p>
+            </li>
+            <li class="demostracion__regla">
+              <div class="demostracion__grafico" aria-hidden="true">
+                <div class="demostracion__reglas">
+                  <span>Montacargas</span>
+                  <span>En zona restringida</span>
+                </div>
+              </div>
+              <h3>Aplica reglas</h3>
+              <p>Comprueba reglas por zona, como el paso de montacargas o el uso de equipo de protección personal.</p>
+            </li>
+            <li>
+              <div class="demostracion__grafico" aria-hidden="true">
+                <div class="demostracion__evento">
+                  <span class="demostracion__evidencia"></span>
+                  <div><span>Evento registrado</span><strong>Ingreso a zona restringida</strong></div>
+                </div>
+              </div>
+              <h3>Registra y avisa</h3>
+              <p>El panel muestra el evento y su evidencia si está habilitada. Según la regla, Lumina envía un aviso o activa un semáforo.</p>
+            </li>
+          </ol>
+        </div>
+        <p class="nota entrada"><strong>Móvil y chat.</strong> Revisa alertas y destinos en el móvil y consulta eventos en el chat, según tus permisos.</p>
+      </section>
+
+      <section class="diapositiva" id="operacion" data-diapositiva data-titulo="Continuidad" aria-labelledby="titulo-operacion">
+        <header class="encabezado entrada">
+          <p class="rotulo">Continuidad</p>
+          <h2 id="titulo-operacion" tabindex="-1">Cómo opera Lumina si se corta Internet</h2>
+          <p>Compare ambos escenarios. La operación local depende de la energía, las cámaras y la red del sitio.</p>
+        </header>
+        <div class="simulacion entrada" data-simulacion>
+          <div class="selector" role="group" aria-label="Escenario de conectividad" data-selector hidden>
+            <button type="button" data-estado="disponible" aria-controls="internet-disponible" aria-pressed="true">Internet disponible</button>
+            <button type="button" data-estado="interrumpida" aria-controls="internet-interrumpida" aria-pressed="false">Internet interrumpido</button>
+          </div>
+          <p class="solo-lectura" data-estado-vivo role="status"></p>
+          <div class="resultado dos-columnas" id="internet-disponible" data-resultado="disponible">
+            <article class="tarjeta"><p class="rotulo">Operación local</p><h3>Análisis y señalización</h3><p>Funcionan en planta según las reglas habilitadas.</p></article>
+            <article class="tarjeta"><p class="rotulo">Conectados</p><h3>Móvil, avisos y asistencia</h3><p>Disponibles según las funciones autorizadas.</p></article>
+          </div>
+          <div class="resultado dos-columnas" id="internet-interrumpida" data-resultado="interrumpida">
+            <article class="tarjeta"><p class="rotulo">Operación local</p><h3>Análisis y señalización</h3><p>Pueden continuar si la energía y la red local siguen disponibles.</p></article>
+            <article class="tarjeta tarjeta--pausa"><p class="rotulo">Pausados</p><h3>Móvil, avisos y asistencia</h3><p>Las funciones externas quedan indisponibles hasta recuperar la conectividad.</p></article>
+          </div>
+        </div>
       </section>
 
       <section class="diapositiva" id="red" data-diapositiva data-titulo="Red" aria-labelledby="titulo-red">
@@ -115,29 +168,6 @@
         <p class="nota entrada">Lumina 1.4.2 está disponible. Los controles del equipo se instalan y verifican durante la puesta en marcha.</p>
       </section>
 
-      <section class="diapositiva" id="operacion" data-diapositiva data-titulo="Continuidad" aria-labelledby="titulo-operacion">
-        <header class="encabezado entrada">
-          <p class="rotulo">Continuidad</p>
-          <h2 id="titulo-operacion" tabindex="-1">Cómo opera Lumina si se corta Internet</h2>
-          <p>Compare ambos escenarios. La operación local depende de la energía, las cámaras y la red del sitio.</p>
-        </header>
-        <div class="simulacion entrada" data-simulacion>
-          <div class="selector" role="group" aria-label="Escenario de conectividad" data-selector hidden>
-            <button type="button" data-estado="disponible" aria-controls="internet-disponible" aria-pressed="true">Internet disponible</button>
-            <button type="button" data-estado="interrumpida" aria-controls="internet-interrumpida" aria-pressed="false">Internet interrumpido</button>
-          </div>
-          <p class="solo-lectura" data-estado-vivo role="status"></p>
-          <div class="resultado dos-columnas" id="internet-disponible" data-resultado="disponible">
-            <article class="tarjeta"><p class="rotulo">Operación local</p><h3>Análisis y señalización</h3><p>Funcionan en planta según las reglas habilitadas.</p></article>
-            <article class="tarjeta"><p class="rotulo">Conectados</p><h3>Móvil, avisos y asistencia</h3><p>Disponibles según las funciones autorizadas.</p></article>
-          </div>
-          <div class="resultado dos-columnas" id="internet-interrumpida" data-resultado="interrumpida">
-            <article class="tarjeta"><p class="rotulo">Operación local</p><h3>Análisis y señalización</h3><p>Pueden continuar si la energía y la red local siguen disponibles.</p></article>
-            <article class="tarjeta tarjeta--pausa"><p class="rotulo">Pausados</p><h3>Móvil, avisos y asistencia</h3><p>Las funciones externas quedan indisponibles hasta recuperar la conectividad.</p></article>
-          </div>
-        </div>
-      </section>
-
       <section class="diapositiva" id="puesta-en-marcha" data-diapositiva data-titulo="Soporte y puesta en marcha" aria-labelledby="titulo-puesta">
         <header class="encabezado entrada">
           <p class="rotulo">Soporte y puesta en marcha</p>
@@ -146,7 +176,7 @@
         </header>
         <ol class="flujo flujo--etapas entrada">
           <li><p class="rotulo">Diseño</p><h3>Acordar</h3><p>Segmentación, flujos permitidos, roles y conservación.</p></li>
-          <li><p class="rotulo">Piloto</p><h3>Probar</h3><p>Video, detección, avisos y comportamiento ante pérdida de red o energía.</p></li>
+          <li><p class="rotulo">Piloto</p><h3>Probar</h3><p>Video con la luz del sitio, detección, señales, avisos y comportamiento ante pérdida de red o energía.</p></li>
           <li><p class="rotulo">Entrega</p><h3>Registrar</h3><p>Resultados, respaldo y recuperación, contactos y plazos de aviso ante incidentes.</p></li>
         </ol>
         <p class="nota entrada">Con el componente de asistencia instalado y validado, el administrador autoriza y cierra la ventana técnica y consulta el historial disponible.</p>
@@ -202,11 +232,11 @@
     </div>
     <ol>
       <li><a href="#inicio" data-destino="inicio">Inicio</a></li>
-      <li><a href="#arquitectura" data-destino="arquitectura">Arquitectura</a></li>
+      <li><a href="#arquitectura" data-destino="arquitectura">Funcionamiento</a></li>
+      <li><a href="#operacion" data-destino="operacion">Continuidad</a></li>
       <li><a href="#red" data-destino="red">Red</a></li>
       <li><a href="#datos" data-destino="datos">Datos y privacidad</a></li>
       <li><a href="#seguridad" data-destino="seguridad">Seguridad</a></li>
-      <li><a href="#operacion" data-destino="operacion">Continuidad</a></li>
       <li><a href="#puesta-en-marcha" data-destino="puesta-en-marcha">Soporte y puesta en marcha</a></li>
       <li><a href="#documentacion" data-destino="documentacion">Documentación</a></li>
     </ol>

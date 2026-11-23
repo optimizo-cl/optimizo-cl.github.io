@@ -153,3 +153,14 @@ simulacion.querySelector('[data-selector]').hidden = false;
 opciones.forEach((opcion) => opcion.addEventListener('click', () => {
   if (opcion.getAttribute('aria-pressed') !== 'true') simular(opcion.dataset.estado);
 }));
+
+const demostracion = document.querySelector('[data-demostracion]');
+const repetir = demostracion.querySelector('[data-repetir]');
+demostracion.classList.add('demostracion--activa');
+repetir.hidden = false;
+repetir.addEventListener('click', () => {
+  demostracion.classList.remove('demostracion--activa');
+  // Leer el ancho aplica el cambio antes de reiniciar las animaciones.
+  void demostracion.offsetWidth;
+  demostracion.classList.add('demostracion--activa');
+});
